@@ -1,2 +1,1 @@
-# JavaTech
-Công nghệ Java
+# JavaTechnology - Pharmacy Management
