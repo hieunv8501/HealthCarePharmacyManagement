@@ -206,7 +206,7 @@ CREATE TABLE taikhoan (
 -- Cấu trúc bảng cho bảng `phanquyen`
 --
 
-CREATE TABLE `phanquyen` (
+CREATE TABLE phanquyen (
   MaQuyen varchar(10) PRIMARY KEY NOT NULL,
   TenQuyen varchar(20) NOT NULL,
   ChiTietQuyen varchar(255) NOT NULL
@@ -225,8 +225,8 @@ ALTER TABLE chitietphieunhap
 -- Các ràng buộc cho bảng `phieunhap`
 --
 ALTER TABLE phieunhap
-  ADD CONSTRAINT PHIEUNHAP_NCC FOREIGN KEY (MaNhaCungCap) REFERENCES nhacungcap (MaNhaCungCap),
-  ADD CONSTRAINT PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
+  ADD CONSTRAINT FK_PHIEUNHAP_NCC FOREIGN KEY (MaNhaCungCap) REFERENCES nhacungcap (MaNhaCungCap),
+  ADD CONSTRAINT FK_PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
 
 --
 -- Các ràng buộc cho bảng `thuoc`
@@ -239,8 +239,8 @@ ALTER TABLE `thuoc`
 -- Các ràng buộc cho bảng `taikhoan`
 --
 ALTER TABLE taikhoan
-  ADD CONSTRAINT TAIKHOAN_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien),
-  ADD CONSTRAINT TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
+  ADD CONSTRAINT FK_TAIKHOAN_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien),
+  ADD CONSTRAINT FK_TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
 
 --
 -- Các ràng buộc cho bảng `huyen`
