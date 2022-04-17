@@ -55,15 +55,30 @@ CREATE TABLE kho (
 -- Cấu trúc bảng cho bảng `chitietphieunhap`
 --
 
-CREATE TABLE `chitietphieunhap` (
-  `MaPhieuNhap` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaThuoc` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaDonViTinh` int(10) UNSIGNED NOT NULL,
-  `SoLuong` int(10) UNSIGNED NOT NULL,
-  `DonGia` float UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE chitietphieunhap (
+  MaPhieuNhap INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  MaThuoc INT NOT NULL,
+  MaDonViTinh INT NOT NULL,
+  SoLuong INT NOT NULL,
+  DonGia FLOAT NOT NULL
+)
 
 -----------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `phieunhap`
+--
+
+CREATE TABLE phieunhap (
+  MaPhieuNhap INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+  MaNhaCungCap INT NOT NULL,
+  MaNhanVien INT NOT NULL,
+  NgayNhap CALENDAR NOT NULL,
+  GioNhap TIME NOT NULL,
+  TongTien FLOAT NOT NULL
+)
+
+----------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `donvitinh`
@@ -157,32 +172,6 @@ CREATE TABLE `nhanvien` (
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phanquyen`
---
-
-CREATE TABLE `phanquyen` (
-  `MaQuyen` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `TenQuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `ChiTietQuyen` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
---
--- Cấu trúc bảng cho bảng `phieunhap`
---
-
-CREATE TABLE `phieunhap` (
-  `MaPhieuNhap` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaNhaCungCap` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaNhanVien` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `NgayNhap` date NOT NULL,
-  `GioNhap` time NOT NULL,
-  `TongTien` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-----------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `thuoc`
 --
 
@@ -204,114 +193,40 @@ CREATE TABLE `thuoc`(
 -- Cấu trúc bảng cho bảng `taikhoan`
 --
 
-CREATE TABLE `taikhoan` (
-  `TenTaiKhoan` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `MatKhau` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `MaNhanVien` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaQuyen` varchar(10) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE taikhoan (
+  TenTaiKhoan varchar(50) PRIMARY KEY NOT NULL,
+  MatKhau varchar(50) NOT NULL,
+  MaNhanVien varchar(10) NOT NULL,
+  MaQuyen varchar(10) NOT NULL
+)
 
+----------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `phanquyen`
+--
+
+CREATE TABLE `phanquyen` (
+  MaQuyen varchar(10) PRIMARY KEY NOT NULL,
+  TenQuyen varchar(20) NOT NULL,
+  ChiTietQuyen varchar(255) NOT NULL
+) 
 
 -- Tạo các ràng buộc cho các bảng
---
 
+-- Các ràng buộc cho bảng chitietphieunhap
 --
--- Khóa, Chỉ mục cho bảng `chitietphieunhap`
---
-ALTER TABLE `chitietphieunhap`
-  ADD KEY `MaThuoc` (`MaThuoc`), 
-  ADD KEY `MaPhieuNhap` (`MaPhieuNhap`);
-
-
---
--- Khóa, Chỉ mục cho bảng `khachhang`
---
-ALTER TABLE `khachhang`
-  ADD PRIMARY KEY (`MaKhachHang`);
-
-
---
--- Khóa, Chỉ mục cho bảng `loaithuoc`
---
-ALTER TABLE `loaithuoc`
-  ADD PRIMARY KEY (`MaLoaiThuoc`);
-
---
--- Khóa, Chỉ mục cho bảng `nhacungcap`
---
-ALTER TABLE `nhacungcap`
-  ADD PRIMARY KEY (`MaNhaCungCap`),
-  ADD KEY (`MaHuyen`);
-
---
--- Khóa, Chỉ mục cho bảng `nhanvien`
---
-ALTER TABLE `nhanvien`
-  ADD PRIMARY KEY (`MaNhanVien`),
-  ADD KEY (`MaHuyen`);
-
---
--- Khóa, Chỉ mục cho bảng `phanquyen`
---
-ALTER TABLE `phanquyen`
-  ADD PRIMARY KEY (`MaQuyen`);
-
---
--- Khóa, Chỉ mục cho bảng `phieunhap`
---
-ALTER TABLE `phieunhap`
-  ADD PRIMARY KEY (`MaPhieuNhap`),
-  ADD KEY `MaNhaCungCap` (`MaNhaCungCap`),
-  ADD KEY `MaNhanVien` (`MaNhanVien`);
-
---
--- Khóa, Chỉ mục cho bảng `thuoc`
---
-ALTER TABLE `thuoc`
-  ADD PRIMARY KEY (`MaThuoc`),
-  ADD KEY `MaLoaiThuoc` (`MaLoaiThuoc`);
-
---
--- Khóa, Chỉ mục cho bảng `taikhoan`
---
-ALTER TABLE `taikhoan`
-  ADD PRIMARY KEY (`TenTaiKhoan`),
-  ADD KEY `MaQuyen` (`MaQuyen`),
-  ADD KEY `MaNhanVien` (`MaNhanVien`);
-
---
--- Khóa, Chỉ mục cho bảng `donvitinh`
---
-ALTER TABLE `donvitinh` ADD PRIMARY KEY(`MaDonViTinh`);
-
---
--- Khóa, Chỉ mục cho bảng `huyen`
---
-ALTER TABLE `huyen` 
-  ADD PRIMARY KEY(`MaHuyen`);
-  ADD KEY(`MaTinh`);
-
---
--- Khóa, Chỉ mục cho bảng `tinh`
---
-ALTER TABLE `tinh` ADD PRIMARY KEY(`MaTinh`);
-
-
-
---
--- Các ràng buộc cho bảng `chitietphieunhap`
---
-ALTER TABLE `chitietphieunhap`
-  ADD CONSTRAINT `chitietphieunhap_ibfk_2` FOREIGN KEY (`MaThuoc`) REFERENCES `thuoc` (`MaThuoc`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `chitietphieunhap_ibfk_3` FOREIGN KEY (`MaPhieuNhap`) REFERENCES `phieunhap` (`MaPhieuNhap`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `chitietphieunhap_ibfk_4` FOREIGN KEY (`MaDonViTinh`) REFERENCES `donvitinh` (`MaDonViTinh`) ON UPDATE CASCADE;
+ALTER TABLE chitietphieunhap
+  ADD CONSTRAINT FK_CTPHIEUNHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc (MaThuoc),
+  ADD CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap),
+  ADD CONSTRAINT FK_CTPHIEUNHAP_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh (MaDonViTinh)
 
 --
 -- Các ràng buộc cho bảng `phieunhap`
 --
-ALTER TABLE `phieunhap`
-  ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MaNhaCungCap`) REFERENCES `nhacungcap` (`MaNhaCungCap`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `phieunhap_ibfk_2` FOREIGN KEY (`MaNhanVien`) REFERENCES `nhanvien` (`MaNhanVien`) ON UPDATE CASCADE;
+ALTER TABLE phieunhap
+  ADD CONSTRAINT PHIEUNHAP_NCC FOREIGN KEY (MaNhaCungCap) REFERENCES nhacungcap (MaNhaCungCap),
+  ADD CONSTRAINT PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
 
 --
 -- Các ràng buộc cho bảng `thuoc`
@@ -323,9 +238,9 @@ ALTER TABLE `thuoc`
 --
 -- Các ràng buộc cho bảng `taikhoan`
 --
-ALTER TABLE `taikhoan`
-  ADD CONSTRAINT `taikhoan_ibfk_2` FOREIGN KEY (`MaNhanVien`) REFERENCES `nhanvien` (`MaNhanVien`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `taikhoan_ibfk_3` FOREIGN KEY (`MaQuyen`) REFERENCES `phanquyen` (`MaQuyen`) ON UPDATE CASCADE;
+ALTER TABLE taikhoan
+  ADD CONSTRAINT TAIKHOAN_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien),
+  ADD CONSTRAINT TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
 
 --
 -- Các ràng buộc cho bảng `huyen`
