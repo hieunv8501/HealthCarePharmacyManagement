@@ -11,7 +11,7 @@ CREATE TABLE hoadon(
 	MaKhachHang VARCHAR(10) NOT NULL,
 	MaKhuyenMai VARCHAR(10),
 	NgayLap DATETIME,
-	TongTien FLOAT DEFAULT 0, 
+	TongTien MONEY DEFAULT 0, 
 )
 
 -----------------------------------------------------------
@@ -22,7 +22,7 @@ CREATE TABLE chitiethoadon(
 	MaThuoc VARCHAR(10) NOT NULL,
 	MaDonViTinh INT NOT NULL,
 	SoLuong INT NOT NULL,
-	DonGia FLOAT NOT NULL
+	DonGia MONEY NOT NULL
 	PRIMARY KEY (MaHoaDon, MaThuoc)
 )
 
@@ -32,7 +32,7 @@ CREATE TABLE chitiethoadon(
 CREATE TABLE khuyenmai (
 	MaKhuyenMai VARCHAR(10) NOT NULL PRIMARY KEY,
 	TenKhuyenMai VARCHAR(100) NOT NULL,
-	DieuKienKhuyenMai FLOAT,
+	DieuKienKhuyenMai MONEY DEFAULT 0,
 	PhanTramKhuyenMai float NOT NULL,
 	NgayBatDau DATETIME,
 	NgayKetThuc DATETIME,
@@ -41,12 +41,10 @@ CREATE TABLE khuyenmai (
 
 -- Cấu trúc bảng cho bảng kho
 CREATE TABLE kho ( 
-	MaThuoc VARCHAR(10) NOT NULL, 
-	MaLoaiThuoc VARCHAR(30) NOT NULL, 
+	MaThuoc VARCHAR(10) NOT NULL PRIMARY KEY, 
 	MaDonViTinh INT NOT NULL, 
 	SoLuongConLai INT NOT NULL, 
 	TinhTrang VARCHAR(20),
-	PRIMARY KEY (MaThuoc, MaLoaiThuoc)
 )
 
 -----------------------------------------------------------
@@ -289,5 +287,139 @@ ALTER TABLE khuyenmai
 -- Các ràng buộc cho bảng kho
  ALTER TABLE kho
 	ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY MaThuoc REFERENCES thuoc(MaThuoc),
-	ADD CONSTRAINT FK_KHO_LT FOREIGN KEY (MaLoaiThuoc) REFERENCES loaithuoc(MaLoaiThuoc),  
-	ADD CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
+	ADD CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
+	ADD CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+	
+-- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
+CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
+FOR UPDATE
+AS BEGIN
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuocCu VARCHAR(10), @MaThuocMoi VARCHAR(10)
+	SELECT  @SoLuongMoi = SoLuong, @MaThuocMoi = MaThuoc FROM INSERTED
+	SELECT  @SoLuongCu = SoLuong, @MaThuocCu = MaThuoc FROM DELETED
+
+	IF (@MaThuocCu != @MaThuocMoi) BEGIN
+		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongCu WHERE MaThuoc = @MaThuocCu
+		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongMoi WHERE MaThuoc = @MaThuocMoi
+	END
+	ELSE BEGIN
+		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongCu - @SoLuongMoi WHERE MaThuoc = @MaThuocCu
+	END
+END
+
+-- Tính số lượng thuốc còn lại khi xóa chi tiết hóa đơn
+CREATE TRIGGER TG_DELETE_CTHD ON chitiethoadon
+FOR DELETE
+AS BEGIN
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10)
+	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc FROM DELETED
+
+	UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuong WHERE MaThuoc = @MaThuoc
+END
+
+-- Tính tổng tiền khi thêm chi tiết hóa đơn
+CREATE TRIGGER TG_INSERT_CTHD ON chitiethoadon 
+FOR INSERT
+AS BEGIN
+	DECLARE @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @MaThuoc VARCHAR(10)
+	SELECT @MaHoaDon = MaHoaDon, @SoLuong = SoLuong, @DonGia = DonGia, @MaThuoc = MaThuoc FROM INSERTED
+	SELECT @MaKhuyenMa = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
+
+	SET @PhanTramKhuyenMai = 0
+	IF(@MaKhuyenMai != NULL) BEGIN
+		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
+	END 
+
+	UPDATE hoadon SET TongTien = (TongTien +  (@SoLuong * @DonGia)) - (((TongTien +  (@SoLuong * @DonGia)) *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
+	
+	-- Cập nhật lại số lượng thuốc còn lại trong kho
+	UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuong WHERE MaThuoc = @MaThuoc
+END
+
+-- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
+CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+FOR UPDATE, DELETE
+AS BEGIN
+	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
+
+	SELECT @MaHoaDon = MaHoaDon FROM DELETED 
+	SELECT @MaKhuyenMa = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
+
+	SET @PhanTramKhuyenMai = 0
+	IF(@MaKhuyenMai != NULL) BEGIN
+		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
+	END 
+
+	SET @TongTien = 0
+
+	DECLARE CUR_CTHD CURSOR FOR SELECT SoLuong, DonGia FROM chitiethoadon where MaHoaDon = @MaHoaDon
+	OPEN CUR_CTHD
+	FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @TongTien = @TongTien + (@SoLuong * @DonGia)
+		FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	END
+	CLOSE CUR_CTHD
+	DEALLOCATE CUR_CTHD
+
+	UPDATE hoadon SET TongTien = @TongTien - ((@TongTien * @PhanTramKhuyenMai) / 100) WHERE MaHoaDon = @MaHoaDon
+END
+
+-- Tính tổng tiền khi sửa (sửa mã khuyến mãi) hóa đơn
+CREATE TRIGGER TG_INSERT_HOADON ON hoadon 
+FOR UPDATE
+AS BEGIN
+	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
+	SELECT @MaHoaDon = MaHoaDon, @MaKhuyenMai = MaKhuyenMai FROM INSERTED
+
+	SET @PhanTramKhuyenMai = 0
+	IF (@MaKhuyenMai != NULL) BEGIN
+		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
+	END 
+
+	UPDATE hoadon SET TongTien = TongTien - ((TongTien *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
+END
+
+-- Tính số lượng thuốc còn lại khi thêm chi tiết phiếu nhập (nhập thuốc)
+CREATE TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
+FOR INSERT
+AS BEGIN
+	
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaDonViTinh INT
+	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaDonViTinh = MaDonViTinh FROM INSERTED
+
+	IF(NOT EXISTS (SELECT * FROM kho WHERE MaThuoc = @MaThuoc)) BEGIN
+		INSERT INTO kho(MaThuoc, MaDonViTinh, SoLuongConLai) VALUES(@MaThuoc, @MaDonViTinh, @SoLuong)
+	END
+	ELSE BEGIN
+		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuong WHERE MaThuoc = @MaThuoc
+	END
+END
+
+-- Tính số lượng thuốc còn lại khi sửa chi tiết phiếu nhập
+CREATE TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
+FOR UPDATE
+AS BEGIN
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuocCu VARCHAR(10), @MaThuocMoi VARCHAR(10)
+	SELECT  @SoLuongMoi = SoLuong, @MaThuocMoi = MaThuoc FROM INSERTED
+	SELECT  @SoLuongCu = SoLuong, @MaThuocCu = MaThuoc FROM DELETED
+
+	IF (@MaThuocCu != @MaThuocMoi) BEGIN
+		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongCu WHERE MaThuoc = @MaThuocCu
+		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongMoi WHERE MaThuoc = @MaThuocMoi
+	END
+	ELSE BEGIN
+		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi WHERE MaThuoc = @MaThuocCu
+	END
+END
+
+-- Tính số lượng thuốc còn lại khi xóa chi tiết phiếu nhập 
+CREATE TRIGGER TG_DELETE_CTPN ON chitietphieunhap 
+FOR DELETE
+AS BEGIN
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10)
+	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc FROM DELETED
+
+	UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuong WHERE MaThuoc = @MaThuoc
+END
