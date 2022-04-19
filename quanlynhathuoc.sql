@@ -56,7 +56,7 @@ CREATE TABLE kho (
 --
 
 CREATE TABLE chitietphieunhap (
-  MaPhieuNhap INT NOT NULL PRIMARY KEY,
+  MaPhieuNhap INT NOT NULL,
   MaThuoc INT NOT NULL,
   MaDonViTinh INT NOT NULL,
   SoLuong INT NOT NULL,
