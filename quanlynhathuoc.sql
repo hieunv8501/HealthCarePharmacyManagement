@@ -95,15 +95,15 @@ CREATE TABLE `donvitinh`(
 -- Cấu trúc bảng cho bảng khachhang
 --
 
-CREATE TABLE `khachhang` (
-  `MaKhachHang` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `TenKhachHang` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `GioiTinh` char(1) COLLATE utf8_unicode_ci NOT NULL,
-  `NgaySinh` date NOT NULL,
-  `SoDienThoai` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `MaHuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `TrangThai` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE khachhang (
+  MaKhachHang int PRIMARY KEY NOT NULL,
+  TenKhachHang nvarchar(50) NOT NULL,
+  GioiTinh nvarchar(3) NOT NULL,
+  NgaySinh datetime NOT NULL,
+  SoDienThoai varchar(15) NOT NULL,
+  MaHuyen int  NOT NULL,
+  KhachQuen BIT default 0
+)
 
 -----------------------------------------------------------
 
@@ -111,11 +111,11 @@ CREATE TABLE `khachhang` (
 -- Cấu trúc bảng cho bảng huyen
 --
 
-CREATE TABLE `huyen`(
-  `MaHuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `TenHuyen` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `MaTinh` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE huyen(
+  MaHuyen int PRIMARY KEY NOT NULL,
+  TenHuyen varchar(50) NOT NULL,
+  MaTinh int NOT NULL
+)
 
 -----------------------------------------------------------
 
@@ -123,10 +123,10 @@ CREATE TABLE `huyen`(
 -- Cấu trúc bảng cho bảng`tinh
 --
 
-CREATE TABLE `tinh`(
-  `MaTinh` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `TenTinh` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE tinh(
+  MaTinh int PRIMARY KEY NOT NULL,
+  TenTinh varchar(50) NOT NULL
+)
 
 -----------------------------------------------------------
 
@@ -160,14 +160,14 @@ CREATE TABLE `nhacungcap` (
 -- Cấu trúc bảng cho bảng nhanvien
 --
 
-CREATE TABLE `nhanvien` (
-  `MaNhanVien` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `TenNhanVien` text COLLATE utf8_unicode_ci NOT NULL,
-  `NgaySinh` date NOT NULL,
-  `MaHuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `SoDienThoai` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `TrangThai` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE nhanvien (
+  MaNhanVien int PRIMARY KEY NOT NULL,
+  TenNhanVien nvarchar(50) NOT NULL,
+  NgaySinh datetime NOT NULL,
+  MaHuyen int NOT NULL,
+  SoDienThoai varchar(15) NOT NULL,
+  TrangThai nvarchar(20)
+)
 
 ----------------------------------------------------------
 
@@ -245,20 +245,20 @@ ALTER TABLE taikhoan
 --
 -- Các ràng buộc cho bảng huyen
 --
-ALTER TABLE `huyen`
-  ADD CONSTRAINT `huyen_ibfk_1` FOREIGN KEY (`MaTinh`) REFERENCES `tinh` (`MaTinh`) ON UPDATE CASCADE;
+ALTER TABLE huyen
+  ADD CONSTRAINT FK_huyen_tinh FOREIGN KEY (MaTinh) REFERENCES tinh (MaTinh);
 
 --
 -- Các ràng buộc cho bảng khachhang
 --
-ALTER TABLE `khachhang`
-  ADD CONSTRAINT `khachhang_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
+ALTER TABLE khachhang
+  ADD CONSTRAINT FK_khachhang_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
 
 --
 -- Các ràng buộc cho bảng nhanvien
 --
-ALTER TABLE `nhanvien`
-  ADD CONSTRAINT `nhanvien_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
+ALTER TABLE nhanvien
+  ADD CONSTRAINT FK_nhanvien_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
 
 --
 -- Các ràng buộc cho bảng nhacungcap
