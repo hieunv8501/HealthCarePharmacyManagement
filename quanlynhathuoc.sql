@@ -166,7 +166,9 @@ CREATE TABLE nhanvien (
   NgaySinh datetime NOT NULL,
   MaHuyen int NOT NULL,
   SoDienThoai varchar(15) NOT NULL,
-  TrangThai nvarchar(20)
+  TrangThai nvarchar(20),
+  GioiTinh nvarchar(3) NOT NULL,
+  BangCap nvarchar(10) NOT NULL
 )
 
 ----------------------------------------------------------
