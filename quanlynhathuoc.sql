@@ -3,7 +3,7 @@ CREATE DATABASE quanlynhathuoc;
 USE quanlynhathuoc;
 
 -----------------------------------------------------------
--- Cấu trúc bảng cho bảng `hoadon`
+-- Cấu trúc bảng cho bảng hoadon
 
 CREATE TABLE hoadon(
 	MaHoaDon INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -15,7 +15,7 @@ CREATE TABLE hoadon(
 )
 
 -----------------------------------------------------------
--- Cấu trúc bảng cho bảng `chitiethoadon`
+-- Cấu trúc bảng cho bảng chitiethoadon
 
 CREATE TABLE chitiethoadon(
 	MaHoaDon INT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE chitiethoadon(
 )
 
 -----------------------------------------------------------
--- Cấu trúc bảng cho bảng `khuyenmai`
+-- Cấu trúc bảng cho bảng khuyenmai
 
 CREATE TABLE khuyenmai (
 	MaKhuyenMai VARCHAR(10) NOT NULL PRIMARY KEY,
@@ -52,36 +52,36 @@ CREATE TABLE kho (
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietphieunhap`
+-- Cấu trúc bảng cho bảng chitietphieunhap
 --
 
 CREATE TABLE chitietphieunhap (
-  MaPhieuNhap INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  MaPhieuNhap INT NOT NULL PRIMARY KEY,
   MaThuoc INT NOT NULL,
   MaDonViTinh INT NOT NULL,
   SoLuong INT NOT NULL,
-  DonGia FLOAT NOT NULL
+  DonGia FLOAT NOT NULL,
+  PRIMARY KEY (MaPhieuNhap, MaThuoc, MaDonViTinh)
 )
 
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phieunhap`
+-- Cấu trúc bảng cho bảng phieunhap
 --
 
 CREATE TABLE phieunhap (
   MaPhieuNhap INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
   MaNhaCungCap INT NOT NULL,
   MaNhanVien INT NOT NULL,
-  NgayNhap CALENDAR NOT NULL,
-  GioNhap TIME NOT NULL,
-  TongTien FLOAT NOT NULL
+  NgayNhap DATETIME NOT NULL,
+  TongTien FLOAT DEFAULT 0
 )
 
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `donvitinh`
+-- Cấu trúc bảng cho bảng donvitinh
 --
 
 CREATE TABLE `donvitinh`(
@@ -92,7 +92,7 @@ CREATE TABLE `donvitinh`(
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khachhang`
+-- Cấu trúc bảng cho bảng khachhang
 --
 
 CREATE TABLE `khachhang` (
@@ -108,7 +108,7 @@ CREATE TABLE `khachhang` (
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `huyen`
+-- Cấu trúc bảng cho bảng huyen
 --
 
 CREATE TABLE `huyen`(
@@ -120,7 +120,7 @@ CREATE TABLE `huyen`(
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tinh`
+-- Cấu trúc bảng cho bảng`tinh
 --
 
 CREATE TABLE `tinh`(
@@ -131,7 +131,7 @@ CREATE TABLE `tinh`(
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `loaithuoc`
+-- Cấu trúc bảng cho bảng loaithuoc
 --
 
 CREATE TABLE `loaithuoc` (
@@ -143,7 +143,7 @@ CREATE TABLE `loaithuoc` (
 -----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhacungcap`
+-- Cấu trúc bảng cho bảng nhacungcap
 --
 
 CREATE TABLE `nhacungcap` (
@@ -157,7 +157,7 @@ CREATE TABLE `nhacungcap` (
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhanvien`
+-- Cấu trúc bảng cho bảng nhanvien
 --
 
 CREATE TABLE `nhanvien` (
@@ -172,7 +172,7 @@ CREATE TABLE `nhanvien` (
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `thuoc`
+-- Cấu trúc bảng cho bảng thuoc
 --
 
 CREATE TABLE `thuoc`(
@@ -190,12 +190,12 @@ CREATE TABLE `thuoc`(
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `taikhoan`
+-- Cấu trúc bảng cho bảng taikhoan
 --
 
 CREATE TABLE taikhoan (
   TenTaiKhoan varchar(50) PRIMARY KEY NOT NULL,
-  MatKhau varchar(50) NOT NULL,
+  MatKhau varchar(100) NOT NULL,
   MaNhanVien varchar(10) NOT NULL,
   MaQuyen varchar(10) NOT NULL
 )
@@ -203,12 +203,12 @@ CREATE TABLE taikhoan (
 ----------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phanquyen`
+-- Cấu trúc bảng cho bảng phanquyen
 --
 
 CREATE TABLE phanquyen (
   MaQuyen varchar(10) PRIMARY KEY NOT NULL,
-  TenQuyen varchar(20) NOT NULL,
+  TenQuyen varchar(20),
   ChiTietQuyen varchar(255) NOT NULL
 ) 
 
@@ -222,69 +222,69 @@ ALTER TABLE chitietphieunhap
   ADD CONSTRAINT FK_CTPHIEUNHAP_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh (MaDonViTinh)
 
 --
--- Các ràng buộc cho bảng `phieunhap`
+-- Các ràng buộc cho bảng phieunhap
 --
 ALTER TABLE phieunhap
   ADD CONSTRAINT FK_PHIEUNHAP_NCC FOREIGN KEY (MaNhaCungCap) REFERENCES nhacungcap (MaNhaCungCap),
   ADD CONSTRAINT FK_PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
 
 --
--- Các ràng buộc cho bảng `thuoc`
+-- Các ràng buộc cho bảng thuoc
 --
 ALTER TABLE `thuoc`
   ADD CONSTRAINT `thuoc_ibfk_1` FOREIGN KEY (`MaLoaiThuoc`) REFERENCES `loaithuoc` (`MaLoaiThuoc`) ON UPDATE CASCADE,
   ADD CONSTRAINT `thuoc_ibfk_2` FOREIGN KEY (`MaDonViTinh`) REFERENCES `donvitinh` (`MaDonViTinh`) ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `taikhoan`
+-- Các ràng buộc cho bảng taikhoan
 --
 ALTER TABLE taikhoan
   ADD CONSTRAINT FK_TAIKHOAN_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien),
   ADD CONSTRAINT FK_TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
 
 --
--- Các ràng buộc cho bảng `huyen`
+-- Các ràng buộc cho bảng huyen
 --
 ALTER TABLE `huyen`
   ADD CONSTRAINT `huyen_ibfk_1` FOREIGN KEY (`MaTinh`) REFERENCES `tinh` (`MaTinh`) ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `khachhang`
+-- Các ràng buộc cho bảng khachhang
 --
 ALTER TABLE `khachhang`
   ADD CONSTRAINT `khachhang_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `nhanvien`
+-- Các ràng buộc cho bảng nhanvien
 --
 ALTER TABLE `nhanvien`
   ADD CONSTRAINT `nhanvien_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `nhacungcap`
+-- Các ràng buộc cho bảng nhacungcap
 --
 ALTER TABLE `nhacungcap`
 	ADD CONSTRAINT `nhacungcap_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
 	ADD CONSTRAINT FK_kho_donvitinh FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
 
 
--- Các ràng buộc cho bảng `hoadon`
+-- Các ràng buộc cho bảng hoadon
 ALTER TABLE hoadon
 	ADD CONSTRAINT FK_HOADON_KH FOREIGN KEY (MaKhachHang) REFERENCES khachhang(MaKhachHang),
 	ADD CONSTRAINT FK_HOADON_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien(MaNhanVien),
 	ADD CONSTRAINT FK_HOADON_KM FOREIGN KEY (MaKhuyenMai) REFERENCES khuyenmai(MaKhuyenMai);
 
---Các ràng buộc cho bảng `chitiethoadon`
+--Các ràng buộc cho bảng chitiethoadon
 ALTER TABLE chitiethoadon
 	ADD CONSTRAINT FK_CTHD_HOADON FOREIGN KEY (MaHoaDon) REFERENCES hoadon(MaHoaDon),
 	ADD CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
 	ADD CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
 
--- Các ràng buộc cho bảng `khuyenmai`
+-- Các ràng buộc cho bảng khuyenmai
 ALTER TABLE khuyenmai
 	ADD CONSTRAINT CK_PTKM CHECK (PhanTramKhuyenMai > 0 AND PhanTramKhuyenMai < 100);
 
--- Các ràng buộc cho bảng `kho`
+-- Các ràng buộc cho bảng kho
  ALTER TABLE kho
 	ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY MaThuoc REFERENCES thuoc(MaThuoc),
 	ADD CONSTRAINT FK_KHO_LT FOREIGN KEY (MaLoaiThuoc) REFERENCES loaithuoc(MaLoaiThuoc),  
