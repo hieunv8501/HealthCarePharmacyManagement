@@ -94,11 +94,11 @@ TenDonviTinh nvarchar(50) NOT NULL,
 --
 
 CREATE TABLE khachhang (
-  MaKhachHang int PRIMARY KEY NOT NULL,
-  TenKhachHang nvarchar(50) NOT NULL,
-  GioiTinh nvarchar(3) NOT NULL,
-  NgaySinh datetime NOT NULL,
-  SoDienThoai varchar(15) NOT NULL,
+  MaKhachHang int PRIMARY KEY IDENTITY(1,1) NOT NULL,
+  TenKhachHang nvarchar(50),
+  GioiTinh nvarchar(3),
+  NgaySinh datetime,
+  SoDienThoai varchar(15),
   MaHuyen int  NOT NULL,
   KhachQuen BIT default 0
 )
@@ -157,14 +157,15 @@ MaHuyen int NOT NULL,
 --
 
 CREATE TABLE nhanvien (
-  MaNhanVien int PRIMARY KEY NOT NULL,
-  TenNhanVien nvarchar(50) NOT NULL,
-  NgaySinh datetime NOT NULL,
+  MaNhanVien int PRIMARY KEY IDENTITY(1,1) NOT NULL,
+  TenNhanVien nvarchar(50),
+  NgaySinh datetime,
   MaHuyen int NOT NULL,
-  SoDienThoai varchar(15) NOT NULL,
+  SoDienThoai varchar(15),
   TrangThai nvarchar(20),
-  GioiTinh nvarchar(3) NOT NULL,
-  BangCap nvarchar(10) NOT NULL
+  GioiTinh nvarchar(3),
+  BangCap nvarchar(10) NOT NULL,
+  Luong money default 0
 )
 
 ----------------------------------------------------------
