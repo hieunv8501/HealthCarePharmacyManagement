@@ -82,11 +82,11 @@ CREATE TABLE phieunhap (
 -- Cấu trúc bảng cho bảng donvitinh
 --
 
-CREATE TABLE `donvitinh`(
-  `MaDonViTinh` int(10) UNSIGNED NOT NULL,
-  `TenDonViTinh` varchar(10) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+CREATE TABLE donvitinh
+(
+MaDonViTinh int IDENTITY(1,1) primary key NOT NULL,
+TenDonviTinh nvarchar(50) NOT NULL,
+)
 -----------------------------------------------------------
 
 --
@@ -132,25 +132,23 @@ CREATE TABLE tinh(
 -- Cấu trúc bảng cho bảng loaithuoc
 --
 
-CREATE TABLE `loaithuoc` (
-  `MaLoaiThuoc` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `TenLoaiThuoc` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `MoTa` archar(65535) COLLATE utf8_unicode_ci NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+create TABLE loaithuoc(
+MaLoaiThuoc int IDENTITY(1,1) primary key NOT NULL,
+TenLoaiThuoc nvarchar(100) NOT NULL,
+)
 
 -----------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng nhacungcap
 --
-
-CREATE TABLE `nhacungcap` (
-  `MaNhaCungCap` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `TenNhaCungCap` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `MaHuyen` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `SoDienThoai` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `Fax` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE nhacungcap(
+MaNhaCungCap int IDENTITY(1,1) primary key NOT NULL,
+TenNhaCungCap nvarchar(50) NOT NULL,
+MaHuyen int NOT NULL,
+  SoDienThoai varchar(10)  NOT NULL,
+  Fax varchar(30)  DEFAULT NULL
+)
 
 ----------------------------------------------------------
 
@@ -175,18 +173,20 @@ CREATE TABLE nhanvien (
 -- Cấu trúc bảng cho bảng thuoc
 --
 
-CREATE TABLE `thuoc`(
-  `MaThuoc` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `MaLoaiThuoc` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `TenThuoc` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `MoTa` varchar(65535) COLLATE utf8_unicode_ci NOT NULL,
-  `DonGia` float NOT NULL,
-  `MaDonViTinh` int(10) UNSIGNED NOT NULL,
-  `SoLuong` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `HinhAnh` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TrangThai` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+create table thuoc(
+	 MaThuoc int IDENTITY(1,1) primary key ,
+	TenThuoc nvarchar(50) NOT NULL,
+	 MoTa nvarchar(1000) NOT NULL,
+	 DoTuoi int NOT NULL,
+	 HinhAnh nvarchar NOT NULL,
+	 MaDonViTinh int NOT NULL,
+	 MaNhaCungCap int NOT NULL,
+	 MaLoaiThuoc int,
+	 NgaySanXuat Datetime NOT NULL,
+	 NgayHetHan Datetime NOT NULL,
+	 TrangThai int NOT NULL,
+	 
+)
 ----------------------------------------------------------
 
 --
@@ -212,35 +212,36 @@ CREATE TABLE phanquyen (
   ChiTietQuyen varchar(255) NOT NULL
 ) 
 
--- Tạo các ràng buộc cho các bảng
-
+-- Tạo các ràng buộc cho các bảng thuoc
+ALTER TABLE thuoc
+	ADD CONSTRAINT FK_thuoc_nhacungcap foreign key (MaNhaCungCap) references nhacungcap(MaNhaCungCap),
+	 CONSTRAINT FK_thuoc_donvitinh foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
+	  CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc)
+	
+-- Tạo các ràng buộc cho các bảng nhacungcap 
+ALTER TABLE nhacungcap
+	ADD CONSTRAINT FK_nhacungcap_huyen foreign key (MaHuyen) references huyen(MaHuyen)
 -- Các ràng buộc cho bảng chitietphieunhap
 --
 ALTER TABLE chitietphieunhap
   ADD CONSTRAINT FK_CTPHIEUNHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc (MaThuoc),
-  ADD CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap),
-  ADD CONSTRAINT FK_CTPHIEUNHAP_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh (MaDonViTinh)
+   CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap),
+   CONSTRAINT FK_CTPHIEUNHAP_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh (MaDonViTinh)
 
 --
 -- Các ràng buộc cho bảng phieunhap
 --
 ALTER TABLE phieunhap
   ADD CONSTRAINT FK_PHIEUNHAP_NCC FOREIGN KEY (MaNhaCungCap) REFERENCES nhacungcap (MaNhaCungCap),
-  ADD CONSTRAINT FK_PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
+   CONSTRAINT FK_PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
 
 --
--- Các ràng buộc cho bảng thuoc
---
-ALTER TABLE `thuoc`
-  ADD CONSTRAINT `thuoc_ibfk_1` FOREIGN KEY (`MaLoaiThuoc`) REFERENCES `loaithuoc` (`MaLoaiThuoc`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `thuoc_ibfk_2` FOREIGN KEY (`MaDonViTinh`) REFERENCES `donvitinh` (`MaDonViTinh`) ON UPDATE CASCADE;
 
---
 -- Các ràng buộc cho bảng taikhoan
 --
 ALTER TABLE taikhoan
   ADD CONSTRAINT FK_TAIKHOAN_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien),
-  ADD CONSTRAINT FK_TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
+   CONSTRAINT FK_TAIKHOAN_PQ FOREIGN KEY (MaQuyen) REFERENCES phanquyen (MaQuyen)
 
 --
 -- Các ràng buộc cho bảng huyen
@@ -261,24 +262,19 @@ ALTER TABLE nhanvien
   ADD CONSTRAINT FK_nhanvien_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
 
 --
--- Các ràng buộc cho bảng nhacungcap
---
-ALTER TABLE `nhacungcap`
-	ADD CONSTRAINT `nhacungcap_ibfk_1` FOREIGN KEY (`MaHuyen`) REFERENCES `huyen` (`MaHuyen`) ON UPDATE CASCADE;
-	ADD CONSTRAINT FK_kho_donvitinh FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
 
 
 -- Các ràng buộc cho bảng hoadon
 ALTER TABLE hoadon
 	ADD CONSTRAINT FK_HOADON_KH FOREIGN KEY (MaKhachHang) REFERENCES khachhang(MaKhachHang),
-	ADD CONSTRAINT FK_HOADON_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien(MaNhanVien),
-	ADD CONSTRAINT FK_HOADON_KM FOREIGN KEY (MaKhuyenMai) REFERENCES khuyenmai(MaKhuyenMai);
+	 CONSTRAINT FK_HOADON_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien(MaNhanVien),
+	 CONSTRAINT FK_HOADON_KM FOREIGN KEY (MaKhuyenMai) REFERENCES khuyenmai(MaKhuyenMai);
 
 --Các ràng buộc cho bảng chitiethoadon
 ALTER TABLE chitiethoadon
 	ADD CONSTRAINT FK_CTHD_HOADON FOREIGN KEY (MaHoaDon) REFERENCES hoadon(MaHoaDon),
-	ADD CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	ADD CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
+	 CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
+	 CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
 
 -- Các ràng buộc cho bảng khuyenmai
 ALTER TABLE khuyenmai
@@ -287,8 +283,8 @@ ALTER TABLE khuyenmai
 -- Các ràng buộc cho bảng kho
  ALTER TABLE kho
 	ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY MaThuoc REFERENCES thuoc(MaThuoc),
-	ADD CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
-	ADD CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+	 CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
+	 CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
 	
 -- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
 CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
@@ -323,7 +319,7 @@ FOR INSERT
 AS BEGIN
 	DECLARE @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @MaThuoc VARCHAR(10)
 	SELECT @MaHoaDon = MaHoaDon, @SoLuong = SoLuong, @DonGia = DonGia, @MaThuoc = MaThuoc FROM INSERTED
-	SELECT @MaKhuyenMa = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
+	SELECT @MaKhuyenMai = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
 
 	SET @PhanTramKhuyenMai = 0
 	IF(@MaKhuyenMai != NULL) BEGIN
@@ -343,7 +339,7 @@ AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
 
 	SELECT @MaHoaDon = MaHoaDon FROM DELETED 
-	SELECT @MaKhuyenMa = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
+	SELECT @MaKhuyenMai = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
 
 	SET @PhanTramKhuyenMai = 0
 	IF(@MaKhuyenMai != NULL) BEGIN
