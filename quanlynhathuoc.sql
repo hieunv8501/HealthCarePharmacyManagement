@@ -29,6 +29,7 @@ CREATE TABLE chitiethoadon(
 	PRIMARY KEY (MaHoaDon, MaThuoc)
 )
 
+
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng khuyenmai
 
@@ -48,6 +49,7 @@ CREATE TABLE khuyenmai (
 CREATE TABLE kho ( 
 	MaThuoc INT NOT NULL PRIMARY KEY, 
 	MaDonViTinh INT NOT NULL, 
+	SoLuongConLai INT NOT NULL,
 	TinhTrang VARCHAR(20),
 	DaXoa BIT DEFAULT 0,
 
@@ -56,13 +58,13 @@ CREATE TABLE kho (
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng lonhap
 
-CREATE TABLE lonhap(
-	MaThuoc INT NOT NULL,
-	MaPhieuNhap INT NOT NULL,
-	SoLuongConLai INT NOT NULL,
-	DaXoa BIT DEFAULT 0,
-	PRIMARY KEY (MaPhieuNhap, MaThuoc)
-)
+--CREATE TABLE lonhap(
+--	MaThuoc INT NOT NULL,
+--	MaPhieuNhap INT NOT NULL,
+--	SoLuongConLai INT NOT NULL,
+--	DaXoa BIT DEFAULT 0,
+--	PRIMARY KEY (MaPhieuNhap, MaThuoc)
+--)
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng chitietphieunhap
@@ -281,7 +283,10 @@ ALTER TABLE hoadon
 ALTER TABLE chitiethoadon
 	ADD CONSTRAINT FK_CTHD_HOADON FOREIGN KEY (MaHoaDon) REFERENCES hoadon(MaHoaDon),
 	CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
+	CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
+	CONSTRAINT FK_CTHD_KHO FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap);
+
+
 
 -- Các ràng buộc cho bảng khuyenmai
 ALTER TABLE khuyenmai
@@ -290,13 +295,15 @@ ALTER TABLE khuyenmai
 -- Các ràng buộc cho bảng kho
  ALTER TABLE kho
 	ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh);
+	CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
+	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+
 	
 -- Các ràng buộc cho bảng lonhap
-ALTER TABLE lonhap
-	ADD CONSTRAINT FK_LONHAP_KHO FOREIGN KEY (MaThuoc) REFERENCES kho(MaThuoc),
-	CONSTRAINT FK_LONHAP_PN FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap),
-	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+--ALTER TABLE lonhap
+--	ADD CONSTRAINT FK_LONHAP_KHO FOREIGN KEY (MaThuoc) REFERENCES kho(MaThuoc),
+--	CONSTRAINT FK_LONHAP_PN FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap),
+--	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
 
 
 
