@@ -147,7 +147,6 @@ CREATE TABLE tinh(
 create TABLE loaithuoc(
 	MaLoaiThuoc int IDENTITY(1,1) primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
-	LoiNhuan float default 1, -- Dùng để tính giá bán dựa trên giá nhập
 	DaXoa BIT DEFAULT 0,
 
 )
