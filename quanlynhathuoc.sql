@@ -25,7 +25,6 @@ CREATE TABLE chitiethoadon(
 	SoLuong INT NOT NULL,
 	DonGia MONEY NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
 	PRIMARY KEY (MaHoaDon, MaThuoc)
 )
 
