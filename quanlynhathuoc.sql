@@ -21,11 +21,12 @@ CREATE TABLE hoadon(
 CREATE TABLE chitiethoadon(
 	MaHoaDon INT NOT NULL,
 	MaThuoc INT NOT NULL,
+	MaLo INT NOT NULL,
 	MaDonViTinh INT NOT NULL,
 	SoLuong INT NOT NULL,
 	DonGia MONEY NOT NULL,
 	DaXoa BIT DEFAULT 0,
-	PRIMARY KEY (MaHoaDon, MaThuoc)
+	PRIMARY KEY (MaHoaDon, MaThuoc, MaLo)
 )
 
 
@@ -45,25 +46,25 @@ CREATE TABLE khuyenmai (
 ----------------------------------------------------------
 
 -- Cấu trúc bảng cho bảng kho
-CREATE TABLE kho ( 
-	MaThuoc INT NOT NULL PRIMARY KEY, 
-	MaDonViTinh INT NOT NULL, 
-	SoLuongConLai INT NOT NULL,
-	TinhTrang VARCHAR(20),
-	DaXoa BIT DEFAULT 0,
-
-)
+--CREATE TABLE kho ( 
+--	MaThuoc INT NOT NULL PRIMARY KEY, 
+--	MaDonViTinh INT NOT NULL, 
+--	TinhTrang VARCHAR(20),
+--	DaXoa BIT DEFAULT 0,
+--)
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng lonhap
 
---CREATE TABLE lonhap(
---	MaThuoc INT NOT NULL,
---	MaPhieuNhap INT NOT NULL,
---	SoLuongConLai INT NOT NULL,
---	DaXoa BIT DEFAULT 0,
---	PRIMARY KEY (MaPhieuNhap, MaThuoc)
---)
+CREATE TABLE lonhap(
+	MaLo INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	MaThuoc INT NOT NULL,
+	MaPhieuNhap INT NOT NULL,
+	SoLuongConLai INT NOT NULL,
+	NgaySanXuat DATETIME,
+	NgayHetHan DATETIME,
+	DaXoa BIT DEFAULT 0,
+)
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng chitietphieunhap
@@ -74,6 +75,8 @@ CREATE TABLE chitietphieunhap (
 	MaDonViTinh INT NOT NULL,
 	SoLuong INT NOT NULL,
 	DonGia FLOAT NOT NULL,
+	NgaySanXuat DATETIME,
+	NgayHetHan DATETIME,
 	DaXoa BIT DEFAULT 0,
 	PRIMARY KEY (MaPhieuNhap, MaThuoc, MaDonViTinh)
 )
@@ -144,6 +147,7 @@ CREATE TABLE tinh(
 create TABLE loaithuoc(
 	MaLoaiThuoc int IDENTITY(1,1) primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
+	LoiNhuan float default 1, -- Dùng để tính giá bán dựa trên giá nhập
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -190,12 +194,9 @@ create table thuoc(
 	MaDonViTinh int NOT NULL,
 	MaNhaCungCap int NOT NULL,
 	MaLoaiThuoc int,
-	NgaySanXuat Datetime NOT NULL,
-	NgayHetHan Datetime NOT NULL,
-	TrangThai int NOT NULL,
+	GiaBan MONEY NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
-	 
+ 
 )
 ----------------------------------------------------------
 -- Cấu trúc bảng cho bảng taikhoan
@@ -217,7 +218,6 @@ CREATE TABLE phanquyen (
 	TenQuyen varchar(20),
 	ChiTietQuyen varchar(255) NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
 ) 
 
 -- Tạo các ràng buộc cho các bảng thuoc
@@ -269,9 +269,6 @@ ALTER TABLE khachhang
 ALTER TABLE nhanvien
 	ADD CONSTRAINT FK_nhanvien_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
 
---
-
-
 -- Các ràng buộc cho bảng hoadon
 ALTER TABLE hoadon
 	ADD CONSTRAINT FK_HOADON_KH FOREIGN KEY (MaKhachHang) REFERENCES khachhang(MaKhachHang),
@@ -283,8 +280,7 @@ ALTER TABLE chitiethoadon
 	ADD CONSTRAINT FK_CTHD_HOADON FOREIGN KEY (MaHoaDon) REFERENCES hoadon(MaHoaDon),
 	CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
 	CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
-	CONSTRAINT FK_CTHD_KHO FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap);
-
+	CONSTRAINT FK_CTHD_LONHAP FOREIGN KEY (MaLo) REFERENCES lonhap(MaLo);
 
 
 -- Các ràng buộc cho bảng khuyenmai
@@ -292,17 +288,17 @@ ALTER TABLE khuyenmai
 	ADD CONSTRAINT CK_PTKM CHECK (PhanTramKhuyenMai > 0 AND PhanTramKhuyenMai < 100);
 
 -- Các ràng buộc cho bảng kho
- ALTER TABLE kho
-	ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
-	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+ --ALTER TABLE kho
+	--ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
+	--CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
+	--CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
 
 	
 -- Các ràng buộc cho bảng lonhap
---ALTER TABLE lonhap
---	ADD CONSTRAINT FK_LONHAP_KHO FOREIGN KEY (MaThuoc) REFERENCES kho(MaThuoc),
---	CONSTRAINT FK_LONHAP_PN FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap),
---	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
+ALTER TABLE lonhap
+	ADD CONSTRAINT FK_LONHAP_PN FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap),
+	CONSTRAINT FK_LONHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
+	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
 
 
 
@@ -312,17 +308,11 @@ GO
 CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
 FOR UPDATE
 AS BEGIN
-	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuocCu VARCHAR(10), @MaThuocMoi VARCHAR(10)
-	SELECT  @SoLuongMoi = SoLuong, @MaThuocMoi = MaThuoc FROM INSERTED
-	SELECT  @SoLuongCu = SoLuong, @MaThuocCu = MaThuoc FROM DELETED
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT
+	SELECT  @SoLuongMoi = SoLuong, @MaLo = MaLo FROM INSERTED
+	SELECT  @SoLuongCu = SoLuong FROM DELETED
 
-	IF (@MaThuocCu != @MaThuocMoi) BEGIN
-		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongCu WHERE MaThuoc = @MaThuocCu
-		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongMoi WHERE MaThuoc = @MaThuocMoi
-	END
-	ELSE BEGIN
-		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongCu - @SoLuongMoi WHERE MaThuoc = @MaThuocCu
-	END
+	UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongCu - @SoLuongMoi WHERE MaLo = @MaLo
 END
 
 GO
@@ -330,10 +320,10 @@ GO
 CREATE TRIGGER TG_DELETE_CTHD ON chitiethoadon
 FOR DELETE
 AS BEGIN
-	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10)
-	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc FROM DELETED
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaLo INT
+	SELECT  @SoLuong = SoLuong, @MaLo = MaLo FROM DELETED
 
-	UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuong WHERE MaThuoc = @MaThuoc
+	UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuong WHERE MaLo = @MaLo
 END
 
 GO
@@ -341,8 +331,8 @@ GO
 CREATE TRIGGER TG_INSERT_CTHD ON chitiethoadon 
 FOR INSERT
 AS BEGIN
-	DECLARE @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @MaThuoc VARCHAR(10)
-	SELECT @MaHoaDon = MaHoaDon, @SoLuong = SoLuong, @DonGia = DonGia, @MaThuoc = MaThuoc FROM INSERTED
+	DECLARE @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @MaLo INT
+	SELECT @MaHoaDon = MaHoaDon, @SoLuong = SoLuong, @DonGia = DonGia,  @MaLo = MaLo FROM INSERTED
 	SELECT @MaKhuyenMai = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
 
 	SET @PhanTramKhuyenMai = 0
@@ -352,8 +342,8 @@ AS BEGIN
 
 	UPDATE hoadon SET TongTien = (TongTien +  (@SoLuong * @DonGia)) - (((TongTien +  (@SoLuong * @DonGia)) *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
 	
-	-- Cập nhật lại số lượng thuốc còn lại trong kho
-	UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuong WHERE MaThuoc = @MaThuoc
+	-- Cập nhật lại số lượng thuốc còn lại trong lonhap
+	UPDATE lonhap SET SoLuongConLai = SoLuongConLai - @SoLuong WHERE MaLo = @MaLo
 END
 
 GO
@@ -408,16 +398,9 @@ GO
 CREATE TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
 FOR INSERT
 AS BEGIN
-	
-	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaDonViTinh INT
-	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaDonViTinh = MaDonViTinh FROM INSERTED
-
-	IF(NOT EXISTS (SELECT * FROM kho WHERE MaThuoc = @MaThuoc)) BEGIN
-		INSERT INTO kho(MaThuoc, MaDonViTinh, SoLuongConLai) VALUES(@MaThuoc, @MaDonViTinh, @SoLuong)
-	END
-	ELSE BEGIN
-		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuong WHERE MaThuoc = @MaThuoc
-	END
+	INSERT INTO lonhap(MaThuoc, MaPhieuNhap, SoLuongConLai, NgaySanXuat, NgayHetHan)
+	SELECT MaThuoc, MaPhieuNhap, SoLuong, NgaySanXuat, NgayHetHan
+	FROM INSERTED
 END
 
 GO
@@ -425,17 +408,15 @@ GO
 CREATE TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
 FOR UPDATE
 AS BEGIN
-	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuocCu VARCHAR(10), @MaThuocMoi VARCHAR(10)
-	SELECT  @SoLuongMoi = SoLuong, @MaThuocMoi = MaThuoc FROM INSERTED
-	SELECT  @SoLuongCu = SoLuong, @MaThuocCu = MaThuoc FROM DELETED
 
-	IF (@MaThuocCu != @MaThuocMoi) BEGIN
-		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongCu WHERE MaThuoc = @MaThuocCu
-		UPDATE kho SET SoLuongConLai = SoLuongConLai + @SoLuongMoi WHERE MaThuoc = @MaThuocMoi
-	END
-	ELSE BEGIN
-		UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi WHERE MaThuoc = @MaThuocCu
-	END
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT, @NgaySanXuat DATETIME, @NgayHetHan DATETIME
+	SELECT  @SoLuongMoi = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan 
+		FROM INSERTED
+	SELECT  @SoLuongCu = SoLuong FROM DELETED
+
+	UPDATE lonhap 
+		SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
+		WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
 END
 
 GO
@@ -443,8 +424,11 @@ GO
 CREATE TRIGGER TG_DELETE_CTPN ON chitietphieunhap 
 FOR DELETE
 AS BEGIN
-	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10)
-	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc FROM DELETED
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT, @NgaySanXuat DATETIME, @NgayHetHan DATETIME
+	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan 
+		FROM DELETED
 
-	UPDATE kho SET SoLuongConLai = SoLuongConLai - @SoLuong WHERE MaThuoc = @MaThuoc
+	UPDATE lonhap 
+		SET SoLuongConLai = SoLuongConLai - @SoLuong, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
+		WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
 END
