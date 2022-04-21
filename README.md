@@ -1,4 +1,4 @@
-# JavaTechnology - Helth Care Pharmacy Management in the Windows platform
+# JavaTechnology - Health Care Pharmacy Management in the Windows platform
 
 
 1. Nguyễn Văn Hiếu - 19521509
