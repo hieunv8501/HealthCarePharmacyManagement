@@ -1,7 +1,7 @@
 CREATE DATABASE quanlynhathuoc;
 
 USE quanlynhathuoc;
-
+SET DATEFORMAT dmy;
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng hoadon
 
@@ -29,7 +29,6 @@ CREATE TABLE chitiethoadon(
 	PRIMARY KEY (MaHoaDon, MaThuoc, MaLo)
 )
 
-
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng khuyenmai
 
@@ -43,15 +42,6 @@ CREATE TABLE khuyenmai (
 	DaXoa BIT DEFAULT 0,
 
 )
-----------------------------------------------------------
-
--- Cấu trúc bảng cho bảng kho
---CREATE TABLE kho ( 
---	MaThuoc INT NOT NULL PRIMARY KEY, 
---	MaDonViTinh INT NOT NULL, 
---	TinhTrang VARCHAR(20),
---	DaXoa BIT DEFAULT 0,
---)
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng lonhap
@@ -72,7 +62,7 @@ CREATE TABLE chitietphieunhap (
 	MaThuoc INT NOT NULL,
 	MaDonViTinh INT NOT NULL,
 	SoLuong INT NOT NULL,
-	DonGia FLOAT NOT NULL,
+	DonGia MONEY NOT NULL,
 	NgaySanXuat DATETIME,
 	NgayHetHan DATETIME,
 	DaXoa BIT DEFAULT 0,
@@ -87,7 +77,7 @@ CREATE TABLE phieunhap (
 	MaNhaCungCap INT NOT NULL,
 	MaNhanVien INT NOT NULL,
 	NgayNhap DATETIME NOT NULL,
-	TongTien FLOAT DEFAULT 0,
+	TongTien MONEY DEFAULT 0,
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -123,7 +113,7 @@ CREATE TABLE khachhang (
 
 CREATE TABLE huyen(
 	MaHuyen int PRIMARY KEY NOT NULL,
-	TenHuyen varchar(50) NOT NULL,
+	TenHuyen nvarchar(50) NOT NULL,
 	MaTinh int NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
@@ -134,7 +124,7 @@ CREATE TABLE huyen(
 
 CREATE TABLE tinh(
 	MaTinh int PRIMARY KEY NOT NULL,
-	TenTinh varchar(50) NOT NULL,
+	TenTinh nvarchar(50) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -201,7 +191,7 @@ create table thuoc(
 CREATE TABLE taikhoan (
 	TenTaiKhoan varchar(50) PRIMARY KEY NOT NULL,
 	MatKhau varchar(100) NOT NULL,
-	MaNhanVien varchar(10) NOT NULL,
+	MaNhanVien int NOT NULL,
 	MaQuyen varchar(10) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
@@ -212,7 +202,7 @@ CREATE TABLE taikhoan (
 
 CREATE TABLE phanquyen (
 	MaQuyen varchar(10) PRIMARY KEY NOT NULL,
-	TenQuyen varchar(20),
+	TenQuyen nvarchar(20),
 	ChiTietQuyen varchar(255) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 ) 
@@ -431,14 +421,65 @@ AS BEGIN
 	DELETE lonhap WHERE MaPhieuNhap = @MaPhieuNhap AND MaThuoc = @MaThuoc
 END
 
+GO
+-- Tính tổng tiền phiếu nhập khi thêm chi tiết phiếu nhập (nhập thuốc)
+CREATE TRIGGER TG_INSERT_CTPN_1 ON chitietphieunhap 
+FOR INSERT
+AS BEGIN
+	DECLARE @MaPhieuNhap INT, @MaThuoc INT, @MaDonViTinh INT, @SoLuong INT, @DonGia MONEY, @NgaySanXuat datetime, @NgayHetHan datetime
+	SELECT @MaPhieuNhap = MaPhieuNhap, @MaThuoc = MaThuoc, @MaDonViTinh = MaDonViTinh, @SoLuong = SoLuong, @DonGia = DonGia, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan FROM INSERTED
+	
+	UPDATE phieunhap SET TongTien = TongTien + (@SoLuong * @DonGia) WHERE MaPhieuNhap = @MaPhieuNhap
+
+END
+
+GO
+-- Tính tổng tiền phiếu nhập khi sửa hoặc xóa chi tiết phiếu nhập (nhập thuốc)
+CREATE TRIGGER TG_UPDATE_DELETE_CTPN_1 ON chitietphieunhap 
+FOR UPDATE, DELETE
+AS BEGIN
+	DECLARE @TongTien MONEY, @MaPhieuNhap INT, @SoLuong INT, @DonGia MONEY
+
+	SELECT @MaPhieuNhap = MaPhieuNhap FROM DELETED 
+
+	SET @TongTien = 0
+
+	DECLARE CUR_CTPN CURSOR FOR SELECT SoLuong, DonGia FROM chitietphieunhap where MaPhieuNhap = @MaPhieuNhap
+	OPEN CUR_CTPN
+	FETCH NEXT FROM CUR_CTPN INTO @SoLuong, @DonGia
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @TongTien = @TongTien + (@SoLuong * @DonGia)
+		FETCH NEXT FROM CUR_CTPN INTO @SoLuong, @DonGia
+	END
+	CLOSE CUR_CTPN
+	DEALLOCATE CUR_CTPN
+
+	UPDATE phieunhap SET TongTien = @TongTien WHERE MaPhieuNhap = @MaPhieuNhap
+END
+
+GO
 
 --Test TRIGGER
---SET DATEFORMAT dmy;
 
 --INSERT INTO phieunhap (MaNhaCungCap, MaNhanVien, NgayNhap, TongTien) VALUES (1, 1, '22/04/2022', 10)
 
 --INSERT INTO thuoc (TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaNhaCungCap, MaLoaiThuoc, GiaBan)
---		VALUES (N'Thuốc đau đâu', N'Thuốc trị đau đầu, nhứt đầu', 20, 'A', 1, 1, 1, 20)
+--		VALUES (N'Thuốc đau đầu', N'Thuốc trị đau đầu, nhức đầu', 20, 'A', 1, 1, 1, 20)
+
+--INSERT INTO donvitinh (TenDonViTinh) values (N'Vỉ 5 viên')
+
+--INSERT INTO tinh (MaTinh, TenTinh) values (1, N'An Giang')
+--INSERT INTO huyen (MaHuyen, TenHuyen, MaTinh) values (1, N'Ba Vì', 1)
+
+--INSERT INTO nhanvien (TenNhanVien, NgaySinh, MaHuyen, SoDienThoai, TrangThai, GioiTinh, BangCap, Luong) 
+--	values (N'HieuNV', '05/08/2001', 1, '0251643987', 0, N'Nam', N'Cử nhân', 10000000)
+
+--INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaHuyen) 
+--	values (N'TinhBui', N'Nam' ,'05/18/2001', '0125478963', 1)
+
+--INSERT INTO nhacungcap (TenNhaCungCap, MaHuyen, SoDienThoai, Fax) 
+--	values (N'Công ty Cổ phần SX Thuốc Thiên Ân', 1, '025155517', '12105552')
 
 --INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, MaDonViTinh, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
 --		VALUES (1, 3, 1, 1, 10, '01/03/2022', '20/05/2022' )
@@ -459,7 +500,7 @@ END
 --DELETE chitiethoadon 
 
 --SELECT * FROM lonhap
-
+--delete from chitietphieunhap
 --SELECT * FROM chitiethoadon
 --SELECT * FROM chitietphieunhap
 --SELECT * FROM hoadon
