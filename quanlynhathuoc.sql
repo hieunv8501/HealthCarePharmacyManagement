@@ -61,8 +61,6 @@ CREATE TABLE lonhap(
 	MaThuoc INT NOT NULL,
 	MaPhieuNhap INT NOT NULL,
 	SoLuongConLai INT NOT NULL,
-	NgaySanXuat DATETIME,
-	NgayHetHan DATETIME,
 	DaXoa BIT DEFAULT 0,
 )
 
@@ -397,8 +395,8 @@ GO
 CREATE TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
 FOR INSERT
 AS BEGIN
-	INSERT INTO lonhap(MaThuoc, MaPhieuNhap, SoLuongConLai, NgaySanXuat, NgayHetHan)
-	SELECT MaThuoc, MaPhieuNhap, SoLuong, NgaySanXuat, NgayHetHan
+	INSERT INTO lonhap(MaThuoc, MaPhieuNhap, SoLuongConLai)
+	SELECT MaThuoc, MaPhieuNhap, SoLuong
 	FROM INSERTED
 END
 
@@ -408,13 +406,13 @@ CREATE TRIGGER TG_UPDATE_CTPN ON chitietphieunhap
 FOR UPDATE
 AS BEGIN
 
-	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT, @NgaySanXuat DATETIME, @NgayHetHan DATETIME
-	SELECT  @SoLuongMoi = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan 
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT
+	SELECT  @SoLuongMoi = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap
 		FROM INSERTED
 	SELECT  @SoLuongCu = SoLuong FROM DELETED
 
 	UPDATE lonhap 
-		SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
+		SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi
 		WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
 END
 
@@ -423,12 +421,12 @@ GO
 CREATE TRIGGER TG_DELETE_CTPN ON chitietphieunhap 
 FOR DELETE
 AS BEGIN
-	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT, @NgaySanXuat DATETIME, @NgayHetHan DATETIME
-	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan 
+	DECLARE @SoLuong INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT
+	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap
 		FROM DELETED
 
 	--UPDATE lonhap 
-	--	SET SoLuongConLai = SoLuongConLai - @SoLuong, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
+	--	SET SoLuongConLai = SoLuongConLai - @SoLuong
 	--	WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
 	DELETE lonhap WHERE MaPhieuNhap = @MaPhieuNhap AND MaThuoc = @MaThuoc
 END
