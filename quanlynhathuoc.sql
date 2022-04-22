@@ -335,7 +335,7 @@ AS BEGIN
 	SELECT @MaKhuyenMai = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
 
 	SET @PhanTramKhuyenMai = 0
-	IF(@MaKhuyenMai != NULL) BEGIN
+	IF(@MaKhuyenMai IS NOT NULL) BEGIN
 		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
 	END 
 
@@ -356,7 +356,7 @@ AS BEGIN
 	SELECT @MaKhuyenMai = MaKhuyenMai FROM hoadon WHERE MaHoaDon = @MaHoaDon
 
 	SET @PhanTramKhuyenMai = 0
-	IF(@MaKhuyenMai != NULL) BEGIN
+	IF(@MaKhuyenMai IS NOT NULL) BEGIN
 		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
 	END 
 
@@ -427,7 +427,43 @@ AS BEGIN
 	SELECT  @SoLuong = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan 
 		FROM DELETED
 
-	UPDATE lonhap 
-		SET SoLuongConLai = SoLuongConLai - @SoLuong, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
-		WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
+	--UPDATE lonhap 
+	--	SET SoLuongConLai = SoLuongConLai - @SoLuong, NgaySanXuat = @NgaySanXuat, NgayHetHan = @NgayHetHan 
+	--	WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
+	DELETE lonhap WHERE MaPhieuNhap = @MaPhieuNhap AND MaThuoc = @MaThuoc
 END
+
+
+--Test TRIGGER
+--SET DATEFORMAT dmy;
+
+--INSERT INTO phieunhap (MaNhaCungCap, MaNhanVien, NgayNhap, TongTien) VALUES (1, 1, '22/04/2022', 10)
+
+--INSERT INTO thuoc (TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaNhaCungCap, MaLoaiThuoc, GiaBan)
+--		VALUES (N'Thuốc đau đâu', N'Thuốc trị đau đầu, nhứt đầu', 20, 'A', 1, 1, 1, 20)
+
+--INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, MaDonViTinh, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
+--		VALUES (1, 3, 1, 1, 10, '01/03/2022', '20/05/2022' )
+
+--UPDATE chitietphieunhap SET SoLuong = 10, NgaySanXuat = '01/04/2022' WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+
+--DELETE chitietphieunhap WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+
+--INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '22/04/2022')
+
+--INSERT INTO khuyenmai (MaKhuyenMai, PhanTramKhuyenMai) VALUES (1, 10)
+
+--INSERT INTO chitiethoadon (MaHoaDon, MaThuoc, MaLo, MaDonViTinh, SoLuong, DonGia)
+--		VALUES (1, 3, 4, 1, 5, 10000)
+
+--UPDATE chitiethoadon SET SoLuong = 11 WHERE Malo = 3
+
+--DELETE chitiethoadon 
+
+--SELECT * FROM lonhap
+
+--SELECT * FROM chitiethoadon
+--SELECT * FROM chitietphieunhap
+--SELECT * FROM hoadon
+--SELECT * FROM khuyenmai
+--SELECT * FROM thuoc
