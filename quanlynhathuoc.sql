@@ -60,13 +60,13 @@ CREATE TABLE lonhap(
 CREATE TABLE chitietphieunhap (
 	MaPhieuNhap INT NOT NULL,
 	MaThuoc INT NOT NULL,
-	MaDonViTinh INT NOT NULL,
+	MaDonViTinh INT,
 	SoLuong INT NOT NULL,
 	DonGia MONEY NOT NULL,
 	NgaySanXuat DATETIME,
 	NgayHetHan DATETIME,
 	DaXoa BIT DEFAULT 0,
-	PRIMARY KEY (MaPhieuNhap, MaThuoc, MaDonViTinh)
+	PRIMARY KEY (MaPhieuNhap, MaThuoc)
 )
 
 -----------------------------------------------------------
@@ -107,7 +107,16 @@ CREATE TABLE khachhang (
 	DaXoa BIT DEFAULT 0,
 
 )
+-----------------------------------------------------------
+-- Cấu trúc bảng cho bảng xa
 
+CREATE TABLE xa(
+	MaXa int PRIMARY KEY NOT NULL,
+	TenXa nvarchar(50) NOT NULL,
+	MaHuyen int NOT NULL,
+	DaXoa BIT DEFAULT 0,
+
+)
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng huyen
 
@@ -120,7 +129,7 @@ CREATE TABLE huyen(
 )
 
 -----------------------------------------------------------
--- Cấu trúc bảng cho bảng`tinh
+-- Cấu trúc bảng cho bảng tinh
 
 CREATE TABLE tinh(
 	MaTinh int PRIMARY KEY NOT NULL,
@@ -231,7 +240,6 @@ ALTER TABLE phieunhap
 	CONSTRAINT FK_PHIEUNHAP_NV FOREIGN KEY (MaNhanVien) REFERENCES nhanvien (MaNhanVien)
 
 --
-
 -- Các ràng buộc cho bảng taikhoan
 --
 ALTER TABLE taikhoan
@@ -274,20 +282,11 @@ ALTER TABLE chitiethoadon
 ALTER TABLE khuyenmai
 	ADD CONSTRAINT CK_PTKM CHECK (PhanTramKhuyenMai > 0 AND PhanTramKhuyenMai < 100);
 
--- Các ràng buộc cho bảng kho
- --ALTER TABLE kho
-	--ADD CONSTRAINT FK_KHO_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	--CONSTRAINT FK_KHO_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
-	--CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
-
-	
 -- Các ràng buộc cho bảng lonhap
 ALTER TABLE lonhap
 	ADD CONSTRAINT FK_LONHAP_PN FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap(MaPhieuNhap),
 	CONSTRAINT FK_LONHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
 	CONSTRAINT CK_SLCL CHECK (SoLuongConLai >= 0);	
-
-
 
 GO
 
