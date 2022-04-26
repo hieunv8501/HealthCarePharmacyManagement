@@ -2,6 +2,7 @@ CREATE DATABASE quanlynhathuoc;
 
 USE quanlynhathuoc;
 SET DATEFORMAT dmy;
+
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng hoadon
 
@@ -102,46 +103,43 @@ CREATE TABLE khachhang (
 	GioiTinh nvarchar(3),
 	NgaySinh datetime,
 	SoDienThoai varchar(15),
-	MaHuyen int  NOT NULL,
+	MaXa int NOT NULL,
 	KhachQuen BIT default 0,
 	DaXoa BIT DEFAULT 0,
-
 )
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng xa
 
-CREATE TABLE xa(
+CREATE TABLE xa (
 	MaXa int PRIMARY KEY NOT NULL,
 	TenXa nvarchar(50) NOT NULL,
 	MaHuyen int NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
 )
+
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng huyen
 
-CREATE TABLE huyen(
+CREATE TABLE huyen (
 	MaHuyen int PRIMARY KEY NOT NULL,
 	TenHuyen nvarchar(50) NOT NULL,
 	MaTinh int NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
 )
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng tinh
 
-CREATE TABLE tinh(
+CREATE TABLE tinh (
 	MaTinh int PRIMARY KEY NOT NULL,
 	TenTinh nvarchar(50) NOT NULL,
 	DaXoa BIT DEFAULT 0,
-
 )
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng loaithuoc
 
-create TABLE loaithuoc(
+create TABLE loaithuoc (
 	MaLoaiThuoc int IDENTITY(1,1) primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
 	DaXoa BIT DEFAULT 0,
@@ -167,15 +165,24 @@ CREATE TABLE nhacungcap(
 CREATE TABLE nhanvien (
 	MaNhanVien int PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	TenNhanVien nvarchar(50),
+	MaLoaiNhanVien int NOT NULL,
 	NgaySinh datetime,
-	MaHuyen int NOT NULL,
+	MaXa int NOT NULL,
 	SoDienThoai varchar(15),
-	TrangThai nvarchar(20),
 	GioiTinh nvarchar(3),
 	BangCap nvarchar(10) NOT NULL,
 	Luong money default 0,
 	DaXoa BIT DEFAULT 0,
+)
 
+----------------------------------------------------------
+-- Cấu trúc bảng cho bảng loainhanvien
+
+CREATE TABLE loainhanvien (
+	MaLoaiNhanVien int PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	TenLoaiNhanVien nvarchar(50),
+	LuongCoBan money default 0,
+	DaXoa BIT default 0
 )
 
 ----------------------------------------------------------
@@ -252,17 +259,25 @@ ALTER TABLE taikhoan
 ALTER TABLE huyen
 	ADD CONSTRAINT FK_huyen_tinh FOREIGN KEY (MaTinh) REFERENCES tinh (MaTinh);
 
+
+--
+-- Các ràng buộc cho bảng xa
+--
+ALTER TABLE xa
+	ADD CONSTRAINT FK_xa_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
+
 --
 -- Các ràng buộc cho bảng khachhang
 --
 ALTER TABLE khachhang
-	ADD CONSTRAINT FK_khachhang_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
+	ADD CONSTRAINT FK_khachhang_xa FOREIGN KEY (MaXa) REFERENCES xa (MaXa);
 
 --
 -- Các ràng buộc cho bảng nhanvien
 --
 ALTER TABLE nhanvien
-	ADD CONSTRAINT FK_nhanvien_huyen FOREIGN KEY (MaHuyen) REFERENCES huyen (MaHuyen);
+	ADD CONSTRAINT FK_nhanvien_xa FOREIGN KEY (MaXa) REFERENCES xa (MaXa),
+	CONSTRAINT FK_nhanvien_loainhanvien FOREIGN KEY (MaLoaiNhanVien) REFERENCES loainhanvien (MaLoaiNhanVien);
 
 -- Các ràng buộc cho bảng hoadon
 ALTER TABLE hoadon
@@ -458,6 +473,52 @@ AS BEGIN
 END
 
 GO
+
+--TRIGGER Tính lương cơ bản mỗi khi thêm mới hoặc sửa thông tin 1 nhân viên
+CREATE TRIGGER TG_LuongCoBan_NhanVien ON nhanvien
+FOR UPDATE, INSERT
+AS
+BEGIN
+	DECLARE @LuongCoBan money, @MaLoaiNhanVien int
+	SELECT @LuongCoBan = B.LuongCoBan, @MaLoaiNhanVien = A.MaLoaiNhanVien from inserted A JOIN loainhanvien B ON A.MaLoaiNhanVien = B.MaLoaiNhanVien
+	UPDATE nhanvien
+	SET Luong = Luong - Luong + @LuongCoBan
+	WHERE MaLoaiNhanVien = @MaLoaiNhanVien
+END
+GO
+
+--TRIGGER Tính lương cơ bản mỗi khi sửa thông tin 1 loại nhân viên
+CREATE TRIGGER TG_LuongCoBan_LoaiNhanVien ON loainhanvien
+FOR UPDATE
+AS
+BEGIN
+	DECLARE @LuongCoBan money, @MaLoaiNhanVien int
+	SELECT @LuongCoBan = A.LuongCoBan, @MaLoaiNhanVien = A.MaLoaiNhanVien from inserted A 
+	UPDATE nhanvien
+	SET Luong = Luong - Luong + @LuongCoBan
+	WHERE MaLoaiNhanVien = @MaLoaiNhanVien
+END
+GO
+
+---------------------------------------------------------------------------
+-- Thêm dữ liệu cho bảng loainhanvien
+INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Nhân viên bán thuốc', 6500000)
+INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Nhân viên quản lý kho', 6000000)
+INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Bảo vệ', 5000000)
+
+---------------------------------------------------------------------------
+-- Thêm dữ liệu cho bảng nhanvien
+INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
+values (N'HieuNV', 1, '05/08/2001', 1, '0251643987', N'Nam', N'Cử nhân')
+INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
+values (N'QuyNV', 2, '11/04/2001', 2, '0365894854', N'Nam', N'Thạc sĩ')
+
+---------------------------------------------------------------------------
+-- Thêm dữ liệu cho bảng khachhang
+INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) 
+values (N'TinhBV', N'Nam', '07/02/2001','0251643987', 1)
+INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) 
+values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 
 --Test TRIGGER
 
