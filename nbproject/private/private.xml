@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/src/Models/Khuyenmai.java</file>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/src/Models/ChitietHoadon.java</file>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/src/Models/Hoadon.java</file>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/src/DBConnection/DBConnection.java</file>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/quanlynhathuoc.sql</file>
-            <file>file:/C:/Users/TinhBui/Desktop/HealthCarePharmacyManagement/src/Models/LoNhap.java</file>
+            <file>file:/E:/NetbeansProjects/HealthCarePharmacyManagement/src/Models/Phieunhap.java</file>
+            <file>file:/E:/NetbeansProjects/HealthCarePharmacyManagement/src/pharmacymanagement_/PharmacyManagement.java</file>
+            <file>file:/E:/NetbeansProjects/HealthCarePharmacyManagement/src/DBConnection/DBConnection.java</file>
+            <file>file:/E:/NetbeansProjects/HealthCarePharmacyManagement/src/Models/Quyen.java</file>
         </group>
     </open-files>
 </project-private>
