@@ -566,3 +566,14 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 --SELECT * FROM hoadon
 --SELECT * FROM khuyenmai
 --SELECT * FROM thuoc
+--SELECT * FROM nhanvien
+--SELECT * FROM phanquyen
+
+insert into taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) values('nvhieu', 'password', 3, 'Q1')
+insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
+('Q1', 'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
+('Q2', 'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
+('Q3', 'Nhân viên bán thuốc', 'qlBanThuoc xemThuoc xemLoaiThuoc xemHoaDon xemNhanVien xemKhachHang'),
+('Q5', 'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC'),
+('Q4', 'Phụ bán thuốc', 'qlBanThuoc xemThuoc xemKhuyenMai xemKhachHang');
+
