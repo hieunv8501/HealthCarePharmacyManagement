@@ -42,7 +42,7 @@ public class DBConnection {
     // Kết nối tới DB
     public void connectToDatabase() {
         try {
-            String databaseURL = "jdbc:sqlserver://"+ ipAddress + ";databaseName=" + databaseName + ";encrypt=true;trustServerCertificate=true;integratedSecurity=true;";     
+            String databaseURL = "jdbc:sqlserver://"+ ipAddress + ";databaseName=" + databaseName + ";encrypt=true;trustServerCertificate=true;";     
             conn = DriverManager.getConnection(databaseURL, username, password);
             stmt = conn.createStatement();
             countConection++;
