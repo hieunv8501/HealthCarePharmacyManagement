@@ -121,7 +121,5 @@ public class HoadonController {
         }
     }
 
-    public static void main(String[] args) {
-        HoadonController HD = new HoadonController();
-    }
+
 }

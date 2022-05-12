@@ -79,12 +79,5 @@ public class KhuyenmaiController {
         }
     }
 
-    public static void main(String[] args) {
-        KhuyenmaiController KM = new KhuyenmaiController();
-        Calendar cld = Calendar.getInstance();
 
-        Khuyenmai km = new Khuyenmai("ABC", "ABC", 10000, 20, cld, cld, false);
-
-        KM.xoaMaKhuyenmai("ABC");
-    }
 }
