@@ -72,10 +72,14 @@ public class DBConnection {
             if (stmt != null) {
                 stmt.close();
             }
-            System.out.println("SUCCESSFULLY DISCONNECTED TO '" + databaseName + ".\n");
+            System.out.println("SUCCESSFULLY DISCONNECTED TO '" + databaseName + "'.\n");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "-- ERROR! CAN'T CLOSE CONNECTION TO DATABASE: " + databaseName + "\n" + ex.getLocalizedMessage());
         }
+    }
+
+    public Connection getConn() {
+        return conn;
     }
     
      // check kết nối
@@ -110,4 +114,5 @@ public class DBConnection {
         }
         return null;
     }
+
 }

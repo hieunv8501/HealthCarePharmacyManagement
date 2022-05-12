@@ -548,7 +548,7 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 
 --DELETE chitietphieunhap WHERE MaPhieuNhap = 1 AND MaThuoc = 3
 
---INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '22/04/2022')
+--INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '2022/04/22')
 
 --INSERT INTO khuyenmai (MaKhuyenMai, PhanTramKhuyenMai) VALUES (1, 10)
 
@@ -568,6 +568,8 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 --SELECT * FROM thuoc
 --SELECT * FROM nhanvien
 --SELECT * FROM phanquyen
+
+delete  from hoadon
 
 insert into taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) values('nvhieu', 'password', 3, 'Q1')
 insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
