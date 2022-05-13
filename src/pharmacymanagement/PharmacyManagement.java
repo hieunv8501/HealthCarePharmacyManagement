@@ -1,10 +1,17 @@
 package pharmacymanagement;
 
-import DBConnection.DBConnection;
+import Views.LoginForm;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class PharmacyManagement {
-
+    
     public static void main(String[] args) {
-            //DBConnection db = new DBConnection();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+        }
+        new LoginForm().setVisible(true);
     }
 }

@@ -48,14 +48,6 @@ public class DBConnection {
             countConection++;
             System.out.println("Code status " + countConection + ": SUCCESSFULLY CONNECTED TO DATABASE: '" + databaseName + "'");
             System.out.println("------------------------------------------------------------------------------------");
-            //chỉnh sửa hoặc xóa mã nguồn 6 dòng tiếp dưới sau đây ở các controller cho phù hợp
-            String tableName = "huyen";
-            System.out.println("Dữ liệu truy xuất từ bảng " + tableName + ":");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
-            while (rs.next()) {
-                System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3) + "  " + rs.getInt(4));
-            }          
-            //JOptionPane.showMessageDialog(null, "-- SUCCESSFULLY CONNECTED to database: '" + databaseName + "'");
         } catch (SQLException ex) {
             //System.err.println("-- ERROR! Can't connect to database: '" + databaseName + "'");
             JOptionPane.showMessageDialog(null, "-- ERROR! CAN'T CONNECT TO DATABASE: '" + databaseName + "'");
@@ -72,14 +64,10 @@ public class DBConnection {
             if (stmt != null) {
                 stmt.close();
             }
-            System.out.println("SUCCESSFULLY DISCONNECTED TO '" + databaseName + "'.\n");
+            System.out.println("SUCCESSFULLY DISCONNECTED TO '" + databaseName + ".\n");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "-- ERROR! CAN'T CLOSE CONNECTION TO DATABASE: " + databaseName + "\n" + ex.getLocalizedMessage());
         }
-    }
-
-    public Connection getConn() {
-        return conn;
     }
     
      // check kết nối
@@ -104,15 +92,31 @@ public class DBConnection {
             try {
                 resultSet = stmt.executeQuery(query);
                 countQuery++;
-                System.out.println(countQuery + ": Success Query! " + query);
+                System.out.println(countQuery + ": Query Successfully Made: " + query);
                 return resultSet;
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "-- ERROR! CAN'T GET DATA FROM " + databaseName + "\n" + ex.getLocalizedMessage());
+                JOptionPane.showMessageDialog(null, "-- ERROR! Không thể đọc dữ liệu từ " + databaseName + "\n" + ex.getLocalizedMessage());
                 return null;
             }
         }
         return null;
     }
+    
+    // update/delete data theo câu update
+    public Boolean sqlUpdate(String qry) {
+        if (checkConnection()) {
+            try {
+                stmt.executeUpdate(qry);
+                countUpdate++;
+                System.out.println(countUpdate + ": Successfully Updated! " + qry);
+                return true;
 
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "-- ERROR! Không thể ghi dữ liệu xuống " + databaseName + "\n" + ex.getLocalizedMessage());
+                return false;
+            }
+        }
+        return false;
+    }
 }

@@ -11,7 +11,6 @@ import java.util.Calendar;
  * @author TinhBui
  */
 public class Hoadon {
-
     private int maHoadon;
     private int maNhanvien;
     private int maKhachhang;
@@ -28,21 +27,6 @@ public class Hoadon {
         this.ngayLap = ngayLap;
         this.tongTien = tongTien;
         this.daXoa = daXoa;
-    }
-
-    public Hoadon(int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
-        this.maNhanvien = maNhanvien;
-        this.maKhachhang = maKhachhang;
-        this.maKhuyenmai = maKhuyenmai;
-        this.ngayLap = ngayLap;
-    }
-
-    public Hoadon(int maHoadon, int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
-        this.maHoadon = maHoadon;
-        this.maNhanvien = maNhanvien;
-        this.maKhachhang = maKhachhang;
-        this.maKhuyenmai = maKhuyenmai;
-        this.ngayLap = ngayLap;
     }
 
     public int getMaHoadon() {
@@ -100,5 +84,6 @@ public class Hoadon {
     public void setDaXoa(boolean daXoa) {
         this.daXoa = daXoa;
     }
-
+    
+    
 }

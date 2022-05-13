@@ -19,9 +19,6 @@ public class Khuyenmai {
     private Calendar ngayKetthuc;
     private boolean daXoa;
 
-    public Khuyenmai(){
-        
-    }
     public Khuyenmai(String maKhuyenmai, String tenKhuyenmai, float dieukienKhuyenmai, float phantramKhuyenmai, Calendar ngayBatdau, Calendar ngayKetthuc, boolean daXoa) {
         this.maKhuyenmai = maKhuyenmai;
         this.tenKhuyenmai = tenKhuyenmai;
