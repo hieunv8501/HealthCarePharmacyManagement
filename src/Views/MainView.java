@@ -472,13 +472,11 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //        //Menu sidebar items
 //        String[] navItemInfo = {
 //            "seperate", "1", "", "",
-//            "Bán hàng", "icons8_small_business_30px_3.png", "qlBanHang", "qlBanHang",
-//            "Nhập hàng", "icons8_downloads_30px.png", "qlNhapHang", "qlNhapHang",
+//            "Bán thuốc", "icons8_small_business_30px_3.png", "qlBanThuoc", "qlBanThuoc",
+//            "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
 //            "seperate", "1", "", "",
-//            "Sản phẩm", "icons8_multiple_smartphones_30px.png", "xemSanPham", "qlSanPham",
-//            "Loại sản phẩm", "icons8_dossier_folder_30px.png", "xemLoaiSanPham", "qlLoaiSanPham",
-//            "Hóa đơn", "icons8_agreement_30px.png", "xemHoaDon", "qlHoaDon",
-//            "Phiếu nhập", "icons8_truck_30px.png", "xemPheuNhap", "qlPhieuNhap",
+//            "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
+//            "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
 //            "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
 //            "seperate", "1", "", "",
 //            "Nhân viên", "icons8_assistant_30px.png", "xemNhanVien", "qlNhanVien",
