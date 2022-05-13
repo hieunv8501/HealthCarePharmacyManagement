@@ -567,15 +567,18 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 --SELECT * FROM khuyenmai
 --SELECT * FROM thuoc
 --SELECT * FROM nhanvien
+--SELECT * FROM taikhoan
 --SELECT * FROM phanquyen
 
-delete  from hoadon
-
-insert into taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) values('nvhieu', 'password', 3, 'Q1')
+select * from phanquyen
+insert into taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) values('hieunv8501', 'password', 1, 'Q1')
 insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
 ('Q2', N'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
 ('Q3', N'Nhân viên bán thuốc', 'qlBanThuoc xemThuoc xemLoaiThuoc xemHoaDon xemNhanVien xemKhachHang'),
 ('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC'),
 ('Q4', N'Phụ bán thuốc', 'qlBanThuoc xemThuoc xemKhuyenMai xemKhachHang');
+update taikhoan
+set TenTaiKhoan = '1', MatKhau = '1'
+where TenTaiKhoan = 'hieunv8501'
 
