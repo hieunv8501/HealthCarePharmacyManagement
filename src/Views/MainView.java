@@ -42,7 +42,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
     private Point dragStartPoint = new Point(0,0);      
-    private Point startLocation = new Point(0,0); 
+    private Point startLocation = new Point(0,0);
     private Point precedentLocation;
     private int precedentWidth;
     private int precedentHeight;
@@ -52,18 +52,19 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     private Point initialLocation;
     int cursorArea = 5;  
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();  
-    private final int DIFF_MIN_WIDTH = 5;
-    private final int DIFF_MIN_HEIGHT = 5;
+    private final int DIFF_MIN_WIDTH = 30;
+    private final int DIFF_MIN_HEIGHT = 30;
     
     public MainView(Dimension initialDimension, Point initialLocation) {
         this.initialLocation = initialLocation;
         minWidth = (int)initialDimension.getWidth();
-        minHeight = (int)initialDimension.getHeight()+10;      
+        minHeight = (int)initialDimension.getHeight() + 10;      
         
         setLocation(initialLocation);        
         setLayout(new BorderLayout());
         //setSize(WIDTH, HEIGHT);
-        this.setSize(minWidth, minHeight);    
+        this.setSize(minWidth, minHeight); 
+        //Title d.app
         setTitle("Quản Lý Nhà Thuốc Healthcare Pharmacy");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -101,17 +102,19 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         menu = new SidebarContainer(new Rectangle(0, 0, menuW, minHeight));
         //menu.addItem(new SidebarTitle(new Rectangle(0, 0, 0, 55), "CHỨC NĂNG"));
         for (int i = 0; i < navItemInfo.length; i += 4) {
+            //thanh seperation
             if (navItemInfo[i].equals("seperate")) {
                 SidebarSeperator s = new SidebarSeperator(new Rectangle(0, 0, 1, Integer.parseInt(navItemInfo[i + 1])));
                 menu.addItem(s);
 
             } else {
-
+                //cài đặt các tab sidebar
                 String chitietquyen = LoginForm.quyenLogin.getChitietQuyen();
                 if (chitietquyen.contains(navItemInfo[i + 2]) || chitietquyen.contains(navItemInfo[i + 3])) {
-                    SidebarButton nb = new SidebarButton(new Rectangle(0, 0, 0, 46), navItemInfo[i], navItemInfo[i + 1]);
-                    nb.addMouseListener(this);
-                    menu.addItem(nb);
+                    SidebarButton sb = new SidebarButton(new Rectangle(0, 0, 0, 46), navItemInfo[i], navItemInfo[i + 1]);
+                    sb.addMouseListener(this);
+                    sb.setToolTipText("Quản lý " + navItemInfo[i].toString());
+                    menu.addItem(sb);
                     menuH += 46;
                 }
             }
@@ -120,16 +123,18 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         //https://stackoverflow.com/questions/1385737/scrollable-jpanel
         //https://stackoverflow.com/questions/5590242/how-to-hide-the-jscrollbars-in-a-jscrollpane
         //https://stackoverflow.com/questions/5583495/how-do-i-speed-up-the-scroll-speed-in-a-jscrollpane-when-using-the-mouse-wheel
+        
+        //cài đặt JScrollPane
         JScrollPane scrollMenu = new JScrollPane(menu, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         menu.setAutoscrolls(true);
-        menu.setPreferredSize(new Dimension(menuW, menuH + 90));
+        menu.setPreferredSize(new Dimension(menuW, menuH));
         scrollMenu.setPreferredSize(new Dimension(menuW, minHeight));
         scrollMenu.setBorder(BorderFactory.createEmptyBorder());
         scrollMenu.getVerticalScrollBar().setUnitIncrement(5);
 
         //Sidebar header title
         int headerBg = 30;
-        int headerH = 40;
+        int headerH = 35;
         header = new SidebarContainer(new Rectangle(0, 0, minWidth, headerH));
         header.setBackground(new Color(35, 35, 112));
 
@@ -140,14 +145,14 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         header.addItem(headerTitle, false);
 
         //Button thoát phần mềm quản lý
-        int btnWidth = 50;
-        int iconSize = 30;
-        SidebarButton btnClose = new SidebarButton(new Rectangle(minWidth - btnWidth, 0, btnWidth, headerH), "", "icons8_close_30px.png");
+        int btnWidth = 40;
+        int iconSize = 20;
+        SidebarButton btnClose = new SidebarButton(new Rectangle(minWidth - btnWidth, 0, btnWidth, headerH), "", "icons8_close_20px.png");
         btnClose.setIconLocation(new Rectangle((btnWidth - iconSize) / 2, (headerH - iconSize) / 2, iconSize, iconSize));
         btnClose.setBgDefault(new Color(35, 35, 112));        
         btnClose.setForeground(new Color(255, 255, 255));
         btnClose.setBgHover(new Color(190, 45, 45));
-        btnClose.setToolTipText("Thoát");
+        btnClose.setToolTipText("Close - Thoát phần mềm");
         btnClose.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
@@ -162,11 +167,11 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         header.addItem(btnClose, false);
 
         // Button thu nhỏ minimize
-        SidebarButton btnMinimize = new SidebarButton(new Rectangle(minWidth - btnWidth * 2, 0, btnWidth, headerH), "", "icons8_subtract_30px.png");
+        SidebarButton btnMinimize = new SidebarButton(new Rectangle(minWidth - btnWidth * 2, 0, btnWidth, headerH), "", "icons8_subtract_20px.png");
         btnMinimize.setIconLocation(new Rectangle((btnWidth - iconSize) / 2, (headerH - iconSize) / 2, iconSize, iconSize));
         btnMinimize.setBgDefault(new Color(35, 35, 112));
         btnMinimize.setBgHover(new Color(190, 49, 49));
-        btnMinimize.setToolTipText("Thu nhỏ");
+        btnMinimize.setToolTipText("Minimize - Tạm ẩn");
         btnMinimize.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
@@ -180,7 +185,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 
             String tenNhanVien = LoginForm.nhanVienLogin.getTenNhanvien();
 
-            SidebarButton btnLogout = new SidebarButton(new Rectangle(0, 0, menuW - btnWidth, headerH), tenNhanVien, "icons8_exit_30px.png");
+            SidebarButton btnLogout = new SidebarButton(new Rectangle(0, 0, menuW - btnWidth, headerH), tenNhanVien, "icons8_logout_20px.png");
             btnLogout.setBgDefault(new Color(35, 35, 112));
             btnLogout.setBgHover(new Color(190, 49, 49));
             btnLogout.relocate2();
@@ -194,11 +199,11 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             header.addItem(btnLogout, false);
 
             //Button cài đặt
-            SidebarButton btnSettingUser = new SidebarButton(new Rectangle(menuW - btnWidth, 0, btnWidth, headerH), "", "icons8_settings_30px_1.png");
+            SidebarButton btnSettingUser = new SidebarButton(new Rectangle(menuW - btnWidth, 0, btnWidth, headerH), "", "icons8_settings_20px.png");
             btnSettingUser.setIconLocation(new Rectangle((btnWidth - iconSize) / 2, (headerH - iconSize) / 2, iconSize, iconSize));
             btnSettingUser.setBgDefault(new Color(35, 35, 112));
             btnSettingUser.setBgHover(new Color(190, 49, 49));
-            btnSettingUser.setToolTipText("Tài khoản");
+            btnSettingUser.setToolTipText("Cài đặt tài khoản");
             btnSettingUser.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent me) {
@@ -222,7 +227,19 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 setLocation(getLocation().x + me.getX() - px, getLocation().y + me.getY() - py);
             }
         });
-
+        header.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {              
+                dragStartPoint = me.getLocationOnScreen();      
+                startLocation = getLocation();
+                if(getWidth() < screen.getWidth() || getHeight() < screen.getHeight())
+                {
+                    precedentLocation = getLocation(); 
+                    precedentWidth = getWidth();
+                    precedentHeight = getHeight();
+                }
+            }
+        });
         plContent.setLayout(new BorderLayout());
         plContent.add(new BeginForm("Xin chào " + LoginForm.nhanVienLogin.getTenNhanvien()+ " - " + LoginForm.nhanVienLogin.getMaNhanvien()), BorderLayout.CENTER);
 
@@ -336,7 +353,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     
     @Override
     public void mousePressed(MouseEvent me) {
-
+        
     }
 
     @Override
@@ -348,7 +365,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     public void mouseExited(MouseEvent me) {
 
     }
-    
+
     public static Point getScreenLocation(MouseEvent me, JFrame frame) 
     {
         Point cursor = me.getPoint();

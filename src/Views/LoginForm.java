@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -25,21 +27,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginForm extends JFrame{
+public class LoginForm extends JFrame {
 
     public LoginForm() {
         initComponents();
-        overlay.setBackground(new Color(0,0,0,150));
+        overlay.setBackground(new Color(0, 0, 0, 150));
         //btnDangNhap.setBackground(new Color(0,0,0,0));
-        btnExit.setBackground(new Color(0,0,0,0));
+        btnExit.setBackground(new Color(0, 0, 0, 0));
         this.setTitle("Đăng nhập");
         ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logo_login.png"));
         setIconImage(logo.getImage());
 
         this.setLocationRelativeTo(null);
-        
-        // add event Enter
+
+        // Thêm hotkey event enter
         KeyAdapter ka = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -48,11 +51,11 @@ public class LoginForm extends JFrame{
                 }
             }
         };
-        
+
         txtTenDangNhap.addKeyListener(ka);
         txtMatKhau.addKeyListener(ka);
 
-        // add auto select text on focus
+        // Thêm vào tự động chọn text khi focus
         // https://stackoverflow.com/questions/7361291/select-all-on-focus-in-lots-of-jtextfield
         FocusListener fl = new FocusListener() {
             @Override
@@ -63,9 +66,8 @@ public class LoginForm extends JFrame{
 
                 } else if (fe.getSource() instanceof JPasswordField) {
                     JPasswordField tx = (JPasswordField) fe.getSource();
-                    tx.select(0, tx.getText().length());
+                    tx.select(0, tx.getPassword().length);
                 }
-
             }
 
             @Override
@@ -73,7 +75,6 @@ public class LoginForm extends JFrame{
                 if (fe.getSource() instanceof JTextField) {
                     JTextField tx = (JTextField) fe.getSource();
                     tx.select(0, 0);
-
                 } else if (fe.getSource() instanceof JPasswordField) {
                     JPasswordField tx = (JPasswordField) fe.getSource();
                     tx.select(0, 0);
@@ -83,24 +84,22 @@ public class LoginForm extends JFrame{
         txtTenDangNhap.addFocusListener(fl);
         txtMatKhau.addFocusListener(fl);
 
-        // auto focus to tenDangNhap
+        // Tự động focus vào tên đăng nhập
         txtTenDangNhap.requestFocus();
 
-        // check lần đăng nhập cũ
-//        String text = new WorkWithFile(saveFileName).read();
-//        if (!text.equals("")) {
-//            try {
-//                txTenDangNhap.setText(text.split(" ")[0]);
-//                txMatKhau.setText(text.split(" ")[1]);
-//                rbNhoMatKhau.setSelected(true);
-//
-//            } catch (Exception e) {
-//                JOptionPane.showMessageDialog(null, "Lỗi Giữ đăng nhập");
-//            }
-//        }
-
+        // Kiểm tra lần đăng nhập cũ
+        String text = new ExcelOperation(saveFileName).read();
+        if (!text.equals("")) {
+            try {
+                txtTenDangNhap.setText(text.split(" ")[0]);
+                txtMatKhau.setText(text.split(" ")[1]);
+                rbNhoMatKhau.setSelected(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi nhớ mật khẩu");
+            }
+        }
     }
-      
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -312,15 +311,15 @@ public class LoginForm extends JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTenDangNhapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhapKeyPressed
-       
+
     }//GEN-LAST:event_txtTenDangNhapKeyPressed
 
     private void txtTenDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDangNhapActionPerformed
-        
+
     }//GEN-LAST:event_txtTenDangNhapActionPerformed
 
     private void txtMatKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauKeyPressed
-        
+
     }//GEN-LAST:event_txtMatKhauKeyPressed
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
@@ -328,12 +327,12 @@ public class LoginForm extends JFrame{
     }//GEN-LAST:event_btnExitMouseClicked
 
     private void btnDangKyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKyMouseClicked
-        
+        JOptionPane.showMessageDialog(this, "Bạn không có quyền đăng ký tài khoản!");
     }//GEN-LAST:event_btnDangKyMouseClicked
-    
+
     //mouse hover for button DangKy
     private void btnDangKyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKyMouseEntered
-        btnDangKy.setForeground(new Color(102,102,255));
+        btnDangKy.setForeground(new Color(102, 102, 255));
     }//GEN-LAST:event_btnDangKyMouseEntered
     //mouse unhover for button DangKy
     private void btnDangKyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKyMouseExited
@@ -341,61 +340,66 @@ public class LoginForm extends JFrame{
     }//GEN-LAST:event_btnDangKyMouseExited
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
+
         String tentk = txtTenDangNhap.getText();
-        String mk = txtMatKhau.getText();
         TaikhoanController taikhoanCtrl = new TaikhoanController();
         Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
-        
+
         if (tk != null) {
-            // check xem nhân viên của tài khoản này có bị khóa (Ẩn) hay không
+            // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
             Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
             if (nv.isDaXoa() == true) {
-                JOptionPane.showMessageDialog(this, "Tài khoản này đã bị khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
+                JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
                 return;
             }
 
-            // check password
-            if (tk.getMatkhau().equals(mk)) {
-                taiKhoanLogin = tk;
-                nhanVienLogin = nv;
-                quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
+            //Default max rounds for hashing password toleration:
+            var password = txtMatKhau.getPassword();
+            if (password.length != 0) {               
+                if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
+                    taiKhoanLogin = tk;
+                    nhanVienLogin = nv;
+                    quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
 
-                // Đăng nhập thành công
-                if (rbNhoMatKhau.isSelected()) {
-                    // nếu giữ đăng nhập thì lưu tài khoản đăng nhập vào file
-                    new ExcelOperation(saveFileName).write(taiKhoanLogin.getTaikhoan()+ " " + taiKhoanLogin.getMatkhau());
+                    // Đăng nhập thành công
+                    if (rbNhoMatKhau.isSelected()) {
+                        // Nếu nhớ tài khoản thì lưu tài khoản đăng nhập vào file storage
+                        new ExcelOperation(saveFileName).write(taiKhoanLogin.getTaikhoan() + " " + taiKhoanLogin.getMatkhau());
+                    } else {
+                        // Nếu không thì xóa mọi dữ liệu trong file storage
+                        new ExcelOperation(saveFileName).write("");
+                    }
+
+                    // Khởi tạo một layout mainView mới               
+                    // Mainview with resize, status: testing
+                    Toolkit toolkit = Toolkit.getDefaultToolkit();
+                    int frameWidth = 1500;
+                    int frameHeight = 800;
+                    Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
+                    Dimension initialDimension = new Dimension(frameWidth, frameHeight);
+                    MainView mainView = new MainView(initialDimension, initialLocation);
+
+                    JPanel viewContainer = (JPanel) mainView.getContentPane();
+                    JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
+                    headerPanel.setPreferredSize(new Dimension(frameWidth, 35));
+                    headerPanel.addMouseListener(mainView);
+                    headerPanel.addMouseMotionListener(mainView);
+                    viewContainer.add(headerPanel, BorderLayout.NORTH);
+                    mainView.setVisible(true);
+
+                    //MainView withour resizing - to select/ uncomment 2 lines belows this line & uncomment another codes from MainView class
+                    //new MainView().setVisible(true);
+                    //this.dispose();
                 } else {
-                    // nếu không thì xóa mọi dữ liệu trong file
-                    new ExcelOperation(saveFileName).write("");
+                    JOptionPane.showMessageDialog(this, "Sai mật khẩu, xin lời nhập lại!");
+                    txtMatKhau.requestFocus();
                 }
-                
-                // Khởi tạo một layout mainView mới               
-                // Mainview with resize testing
-                Toolkit toolkit =  Toolkit.getDefaultToolkit ();
-                int frameWidth = 1500;
-                int frameHeight = 800;          
-                Point initialLocation = new Point((int)toolkit.getScreenSize().getWidth()/2 - frameWidth/2, (int)toolkit.getScreenSize().getHeight()/2 - frameHeight/2);
-                Dimension initialDimension = new Dimension(frameWidth, frameHeight);
-                MainView mainView = new MainView(initialDimension, initialLocation);
-//                JPanel viewContainer= (JPanel)mainView.getContentPane();
-//                JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));  
-//               headerPanel.setPreferredSize(new Dimension(frameWidth, 55));      
-//                headerPanel.addMouseListener(mainView);
-//                headerPanel.addMouseMotionListener(mainView);
-//                viewContainer.add(headerPanel, BorderLayout.NORTH);
-                mainView.setVisible(true);
-                
-                //MainView withour resizing
-                //new MainView().setVisible(true);
-                this.dispose();
-            } 
-            else{
-                JOptionPane.showMessageDialog(this, "Sai mật khẩu!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Không được để trống mật khẩu!");
                 txtMatKhau.requestFocus();
             }
-
         } else {
-            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập!");
+            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập, mời nhập lại!");
             txtTenDangNhap.requestFocus();
         }
     }//GEN-LAST:event_btnDangNhapActionPerformed
