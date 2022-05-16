@@ -19,6 +19,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -41,7 +42,7 @@ public class LoginForm extends JFrame {
         setIconImage(logo.getImage());
 
         this.setLocationRelativeTo(null);
-
+        //String alertStringLabel = "";
         // Thêm hotkey event enter
         KeyAdapter ka = new KeyAdapter() {
             @Override
@@ -87,7 +88,7 @@ public class LoginForm extends JFrame {
         // Tự động focus vào tên đăng nhập
         txtTenDangNhap.requestFocus();
 
-        // Kiểm tra lần đăng nhập cũ
+        // Kiểm tra lần đăng nhập cũ (nhớ mật khẩu)
         String text = new ExcelOperation(saveFileName).read();
         if (!text.equals("")) {
             try {
@@ -98,6 +99,69 @@ public class LoginForm extends JFrame {
                 JOptionPane.showMessageDialog(null, "Lỗi nhớ mật khẩu");
             }
         }
+        txtTenDangNhap.addKeyListener(new KeyListener() {
+            String username = "";
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {              
+                username = txtTenDangNhap.getText();
+                if (username.isEmpty()) {
+                    jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");     
+                    txtTenDangNhap.requestFocus();
+                }
+                else if (username.length() >= 6) {
+                    jlblVerifyUsername.setText("");
+                    if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) jlblVerifyUsername.setText("");
+                    else {
+                        if (countSpecialChars(username) >= 2) jlblVerifyUsername.setText("Tên tài khoản không được chứa quá 2 ký tự đặc biệt!");
+                        else if (hasAnImproperChar(username) == true) jlblVerifyUsername.setText("Tên tài khoản không được chứa các ký tự lạ!");
+                        else if (username.contains(" ")) jlblVerifyUsername.setText("Tên tài khoản không được chứa ký tự trắng!");
+                    }
+                }
+                else {
+                    jlblVerifyUsername.setText("Tên tài khoản quá ngắn, cần ít nhất 6 ký tự!");
+                }
+            }
+        });
+        txtMatKhau.addKeyListener(new KeyListener() {
+            char[] password;
+            @Override
+            public void keyPressed(KeyEvent e) {              
+            }
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {              
+                password = txtMatKhau.getPassword();               
+                System.out.println();
+                if (password.length == 0) {
+                    jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");     
+                    txtMatKhau.requestFocus();
+                }
+                else if (String.valueOf(password).length() >= 6) {
+                    jlblVerifyPwd.setText("");
+                    if (hasADigit(String.valueOf(password)) && hasALowerChar(String.valueOf(password)) && hasAnUpperChar(String.valueOf(password)) && hasASpecialChar(String.valueOf(password)) && (hasAnImproperChar(String.valueOf(password)) == false) && !String.valueOf(password).contains(" ")) jlblVerifyPwd.setText("");
+                    else {
+                        if (String.valueOf(password).contains(" ") == true) jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự trắng!");
+                        else if (hasADigit(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự số!");                        
+                        else if (hasALowerChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự thường!");                        
+                        else if (hasAnUpperChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự hoa!");
+                        else if (hasAnImproperChar(String.valueOf(password)) == true) jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự lạ!");                        
+                        else if (hasASpecialChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!");
+                    }
+                }
+                else {
+                    jlblVerifyPwd.setText("Mật khẩu quá ngắn, cần ít nhất 6 ký tự!");
+                }            
+            }
+        });
+             
     }
 
     /**
@@ -120,6 +184,8 @@ public class LoginForm extends JFrame {
         btnExit = new javax.swing.JPanel();
         btnCloseLogin = new javax.swing.JLabel();
         btnDangKy = new javax.swing.JLabel();
+        jlblVerifyPwd = new javax.swing.JLabel();
+        jlblVerifyUsername = new javax.swing.JLabel();
         rbNhoMatKhau = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -146,6 +212,13 @@ public class LoginForm extends JFrame {
         txtMatKhau.setCaretColor(new java.awt.Color(255, 255, 255));
         txtMatKhau.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txtMatKhau.setOpaque(false);
+        txtMatKhau.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtMatKhauInputMethodTextChanged(evt);
+            }
+        });
         txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMatKhauActionPerformed(evt);
@@ -156,7 +229,7 @@ public class LoginForm extends JFrame {
                 txtMatKhauKeyPressed(evt);
             }
         });
-        loginBox.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, 258, 30));
+        loginBox.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 345, 258, 30));
 
         txtTenDangNhap.setBackground(new java.awt.Color(240, 240, 240));
         txtTenDangNhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -166,6 +239,13 @@ public class LoginForm extends JFrame {
         txtTenDangNhap.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txtTenDangNhap.setDragEnabled(true);
         txtTenDangNhap.setOpaque(false);
+        txtTenDangNhap.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtTenDangNhapInputMethodTextChanged(evt);
+            }
+        });
         txtTenDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTenDangNhapActionPerformed(evt);
@@ -176,22 +256,22 @@ public class LoginForm extends JFrame {
                 txtTenDangNhapKeyPressed(evt);
             }
         });
-        loginBox.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 258, 30));
+        loginBox.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 255, 258, 30));
 
         jLabel4.setBackground(new java.awt.Color(51, 51, 51));
         jLabel4.setFont(new java.awt.Font("UTM Bebas", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Dashboard Login");
-        loginBox.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+        loginBox.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Username");
-        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, -1, -1));
+        jLabel3.setText("Tài khoản");
+        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Password");
+        jLabel8.setText("Mật khẩu");
         loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, -1, -1));
 
         btnDangNhap.setBackground(new java.awt.Color(102, 102, 255));
@@ -209,7 +289,7 @@ public class LoginForm extends JFrame {
                 btnDangNhapActionPerformed(evt);
             }
         });
-        loginBox.add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, -1, 36));
+        loginBox.add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 435, -1, 36));
 
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -253,13 +333,23 @@ public class LoginForm extends JFrame {
         });
         loginBox.add(btnDangKy, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 480, 125, -1));
 
+        jlblVerifyPwd.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jlblVerifyPwd.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(jlblVerifyPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 378, 350, 25));
+        jlblVerifyPwd.getAccessibleContext().setAccessibleName("");
+
+        jlblVerifyUsername.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jlblVerifyUsername.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(jlblVerifyUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 288, 350, 25));
+        jlblVerifyUsername.getAccessibleContext().setAccessibleName("");
+
         rbNhoMatKhau.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rbNhoMatKhau.setForeground(new java.awt.Color(255, 255, 255));
         rbNhoMatKhau.setText("Nhớ mật khẩu");
         rbNhoMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         rbNhoMatKhau.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         rbNhoMatKhau.setOpaque(false);
-        loginBox.add(rbNhoMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 390, -1, -1));
+        loginBox.add(rbNhoMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 400, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_login.png"))); // NOI18N
         loginBox.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 160));
@@ -340,74 +430,153 @@ public class LoginForm extends JFrame {
     }//GEN-LAST:event_btnDangKyMouseExited
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-
+        //Khởi tạo đối tượng và dẫn nhập từ bàn phím
         String tentk = txtTenDangNhap.getText();
-        TaikhoanController taikhoanCtrl = new TaikhoanController();
-        Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
+        var mk = txtMatKhau.getPassword();
+        if (tentk.isEmpty() && mk.length == 0) {
+            jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");            
+            jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");
+            txtTenDangNhap.requestFocus();
+            return;
+        }
+        else if (tentk.length() >= 6 && mk.length == 0) {
+            jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");            
+            jlblVerifyUsername.setText("");
+            txtMatKhau.requestFocus();
+            return;
+        }
+        else if (mk.length >= 6 && tentk.isEmpty()){
+            jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");            
+            jlblVerifyPwd.setText("");
+            txtTenDangNhap.requestFocus();
+            return;
+        }
+        else {
+            jlblVerifyUsername.setText("");
+            jlblVerifyPwd.setText("");
+            TaikhoanController taikhoanCtrl = new TaikhoanController();
+            Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
+            
+            //Kiểm tra xem có tồn tại tên tài khoản như này không
+            if (tk != null) {
+                // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
+                Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
+                if (nv.isDaXoa() == true) {
+                    JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
+                    return;
+                }
 
-        if (tk != null) {
-            // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
-            Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
-            if (nv.isDaXoa() == true) {
-                JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
-                return;
-            }
+                //Default max rounds for hashing password toleration:
+                var password = txtMatKhau.getPassword();
+                if (password.length != 0) {              
+                    if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
+                        taiKhoanLogin = tk;
+                        nhanVienLogin = nv;
+                        quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
 
-            //Default max rounds for hashing password toleration:
-            var password = txtMatKhau.getPassword();
-            if (password.length != 0) {               
-                if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
-                    taiKhoanLogin = tk;
-                    nhanVienLogin = nv;
-                    quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
+                        // Đăng nhập thành công
+                        if (rbNhoMatKhau.isSelected()) {
+                            // Nếu nhớ tài khoản thì lưu tài khoản đăng nhập vào file storage
+                            new ExcelOperation(saveFileName).write(taiKhoanLogin.getTaikhoan() + " " + taiKhoanLogin.getMatkhau());
+                        } else {
+                            // Nếu không thì xóa mọi dữ liệu trong file storage
+                            new ExcelOperation(saveFileName).write("");
+                        }
 
-                    // Đăng nhập thành công
-                    if (rbNhoMatKhau.isSelected()) {
-                        // Nếu nhớ tài khoản thì lưu tài khoản đăng nhập vào file storage
-                        new ExcelOperation(saveFileName).write(taiKhoanLogin.getTaikhoan() + " " + taiKhoanLogin.getMatkhau());
+                        // Khởi tạo một layout mainView mới               
+                        // Mainview with resize, status: testing
+                        Toolkit toolkit = Toolkit.getDefaultToolkit();
+                        int frameWidth = 1500;
+                        int frameHeight = 800;
+                        Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
+                        Dimension initialDimension = new Dimension(frameWidth, frameHeight);
+                        MainView mainView = new MainView(initialDimension, initialLocation);
+
+                        JPanel viewContainer = (JPanel) mainView.getContentPane();
+                        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
+                        headerPanel.setPreferredSize(new Dimension(frameWidth, 35));
+                        headerPanel.addMouseListener(mainView);
+                        headerPanel.addMouseMotionListener(mainView);
+                        viewContainer.add(headerPanel, BorderLayout.NORTH);
+                        mainView.setVisible(true);
+
+                        //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class
+                        //new MainView().setVisible(true);
+                        //this.dispose();
                     } else {
-                        // Nếu không thì xóa mọi dữ liệu trong file storage
-                        new ExcelOperation(saveFileName).write("");
+                        jlblVerifyPwd.setText("Mật khẩu không đúng!");
+                        txtMatKhau.requestFocus();
                     }
-
-                    // Khởi tạo một layout mainView mới               
-                    // Mainview with resize, status: testing
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
-                    int frameWidth = 1500;
-                    int frameHeight = 800;
-                    Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
-                    Dimension initialDimension = new Dimension(frameWidth, frameHeight);
-                    MainView mainView = new MainView(initialDimension, initialLocation);
-
-                    JPanel viewContainer = (JPanel) mainView.getContentPane();
-                    JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
-                    headerPanel.setPreferredSize(new Dimension(frameWidth, 35));
-                    headerPanel.addMouseListener(mainView);
-                    headerPanel.addMouseMotionListener(mainView);
-                    viewContainer.add(headerPanel, BorderLayout.NORTH);
-                    mainView.setVisible(true);
-
-                    //MainView withour resizing - to select/ uncomment 2 lines belows this line & uncomment another codes from MainView class
-                    //new MainView().setVisible(true);
-                    //this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Sai mật khẩu, xin lời nhập lại!");
+                    jlblVerifyPwd.setText("Không được để trống mật khẩu!");
                     txtMatKhau.requestFocus();
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Không được để trống mật khẩu!");
-                txtMatKhau.requestFocus();
+                jlblVerifyUsername.setText("Tài khoản vừa nhập không tồn tại!");
+                txtTenDangNhap.requestFocus();
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập, mời nhập lại!");
-            txtTenDangNhap.requestFocus();
         }
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMatKhauActionPerformed
+    
+    private void txtMatKhauInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtMatKhauInputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMatKhauInputMethodTextChanged
 
+    private void txtTenDangNhapInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtTenDangNhapInputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenDangNhapInputMethodTextChanged
+    
+    private boolean hasADigit(String password){   
+        for(int i = 0; i < password.length(); i++){
+            if (password.charAt(i) >= 48 && password.charAt(i) <= 57) return true;
+        }
+        return false;
+    }
+    private boolean hasALowerChar(String password){   
+        for(int i = 0; i < password.length(); i++){
+            if (password.charAt(i) >= 97 && password.charAt(i) <= 122) return true;
+        }
+        return false;
+    }
+    private boolean hasAnUpperChar(String password){   
+        for(int i = 0; i < password.length(); i++){
+            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) return true;
+        }
+        return false;
+    }
+    private boolean hasASpecialChar(String password){   
+        for(int i = 0; i < password.length(); i++){
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
+                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
+                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
+                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
+            return true;
+        }
+        return false;
+    }
+    private int countSpecialChars(String password){ 
+        int count = 0;
+        for(int i = 0; i < password.length(); i++){
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
+                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
+                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
+                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
+            count++;
+        }
+        return count;
+    }
+    private boolean hasAnImproperChar(String password){   
+        for(int i = 0; i < password.length(); i++){
+            if (password.charAt(i) < 32 || password.charAt(i) > 126) return true;
+        }
+        return false;
+    }
+    //Function check valid 
+    //Static properties
     public static String saveFileName = "temp";
     public static Quyen quyenLogin;
     public static Nhanvien nhanVienLogin;
@@ -429,6 +598,8 @@ public class LoginForm extends JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel jlblVerifyPwd;
+    private javax.swing.JLabel jlblVerifyUsername;
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;
     private javax.swing.JRadioButton rbNhoMatKhau;

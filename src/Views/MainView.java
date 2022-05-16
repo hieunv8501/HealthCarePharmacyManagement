@@ -102,13 +102,13 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         menu = new SidebarContainer(new Rectangle(0, 0, menuW, minHeight));
         //menu.addItem(new SidebarTitle(new Rectangle(0, 0, 0, 55), "CHỨC NĂNG"));
         for (int i = 0; i < navItemInfo.length; i += 4) {
-            //thanh seperation
+            //Thanh ngăn cách
             if (navItemInfo[i].equals("seperate")) {
                 SidebarSeperator s = new SidebarSeperator(new Rectangle(0, 0, 1, Integer.parseInt(navItemInfo[i + 1])));
                 menu.addItem(s);
 
             } else {
-                //cài đặt các tab sidebar
+                //cài đặt các tab ở sidebar
                 String chitietquyen = LoginForm.quyenLogin.getChitietQuyen();
                 if (chitietquyen.contains(navItemInfo[i + 2]) || chitietquyen.contains(navItemInfo[i + 3])) {
                     SidebarButton sb = new SidebarButton(new Rectangle(0, 0, 0, 46), navItemInfo[i], navItemInfo[i + 1]);
@@ -198,7 +198,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             });
             header.addItem(btnLogout, false);
 
-            //Button cài đặt
+            //Button cài đặt tài khoản
             SidebarButton btnSettingUser = new SidebarButton(new Rectangle(menuW - btnWidth, 0, btnWidth, headerH), "", "icons8_settings_20px.png");
             btnSettingUser.setIconLocation(new Rectangle((btnWidth - iconSize) / 2, (headerH - iconSize) / 2, iconSize, iconSize));
             btnSettingUser.setBgDefault(new Color(35, 35, 112));
@@ -248,7 +248,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         add(header, BorderLayout.NORTH);
         add(plContent, BorderLayout.CENTER);
         
-        //Function hỗ trợ resize
+        //Function hỗ trợ resize :(
         minWidth -= DIFF_MIN_WIDTH;
         minHeight -= DIFF_MIN_HEIGHT;
         addMouseMotionListener(this);      
@@ -273,6 +273,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     //Func to show sidebar content
     public void doAction(String nameAction) {
         plContent.removeAll();
+        //Đi tới các trang
         switch (nameAction) {     
             case "Công cụ":
                 emptypage.setLabelText("Công cụ đang bảo trì");
@@ -286,7 +287,8 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         }
         headerTitle.setLabel(nameAction.toUpperCase());
         // https://stackoverflow.com/questions/12989388/switching-panels-with-menubar
-        revalidate();//refresh ui and layout
+        
+        revalidate();//Refresh UI và Layout
         repaint();
     }
 
@@ -312,21 +314,21 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         int xPos = cursorLocation.x;         
         int yPos = cursorLocation.y;      
                
-        if(xPos >= cursorArea && xPos <= getWidth()-cursorArea && yPos >= getHeight()-cursorArea)      
+        if(xPos >= cursorArea && xPos <= getWidth() - cursorArea && yPos >= getHeight() - cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));      
-        else if(xPos >= getWidth()-cursorArea && yPos >= cursorArea && yPos <= getHeight()-cursorArea)      
+        else if(xPos >= getWidth() - cursorArea && yPos >= cursorArea && yPos <= getHeight() - cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));      
-        else if(xPos <= cursorArea && yPos >= cursorArea && yPos <= getHeight()-cursorArea)      
+        else if(xPos <= cursorArea && yPos >= cursorArea && yPos <= getHeight() - cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));      
-        else if(xPos >= cursorArea && xPos <= getWidth()-cursorArea && yPos <= cursorArea)      
+        else if(xPos >= cursorArea && xPos <= getWidth() - cursorArea && yPos <= cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));      
         else if(xPos <= cursorArea && yPos <= cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));      
         else if(xPos >= getWidth() - cursorArea && yPos <= cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));      
-        else if(xPos >= getWidth()-cursorArea && yPos >= getHeight()-cursorArea)      
+        else if(xPos >= getWidth() - cursorArea && yPos >= getHeight() - cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));      
-        else if(xPos <= cursorArea && yPos >= getHeight()-cursorArea)      
+        else if(xPos <= cursorArea && yPos >= getHeight() - cursorArea)      
             setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));      
         else    
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));       
@@ -334,10 +336,12 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
       
     @Override    
     public void mouseDragged(MouseEvent me)       
-    {      
+    {    
+        //di chuyển full size màn hình
         moveOrFullResizeFrame(me);      
     }
     
+    //Double clicks
     @Override
     public void mouseClicked(MouseEvent me) {
         Object sourceObject = me.getSource();      
@@ -391,7 +395,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     {      
         Object sourceObject = me.getSource();   
         Point current = getScreenLocation(me, this);   
-        Point offset = new Point((int)current.getX()- (int)dragStartPoint.getX(), (int)current.getY()- (int)dragStartPoint.getY());   
+        Point offset = new Point((int)current.getX() - (int)dragStartPoint.getX(), (int)current.getY() - (int)dragStartPoint.getY());   
             
         if(sourceObject instanceof JPanel    
                 && getCursor().equals(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)))    

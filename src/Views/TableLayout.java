@@ -174,14 +174,14 @@ class ZebraJTable extends javax.swing.JTable {
             return;
         }
 
-        // Paint zebra background stripes
+        // Paint zebra background stripes/ Tạo vằn nền zebra 
         updateZebraColors();
         final java.awt.Insets insets = getInsets();
         final int w = getWidth() - insets.left - insets.right;
         final int h = getHeight() - insets.top - insets.bottom;
         final int x = insets.left;
         int y = insets.top;
-        int rowHeight = 16; // A default for empty tables
+        int rowHeight = 16; // Một mặc định cho bảng
         final int nItems = getRowCount();
         for (int i = 0; i < nItems; i++, y += rowHeight) {
             rowHeight = getRowHeight(i);
