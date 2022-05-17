@@ -568,7 +568,7 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
 --SELECT * FROM phanquyen
 
 select * from phanquyen
-insert into taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) values('hieu', '1', 1, 'Q1')
+
 insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
 ('Q2', N'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
@@ -576,3 +576,8 @@ insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC'),
 ('Q4', N'Phụ bán thuốc', 'qlBanThuoc xemThuoc xemKhuyenMai xemKhachHang');
 
+insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
+values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 1, 'Q1'), //pass: Hieu123.
+('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 1, 'Q1'), //pass: Tinh123.
+('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 1, 'Q1'), //Hau123.
+('vietquy, N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 1, 'Q1') //Quy123.
