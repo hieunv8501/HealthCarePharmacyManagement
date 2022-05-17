@@ -13,6 +13,10 @@ public class DBConnection {
     static int countUpdate = 0;
 
     Connection conn = null;
+
+    public Connection getConn() {
+        return conn;
+    }
     Statement stmt = null;
     ResultSet resultSet = null;
 
