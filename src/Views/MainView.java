@@ -37,6 +37,8 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     SidebarButton currentTab;
     SidebarTitle headerTitle;
     JPanel plContent = new JPanel();
+    
+    //Khởi tạo các đối tượng trang JPanel và add các đối tượng trang ở switch case phía dưới bên trong method doAction để chuyển trang, ví dụ: Empty Page - Trang trắng
     EmptyPage emptypage = new EmptyPage();
     
     //test statement
@@ -270,7 +272,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         }
     }
     
-    //Func to show sidebar content
+    //Func to show sidebar content, add các đối tượng trang ở đây, như ví dụ ở dưới
     public void doAction(String nameAction) {
         plContent.removeAll();
         //Đi tới các trang
