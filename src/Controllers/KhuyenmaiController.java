@@ -3,19 +3,52 @@ package Controllers;
 import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import Models.Khuyenmai;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class KhuyenmaiController {
 
-    public void themMaKhuyenmai(Khuyenmai KM) {
-        Calendar cal1 = KM.getNgayBatdau();
-        Calendar cal2 = KM.getNgayKetthuc();
+    public ArrayList<Khuyenmai> layDanhsachMKM() {
+        ArrayList<Khuyenmai> dsmkm = new ArrayList<>();
+        String query = "SELECT * FROM khuyenmai";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
 
-        String dateBDFormat, dateKTFormat;
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-        dateBDFormat = fm.format(cal1.getTime());
-        dateKTFormat = fm.format(cal2.getTime());
+            if (rs != null) {
+
+                while (rs.next()) {
+                    String maKhuyenmai = rs.getString("MaKhuyenMai");
+                    String tenKhuyenmai = rs.getString("TenKhuyenMai");
+                    float dkKhuyenmai = rs.getFloat("DieuKienKhuyenMai");
+                    float ptKhuyenmai = rs.getFloat("PhanTramKhuyenMai");
+                    LocalDate ngayBD = rs.getDate("NgayBatDau").toLocalDate();
+                    LocalDate ngayKT = rs.getDate("NgayKetThuc").toLocalDate();
+
+                    boolean daxoa = rs.getInt("DaXoa") == 1 ? true : false;
+                    dsmkm.add(new Khuyenmai(maKhuyenmai, tenKhuyenmai, dkKhuyenmai, ptKhuyenmai, ngayBD, ngayKT, daxoa));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return dsmkm;
+    }
+
+
+
+    public void themMaKhuyenmai(Khuyenmai KM) {
+        LocalDate date1 = KM.getNgayBatdau();
+        LocalDate date2 = KM.getNgayKetthuc();
+
+//        String dateBDFormat, dateKTFormat;
+//        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+//        dateBDFormat = fm.format(cal1.getTime());
+//        dateKTFormat = fm.format(cal2.getTime());
         String command = "INSERT INTO khuyenmai(MaKhuyenMai, TenKhuyenMai, DieuKienKhuyenMai, PhanTramKhuyenMai, NgayBatDau, NgayKetThuc) VALUES (?,?,?,?,?,?)";
         try {
             DBConnection con = new DBConnection();
@@ -24,8 +57,8 @@ public class KhuyenmaiController {
             pre.setString(2, KM.getTenKhuyenmai());
             pre.setFloat(3, KM.getDieukienKhuyenmai());
             pre.setFloat(4, KM.getPhantramKhuyenmai());
-            pre.setString(5, dateBDFormat);
-            pre.setString(6, dateKTFormat);
+            pre.setString(5, date1.toString());
+            pre.setString(6, date2.toString());
 
             pre.executeUpdate();
             System.out.println("Thêm mã khuyến mãi thành công");
@@ -36,14 +69,13 @@ public class KhuyenmaiController {
     }
 
     public void capnhatMaKhuyenmai(Khuyenmai KM) {
-        Calendar cal1 = KM.getNgayBatdau();
-        Calendar cal2 = KM.getNgayKetthuc();
+        LocalDate date1 = KM.getNgayBatdau();
+        LocalDate date2 = KM.getNgayKetthuc();
 
-        String dateBDFormat, dateKTFormat;
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-        dateBDFormat = fm.format(cal1.getTime());
-        dateKTFormat = fm.format(cal2.getTime());
-
+//        String dateBDFormat, dateKTFormat;
+//        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+//        dateBDFormat = fm.format(cal1.getTime());
+//        dateKTFormat = fm.format(cal2.getTime());
         String command = "UPDATE khuyenmai SET TenKhuyenMai = ?, DieuKienKhuyenMai = ?, PhanTramKhuyenMai = ?, NgayBatDau = ?, NgayKetThuc = ? WHERE MaKhuyenMai = ?";
         try {
             DBConnection con = new DBConnection();
@@ -51,8 +83,8 @@ public class KhuyenmaiController {
             pre.setString(1, KM.getTenKhuyenmai());
             pre.setFloat(2, KM.getDieukienKhuyenmai());
             pre.setFloat(3, KM.getPhantramKhuyenmai());
-            pre.setString(4, dateBDFormat);
-            pre.setString(5, dateKTFormat);
+            pre.setString(4, date1.toString());
+            pre.setString(5, date2.toString());
             pre.setString(6, KM.getMaKhuyenmai());
 
             pre.executeUpdate();
@@ -78,6 +110,5 @@ public class KhuyenmaiController {
             e.printStackTrace();
         }
     }
-
 
 }

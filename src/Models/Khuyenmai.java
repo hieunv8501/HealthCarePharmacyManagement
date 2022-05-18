@@ -4,7 +4,7 @@
  */
 package Models;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,14 +15,14 @@ public class Khuyenmai {
     private String tenKhuyenmai;
     private float dieukienKhuyenmai;
     private float phantramKhuyenmai;
-    private Calendar ngayBatdau;
-    private Calendar ngayKetthuc;
+    private LocalDate ngayBatdau;
+    private LocalDate ngayKetthuc;
     private boolean daXoa;
 
     public Khuyenmai(){
         
     }
-    public Khuyenmai(String maKhuyenmai, String tenKhuyenmai, float dieukienKhuyenmai, float phantramKhuyenmai, Calendar ngayBatdau, Calendar ngayKetthuc, boolean daXoa) {
+    public Khuyenmai(String maKhuyenmai, String tenKhuyenmai, float dieukienKhuyenmai, float phantramKhuyenmai, LocalDate ngayBatdau, LocalDate ngayKetthuc, boolean daXoa) {
         this.maKhuyenmai = maKhuyenmai;
         this.tenKhuyenmai = tenKhuyenmai;
         this.dieukienKhuyenmai = dieukienKhuyenmai;
@@ -64,19 +64,19 @@ public class Khuyenmai {
         this.phantramKhuyenmai = phantramKhuyenmai;
     }
 
-    public Calendar getNgayBatdau() {
+    public LocalDate getNgayBatdau() {
         return ngayBatdau;
     }
 
-    public void setNgayBatdau(Calendar ngayBatdau) {
+    public void setNgayBatdau(LocalDate ngayBatdau) {
         this.ngayBatdau = ngayBatdau;
     }
 
-    public Calendar getNgayKetthuc() {
+    public LocalDate getNgayKetthuc() {
         return ngayKetthuc;
     }
 
-    public void setNgayKetthuc(Calendar ngayKetthuc) {
+    public void setNgayKetthuc(LocalDate ngayKetthuc) {
         this.ngayKetthuc = ngayKetthuc;
     }
 

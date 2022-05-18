@@ -5,9 +5,56 @@ import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import Models.Hoadon;
 import Models.ChitietHoadon;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class HoadonController {
+
+    public ArrayList<Hoadon> layDanhsachHD() {
+        ArrayList<Hoadon> dshd = new ArrayList<>();
+        String query = "SELECT * FROM hoadon";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    int maHoadon = rs.getInt("MaHoaDon");
+                    int maNhanvien = rs.getInt("MaNhanVien");
+                    int maKhachhang = rs.getInt("MaKhachHang");
+                    String maKhuyenmai = rs.getString("MaKhuyenMai");
+
+                    String date = rs.getString("NgayLap");
+                    Calendar cal = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                    cal.setTime(sdf.parse(date));// all done
+//                    LocalDate ngayLap = rs.getDate("NgayLap").toLocalDate();
+
+                    float tongTien = rs.getFloat("TongTien");
+                    boolean daxoa = rs.getInt("DaXoa") == 1 ? true : false;
+                    dshd.add(new Hoadon(maHoadon, maNhanvien, maKhachhang, maKhuyenmai, cal, tongTien, daxoa));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return dshd;
+    }
+//
+//    public static void main(String[] args) {
+//        HoadonController hd = new HoadonController();
+//        ArrayList<Hoadon> HD = new ArrayList<>();
+//        HD = hd.layDanhsachHD();
+//        for (Hoadon str : HD) {
+//            System.out.println(str.getNgayLap());
+//        }
+//    }
 
     public void themHoaDon(Hoadon HD) {
         Calendar cal1 = HD.getNgayLap();
@@ -120,6 +167,5 @@ public class HoadonController {
             e.printStackTrace();
         }
     }
-
 
 }
