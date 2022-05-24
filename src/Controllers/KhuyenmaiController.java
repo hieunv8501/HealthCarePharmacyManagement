@@ -11,7 +11,7 @@ public class KhuyenmaiController {
 
     public ArrayList<Khuyenmai> layDanhsachMKM() {
         ArrayList<Khuyenmai> dsmkm = new ArrayList<>();
-        String query = "SELECT * FROM khuyenmai";
+        String query = "SELECT * FROM khuyenmai Where DaXoa = 0";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(query);
@@ -39,7 +39,34 @@ public class KhuyenmaiController {
         return dsmkm;
     }
 
+    public Khuyenmai layMaKhuyenmai(String MKM) {
 
+        String query = "SELECT * FROM khuyenmai Where DaXoa = 0 AND MaKhuyenMai = " + MKM;
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+            if (rs != null) {
+                while (rs.next()) {
+                    String maKhuyenmai = rs.getString("MaKhuyenMai");
+                    String tenKhuyenmai = rs.getString("TenKhuyenMai");
+                    float dkKhuyenmai = rs.getFloat("DieuKienKhuyenMai");
+                    float ptKhuyenmai = rs.getFloat("PhanTramKhuyenMai");
+                    LocalDate ngayBD = rs.getDate("NgayBatDau").toLocalDate();
+                    LocalDate ngayKT = rs.getDate("NgayKetThuc").toLocalDate();
+
+                    boolean daxoa = rs.getInt("DaXoa") == 1 ? true : false;
+                    Khuyenmai mkm = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dkKhuyenmai, ptKhuyenmai, ngayBD, ngayKT, daxoa);
+                    return mkm;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return null;
+    }
 
     public void themMaKhuyenmai(Khuyenmai KM) {
         LocalDate date1 = KM.getNgayBatdau();
