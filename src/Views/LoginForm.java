@@ -498,6 +498,7 @@ public class LoginForm extends JFrame {
                         headerPanel.addMouseListener(mainView);
                         headerPanel.addMouseMotionListener(mainView);
                         viewContainer.add(headerPanel, BorderLayout.NORTH);
+                        this.dispose();
                         mainView.setVisible(true);
 
                         //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class

@@ -62,8 +62,12 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         for (T t : list) {
             if (t instanceof Khuyenmai) {
                 Khuyenmai km = (Khuyenmai) t;
+                String[] date1 = km.getNgayBatdau().toString().split("-");
+                String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
+                String[] date2 = km.getNgayKetthuc().toString().split("-");
+                String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
                 model.addRow(new Object[]{
-                    km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), km.getNgayBatdau(), km.getNgayKetthuc()
+                    km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), ngayBD, ngayKT
                 });
 
             }
@@ -228,7 +232,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         searchBox.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         searchBox.setAutoscrolls(false);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 0, 0));
         jLabel7.setText("Tìm mã giảm giá:");
 
@@ -438,7 +442,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         try {
             cal1.setTime(sdf.parse(s5));
             cal2.setTime(sdf.parse(s6));
@@ -475,12 +479,34 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-          Khuyenmai km = kmctr.layMaKhuyenmai(searchBox.getText());
-          txtMKM.setText(km.getMaKhuyenmai());
-          txtTKM.setText(km.getTenKhuyenmai());
-          txtDKKM.setText(String.valueOf(km.getDieukienKhuyenmai()));
-          txtPTKM.setText(String.valueOf(km.getPhantramKhuyenmai()));
-          
+        Khuyenmai km = kmctr.layMaKhuyenmai(searchBox.getText());
+        if (km == null) {
+            JOptionPane.showMessageDialog(null, "Mã khuyến mãi không tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            txtMKM.setText(km.getMaKhuyenmai());
+            txtTKM.setText(km.getTenKhuyenmai());
+            txtDKKM.setText(String.valueOf(km.getDieukienKhuyenmai()));
+            txtPTKM.setText(String.valueOf(km.getPhantramKhuyenmai()));
+
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            try {
+                cal1.setTime(sdf.parse(km.getNgayBatdau().toString()));
+                cal2.setTime(sdf.parse(km.getNgayKetthuc().toString()));
+            } catch (ParseException ex) {
+                Logger.getLogger(KhuyenmaiView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            dateBD.setCalendar(cal1);
+            dateKT.setCalendar(cal2);
+
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+            txtMKM.setEditable(false);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
 

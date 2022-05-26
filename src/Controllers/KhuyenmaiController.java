@@ -41,7 +41,7 @@ public class KhuyenmaiController {
 
     public Khuyenmai layMaKhuyenmai(String MKM) {
 
-        String query = "SELECT * FROM khuyenmai Where DaXoa = 0 AND MaKhuyenMai = " + MKM;
+        String query = "SELECT * FROM khuyenmai Where DaXoa = 0 AND MaKhuyenMai = '" + MKM + "'";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(query);
@@ -54,8 +54,7 @@ public class KhuyenmaiController {
                     LocalDate ngayBD = rs.getDate("NgayBatDau").toLocalDate();
                     LocalDate ngayKT = rs.getDate("NgayKetThuc").toLocalDate();
 
-                    boolean daxoa = rs.getInt("DaXoa") == 1 ? true : false;
-                    Khuyenmai mkm = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dkKhuyenmai, ptKhuyenmai, ngayBD, ngayKT, daxoa);
+                    Khuyenmai mkm = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dkKhuyenmai, ptKhuyenmai, ngayBD, ngayKT, false);
                     return mkm;
                 }
             }

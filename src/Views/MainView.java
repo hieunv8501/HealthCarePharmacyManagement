@@ -41,6 +41,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     //Khởi tạo các đối tượng trang JPanel và add các đối tượng trang ở switch case phía dưới bên trong method doAction để chuyển trang, ví dụ: Empty Page - Trang trắng
     EmptyPage emptypage = new EmptyPage();
     KhuyenmaiView khuyenmai = new KhuyenmaiView();
+    HoadonView hoadon = new HoadonView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -288,6 +289,10 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 
             case "Khuyến mãi":
                 plContent.add(khuyenmai, BorderLayout.CENTER);
+                break;
+
+            case "Hóa đơn":
+                plContent.add(hoadon, BorderLayout.CENTER);
                 break;
         }
         headerTitle.setLabel(nameAction.toUpperCase());
