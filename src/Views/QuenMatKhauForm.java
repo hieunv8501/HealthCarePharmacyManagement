@@ -18,8 +18,10 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -79,73 +81,61 @@ public class QuenMatKhauForm extends JFrame {
             }
         };
         txtTenTaiKhoan.addFocusListener(fl);
+        txtEmail.addFocusListener(fl);
         txtCaptcha.addFocusListener(fl);
 
         // Tự động focus vào tên đăng nhập
         txtTenTaiKhoan.requestFocus();
         txtTenTaiKhoan.addKeyListener(new KeyListener() {
             String username = "";
+
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
             }
+
             @Override
-            public void keyReleased(KeyEvent e) {              
+            public void keyReleased(KeyEvent e) {
                 username = txtTenTaiKhoan.getText();
                 if (username.isEmpty()) {
-                    jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");     
+                    jlblVerifyTenTaiKhoan.setText("Không được bỏ trống tên tài khoản!");
                     txtTenTaiKhoan.requestFocus();
-                }
-                else if (username.length() >= 6) {
-                    jlblVerifyEmail.setText("");
-                    if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) jlblVerifyEmail.setText("");
-                    else {
-                        if (countSpecialChars(username) >= 2) jlblVerifyEmail.setText("Tên tài khoản không được chứa quá 2 ký tự đặc biệt!");
-                        else if (hasAnImproperChar(username) == true) jlblVerifyEmail.setText("Tên tài khoản không được chứa các ký tự lạ!");
-                        else if (username.contains(" ")) jlblVerifyEmail.setText("Tên tài khoản không được chứa ký tự trắng!");
+                } else if (username.length() >= 6) {
+                    jlblVerifyTenTaiKhoan.setText("");
+                    if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) {
+                        jlblVerifyTenTaiKhoan.setText("");
+                    } else {
+                        if (countSpecialChars(username) >= 2) {
+                            jlblVerifyTenTaiKhoan.setText("Tên tài khoản không được chứa quá 1 ký tự đặc biệt!");
+                        } else if (hasAnImproperChar(username) == true) {
+                            jlblVerifyTenTaiKhoan.setText("Tên tài khoản không được chứa các ký tự lạ!");
+                        } else if (username.contains(" ")) {
+                            jlblVerifyTenTaiKhoan.setText("Tên tài khoản không được chứa ký tự trắng!");
+                        }
                     }
-                }
-                else {
-                    jlblVerifyEmail.setText("Tên tài khoản quá ngắn, cần ít nhất 6 ký tự!");
+                } else {
+                    jlblVerifyTenTaiKhoan.setText("Tên tài khoản quá ngắn, cần ít nhất 6 ký tự!");
                 }
             }
         });
-        txtCaptcha.addKeyListener(new KeyListener() {
-            char[] password;
-            @Override
-            public void keyPressed(KeyEvent e) {              
-            }
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {              
-                password = txtCaptcha.getPassword();               
-                System.out.println();
-                if (password.length == 0) {
-                    lblVerifyCaptcha.setText("Không được bỏ trống mật khẩu!");     
-                    txtCaptcha.requestFocus();
-                }
-                else if (String.valueOf(password).length() >= 6) {
-                    lblVerifyCaptcha.setText("");
-                    if (hasADigit(String.valueOf(password)) && hasALowerChar(String.valueOf(password)) && hasAnUpperChar(String.valueOf(password)) && hasASpecialChar(String.valueOf(password)) && (hasAnImproperChar(String.valueOf(password)) == false) && !String.valueOf(password).contains(" ")) lblVerifyCaptcha.setText("");
-                    else {
-                        if (String.valueOf(password).contains(" ") == true) lblVerifyCaptcha.setText("Mật khẩu không được chứa ký tự trắng!");
-                        else if (hasADigit(String.valueOf(password)) == false) lblVerifyCaptcha.setText("Mật khẩu phải chứa ít nhất 1 ký tự số!");                        
-                        else if (hasALowerChar(String.valueOf(password)) == false) lblVerifyCaptcha.setText("Mật khẩu phải chứa ít nhất 1 ký tự thường!");                        
-                        else if (hasAnUpperChar(String.valueOf(password)) == false) lblVerifyCaptcha.setText("Mật khẩu phải chứa ít nhất 1 ký tự hoa!");
-                        else if (hasAnImproperChar(String.valueOf(password)) == true) lblVerifyCaptcha.setText("Mật khẩu không được chứa ký tự lạ!");                        
-                        else if (hasASpecialChar(String.valueOf(password)) == false) lblVerifyCaptcha.setText("Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!");
-                    }
-                }
-                else {
-                    lblVerifyCaptcha.setText("Mật khẩu quá ngắn, cần ít nhất 6 ký tự!");
-                }            
-            }
-        });
-             
+//        txtEmail.addKeyListener(new KeyListener() {
+//            String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"+"[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+//            @Override
+//            public void keyTyped(KeyEvent e) {
+//            }
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//            }
+//            @Override
+//            public void keyReleased(KeyEvent e) { 
+//                if (doesMatchPattern(txtEmail.getText(), regexPattern)) lblVerifyEmail.setText("Email không hợp lệ, mời nhập lại!");
+//                else lblVerifyEmail.setText("");
+//            }
+//        });
+
     }
 
     /**
@@ -159,21 +149,22 @@ public class QuenMatKhauForm extends JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         loginBox = new javax.swing.JPanel();
-        txtCaptcha = new javax.swing.JPasswordField();
         txtTenTaiKhoan = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lblNameTaiKhoan = new javax.swing.JLabel();
+        lblNameCaptcha = new javax.swing.JLabel();
         btnResetPwd = new javax.swing.JButton();
         btnExit = new javax.swing.JPanel();
         btnCloseLogin = new javax.swing.JLabel();
-        lblVerifyCaptcha = new javax.swing.JLabel();
-        jlblVerifyEmail = new javax.swing.JLabel();
+        lblVerifyEmail = new javax.swing.JLabel();
+        jlblVerifyTenTaiKhoan = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblNameEmail = new javax.swing.JLabel();
         lblCaptcha = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblThongBaoResetPwd = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnQuayLaiDN = new javax.swing.JButton();
+        txtCaptcha = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -191,32 +182,6 @@ public class QuenMatKhauForm extends JFrame {
 
         loginBox.setBackground(new java.awt.Color(255, 255, 255));
         loginBox.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtCaptcha.setBackground(new java.awt.Color(255, 0, 0));
-        txtCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtCaptcha.setForeground(new java.awt.Color(102, 204, 255));
-        txtCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
-        txtCaptcha.setCaretColor(new java.awt.Color(255, 255, 255));
-        txtCaptcha.setDisabledTextColor(new java.awt.Color(255, 255, 255));
-        txtCaptcha.setOpaque(false);
-        txtCaptcha.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtCaptchaInputMethodTextChanged(evt);
-            }
-        });
-        txtCaptcha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCaptchaActionPerformed(evt);
-            }
-        });
-        txtCaptcha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCaptchaKeyPressed(evt);
-            }
-        });
-        loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 120, 30));
 
         txtTenTaiKhoan.setBackground(new java.awt.Color(240, 240, 240));
         txtTenTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -245,15 +210,15 @@ public class QuenMatKhauForm extends JFrame {
         });
         loginBox.add(txtTenTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 258, 30));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Tài khoản");
-        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
+        lblNameTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNameTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
+        lblNameTaiKhoan.setText("Tài khoản");
+        loginBox.add(lblNameTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Captcha");
-        loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 360, -1, -1));
+        lblNameCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNameCaptcha.setForeground(new java.awt.Color(255, 255, 255));
+        lblNameCaptcha.setText("Captcha");
+        loginBox.add(lblNameCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 355, -1, -1));
 
         btnResetPwd.setBackground(new java.awt.Color(102, 102, 255));
         btnResetPwd.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
@@ -270,7 +235,7 @@ public class QuenMatKhauForm extends JFrame {
                 btnResetPwdActionPerformed(evt);
             }
         });
-        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, -1, 36));
+        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, 36));
 
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -295,31 +260,34 @@ public class QuenMatKhauForm extends JFrame {
 
         loginBox.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 30, 30));
 
-        lblVerifyCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        lblVerifyCaptcha.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(lblVerifyCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 325, 350, 25));
+        lblVerifyEmail.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblVerifyEmail.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(lblVerifyEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 325, 350, 25));
 
-        jlblVerifyEmail.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jlblVerifyEmail.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(jlblVerifyEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 243, 350, 25));
+        jlblVerifyTenTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jlblVerifyTenTaiKhoan.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(jlblVerifyTenTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 243, 350, 25));
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Healthcare Pharmacy Management System");
         loginBox.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, 35));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Email");
-        loginBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 272, -1, -1));
+        lblNameEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNameEmail.setForeground(new java.awt.Color(255, 255, 255));
+        lblNameEmail.setText("Email");
+        loginBox.add(lblNameEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 272, -1, -1));
 
         lblCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblCaptcha.setForeground(new java.awt.Color(255, 255, 51));
         lblCaptcha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCaptcha.setText("captcha is here");
         lblCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 0)));
-        loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 150, 50));
+        loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 160, 50));
 
+        txtEmail.setBackground(new java.awt.Color(255, 0, 0));
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(102, 204, 255));
         txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
         txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
         txtEmail.setOpaque(false);
@@ -327,12 +295,44 @@ public class QuenMatKhauForm extends JFrame {
 
         lblThongBaoResetPwd.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
         lblThongBaoResetPwd.setForeground(new java.awt.Color(255, 255, 255));
-        lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
-        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 330, -1));
+        lblThongBaoResetPwd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, 330, 20));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_refresh_30px.png"))); // NOI18N
         jButton1.setOpaque(false);
-        loginBox.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 370, 40, 30));
+        loginBox.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 370, 40, 30));
+
+        btnQuayLaiDN.setBackground(new java.awt.Color(0, 51, 255));
+        btnQuayLaiDN.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnQuayLaiDN.setForeground(new java.awt.Color(204, 255, 255));
+        btnQuayLaiDN.setText("Quay lại đăng nhập");
+        btnQuayLaiDN.setBorder(null);
+        btnQuayLaiDN.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnQuayLaiDN.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnQuayLaiDN.setOpaque(false);
+        btnQuayLaiDN.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnQuayLaiDNMouseMoved(evt);
+            }
+        });
+        btnQuayLaiDN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnQuayLaiDNMouseExited(evt);
+            }
+        });
+        btnQuayLaiDN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuayLaiDNActionPerformed(evt);
+            }
+        });
+        loginBox.add(btnQuayLaiDN, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 470, 160, 20));
+
+        txtCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCaptcha.setForeground(new java.awt.Color(102, 204, 255));
+        txtCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtCaptcha.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtCaptcha.setOpaque(false);
+        loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 120, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_login.png"))); // NOI18N
         loginBox.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 160));
@@ -392,10 +392,6 @@ public class QuenMatKhauForm extends JFrame {
 
     }//GEN-LAST:event_txtTenTaiKhoanActionPerformed
 
-    private void txtCaptchaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCaptchaKeyPressed
-
-    }//GEN-LAST:event_txtCaptchaKeyPressed
-
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
         System.exit(0);
     }//GEN-LAST:event_btnExitMouseClicked
@@ -403,31 +399,18 @@ public class QuenMatKhauForm extends JFrame {
     private void btnResetPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPwdActionPerformed
         //Khởi tạo đối tượng và dẫn nhập từ bàn phím
         String tentk = txtTenTaiKhoan.getText();
-        var mk = txtCaptcha.getPassword();
-        if (tentk.isEmpty() && mk.length == 0) {
-            jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");            
-            lblVerifyCaptcha.setText("Không được bỏ trống captcha!");
-            txtTenTaiKhoan.requestFocus();
-            return;
-        }
-        else if (tentk.length() >= 6 && mk.length == 0) {
-            lblVerifyCaptcha.setText("Không được bỏ trống tên tài khoản!");            
-            jlblVerifyEmail.setText("");
-            txtCaptcha.requestFocus();
-            return;
-        }
-        else if (mk.length >= 6 && tentk.isEmpty()){
-            jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");            
-            lblVerifyCaptcha.setText("");
-            txtTenTaiKhoan.requestFocus();
-            return;
-        }
-        else {
-            jlblVerifyEmail.setText("");
-            lblVerifyCaptcha.setText("");
+        String email = txtEmail.getText();
+        String captcha = txtCaptcha.getText();
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+        if (isValid(lblNameTaiKhoan, txtTenTaiKhoan, jlblVerifyTenTaiKhoan) && isValid(lblNameEmail, txtEmail, lblVerifyEmail) && isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd)) {
+        } else {
+            jlblVerifyTenTaiKhoan.setText("");
+            lblThongBaoResetPwd.setText("");
+            lblVerifyEmail.setText("");
             TaikhoanController taikhoanCtrl = new TaikhoanController();
             Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
-            
+
             //Kiểm tra xem có tồn tại tên tài khoản như này không
             if (tk != null) {
                 // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
@@ -436,89 +419,116 @@ public class QuenMatKhauForm extends JFrame {
                     JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
                     return;
                 }
+                else lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
 
-                //Default max rounds for hashing password toleration: 8
-                var password = txtCaptcha.getPassword();
-                if (password.length != 0) {              
-                    if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
-                        taiKhoanLogin = tk;
-                        nhanVienLogin = nv;
-                        quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
-
-//                        //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class
-//                        //new MainView().setVisible(true);
-//                        //this.dispose();
-                    } else {
-                        lblVerifyCaptcha.setText("Captcha nhập vào không đúng!");
-                        txtCaptcha.requestFocus();
-                    }
-                } else {
-                    lblVerifyCaptcha.setText("Không được để trống captcha!");
+                //Check email and captcha
+                if (doesMatchPattern(email, regexPattern) && email.length() != 0) {
+                    lblVerifyEmail.setText("Email nhập vào không hợp lệ!");
+                    txtEmail.requestFocus();
+                } else if (email.length() == 0) {
+                    lblVerifyEmail.setText("Không được để trống email!");
                     txtCaptcha.requestFocus();
                 }
+                isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd);
             } else {
-                jlblVerifyEmail.setText("Tài khoản vừa nhập không tồn tại!");
+                jlblVerifyTenTaiKhoan.setText("Tài khoản vừa nhập không tồn tại!");
                 txtTenTaiKhoan.requestFocus();
             }
         }
     }//GEN-LAST:event_btnResetPwdActionPerformed
 
-    private void txtCaptchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCaptchaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCaptchaActionPerformed
-    
-    private void txtCaptchaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCaptchaInputMethodTextChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCaptchaInputMethodTextChanged
-
     private void txtTenTaiKhoanInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtTenTaiKhoanInputMethodTextChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenTaiKhoanInputMethodTextChanged
-    
-    private boolean hasADigit(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 48 && password.charAt(i) <= 57) return true;
+
+    private void btnQuayLaiDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuayLaiDNActionPerformed
+        new LoginForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnQuayLaiDNActionPerformed
+
+    private void btnQuayLaiDNMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuayLaiDNMouseMoved
+        btnQuayLaiDN.setForeground(new Color(102, 102, 255));
+    }//GEN-LAST:event_btnQuayLaiDNMouseMoved
+
+    private void btnQuayLaiDNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuayLaiDNMouseExited
+        btnQuayLaiDN.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_btnQuayLaiDNMouseExited
+
+    private boolean hasADigit(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 48 && password.charAt(i) <= 57) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasALowerChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 97 && password.charAt(i) <= 122) return true;
+
+    private boolean hasALowerChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 97 && password.charAt(i) <= 122) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasAnUpperChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) return true;
+
+    private boolean hasAnUpperChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasASpecialChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
-                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
-                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
-                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
-            return true;
+
+    private boolean hasASpecialChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47)
+                    || (password.charAt(i) >= 58 && password.charAt(i) <= 64)
+                    || (password.charAt(i) >= 91 && password.charAt(i) <= 96)
+                    || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) {
+                return true;
+            }
         }
         return false;
     }
-    private int countSpecialChars(String password){ 
+
+    private int countSpecialChars(String password) {
         int count = 0;
-        for(int i = 0; i < password.length(); i++){
-            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
-                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
-                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
-                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
-            count++;
+        for (int i = 0; i < password.length(); i++) {
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47)
+                    || (password.charAt(i) >= 58 && password.charAt(i) <= 64)
+                    || (password.charAt(i) >= 91 && password.charAt(i) <= 96)
+                    || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) {
+                count++;
+            }
         }
         return count;
     }
-    private boolean hasAnImproperChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) < 32 || password.charAt(i) > 126) return true;
+
+    private boolean hasAnImproperChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) < 32 || password.charAt(i) > 126) {
+                return true;
+            }
         }
         return false;
+    }
+
+    public static boolean doesMatchPattern(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+    }
+
+    public boolean isValid(JLabel lbl, JTextField txt, JLabel lblThongbao) {
+        if (txt.getText().equals("") || txt.getText().length() == 0) {
+            lblThongbao.setText("Không được để trống " + lbl.getText());
+            return false;
+        } else {
+            lblThongbao.setText("");
+            return true;
+        }
     }
     //Function check valid 
     //Static properties
@@ -529,29 +539,30 @@ public class QuenMatKhauForm extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCloseLogin;
     private javax.swing.JPanel btnExit;
+    private javax.swing.JButton btnQuayLaiDN;
     private javax.swing.JButton btnResetPwd;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel jlblVerifyEmail;
+    private javax.swing.JLabel jlblVerifyTenTaiKhoan;
     private javax.swing.JLabel lblCaptcha;
+    private javax.swing.JLabel lblNameCaptcha;
+    private javax.swing.JLabel lblNameEmail;
+    private javax.swing.JLabel lblNameTaiKhoan;
     private javax.swing.JLabel lblThongBaoResetPwd;
-    private javax.swing.JLabel lblVerifyCaptcha;
+    private javax.swing.JLabel lblVerifyEmail;
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;
-    private javax.swing.JPasswordField txtCaptcha;
+    private javax.swing.JTextField txtCaptcha;
     private javax.swing.JTextField txtEmail;
-    public static javax.swing.JTextField txtTenTaiKhoan;
+    private javax.swing.JTextField txtTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }

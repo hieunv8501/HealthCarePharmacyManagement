@@ -114,7 +114,7 @@ public class LoginForm extends JFrame {
                     jlblVerifyUsername.setText("");
                     if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) jlblVerifyUsername.setText("");
                     else {
-                        if (countSpecialChars(username) >= 2) jlblVerifyUsername.setText("Tên tài khoản không được chứa quá 2 ký tự đặc biệt!");
+                        if (countSpecialChars(username) >= 2) jlblVerifyUsername.setText("Tên tài khoản không được chứa quá 1 ký tự đặc biệt!");
                         else if (hasAnImproperChar(username) == true) jlblVerifyUsername.setText("Tên tài khoản không được chứa các ký tự lạ!");
                         else if (username.contains(" ")) jlblVerifyUsername.setText("Tên tài khoản không được chứa ký tự trắng!");
                     }
@@ -423,6 +423,7 @@ public class LoginForm extends JFrame {
 
     private void btnQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuenMatKhauMouseClicked
         new QuenMatKhauForm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnQuenMatKhauMouseClicked
 
     //mouse hover for button DangKy
@@ -507,7 +508,7 @@ public class LoginForm extends JFrame {
 //
 //                        //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class
 //                        //new MainView().setVisible(true);
-//                        //this.dispose();
+                        this.dispose();
                     } else {
                         jlblVerifyPwd.setText("Mật khẩu không đúng!");
                         txtMatKhau.requestFocus();
@@ -616,6 +617,6 @@ public class LoginForm extends JFrame {
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;
     private javax.swing.JPasswordField txtMatKhau;
-    public static javax.swing.JTextField txtTenDangNhap;
+    private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables
 }
