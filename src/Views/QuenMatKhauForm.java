@@ -49,7 +49,7 @@ public class QuenMatKhauForm extends JFrame {
             }
         };
 
-        txtEmail.addKeyListener(ka);
+        txtTenTaiKhoan.addKeyListener(ka);
         txtCaptcha.addKeyListener(ka);
 
         // Thêm vào tự động chọn text khi focus
@@ -78,12 +78,12 @@ public class QuenMatKhauForm extends JFrame {
                 }
             }
         };
-        txtEmail.addFocusListener(fl);
+        txtTenTaiKhoan.addFocusListener(fl);
         txtCaptcha.addFocusListener(fl);
 
         // Tự động focus vào tên đăng nhập
-        txtEmail.requestFocus();
-        txtEmail.addKeyListener(new KeyListener() {
+        txtTenTaiKhoan.requestFocus();
+        txtTenTaiKhoan.addKeyListener(new KeyListener() {
             String username = "";
             @Override
             public void keyTyped(KeyEvent e) {
@@ -93,10 +93,10 @@ public class QuenMatKhauForm extends JFrame {
             }
             @Override
             public void keyReleased(KeyEvent e) {              
-                username = txtEmail.getText();
+                username = txtTenTaiKhoan.getText();
                 if (username.isEmpty()) {
                     jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");     
-                    txtEmail.requestFocus();
+                    txtTenTaiKhoan.requestFocus();
                 }
                 else if (username.length() >= 6) {
                     jlblVerifyEmail.setText("");
@@ -160,7 +160,7 @@ public class QuenMatKhauForm extends JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         loginBox = new javax.swing.JPanel();
         txtCaptcha = new javax.swing.JPasswordField();
-        txtEmail = new javax.swing.JTextField();
+        txtTenTaiKhoan = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         btnResetPwd = new javax.swing.JButton();
@@ -169,8 +169,11 @@ public class QuenMatKhauForm extends JFrame {
         lblVerifyCaptcha = new javax.swing.JLabel();
         jlblVerifyEmail = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         lblCaptcha = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
         lblThongBaoResetPwd = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -213,49 +216,49 @@ public class QuenMatKhauForm extends JFrame {
                 txtCaptchaKeyPressed(evt);
             }
         });
-        loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 305, 258, 30));
+        loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 120, 30));
 
-        txtEmail.setBackground(new java.awt.Color(240, 240, 240));
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtEmail.setForeground(new java.awt.Color(102, 204, 255));
-        txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
-        txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
-        txtEmail.setDisabledTextColor(new java.awt.Color(255, 255, 255));
-        txtEmail.setDragEnabled(true);
-        txtEmail.setOpaque(false);
-        txtEmail.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        txtTenTaiKhoan.setBackground(new java.awt.Color(240, 240, 240));
+        txtTenTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtTenTaiKhoan.setForeground(new java.awt.Color(102, 204, 255));
+        txtTenTaiKhoan.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtTenTaiKhoan.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtTenTaiKhoan.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        txtTenTaiKhoan.setDragEnabled(true);
+        txtTenTaiKhoan.setOpaque(false);
+        txtTenTaiKhoan.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtEmailInputMethodTextChanged(evt);
+                txtTenTaiKhoanInputMethodTextChanged(evt);
             }
         });
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+        txtTenTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
+                txtTenTaiKhoanActionPerformed(evt);
             }
         });
-        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTenTaiKhoan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtEmailKeyPressed(evt);
+                txtTenTaiKhoanKeyPressed(evt);
             }
         });
-        loginBox.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 258, 30));
+        loginBox.add(txtTenTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 258, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Email");
-        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        jLabel3.setText("Tài khoản");
+        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Captcha");
-        loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 285, -1, -1));
+        loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 360, -1, -1));
 
         btnResetPwd.setBackground(new java.awt.Color(102, 102, 255));
         btnResetPwd.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         btnResetPwd.setForeground(new java.awt.Color(255, 255, 255));
-        btnResetPwd.setText("Reset mật khẩu");
+        btnResetPwd.setText("Đặt lại mật khẩu");
         btnResetPwd.setToolTipText("");
         btnResetPwd.setBorderPainted(false);
         btnResetPwd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -267,7 +270,7 @@ public class QuenMatKhauForm extends JFrame {
                 btnResetPwdActionPerformed(evt);
             }
         });
-        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, -1, 36));
+        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, -1, 36));
 
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -294,26 +297,42 @@ public class QuenMatKhauForm extends JFrame {
 
         lblVerifyCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lblVerifyCaptcha.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(lblVerifyCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 339, 350, 25));
+        loginBox.add(lblVerifyCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 325, 350, 25));
 
         jlblVerifyEmail.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jlblVerifyEmail.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(jlblVerifyEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 253, 350, 25));
+        loginBox.add(jlblVerifyEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 243, 350, 25));
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Healthcare Pharmacy Management System");
         loginBox.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, 35));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Email");
+        loginBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 272, -1, -1));
+
         lblCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblCaptcha.setForeground(new java.awt.Color(255, 255, 51));
-        lblCaptcha.setText("captcha here");
-        loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 160, 30));
+        lblCaptcha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCaptcha.setText("captcha is here");
+        lblCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 0)));
+        loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 150, 50));
+
+        txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.setOpaque(false);
+        loginBox.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 292, 258, 30));
 
         lblThongBaoResetPwd.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
         lblThongBaoResetPwd.setForeground(new java.awt.Color(255, 255, 255));
         lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
-        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 330, -1));
+        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 330, -1));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_refresh_30px.png"))); // NOI18N
+        jButton1.setOpaque(false);
+        loginBox.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 370, 40, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_login.png"))); // NOI18N
         loginBox.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 160));
@@ -344,9 +363,9 @@ public class QuenMatKhauForm extends JFrame {
         jLabel4.setBackground(new java.awt.Color(51, 51, 51));
         jLabel4.setFont(new java.awt.Font("UTM Bebas", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Dashboard Login");
+        jLabel4.setText("Dashboard Reset");
         overlay.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
-        overlay.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 160, -1));
+        overlay.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 180, -1));
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_login_2.png"))); // NOI18N
@@ -365,13 +384,13 @@ public class QuenMatKhauForm extends JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+    private void txtTenTaiKhoanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenTaiKhoanKeyPressed
 
-    }//GEN-LAST:event_txtEmailKeyPressed
+    }//GEN-LAST:event_txtTenTaiKhoanKeyPressed
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+    private void txtTenTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenTaiKhoanActionPerformed
 
-    }//GEN-LAST:event_txtEmailActionPerformed
+    }//GEN-LAST:event_txtTenTaiKhoanActionPerformed
 
     private void txtCaptchaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCaptchaKeyPressed
 
@@ -383,12 +402,12 @@ public class QuenMatKhauForm extends JFrame {
 
     private void btnResetPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPwdActionPerformed
         //Khởi tạo đối tượng và dẫn nhập từ bàn phím
-        String tentk = txtEmail.getText();
+        String tentk = txtTenTaiKhoan.getText();
         var mk = txtCaptcha.getPassword();
         if (tentk.isEmpty() && mk.length == 0) {
             jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");            
             lblVerifyCaptcha.setText("Không được bỏ trống captcha!");
-            txtEmail.requestFocus();
+            txtTenTaiKhoan.requestFocus();
             return;
         }
         else if (tentk.length() >= 6 && mk.length == 0) {
@@ -400,7 +419,7 @@ public class QuenMatKhauForm extends JFrame {
         else if (mk.length >= 6 && tentk.isEmpty()){
             jlblVerifyEmail.setText("Không được bỏ trống tên tài khoản!");            
             lblVerifyCaptcha.setText("");
-            txtEmail.requestFocus();
+            txtTenTaiKhoan.requestFocus();
             return;
         }
         else {
@@ -439,7 +458,7 @@ public class QuenMatKhauForm extends JFrame {
                 }
             } else {
                 jlblVerifyEmail.setText("Tài khoản vừa nhập không tồn tại!");
-                txtEmail.requestFocus();
+                txtTenTaiKhoan.requestFocus();
             }
         }
     }//GEN-LAST:event_btnResetPwdActionPerformed
@@ -452,9 +471,9 @@ public class QuenMatKhauForm extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCaptchaInputMethodTextChanged
 
-    private void txtEmailInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtEmailInputMethodTextChanged
+    private void txtTenTaiKhoanInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtTenTaiKhoanInputMethodTextChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailInputMethodTextChanged
+    }//GEN-LAST:event_txtTenTaiKhoanInputMethodTextChanged
     
     private boolean hasADigit(String password){   
         for(int i = 0; i < password.length(); i++){
@@ -512,6 +531,8 @@ public class QuenMatKhauForm extends JFrame {
     private javax.swing.JPanel btnExit;
     private javax.swing.JButton btnResetPwd;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -530,6 +551,7 @@ public class QuenMatKhauForm extends JFrame {
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;
     private javax.swing.JPasswordField txtCaptcha;
-    public static javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtEmail;
+    public static javax.swing.JTextField txtTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }
