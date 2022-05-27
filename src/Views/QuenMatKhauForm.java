@@ -101,7 +101,7 @@ public class QuenMatKhauForm extends JFrame {
             public void keyReleased(KeyEvent e) {
                 username = txtTenTaiKhoan.getText();
                 if (username.isEmpty()) {
-                    jlblVerifyTenTaiKhoan.setText("Không được bỏ trống tên tài khoản!");
+                    jlblVerifyTenTaiKhoan.setText("Không được để trống Tài khoản!");
                     txtTenTaiKhoan.requestFocus();
                 } else if (username.length() >= 6) {
                     jlblVerifyTenTaiKhoan.setText("");
@@ -121,21 +121,45 @@ public class QuenMatKhauForm extends JFrame {
                 }
             }
         });
-//        txtEmail.addKeyListener(new KeyListener() {
-//            String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"+"[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-//            @Override
-//            public void keyTyped(KeyEvent e) {
-//            }
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//            }
-//            @Override
-//            public void keyReleased(KeyEvent e) { 
-//                if (doesMatchPattern(txtEmail.getText(), regexPattern)) lblVerifyEmail.setText("Email không hợp lệ, mời nhập lại!");
-//                else lblVerifyEmail.setText("");
-//            }
-//        });
+        txtEmail.addKeyListener(new KeyListener() {
+            String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (doesMatchPattern(txtEmail.getText(), regexPattern)) {
+                    lblVerifyEmail.setText("Email không hợp lệ, mời nhập lại!");
+                } else {
+                    lblVerifyEmail.setText("");
+                }
+            }
+        });
+        txtCaptcha.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (txtCaptcha.getText().length() == 0) {
+                    lblThongBaoResetPwd.setText("Không được để trống Captcha!");
+                } else {
+                    lblThongBaoResetPwd.setText("");
+                }
+            }
+        });
     }
 
     /**
@@ -398,16 +422,23 @@ public class QuenMatKhauForm extends JFrame {
 
     private void btnResetPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPwdActionPerformed
         //Khởi tạo đối tượng và dẫn nhập từ bàn phím
+
         String tentk = txtTenTaiKhoan.getText();
         String email = txtEmail.getText();
         String captcha = txtCaptcha.getText();
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-        if (isValid(lblNameTaiKhoan, txtTenTaiKhoan, jlblVerifyTenTaiKhoan) && isValid(lblNameEmail, txtEmail, lblVerifyEmail) && isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd)) {
-        } else {
-            jlblVerifyTenTaiKhoan.setText("");
-            lblThongBaoResetPwd.setText("");
-            lblVerifyEmail.setText("");
+        if (isValid(lblNameTaiKhoan, txtTenTaiKhoan, jlblVerifyTenTaiKhoan)) {
+            return;
+        }
+        if (isValid(lblNameEmail, txtEmail, lblVerifyEmail)) {
+            return;
+        } 
+        if (isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd)) {
+            return;
+        }
+            
+         else {
             TaikhoanController taikhoanCtrl = new TaikhoanController();
             Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
 
@@ -418,8 +449,9 @@ public class QuenMatKhauForm extends JFrame {
                 if (nv.isDaXoa() == true) {
                     JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
                     return;
+                } else {
+                    lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
                 }
-                else lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
 
                 //Check email and captcha
                 if (doesMatchPattern(email, regexPattern) && email.length() != 0) {
@@ -435,6 +467,7 @@ public class QuenMatKhauForm extends JFrame {
                 txtTenTaiKhoan.requestFocus();
             }
         }
+
     }//GEN-LAST:event_btnResetPwdActionPerformed
 
     private void txtTenTaiKhoanInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtTenTaiKhoanInputMethodTextChanged
@@ -524,10 +557,13 @@ public class QuenMatKhauForm extends JFrame {
     public boolean isValid(JLabel lbl, JTextField txt, JLabel lblThongbao) {
         if (txt.getText().equals("") || txt.getText().length() == 0) {
             lblThongbao.setText("Không được để trống " + lbl.getText());
-            return false;
+            if (lbl.getText() == "Captcha") {
+                lblThongbao.setForeground(Color.red);
+            }
+            return true;
         } else {
             lblThongbao.setText("");
-            return true;
+            return false;
         }
     }
     //Function check valid 
