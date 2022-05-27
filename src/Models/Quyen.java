@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 public class Quyen {
     String maQuyen, tenQuyen, chitietQuyen;
+    boolean daXoa;
     DBConnection quyenDBConnection;
 
     public Quyen() {
@@ -41,6 +42,14 @@ public class Quyen {
 
     public void setChitietQuyen(String chitietQuyen) {
         this.chitietQuyen = chitietQuyen;
+    }
+    
+    public boolean isDaXoa() {
+        return daXoa;
+    }
+
+    public void setDaXoa(boolean daXoa) {
+        this.daXoa = daXoa;
     }
 
     public ArrayList<Quyen> readDB() {

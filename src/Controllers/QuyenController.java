@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class QuyenController {
     
-    private ArrayList<Quyen> dsq = new ArrayList<>();
+    private ArrayList<Quyen> dsq = new ArrayList<Quyen>();
     Quyen quyenDA = new Quyen();
  
     public QuyenController() {
@@ -13,10 +13,11 @@ public class QuyenController {
     }
 
     public void showConsole() {
-        dsq.forEach((q) -> {
+        this.dsq.forEach((q) -> {
             System.out.print(q.getMaQuyen() + " ");
             System.out.print(q.getTenQuyen()+ " ");
             System.out.print(q.getChitietQuyen());
+            System.out.println("");
         });
     }
 
@@ -25,7 +26,7 @@ public class QuyenController {
     }
 
     public void readDB() {
-        dsq = quyenDA.readDB();
+        this.dsq = quyenDA.readDB();
     }
     
     public String getNextID() {
@@ -42,7 +43,7 @@ public class QuyenController {
     }
 
     public ArrayList<Quyen> search(String value, String type) {
-        ArrayList<Quyen> result = new ArrayList<>();
+        ArrayList<Quyen> result = new ArrayList<Quyen>();
 
         dsq.forEach((q) -> {
             if (type.equals("Tất cả")) {
@@ -80,7 +81,7 @@ public class QuyenController {
         Boolean ok = quyenDA.add(sp);
 
         if (ok) {
-            dsq.add(sp);
+            this.dsq.add(sp);
         }
         return ok;
     }
@@ -107,7 +108,7 @@ public class QuyenController {
         Boolean ok = quyenDA.update(maquyen, tenquyen, chitiet);
 
         if (ok) {
-            dsq.forEach((q) -> {
+            this.dsq.forEach((q) -> {
                 if (q.getMaQuyen().equals(maquyen)) {
                     q.setTenQuyen(tenquyen);
                     q.setChitietQuyen(chitiet);
@@ -119,7 +120,7 @@ public class QuyenController {
     }
 
     public ArrayList<Quyen> getDanhSachQuyen() {
-        return dsq;
+        return this.dsq;
     } 
     
 }

@@ -12,7 +12,7 @@ public class PharmacyManagement {
         EventQueue.invokeLater(() -> {
             try {
                 LoginForm lg = new LoginForm();
-                lg.setVisible(true);
+                lg.setVisible(true);             
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 SwingUtilities.updateComponentTreeUI(lg);
             }
@@ -21,4 +21,3 @@ public class PharmacyManagement {
         });
     }
 }
-

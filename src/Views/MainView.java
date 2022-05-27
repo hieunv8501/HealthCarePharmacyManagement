@@ -42,6 +42,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     EmptyPage emptypage = new EmptyPage();
     KhuyenmaiView khuyenmai = new KhuyenmaiView();
     HoadonView hoadon = new HoadonView();
+    QuyenForm quyenForm = new QuyenForm();  
+    TaiKhoanForm taikhoanForm = new TaiKhoanForm();
+    PhieuNhapForm phieunhapForm = new PhieuNhapForm();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -277,16 +280,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         plContent.removeAll();
         //Đi tới các trang
         switch (nameAction) {
-            case "Công cụ":
-                emptypage.setLabelText("Công cụ đang bảo trì");
-                plContent.add(emptypage, BorderLayout.CENTER);
-                break;
-
-            case "Cài đặt":
-                emptypage.setLabelText("Cài đặt đang bảo trì");
-                plContent.add(emptypage, BorderLayout.CENTER);
-                break;
-
+            
             case "Khuyến mãi":
                 plContent.add(khuyenmai, BorderLayout.CENTER);
                 break;
@@ -294,6 +288,29 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             case "Hóa đơn":
                 plContent.add(hoadon, BorderLayout.CENTER);
                 break;
+                
+            case "Tài khoản":
+                plContent.add(taikhoanForm, BorderLayout.CENTER);
+                break;
+                
+            case "Quyền":
+                plContent.add(quyenForm, BorderLayout.CENTER);
+                break;
+                
+            case "Nhập thuốc":
+                plContent.add(phieunhapForm, BorderLayout.CENTER);
+                break;
+                
+            case "Công cụ":
+                emptypage.setLabelText("Công cụ đang bảo trì, vui lòng thử lại sau");
+                plContent.add(emptypage, BorderLayout.CENTER);
+                break;
+
+            case "Cài đặt":
+                emptypage.setLabelText("Cài đặt đang bảo trì, vui lòng thử lại sau");
+                plContent.add(emptypage, BorderLayout.CENTER);
+                break;
+
         }
         headerTitle.setLabel(nameAction.toUpperCase());
         // https://stackoverflow.com/questions/12989388/switching-panels-with-menubar

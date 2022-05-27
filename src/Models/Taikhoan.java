@@ -9,15 +9,17 @@ import javax.swing.JOptionPane;
 public class Taikhoan {
     String taikhoan, matkhau, maQuyen;
     int maNhanvien;
+    boolean daXoa;
     DBConnection taikhoanConnection;
     
     public Taikhoan(){}
     
-    public Taikhoan(String taikhoan, String matkhau, int maNhanvien, String maQuyen) {
+    public Taikhoan(String taikhoan, String matkhau, int maNhanvien, String maQuyen, boolean daXoa) {
         this.taikhoan = taikhoan;
         this.matkhau = matkhau;
         this.maNhanvien = maNhanvien;
         this.maQuyen = maQuyen;
+        this.daXoa = daXoa;
     }
 
     public String getTaikhoan() {
@@ -52,6 +54,14 @@ public class Taikhoan {
         this.maQuyen = maQuyen;
     }
     
+    public boolean isDaXoa() {
+        return daXoa;
+    }
+
+    public void setDaXoa(boolean daXoa) {
+        this.daXoa = daXoa;
+    }
+    
     public ArrayList<Taikhoan> readDB() {
         taikhoanConnection = new DBConnection();
         ArrayList<Taikhoan> dstk = new ArrayList<>();
@@ -60,11 +70,12 @@ public class Taikhoan {
             ResultSet rs = taikhoanConnection.sqlQuery(qry);
             if (rs != null) {
                 while (rs.next()) {
-                    String ten = rs.getString("TenTaiKhoan");
-                    String pass = rs.getString("MatKhau");
+                    String tentk = rs.getString("TenTaiKhoan");
+                    String matkhau = rs.getString("MatKhau");
                     int manv = rs.getInt("MaNhanVien");
-                    String maquyen = rs.getString("MaQuyen");                  
-                    dstk.add(new Taikhoan(ten, pass, manv, maquyen));
+                    String maquyen = rs.getString("MaQuyen");                    
+                    boolean daxoa = rs.getBoolean("DaXoa");                 
+                    dstk.add(new Taikhoan(tentk, matkhau, manv, maquyen, daxoa));
                 }
             }
 
@@ -76,7 +87,7 @@ public class Taikhoan {
         return dstk;
     }
 
-    public Boolean add(Taikhoan tk) {
+    public Boolean themTaiKhoan(Taikhoan tk) {
         taikhoanConnection = new DBConnection();
         Boolean ok = taikhoanConnection.sqlUpdate("INSERT INTO taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) VALUES ('"
                 + tk.getTaikhoan()+ "', '" + tk.getMatkhau()+ "', '" + tk.getMaNhanvien()+ "', '" + tk.getMaQuyen() + "');");
@@ -84,18 +95,25 @@ public class Taikhoan {
         return ok;
     }
 
-    public Boolean delete(String username) {
+    public Boolean softDelete(String tentaikhoan) {
         taikhoanConnection = new DBConnection();
-        Boolean ok = taikhoanConnection.sqlUpdate("DELETE FROM taikhoan WHERE taikhoan.TenTaiKhoan = '" + username + "'");
+        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET DaXoa = 1 WHERE taikhoan.TenTaiKhoan = '" + tentaikhoan + "'");
+        taikhoanConnection.closeConnection();
+        return ok;
+    }
+    
+    public Boolean xoaTaiKhoan(String tentaikhoan) {
+        taikhoanConnection = new DBConnection();
+        Boolean ok = taikhoanConnection.sqlUpdate("DELETE from taikhoan WHERE taikhoan.TenTaiKhoan = '" + tentaikhoan + "'");
         taikhoanConnection.closeConnection();
         return ok;
     }
 
-    public Boolean update(String username, String pass, int maNhanVien, String maQuyen) {
+    public Boolean capnhatTaiKhoan(Taikhoan tk) {
         taikhoanConnection = new DBConnection();
-        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET MatKhau='" + pass + "',MaNV='" + maNhanVien
-                + "',MaQuyen='" + maQuyen + "' WHERE TenTaiKhoan='" + username + "'");
-        taikhoanConnection.closeConnection();
+        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET MatKhau='" + tk.getMatkhau() + "', MaNhanVien = '" + tk.getMaNhanvien()
+                + "', MaQuyen = '" + tk.getMaQuyen() + "', DaXoa = '" + tk.isDaXoa() + "' WHERE TenTaiKhoan='" + tk.getTaikhoan() + "'");
+        taikhoanConnection.closeConnection(); 
         return ok;
     }
 

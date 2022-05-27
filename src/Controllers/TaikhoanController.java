@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class TaikhoanController {
 
-    private ArrayList<Taikhoan> dstk = new ArrayList<>();
+    private ArrayList<Taikhoan> dstk = new ArrayList<Taikhoan>();
     Taikhoan taikhoanDA = new Taikhoan();
 
     public TaikhoanController() {
@@ -39,12 +39,12 @@ public class TaikhoanController {
     }
 
     public ArrayList<Taikhoan> search(String value, String type) {
-        ArrayList<Taikhoan> result = new ArrayList<>();
+        ArrayList<Taikhoan> result = new ArrayList<Taikhoan>();
 
         dstk.forEach((tk) -> {
             if (type.equals("Tất cả")) {
                 if (tk.getTaikhoan().toLowerCase().contains(value.toLowerCase())
-                        || tk.getMatkhau().toLowerCase().contains(value.toLowerCase())
+//                        || tk.getMatkhau().toLowerCase().contains(value.toLowerCase())
                         || tk.getMaNhanvien() == Integer.parseInt(value)
                         || tk.getMaQuyen().toLowerCase().contains(value.toLowerCase())) {
                     result.add(tk);
@@ -56,11 +56,11 @@ public class TaikhoanController {
                             result.add(tk);
                         }
                         break;
-                    case "Mật khẩu":
-                        if (tk.getMatkhau().toLowerCase().contains(value.toLowerCase())) {
-                            result.add(tk);
-                        }
-                        break;
+//                    case "Mật khẩu":
+//                        if (tk.getMatkhau().toLowerCase().contains(value.toLowerCase())) {
+//                            result.add(tk);
+//                        }
+//                        break;
                     case "Mã nhân viên":
                         if (tk.getMaNhanvien() == Integer.parseInt(value)) {
                             result.add(tk);
@@ -79,48 +79,50 @@ public class TaikhoanController {
         return result;
     }
 
-    public Boolean add(Taikhoan tk) {
-        Boolean ok = taikhoanDA.add(tk);
-
+    public Boolean themTaiKhoan(Taikhoan taikhoan) {
+        Boolean ok = taikhoanDA.themTaiKhoan(taikhoan);
         if (ok) {
-            dstk.add(tk);
+            dstk.add(taikhoan);
         }
         return ok;
     }
 
-    public Boolean add(String username, String pass, int maNV, String maQuyen) {
-        Taikhoan tk = new Taikhoan(username, pass, maNV, maQuyen);
-        return add(tk);
-    }
-
-    public Boolean delete(String username) {
-        Boolean ok = taikhoanDA.delete(username);
-
-        if (ok) {
-            for (int i = (dstk.size() - 1); i >= 0; i--) {
-                if (dstk.get(i).getTaikhoan().equals(username)) {
-                    dstk.remove(i);
-                }
-            }
-        }
+    public Boolean softDelete(String username) {
+        Boolean ok = taikhoanDA.softDelete(username);
+//        if (ok) {
+//            for (int i = (dstk.size() - 1); i >= 0; i--) {
+//                if (dstk.get(i).getTaikhoan().equals(username)) {
+//                    dstk.remove(i);
+//                }
+//            }
+//        }
         return ok;
     }
 
-    public Boolean update(String username, String pass, int maNV, String maQuyen) {
-        Boolean ok = taikhoanDA.update(username, pass, maNV, maQuyen);
+    public Boolean capnhatTaiKhoan(Taikhoan taikhoan) {
+        Boolean ok = taikhoanDA.capnhatTaiKhoan(taikhoan);
 
         if (ok) {
             dstk.forEach((tk) -> {
-                if (tk.getTaikhoan().equals(username)) {
-                    tk.setMatkhau(pass);
-                    tk.setMaNhanvien(maNV);
-                    tk.setMaQuyen(maQuyen);
+                if (tk.getTaikhoan().equals(taikhoan.getTaikhoan())) {
+                    tk.setMatkhau(taikhoan.getMatkhau());
+                    tk.setMaNhanvien(taikhoan.getMaNhanvien());
+                    tk.setMaQuyen(taikhoan.getMaQuyen());                    
+                    tk.setDaXoa(taikhoan.isDaXoa());
                 }
             });
         }
         return ok;
     }
-
+    
+    public Boolean xoaTaiKhoan(Taikhoan taikhoan) {
+        Boolean ok = taikhoanDA.xoaTaiKhoan(taikhoan.getTaikhoan());
+        if (ok) {
+            dstk.remove(taikhoan);
+        }
+        return ok;
+    }
+    
     public ArrayList<Taikhoan> getDanhSachTaiKhoan() {
         return dstk;
     }
