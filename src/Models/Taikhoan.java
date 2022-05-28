@@ -116,7 +116,12 @@ public class Taikhoan {
         taikhoanConnection.closeConnection(); 
         return ok;
     }
-
+    public Boolean resetMatKhau(Taikhoan tk, String hashedString){
+        taikhoanConnection = new DBConnection();
+        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET MatKhau='" + hashedString + "' WHERE TenTaiKhoan='" + tk.getTaikhoan() + "'");
+        taikhoanConnection.closeConnection(); 
+        return ok;
+    }
     public void close() {
         taikhoanConnection.closeConnection();
     }

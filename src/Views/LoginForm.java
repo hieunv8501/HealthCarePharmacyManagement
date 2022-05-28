@@ -540,6 +540,12 @@ public class LoginForm extends JFrame {
         String tentk = txtTenDangNhap.getText();
         char[] mk = txtMatKhau.getPassword();
         String captcha = txtCaptcha.getText();
+        
+        if (!txtCaptcha.getText().equals("") && !txtCaptcha.getText().equals(img.getImageCodeCaptcha())) {
+                lblVerifyCaptcha.setText("Captcha nhập vào không đúng!");
+                return;
+        }
+        
         if (tentk.isEmpty() && mk.length == 0 && captcha.isEmpty()) {
             jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
             jlblVerifyPwd.setText("Không được để trống mật khẩu!");
@@ -561,7 +567,7 @@ public class LoginForm extends JFrame {
             lblVerifyCaptcha.setText("Không được để trống captcha!");
             jlblVerifyPwd.setText("");
             jlblVerifyUsername.setText("");
-            txtTenDangNhap.requestFocus();
+            txtCaptcha.requestFocus();
             return;
         } else if (mk.length >= 6 && tentk.isEmpty() && captcha.isEmpty()) {
             lblVerifyCaptcha.setText("Không được để trống captcha!");
@@ -573,7 +579,7 @@ public class LoginForm extends JFrame {
             lblVerifyCaptcha.setText("Không được để trống captcha!");
             jlblVerifyPwd.setText("Không được để trống mật khẩu!");
             jlblVerifyUsername.setText("");
-            txtTenDangNhap.requestFocus();
+            txtMatKhau.requestFocus();
             return;
         } else if (mk.length == 0 && tentk.isEmpty() && !captcha.isEmpty()) {
             lblVerifyCaptcha.setText("");
@@ -581,7 +587,9 @@ public class LoginForm extends JFrame {
             jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
             txtTenDangNhap.requestFocus();
             return;
-        } else {
+        }
+        else {
+            
             jlblVerifyUsername.setText("");
             jlblVerifyPwd.setText("");
             TaikhoanController taikhoanCtrl = new TaikhoanController();

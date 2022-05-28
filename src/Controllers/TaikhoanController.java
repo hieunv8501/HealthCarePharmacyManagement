@@ -115,10 +115,14 @@ public class TaikhoanController {
         return ok;
     }
     
-    public Boolean xoaTaiKhoan(Taikhoan taikhoan) {
-        Boolean ok = taikhoanDA.xoaTaiKhoan(taikhoan.getTaikhoan());
+    public Boolean resetMatKhau(Taikhoan taikhoan, String hashedString) {
+        Boolean ok = taikhoanDA.resetMatKhau(taikhoan, hashedString);
         if (ok) {
-            dstk.remove(taikhoan);
+            dstk.forEach((tk) -> {
+                if (tk.getTaikhoan().equals(taikhoan.getTaikhoan())) {
+                    tk.setMatkhau(taikhoan.getMatkhau());
+                }
+            });
         }
         return ok;
     }
