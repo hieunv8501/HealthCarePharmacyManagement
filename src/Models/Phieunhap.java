@@ -88,7 +88,6 @@ public class Phieunhap {
 	return calendar.getTime();
     }  
     
-    
     public ArrayList readDB() {
         connection = new DBConnection();
         ArrayList<Phieunhap> dspn = new ArrayList<Phieunhap>();
@@ -109,7 +108,7 @@ public class Phieunhap {
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu !!");
+            JOptionPane.showMessageDialog(null, "Không tìm thấy phiếu nhập nào!!");
         } finally {
             connection.closeConnection();
         }
@@ -118,7 +117,7 @@ public class Phieunhap {
 
     public Boolean add(Phieunhap pn) {
         connection = new DBConnection();
-        Boolean ok = connection.sqlUpdate("INSERT INTO phieunhap(MaNCC, MaNV, NgayNhap, TongTien) VALUES ('"
+        Boolean ok = connection.sqlUpdate("INSERT INTO phieunhap(MaNhaCungCap, MaNhanVien, NgayNhap, TongTien) VALUES ('"
                 + pn.getMaNhacungcap()+ "','"
                 + pn.getMaNhanvien()+ "','"
                 + pn.getNgaynhap()+ "','"
@@ -129,7 +128,14 @@ public class Phieunhap {
     
     public Boolean update(Phieunhap pn) {
         connection = new DBConnection();
-        Boolean ok = connection.sqlUpdate("UPDATE phieunhap SET MaNhaCungCap = '" + pn.getMaNhacungcap() + "', MaNhanVien = '" + pn.getMaNhanvien() + "', NgayNhap = '" + pn.getNgaynhap()+ "', TongTien = '" + pn.getTongTien() + "', DaX WHERE MaPhieuNhap = '" + pn.getMaPhieunhap() + "';");
+        Boolean ok = connection.sqlUpdate("UPDATE phieunhap SET MaNhaCungCap = '" + pn.getMaNhacungcap() + "', MaNhanVien = '" + pn.getMaNhanvien() + "', NgayNhap = '" + pn.getNgaynhap()+ "', TongTien = '" + pn.getTongTien() + "', DaXoa =' " + pn.isDaxoa() +"' WHERE MaPhieuNhap = '" + pn.getMaPhieunhap() + "';");
+        connection.closeConnection();
+        return ok;
+    }
+    
+    public Boolean softDelete(Phieunhap pn) {
+        connection = new DBConnection();
+        Boolean ok = connection.sqlUpdate("UPDATE phieunhap SET DaXoa = '" +pn.isDaxoa()+"' WHERE MaPhieuNhap = '" +pn.getMaPhieunhap()+ "';");
         connection.closeConnection();
         return ok;
     }
@@ -147,11 +153,10 @@ public class Phieunhap {
 
     public Boolean updateTongTien(int _mapn, float _tongTien) {
         connection = new DBConnection();
-        Boolean ok = connection.sqlUpdate("UPDATE phieunhap SET TongTien='" + _tongTien + "' WHERE MaPhieuNhap='" + _mapn + "';");
+        Boolean ok = connection.sqlUpdate("UPDATE phieunhap SET TongTien = '" + _tongTien + "' WHERE MaPhieuNhap='" + _mapn + "';");
         connection.closeConnection();
         return ok;
     }
-
     
 }
 

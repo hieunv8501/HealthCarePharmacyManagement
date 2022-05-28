@@ -12,18 +12,6 @@ public class PhieunhapController {
     public PhieunhapController() {
         dspn = phieunhapDA.readDB();
     }
-
-    public void showConsole() {
-        System.out.println("Đã chạy tới trong này.");
-        dspn.forEach((pn) -> {
-            System.out.print(pn.getMaPhieunhap()+ " ");
-            System.out.print(pn.getMaNhacungcap()+ " ");
-            System.out.print(pn.getMaNhanvien()+ " ");
-            System.out.print(pn.getNgaynhap());
-            System.out.print(pn.getTongTien()+ " ");            
-            System.out.print("Đã tạm ẩn: " + pn.isDaxoa()+ " ");
-        });
-    }
     
     public String[] getHeaders() {
         return new String[]{"STT", "Mã phiếu nhập", "Mã nhà cung cấp", "Mã nhân viên", "Ngày nhập", "Tổng tiền", "Trạng thái"};
@@ -42,6 +30,47 @@ public class PhieunhapController {
         return null;
     }
 
+    public Boolean themPhieunhap(Phieunhap pn) {
+        Boolean ok = phieunhapDA.add(pn);
+        if (ok) {
+            dspn.add(pn);
+        }
+        return ok;
+    }
+
+    public Boolean capnhatPhieunhap(Phieunhap pn) {
+        Boolean ok = phieunhapDA.update(pn);
+        return ok;
+    }
+
+    public Boolean softDeletePhieunhap(Phieunhap pn) {
+        Boolean ok = phieunhapDA.softDelete(pn);
+        if (ok) {
+            for (int i = (dspn.size() - 1); i >= 0; i--) {
+                if (dspn.get(i).getMaPhieunhap() == pn.getMaPhieunhap()) {
+                    dspn.get(i).setDaxoa(pn.isDaxoa());
+                }
+            }
+        }
+        return ok;
+    }
+    
+    public Boolean hardDeletePhieunhap(int maPhieuNhap) {
+        Boolean ok = phieunhapDA.delete(maPhieuNhap);
+        if (ok) {
+            for (int i = (dspn.size() - 1); i >= 0; i--) {
+                if (dspn.get(i).getMaPhieunhap() == maPhieuNhap) {
+                    dspn.remove(i);
+                }
+            }
+        }
+        return ok;
+    }
+
+    public ArrayList<Phieunhap> getDanhSachPhieuNhap() {
+        return dspn;
+    }
+    
     public ArrayList<Phieunhap> search(String searchValue, String searchType) {
         ArrayList<Phieunhap> result = new ArrayList<Phieunhap>();
 
@@ -82,47 +111,6 @@ public class PhieunhapController {
         });
 
         return result;
-    }
-
-    public Boolean add(Phieunhap pn) {
-        Boolean ok = phieunhapDA.add(pn);
-        if (ok) {
-            dspn.add(pn);
-        }
-        return ok;
-    }
-
-//    public Boolean softDelete(int maPhieuNhap) {
-//        Boolean ok = phieunhapDA.update(maPhieuNhap);
-//        if (ok) {
-//            for (int i = (dspn.size() - 1); i >= 0; i--) {
-//                if (dspn.get(i).getMaPhieunhap() == maPhieuNhap) {
-//                    dspn.get(i).setDaxoa(true);
-//                }
-//            }
-//        }
-//        return ok;
-//    }
-    
-    public Boolean hardDelete(int maPhieuNhap) {
-        Boolean ok = phieunhapDA.delete(maPhieuNhap);
-        if (ok) {
-            for (int i = (dspn.size() - 1); i >= 0; i--) {
-                if (dspn.get(i).getMaPhieunhap() == maPhieuNhap) {
-                    dspn.remove(i);
-                }
-            }
-        }
-        return ok;
-    }
-
-    public Boolean update(Phieunhap pn) {
-        Boolean ok = phieunhapDA.update(pn);
-        return ok;
-    }
-
-    public ArrayList<Phieunhap> getDanhSachPhieuNhap() {
-        return dspn;
     }
 }
 

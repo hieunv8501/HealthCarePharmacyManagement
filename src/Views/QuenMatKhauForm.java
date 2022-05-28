@@ -3,21 +3,18 @@ package Views;
 import Models.Nhanvien;
 import Models.Taikhoan;
 import Models.Quyen;
+import FormHelpers.Captcha;
 import Controllers.TaikhoanController;
 import Controllers.QuyenController;
 import Controllers.NhanvienController;
-import Components.ExcelOperation;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,12 +22,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class QuenMatKhauForm extends JFrame {
 
-    public QuenMatKhauForm() {
+    int countCaptcha = 0;
+    ImageIcon icon;
+
+    public QuenMatKhauForm() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
         //btnDangNhap.setBackground(new Color(0,0,0,0));
@@ -39,8 +41,12 @@ public class QuenMatKhauForm extends JFrame {
         ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logo_login.png"));
         setIconImage(logo.getImage());
 
+        //Tạo captcha hình ảnh văn bản
+        Captcha img = new Captcha();
+        icon = new ImageIcon(img.ToImages());
+        lblCaptcha.setIcon(icon);
+
         this.setLocationRelativeTo(null);
-        //String alertStringLabel = "";
         // Thêm hotkey event enter
         KeyAdapter ka = new KeyAdapter() {
             @Override
@@ -52,6 +58,7 @@ public class QuenMatKhauForm extends JFrame {
         };
 
         txtTenTaiKhoan.addKeyListener(ka);
+        txtEmail.addKeyListener(ka);
         txtCaptcha.addKeyListener(ka);
 
         // Thêm vào tự động chọn text khi focus
@@ -142,6 +149,7 @@ public class QuenMatKhauForm extends JFrame {
             }
         });
         txtCaptcha.addKeyListener(new KeyListener() {
+            String captchaa;
 
             @Override
             public void keyTyped(KeyEvent e) {
@@ -153,13 +161,34 @@ public class QuenMatKhauForm extends JFrame {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (txtCaptcha.getText().length() == 0) {
+                captchaa = txtCaptcha.getText();
+                if (captchaa.length() == 0) {
                     lblThongBaoResetPwd.setText("Không được để trống Captcha!");
-                } else {
+                } else if (captchaa.equals(img.getImageCodeCaptcha())) {
                     lblThongBaoResetPwd.setText("");
+                } else if (captchaa.length() != 0 && captchaa != img.getImageCodeCaptcha()) {
+                    lblThongBaoResetPwd.setText("Captcha nhập vào không đúng!");
                 }
             }
         });
+
+//        btnResetPwd.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent me) {
+//                if (txtCaptcha.getText().equals(img.getImageCodeCaptcha())) {
+//                    JOptionPane.showMessageDialog(null, "OK, captcha correct");
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Lêu lêu sai rồi");
+//                    countCaptcha++;
+//                    if (countCaptcha == 3) {
+//                        countCaptcha = 0;
+//                        img.init();
+//                        icon = new ImageIcon(img.ToImages());
+//                        lblCaptcha.setIcon(icon);
+//                    }
+//                }
+//            }
+//        });
     }
 
     /**
@@ -186,9 +215,10 @@ public class QuenMatKhauForm extends JFrame {
         lblCaptcha = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblThongBaoResetPwd = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnChangeCaptcha = new javax.swing.JButton();
         btnQuayLaiDN = new javax.swing.JButton();
         txtCaptcha = new javax.swing.JTextField();
+        lblVerifyCaptcha = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -259,7 +289,7 @@ public class QuenMatKhauForm extends JFrame {
                 btnResetPwdActionPerformed(evt);
             }
         });
-        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, 36));
+        loginBox.add(btnResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, -1, 40));
 
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -303,10 +333,9 @@ public class QuenMatKhauForm extends JFrame {
         loginBox.add(lblNameEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 272, -1, -1));
 
         lblCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblCaptcha.setForeground(new java.awt.Color(255, 255, 51));
+        lblCaptcha.setForeground(new java.awt.Color(240, 240, 240));
         lblCaptcha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCaptcha.setText("captcha is here");
-        lblCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 0)));
+        lblCaptcha.setToolTipText("");
         loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 160, 50));
 
         txtEmail.setBackground(new java.awt.Color(255, 0, 0));
@@ -317,14 +346,19 @@ public class QuenMatKhauForm extends JFrame {
         txtEmail.setOpaque(false);
         loginBox.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 292, 258, 30));
 
-        lblThongBaoResetPwd.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
+        lblThongBaoResetPwd.setFont(new java.awt.Font("Segoe UI", 3, 13)); // NOI18N
         lblThongBaoResetPwd.setForeground(new java.awt.Color(255, 255, 255));
         lblThongBaoResetPwd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, 330, 20));
+        loginBox.add(lblThongBaoResetPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 503, 330, 20));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_refresh_30px.png"))); // NOI18N
-        jButton1.setOpaque(false);
-        loginBox.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 370, 40, 30));
+        btnChangeCaptcha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_refresh_30px.png"))); // NOI18N
+        btnChangeCaptcha.setOpaque(false);
+        btnChangeCaptcha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeCaptchaActionPerformed(evt);
+            }
+        });
+        loginBox.add(btnChangeCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 375, 40, 30));
 
         btnQuayLaiDN.setBackground(new java.awt.Color(0, 51, 255));
         btnQuayLaiDN.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -349,7 +383,7 @@ public class QuenMatKhauForm extends JFrame {
                 btnQuayLaiDNActionPerformed(evt);
             }
         });
-        loginBox.add(btnQuayLaiDN, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 470, 160, 20));
+        loginBox.add(btnQuayLaiDN, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 480, 140, 20));
 
         txtCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtCaptcha.setForeground(new java.awt.Color(102, 204, 255));
@@ -357,6 +391,10 @@ public class QuenMatKhauForm extends JFrame {
         txtCaptcha.setCaretColor(new java.awt.Color(255, 255, 255));
         txtCaptcha.setOpaque(false);
         loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 120, 30));
+
+        lblVerifyCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblVerifyCaptcha.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(lblVerifyCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 412, 310, 25));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_login.png"))); // NOI18N
         loginBox.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 160));
@@ -422,28 +460,68 @@ public class QuenMatKhauForm extends JFrame {
 
     private void btnResetPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPwdActionPerformed
         //Khởi tạo đối tượng và dẫn nhập từ bàn phím
-
+        
         String tentk = txtTenTaiKhoan.getText();
         String email = txtEmail.getText();
         String captcha = txtCaptcha.getText();
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
-        if (isValid(lblNameTaiKhoan, txtTenTaiKhoan, jlblVerifyTenTaiKhoan)) {
+        
+        if (tentk.isEmpty() && email.isEmpty() && captcha.isEmpty()) {
+            jlblVerifyTenTaiKhoan.setText("Không được để trống tên tài khoản!");
+            lblVerifyEmail.setText("Không được để trống email!");
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            txtTenTaiKhoan.requestFocus();
             return;
-        }
-        if (isValid(lblNameEmail, txtEmail, lblVerifyEmail)) {
+        } else if (tentk.length() >= 6 && email.isEmpty() && !captcha.isEmpty()) {
+            lblVerifyEmail.setText("Không được để trống email!");
+            jlblVerifyTenTaiKhoan.setText("");
+            lblVerifyCaptcha.setText("");
+            txtEmail.requestFocus();
             return;
-        } 
-        if (isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd)) {
+        } else if (email.isEmpty() && tentk.isEmpty() && !captcha.isEmpty()) {
+            jlblVerifyTenTaiKhoan.setText("Không được để trống tên tài khoản!");
+            lblVerifyEmail.setText("");
+            lblVerifyCaptcha.setText("");
+            txtTenTaiKhoan.requestFocus();
             return;
-        }
-            
-         else {
+        } else if (email.isEmpty() && !tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            lblVerifyEmail.setText("");
+            jlblVerifyTenTaiKhoan.setText("");
+            txtCaptcha.requestFocus();
+            return;
+        } else if (email.isEmpty() && tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            lblVerifyEmail.setText("");
+            jlblVerifyTenTaiKhoan.setText("Không được để trống tên tài khoản!");
+            txtTenTaiKhoan.requestFocus();
+            return;
+        } else if (email.isEmpty() && !tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            lblVerifyEmail.setText("Không được để trống email!");
+            jlblVerifyTenTaiKhoan.setText("");
+            txtEmail.requestFocus();
+            return;
+        } else if (email.isEmpty() && tentk.isEmpty() && !captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("");
+            lblVerifyEmail.setText("Không được để trống email!");
+            jlblVerifyTenTaiKhoan.setText("Không được để trống tên tài khoản!");
+            txtTenTaiKhoan.requestFocus();
+            return;
+        } else {
             TaikhoanController taikhoanCtrl = new TaikhoanController();
             Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
-
+            if (doesMatchPattern(email, regexPattern) && email.length() != 0) {
+                lblVerifyEmail.setText("Email nhập vào không hợp lệ!");
+                txtEmail.requestFocus();
+            } else if (email.length() == 0) {
+                lblVerifyEmail.setText("Không được để trống email!");
+                txtCaptcha.requestFocus();
+            }
             //Kiểm tra xem có tồn tại tên tài khoản như này không
             if (tk != null) {
+                //Check email and captcha
+
                 // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
                 Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
                 if (nv.isDaXoa() == true) {
@@ -452,16 +530,6 @@ public class QuenMatKhauForm extends JFrame {
                 } else {
                     lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
                 }
-
-                //Check email and captcha
-                if (doesMatchPattern(email, regexPattern) && email.length() != 0) {
-                    lblVerifyEmail.setText("Email nhập vào không hợp lệ!");
-                    txtEmail.requestFocus();
-                } else if (email.length() == 0) {
-                    lblVerifyEmail.setText("Không được để trống email!");
-                    txtCaptcha.requestFocus();
-                }
-                isValid(lblNameCaptcha, txtCaptcha, lblThongBaoResetPwd);
             } else {
                 jlblVerifyTenTaiKhoan.setText("Tài khoản vừa nhập không tồn tại!");
                 txtTenTaiKhoan.requestFocus();
@@ -486,6 +554,14 @@ public class QuenMatKhauForm extends JFrame {
     private void btnQuayLaiDNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuayLaiDNMouseExited
         btnQuayLaiDN.setForeground(new Color(255, 255, 255));
     }//GEN-LAST:event_btnQuayLaiDNMouseExited
+
+    private void btnChangeCaptchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeCaptchaActionPerformed
+        countCaptcha = 0;
+        Captcha img = new Captcha();
+        img.init();
+        icon = new ImageIcon(img.ToImages());
+        lblCaptcha.setIcon(icon);
+    }//GEN-LAST:event_btnChangeCaptchaActionPerformed
 
     private boolean hasADigit(String password) {
         for (int i = 0; i < password.length(); i++) {
@@ -573,12 +649,12 @@ public class QuenMatKhauForm extends JFrame {
     public static Nhanvien nhanVienLogin;
     public static Taikhoan taiKhoanLogin;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChangeCaptcha;
     private javax.swing.JLabel btnCloseLogin;
     private javax.swing.JPanel btnExit;
     private javax.swing.JButton btnQuayLaiDN;
     private javax.swing.JButton btnResetPwd;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -594,6 +670,7 @@ public class QuenMatKhauForm extends JFrame {
     private javax.swing.JLabel lblNameEmail;
     private javax.swing.JLabel lblNameTaiKhoan;
     private javax.swing.JLabel lblThongBaoResetPwd;
+    private javax.swing.JLabel lblVerifyCaptcha;
     private javax.swing.JLabel lblVerifyEmail;
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;

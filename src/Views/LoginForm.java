@@ -7,10 +7,13 @@ import Controllers.TaikhoanController;
 import Controllers.QuyenController;
 import Controllers.NhanvienController;
 import Components.ExcelOperation;
+import FormHelpers.Captcha;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
@@ -18,16 +21,28 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.security.SecureRandom;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginForm extends JFrame {
 
+    int countCaptcha = 0;
+    ImageIcon icon;
+    static Captcha img;
     public LoginForm() {
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
@@ -36,6 +51,11 @@ public class LoginForm extends JFrame {
         this.setTitle("Đăng nhập");
         ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logo_login.png"));
         setIconImage(logo.getImage());
+
+        //Tạo captcha hình ảnh văn bản
+        img = new Captcha();
+        icon = new ImageIcon(img.ToImages());
+        lblCaptcha.setIcon(icon);
 
         this.setLocationRelativeTo(null);
         //String alertStringLabel = "";
@@ -51,6 +71,7 @@ public class LoginForm extends JFrame {
 
         txtTenDangNhap.addKeyListener(ka);
         txtMatKhau.addKeyListener(ka);
+        txtCaptcha.addKeyListener(ka);
 
         // Thêm vào tự động chọn text khi focus
         // https://stackoverflow.com/questions/7361291/select-all-on-focus-in-lots-of-jtextfield
@@ -80,6 +101,7 @@ public class LoginForm extends JFrame {
         };
         txtTenDangNhap.addFocusListener(fl);
         txtMatKhau.addFocusListener(fl);
+        txtCaptcha.addFocusListener(fl);
 
         // Tự động focus vào tên đăng nhập
         txtTenDangNhap.requestFocus();
@@ -97,67 +119,103 @@ public class LoginForm extends JFrame {
         }
         txtTenDangNhap.addKeyListener(new KeyListener() {
             String username = "";
+
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
             }
+
             @Override
-            public void keyReleased(KeyEvent e) {              
+            public void keyReleased(KeyEvent e) {
                 username = txtTenDangNhap.getText();
                 if (username.isEmpty()) {
-                    jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");     
+                    jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
                     txtTenDangNhap.requestFocus();
-                }
-                else if (username.length() >= 6) {
+                } else if (username.length() >= 6) {
                     jlblVerifyUsername.setText("");
-                    if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) jlblVerifyUsername.setText("");
-                    else {
-                        if (countSpecialChars(username) >= 2) jlblVerifyUsername.setText("Tên tài khoản không được chứa quá 1 ký tự đặc biệt!");
-                        else if (hasAnImproperChar(username) == true) jlblVerifyUsername.setText("Tên tài khoản không được chứa các ký tự lạ!");
-                        else if (username.contains(" ")) jlblVerifyUsername.setText("Tên tài khoản không được chứa ký tự trắng!");
+                    if ((hasADigit(username) || hasALowerChar(username) || hasAnUpperChar(username)) && (countSpecialChars(username) == 1) && (hasAnImproperChar(username) == false) && !username.contains(" ")) {
+                        jlblVerifyUsername.setText("");
+                    } else {
+                        if (countSpecialChars(username) >= 2) {
+                            jlblVerifyUsername.setText("Tên tài khoản không được chứa quá 1 ký tự đặc biệt!");
+                        } else if (hasAnImproperChar(username) == true) {
+                            jlblVerifyUsername.setText("Tên tài khoản không được chứa các ký tự lạ!");
+                        } else if (username.contains(" ")) {
+                            jlblVerifyUsername.setText("Tên tài khoản không được chứa ký tự trắng!");
+                        }
                     }
-                }
-                else {
+                } else {
                     jlblVerifyUsername.setText("Tên tài khoản quá ngắn, cần ít nhất 6 ký tự!");
                 }
             }
         });
         txtMatKhau.addKeyListener(new KeyListener() {
             char[] password;
+
             @Override
-            public void keyPressed(KeyEvent e) {              
+            public void keyPressed(KeyEvent e) {
             }
+
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
-            public void keyReleased(KeyEvent e) {              
-                password = txtMatKhau.getPassword();               
-                System.out.println();
+            public void keyReleased(KeyEvent e) {
+                password = txtMatKhau.getPassword();
                 if (password.length == 0) {
-                    jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");     
+                    jlblVerifyPwd.setText("Không được để trống mật khẩu!");
                     txtMatKhau.requestFocus();
-                }
-                else if (String.valueOf(password).length() >= 6) {
+                } else if (String.valueOf(password).length() >= 6) {
                     jlblVerifyPwd.setText("");
-                    if (hasADigit(String.valueOf(password)) && hasALowerChar(String.valueOf(password)) && hasAnUpperChar(String.valueOf(password)) && hasASpecialChar(String.valueOf(password)) && (hasAnImproperChar(String.valueOf(password)) == false) && !String.valueOf(password).contains(" ")) jlblVerifyPwd.setText("");
-                    else {
-                        if (String.valueOf(password).contains(" ") == true) jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự trắng!");
-                        else if (hasADigit(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự số!");                        
-                        else if (hasALowerChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự thường!");                        
-                        else if (hasAnUpperChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự hoa!");
-                        else if (hasAnImproperChar(String.valueOf(password)) == true) jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự lạ!");                        
-                        else if (hasASpecialChar(String.valueOf(password)) == false) jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!");
+                    if (hasADigit(String.valueOf(password)) && hasALowerChar(String.valueOf(password)) && hasAnUpperChar(String.valueOf(password)) && hasASpecialChar(String.valueOf(password)) && (hasAnImproperChar(String.valueOf(password)) == false) && !String.valueOf(password).contains(" ")) {
+                        jlblVerifyPwd.setText("");
+                    } else {
+                        if (String.valueOf(password).contains(" ") == true) {
+                            jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự trắng!");
+                        } else if (hasADigit(String.valueOf(password)) == false) {
+                            jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự số!");
+                        } else if (hasALowerChar(String.valueOf(password)) == false) {
+                            jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự thường!");
+                        } else if (hasAnUpperChar(String.valueOf(password)) == false) {
+                            jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự hoa!");
+                        } else if (hasAnImproperChar(String.valueOf(password)) == true) {
+                            jlblVerifyPwd.setText("Mật khẩu không được chứa ký tự lạ!");
+                        } else if (hasASpecialChar(String.valueOf(password)) == false) {
+                            jlblVerifyPwd.setText("Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!");
+                        }
                     }
-                }
-                else {
+                } else {
                     jlblVerifyPwd.setText("Mật khẩu quá ngắn, cần ít nhất 6 ký tự!");
-                }            
+                }
             }
         });
-             
+
+        txtCaptcha.addKeyListener(new KeyListener() {
+            String captchaa;
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                captchaa = txtCaptcha.getText();
+                if (captchaa.length() == 0) {
+                    lblVerifyCaptcha.setText("Không được để trống Captcha!");
+                } else if (captchaa.equals(img.getImageCodeCaptcha())) {
+                    lblVerifyCaptcha.setText("");
+                } else if (captchaa.length() != 0 && captchaa != img.getImageCodeCaptcha()) {
+                    lblVerifyCaptcha.setText("Captcha nhập vào không đúng!");
+                }
+            }
+        });
     }
 
     /**
@@ -184,7 +242,12 @@ public class LoginForm extends JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         ckbNhoMatKhau = new javax.swing.JCheckBox();
+        btnChangeCaptcha = new javax.swing.JButton();
         ckbHienMatKhau = new javax.swing.JCheckBox();
+        lblNameCaptcha = new javax.swing.JLabel();
+        txtCaptcha = new javax.swing.JTextField();
+        lblVerifyCaptcha = new javax.swing.JLabel();
+        lblCaptcha = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         overlay = new javax.swing.JPanel();
@@ -226,7 +289,7 @@ public class LoginForm extends JFrame {
                 txtMatKhauKeyPressed(evt);
             }
         });
-        loginBox.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 305, 258, 30));
+        loginBox.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 258, 30));
 
         txtTenDangNhap.setBackground(new java.awt.Color(240, 240, 240));
         txtTenDangNhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -253,17 +316,17 @@ public class LoginForm extends JFrame {
                 txtTenDangNhapKeyPressed(evt);
             }
         });
-        loginBox.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 258, 30));
+        loginBox.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 258, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tài khoản");
-        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        loginBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Mật khẩu");
-        loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 285, -1, -1));
+        loginBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, -1, -1));
 
         btnDangNhap.setBackground(new java.awt.Color(102, 102, 255));
         btnDangNhap.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
@@ -280,7 +343,7 @@ public class LoginForm extends JFrame {
                 btnDangNhapActionPerformed(evt);
             }
         });
-        loginBox.add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, -1, 36));
+        loginBox.add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 460, -1, 36));
 
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -322,16 +385,16 @@ public class LoginForm extends JFrame {
                 btnQuenMatKhauMouseExited(evt);
             }
         });
-        loginBox.add(btnQuenMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 475, 125, -1));
+        loginBox.add(btnQuenMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, 125, -1));
         btnQuenMatKhau.getAccessibleContext().setAccessibleName("Quên mật khẩu");
 
         jlblVerifyPwd.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jlblVerifyPwd.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(jlblVerifyPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 339, 350, 25));
+        loginBox.add(jlblVerifyPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 323, 350, 25));
 
         jlblVerifyUsername.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jlblVerifyUsername.setForeground(new java.awt.Color(255, 0, 0));
-        loginBox.add(jlblVerifyUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 253, 350, 25));
+        loginBox.add(jlblVerifyUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 242, 350, 25));
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -345,7 +408,17 @@ public class LoginForm extends JFrame {
         ckbNhoMatKhau.setForeground(new java.awt.Color(255, 255, 255));
         ckbNhoMatKhau.setLabel("Nhớ mật khẩu");
         ckbNhoMatKhau.setOpaque(false);
-        loginBox.add(ckbNhoMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 391, -1, -1));
+        loginBox.add(ckbNhoMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 430, -1, -1));
+
+        btnChangeCaptcha.setForeground(new java.awt.Color(240, 240, 240));
+        btnChangeCaptcha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_refresh_30px.png"))); // NOI18N
+        btnChangeCaptcha.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnChangeCaptcha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeCaptchaActionPerformed(evt);
+            }
+        });
+        loginBox.add(btnChangeCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 40, 30));
 
         ckbHienMatKhau.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ckbHienMatKhau.setForeground(new java.awt.Color(255, 255, 255));
@@ -356,7 +429,24 @@ public class LoginForm extends JFrame {
                 ckbHienMatKhauActionPerformed(evt);
             }
         });
-        loginBox.add(ckbHienMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 365, -1, -1));
+        loginBox.add(ckbHienMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, -1, -1));
+
+        lblNameCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNameCaptcha.setForeground(new java.awt.Color(255, 255, 255));
+        lblNameCaptcha.setText("Captcha");
+        loginBox.add(lblNameCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, -1, -1));
+
+        txtCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCaptcha.setForeground(new java.awt.Color(102, 204, 255));
+        txtCaptcha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtCaptcha.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtCaptcha.setOpaque(false);
+        loginBox.add(txtCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 373, 120, 30));
+
+        lblVerifyCaptcha.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblVerifyCaptcha.setForeground(new java.awt.Color(255, 0, 0));
+        loginBox.add(lblVerifyCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 405, 305, 30));
+        loginBox.add(lblCaptcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 160, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 255));
@@ -422,7 +512,17 @@ public class LoginForm extends JFrame {
     }//GEN-LAST:event_btnExitMouseClicked
 
     private void btnQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuenMatKhauMouseClicked
-        new QuenMatKhauForm().setVisible(true);
+        try {
+            new QuenMatKhauForm().setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_btnQuenMatKhauMouseClicked
 
@@ -438,31 +538,55 @@ public class LoginForm extends JFrame {
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         //Khởi tạo đối tượng và dẫn nhập từ bàn phím
         String tentk = txtTenDangNhap.getText();
-        var mk = txtMatKhau.getPassword();
-        if (tentk.isEmpty() && mk.length == 0) {
-            jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");            
-            jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");
+        char[] mk = txtMatKhau.getPassword();
+        String captcha = txtCaptcha.getText();
+        if (tentk.isEmpty() && mk.length == 0 && captcha.isEmpty()) {
+            jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
+            jlblVerifyPwd.setText("Không được để trống mật khẩu!");
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
             txtTenDangNhap.requestFocus();
             return;
-        }
-        else if (tentk.length() >= 6 && mk.length == 0) {
-            jlblVerifyPwd.setText("Không được bỏ trống mật khẩu!");            
+        } else if (tentk.length() >= 6 && mk.length == 0 && !captcha.isEmpty()) {
+            jlblVerifyPwd.setText("Không được để trống mật khẩu!");
             jlblVerifyUsername.setText("");
             txtMatKhau.requestFocus();
             return;
-        }
-        else if (mk.length >= 6 && tentk.isEmpty()){
-            jlblVerifyUsername.setText("Không được bỏ trống tên tài khoản!");            
+        } else if (mk.length >= 6 && tentk.isEmpty() && !captcha.isEmpty()) {
+            jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
             jlblVerifyPwd.setText("");
+            lblVerifyCaptcha.setText("");
             txtTenDangNhap.requestFocus();
             return;
-        }
-        else {
+        } else if (mk.length >= 6 && !tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            jlblVerifyPwd.setText("");
+            jlblVerifyUsername.setText("");
+            txtTenDangNhap.requestFocus();
+            return;
+        } else if (mk.length >= 6 && tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            jlblVerifyPwd.setText("");
+            jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
+            txtTenDangNhap.requestFocus();
+            return;
+        } else if (mk.length == 0 && !tentk.isEmpty() && captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("Không được để trống captcha!");
+            jlblVerifyPwd.setText("Không được để trống mật khẩu!");
+            jlblVerifyUsername.setText("");
+            txtTenDangNhap.requestFocus();
+            return;
+        } else if (mk.length == 0 && tentk.isEmpty() && !captcha.isEmpty()) {
+            lblVerifyCaptcha.setText("");
+            jlblVerifyPwd.setText("Không được để trống mật khẩu!");
+            jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
+            txtTenDangNhap.requestFocus();
+            return;
+        } else {
             jlblVerifyUsername.setText("");
             jlblVerifyPwd.setText("");
             TaikhoanController taikhoanCtrl = new TaikhoanController();
             Taikhoan tk = taikhoanCtrl.getTaiKhoan(tentk);
-            
+
             //Kiểm tra xem có tồn tại tên tài khoản như này không
             if (tk != null) {
                 // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
@@ -474,7 +598,7 @@ public class LoginForm extends JFrame {
 
                 //Default max rounds for hashing password toleration: 8
                 var password = txtMatKhau.getPassword();
-                if (password.length != 0) {              
+                if (password.length != 0) {
                     if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
                         taiKhoanLogin = tk;
                         nhanVienLogin = nv;
@@ -527,7 +651,7 @@ public class LoginForm extends JFrame {
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMatKhauActionPerformed
-    
+
     private void txtMatKhauInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtMatKhauInputMethodTextChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMatKhauInputMethodTextChanged
@@ -538,52 +662,77 @@ public class LoginForm extends JFrame {
 
     private void ckbHienMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbHienMatKhauActionPerformed
         // TODO add your handling code here:
-        if (ckbHienMatKhau.isSelected()) txtMatKhau.setEchoChar((char)0);
-        else txtMatKhau.setEchoChar('\u25cf');
+        if (ckbHienMatKhau.isSelected())
+            txtMatKhau.setEchoChar((char) 0);
+        else
+            txtMatKhau.setEchoChar('\u25cf');
     }//GEN-LAST:event_ckbHienMatKhauActionPerformed
-    
-    private boolean hasADigit(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 48 && password.charAt(i) <= 57) return true;
+
+    private void btnChangeCaptchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeCaptchaActionPerformed
+        countCaptcha = 0;
+        Captcha img = new Captcha();
+        img.init();
+        icon = new ImageIcon(img.ToImages());
+        lblCaptcha.setIcon(icon);
+    }//GEN-LAST:event_btnChangeCaptchaActionPerformed
+
+    private boolean hasADigit(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 48 && password.charAt(i) <= 57) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasALowerChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 97 && password.charAt(i) <= 122) return true;
+
+    private boolean hasALowerChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 97 && password.charAt(i) <= 122) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasAnUpperChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) return true;
+
+    private boolean hasAnUpperChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) {
+                return true;
+            }
         }
         return false;
     }
-    private boolean hasASpecialChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
-                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
-                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
-                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
-            return true;
+
+    private boolean hasASpecialChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47)
+                    || (password.charAt(i) >= 58 && password.charAt(i) <= 64)
+                    || (password.charAt(i) >= 91 && password.charAt(i) <= 96)
+                    || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) {
+                return true;
+            }
         }
         return false;
     }
-    private int countSpecialChars(String password){ 
+
+    private int countSpecialChars(String password) {
         int count = 0;
-        for(int i = 0; i < password.length(); i++){
-            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47) 
-                || (password.charAt(i) >= 58 && password.charAt(i) <= 64) 
-                || (password.charAt(i) >= 91 && password.charAt(i) <= 96) 
-                || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) 
-            count++;
+        for (int i = 0; i < password.length(); i++) {
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47)
+                    || (password.charAt(i) >= 58 && password.charAt(i) <= 64)
+                    || (password.charAt(i) >= 91 && password.charAt(i) <= 96)
+                    || (password.charAt(i) >= 123 && password.charAt(i) <= 126)) {
+                count++;
+            }
         }
         return count;
     }
-    private boolean hasAnImproperChar(String password){   
-        for(int i = 0; i < password.length(); i++){
-            if (password.charAt(i) < 32 || password.charAt(i) > 126) return true;
+
+    private boolean hasAnImproperChar(String password) {
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) < 32 || password.charAt(i) > 126) {
+                return true;
+            }
         }
         return false;
     }
@@ -594,6 +743,7 @@ public class LoginForm extends JFrame {
     public static Nhanvien nhanVienLogin;
     public static Taikhoan taiKhoanLogin;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChangeCaptcha;
     private javax.swing.JLabel btnCloseLogin;
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JPanel btnExit;
@@ -614,9 +764,148 @@ public class LoginForm extends JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel jlblVerifyPwd;
     private javax.swing.JLabel jlblVerifyUsername;
+    private javax.swing.JLabel lblCaptcha;
+    private javax.swing.JLabel lblNameCaptcha;
+    private javax.swing.JLabel lblVerifyCaptcha;
     private javax.swing.JPanel loginBox;
     private javax.swing.JPanel overlay;
+    private javax.swing.JTextField txtCaptcha;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables
+}
+
+class capcha {
+
+    private static String img;
+    //The width of the verification code image.
+    private int width = 160;
+    //The height of the verification code image.
+    private int height = 40;
+    //Number of characters in the verification code
+    private int codeCount = 6;
+    private Font font, rotatedFont;
+    AffineTransform affineTransform;
+    private int codeX = 0;
+    //font height
+    private int fontHeight;
+    private int codeY;
+    char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+    public capcha() {
+        init();
+        ToImages();
+    }
+
+    /**
+     * Initialize and verify image properties
+     */
+    public void init() {
+        codeX = (width - 40) / (codeCount + 1);
+        fontHeight = height - 10;
+        codeY = height - 10;
+    }
+
+    public static String getImageCodeCaptcha() {
+        return img;
+    }
+
+    public BufferedImage ToImages() {
+        BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        try {
+            Graphics2D g = buffImg.createGraphics();
+            //Create a random number generator class
+            Random random = new Random();
+            //Fill the image with white
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, width, height);
+            //Create a font, the size of the font should be determined according to the height of the picture.
+
+            //Draw the border.
+            g.setColor(Color.BLACK);
+            g.drawRect(0, 0, width - 1, height - 1);
+            //Randomly generate an interference line, so that the authentication code in the image is not easily detected by other programs.
+            for (int i = 0; i < 300; i++) {
+                int x = random.nextInt(width);
+                int y = random.nextInt(height);
+                g.drawOval(x, y, 1, 1);
+            }
+
+            //randomCode is used to save the randomly generated verification code so that the user can log in for verification.
+            StringBuffer randomCode = new StringBuffer();
+            int red = 0, green = 0, blue = 0;
+
+            //Randomly generate a verification code with codeCount numbers.
+            for (int i = 0; i < codeCount; i++) {
+                //Get the randomly generated verification code number.
+                String strRand = String.valueOf(codeSequence[random.nextInt(62)]);
+                int randRadInt = new SecureRandom().nextInt(35 + 35) - 35;
+                //System.out.println(randRadInt);
+                switch (i) {
+                    case 0:
+                        font = new Font("Arial", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 1:
+                        font = new Font("Segoe UI", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 2:
+                        font = new Font("Times New Roman", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 3:
+                        font = new Font("Serif", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 4:
+                        font = new Font("SansSerif", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 5:
+                        font = new Font("Verdana", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    default:
+                        font = new Font("Roboto", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                }
+                //Set the font
+                g.setFont(rotatedFont);
+                //Generate random color components to construct the color value, so that the color value of each number output will be different.
+                red = random.nextInt(255);
+                green = random.nextInt(255);
+                blue = random.nextInt(255);
+                while (red == 255 && green == 255 && blue == 255) {
+                    red = random.nextInt(255);
+                    green = random.nextInt(255);
+                    blue = random.nextInt(255);
+                }
+                //Draw the verification code into the image with a randomly generated color.              
+                g.setColor(new Color(red, green, blue));
+                g.drawString(strRand, i * codeX + codeX, codeY + 1);
+                //Combine the four random numbers generated.
+                randomCode.append(strRand);
+            }
+            img = randomCode.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buffImg;
+    }
 }
