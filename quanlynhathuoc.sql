@@ -23,12 +23,12 @@ CREATE TABLE chitiethoadon(
 	MaHoaDon INT NOT NULL,
 	MaThuoc INT NOT NULL,
 	MaLo INT NOT NULL,
-	MaDonViTinh INT NOT NULL,
 	SoLuong INT NOT NULL,
 	DonGia MONEY NOT NULL,
 	DaXoa BIT DEFAULT 0,
 	PRIMARY KEY (MaHoaDon, MaThuoc, MaLo)
 )
+
 
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng khuyenmai
@@ -303,14 +303,19 @@ ALTER TABLE lonhap
 GO
 
 -- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
-CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
+ALTER TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
 FOR UPDATE
 AS BEGIN
-	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT
-	SELECT  @SoLuongMoi = SoLuong, @MaLo = MaLo FROM INSERTED
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT, @DaXoa BIT
+	SELECT  @SoLuongMoi = SoLuong, @MaLo = MaLo, @DaXoa = DaXoa  FROM INSERTED
 	SELECT  @SoLuongCu = SoLuong FROM DELETED
+	IF(@DaXoa = 0) BEGIN
+		UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongCu - @SoLuongMoi WHERE MaLo = @MaLo
+	END
+	ELSE BEGIN
+		UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongMoi WHERE MaLo = @MaLo
+	END
 
-	UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongCu - @SoLuongMoi WHERE MaLo = @MaLo
 END
 
 GO
@@ -346,7 +351,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -358,14 +363,14 @@ AS BEGIN
 	IF(@MaKhuyenMai IS NOT NULL) BEGIN
 		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
 	END 
-
 	SET @TongTien = 0
-
-	DECLARE CUR_CTHD CURSOR FOR SELECT SoLuong, DonGia FROM chitiethoadon where MaHoaDon = @MaHoaDon
+	DECLARE CUR_CTHD CURSOR FOR SELECT SoLuong, DonGia FROM chitiethoadon where MaHoaDon = @MaHoaDon AND DaXoa = 0
 	OPEN CUR_CTHD
 	FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
+
+
 		SET @TongTien = @TongTien + (@SoLuong * @DonGia)
 		FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
 	END
@@ -377,18 +382,36 @@ END
 
 GO
 -- Tính tổng tiền khi sửa (sửa mã khuyến mãi) hóa đơn
-CREATE TRIGGER TG_INSERT_HOADON ON hoadon 
+ALTER TRIGGER TG_INSERT_HOADON ON hoadon 
 FOR UPDATE
 AS BEGIN
-	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
+	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY,  @SoLuong INT, @DonGia MONEY
+
 	SELECT @MaHoaDon = MaHoaDon, @MaKhuyenMai = MaKhuyenMai FROM INSERTED
 
 	SET @PhanTramKhuyenMai = 0
-	IF (@MaKhuyenMai != NULL) BEGIN
+	IF (@MaKhuyenMai IS NOT NULL) BEGIN
 		SELECT @PhanTramKhuyenMai = PhanTramKhuyenMai FROM khuyenmai WHERE MaKhuyenMai = @MaKhuyenMai
 	END 
 
-	UPDATE hoadon SET TongTien = TongTien - ((TongTien *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
+	SET @TongTien = 0
+
+
+	DECLARE CUR_CTHD CURSOR FOR SELECT SoLuong, DonGia FROM chitiethoadon where MaHoaDon = @MaHoaDon AND DaXoa = 0
+	OPEN CUR_CTHD
+	FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @TongTien = @TongTien + (@SoLuong * @DonGia)
+		FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	END
+	CLOSE CUR_CTHD
+	DEALLOCATE CUR_CTHD
+
+
+	UPDATE hoadon SET TongTien = @TongTien - ((@TongTien * @PhanTramKhuyenMai) / 100) WHERE MaHoaDon = @MaHoaDon
+
+	--UPDATE hoadon SET TongTien = TongTien - ((TongTien *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
 END
 
 GO

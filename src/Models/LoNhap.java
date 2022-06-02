@@ -23,6 +23,9 @@ public class LoNhap {
         this.daXoa = daXoa;
     }
 
+    public LoNhap() {
+    }
+
     public int getMaLo() {
         return maLo;
     }

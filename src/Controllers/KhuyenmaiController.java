@@ -38,6 +38,36 @@ public class KhuyenmaiController {
         }
         return dsmkm;
     }
+    
+     public ArrayList<Khuyenmai> layDanhsachMKMAll() {
+        ArrayList<Khuyenmai> dsmkm = new ArrayList<>();
+        String query = "SELECT * FROM khuyenmai";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    String maKhuyenmai = rs.getString("MaKhuyenMai");
+                    String tenKhuyenmai = rs.getString("TenKhuyenMai");
+                    float dkKhuyenmai = rs.getFloat("DieuKienKhuyenMai");
+                    float ptKhuyenmai = rs.getFloat("PhanTramKhuyenMai");
+                    LocalDate ngayBD = rs.getDate("NgayBatDau").toLocalDate();
+                    LocalDate ngayKT = rs.getDate("NgayKetThuc").toLocalDate();
+
+                    boolean daxoa = rs.getInt("DaXoa") == 1 ? true : false;
+                    dsmkm.add(new Khuyenmai(maKhuyenmai, tenKhuyenmai, dkKhuyenmai, ptKhuyenmai, ngayBD, ngayKT, daxoa));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return dsmkm;
+    }
 
     public Khuyenmai layMaKhuyenmai(String MKM) {
 

@@ -14,21 +14,43 @@ public class Hoadon {
 
     private int maHoadon;
     private int maNhanvien;
+    private String tenNhanvien;
     private int maKhachhang;
+    private String tenKhachhang;
     private String maKhuyenmai;
     private Calendar ngayLap;
     private float tongTien;
     private boolean daXoa;
+    
+    public String getTenNhanvien() {
+        return tenNhanvien;
+    }
 
-    public Hoadon(int maHoadon, int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap, float tongTien, boolean daXoa) {
+    public void setTenNhanvien(String tenNhanvien) {
+        this.tenNhanvien = tenNhanvien;
+    }
+
+    public String getTenKhachhang() {
+        return tenKhachhang;
+    }
+
+    public void setTenKhachhang(String tenKhachhang) {
+        this.tenKhachhang = tenKhachhang;
+    }
+
+    public Hoadon(int maHoadon, int maNhanvien, String tenNhanvien, int maKhachhang, String tenKhachhang, String maKhuyenmai, Calendar ngayLap, float tongTien, boolean daXoa) {
         this.maHoadon = maHoadon;
         this.maNhanvien = maNhanvien;
+        this.tenNhanvien = tenNhanvien;
         this.maKhachhang = maKhachhang;
+        this.tenKhachhang = tenKhachhang;
         this.maKhuyenmai = maKhuyenmai;
         this.ngayLap = ngayLap;
         this.tongTien = tongTien;
         this.daXoa = daXoa;
     }
+
+
 
     public Hoadon(int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
         this.maNhanvien = maNhanvien;

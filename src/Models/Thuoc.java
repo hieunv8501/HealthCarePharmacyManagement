@@ -9,6 +9,7 @@ package Models;
  * @author HauPC
  */
 public class Thuoc {
+
     private int maThuoc;
     private String tenThuoc;
     private String mota;
@@ -16,7 +17,16 @@ public class Thuoc {
     private Donvitinh donvitinh;
     private String hinhanh;
     private int trangthai;
+    private float giaBan;
     //Phuong thuc cua Thuoc
+
+    public float getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(float giaBan) {
+        this.giaBan = giaBan;
+    }
 
     public void setMaThuoc(int maThuoc) {
         this.maThuoc = maThuoc;
@@ -45,8 +55,7 @@ public class Thuoc {
     public void setTrangthai(int trangthai) {
         this.trangthai = trangthai;
     }
-    
-    
+
     public int getMaThuoc() {
         return maThuoc;
     }
@@ -74,10 +83,10 @@ public class Thuoc {
     public int getTrangthai() {
         return trangthai;
     }
+
     @Override
-    public String toString()
-    {
-        return ("Thông tin về thuốc là\n Mã thuốc:"+ this.maThuoc+"\t Tên thuốc: "+ this.tenThuoc+"\t Mota:"+ this.mota+"\t Hình ảnh: "+this.hinhanh+"\t Nhà cung cấp"+ this.nhacungcap);
-        
+    public String toString() {
+        return ("Thông tin về thuốc là\n Mã thuốc:" + this.maThuoc + "\t Tên thuốc: " + this.tenThuoc + "\t Mota:" + this.mota + "\t Hình ảnh: " + this.hinhanh + "\t Nhà cung cấp" + this.nhacungcap);
+
     }
 }

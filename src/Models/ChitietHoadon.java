@@ -13,10 +13,27 @@ public class ChitietHoadon {
     private int maHoadon;
     private int maThuoc;
     private int maLo;
-    private int maDonvitinh;
     private int soluong;
     private float dongia;
     private boolean daXoa;
+    private String tenThuoc;
+    private String tenDonvitinh;
+
+    public String getTenDonvitinh() {
+        return tenDonvitinh;
+    }
+
+    public void setTenDonvitinh(String tenDonvitinh) {
+        this.tenDonvitinh = tenDonvitinh;
+    }
+
+    public String getTenThuoc() {
+        return tenThuoc;
+    }
+
+    public void setTenThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
 
     public int getMaHoadon() {
         return maHoadon;
@@ -42,13 +59,7 @@ public class ChitietHoadon {
         this.maLo = maLo;
     }
 
-    public int getMaDonvitinh() {
-        return maDonvitinh;
-    }
 
-    public void setMaDonvitinh(int maDonvitinh) {
-        this.maDonvitinh = maDonvitinh;
-    }
 
     public int getSoluong() {
         return soluong;
@@ -74,20 +85,18 @@ public class ChitietHoadon {
         this.daXoa = daXoa;
     }
 
-    public ChitietHoadon(int maHoadon, int maThuoc, int maLo, int maDonvitinh, int soluong, float dongia, boolean daXoa) {
+    public ChitietHoadon(int maHoadon, int maThuoc, int maLo, int soluong, float dongia, boolean daXoa) {
         this.maHoadon = maHoadon;
         this.maThuoc = maThuoc;
         this.maLo = maLo;
-        this.maDonvitinh = maDonvitinh;
         this.soluong = soluong;
         this.dongia = dongia;
         this.daXoa = daXoa;
     }
 
-    public ChitietHoadon(int maThuoc, int maLo, int maDonvitinh, int soluong, float dongia) {
+    public ChitietHoadon(int maThuoc, int maLo, int soluong, float dongia) {
         this.maThuoc = maThuoc;
         this.maLo = maLo;
-        this.maDonvitinh = maDonvitinh;
         this.soluong = soluong;
         this.dongia = dongia;
     }
