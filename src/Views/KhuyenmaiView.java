@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -50,7 +51,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
-
+        txtMKM.setEditable(false);
         modelMKM = (DefaultTableModel) dsMaKM.getModel();
         List<Khuyenmai> dskm;
         dskm = kmctr.layDanhsachMKM();
@@ -66,6 +67,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                 String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
                 String[] date2 = km.getNgayKetthuc().toString().split("-");
                 String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
+//                String daxoa = km.isDaXoa() == true ? "Ðã xóa" : "";
                 model.addRow(new Object[]{
                     km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), ngayBD, ngayKT
                 });
@@ -79,6 +81,34 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         List<Khuyenmai> dskm;
         dskm = kmctr.layDanhsachMKM();
         this.showData(dskm, modelMKM);
+    }
+
+    public String randomMKM() {
+        int leftLimit = 65; // letter 'A'
+        int rightLimit = 90; // letter 'Z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
+    }
+
+    public String CheckMKM(String mkm) {
+        List<Khuyenmai> dskm;
+        dskm = kmctr.layDanhsachMKMAll();
+        for (Khuyenmai t : dskm) {
+            if (t instanceof Khuyenmai) {
+                Khuyenmai km = (Khuyenmai) t;
+                if (mkm.equalsIgnoreCase(km.getMaKhuyenmai())) {
+                    return CheckMKM(randomMKM());
+                }
+
+            }
+        }
+        return mkm;
     }
 
     /**
@@ -355,6 +385,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+
+        String MKM = CheckMKM(randomMKM());
+        txtMKM.setText(MKM);
         btnLuu.setEnabled(true);
         btnHuy.setEnabled(true);
         dateBD.setCalendar(cld);
@@ -396,7 +429,6 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         boolean check = true;
 
         if (dsMaKM.getRowCount() > 0) {
-            System.out.println("oke");
             for (int i = 0; i < dsMaKM.getRowCount(); i++) {
                 if (maKhuyenmai.equalsIgnoreCase(dsMaKM.getModel().getValueAt(i, 0).toString())) {
                     JOptionPane.showMessageDialog(null, "Mã khuyễn mãi " + maKhuyenmai + " này đã tồn tại!!!", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -409,6 +441,8 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             Khuyenmai KM = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dieukienKM, phantramKM, ngayBD, ngayKT, false);
 
             kmctr.themMaKhuyenmai(KM);
+            String MKM = CheckMKM(randomMKM());
+            txtMKM.setText(MKM);
             this.reset();
         }
 

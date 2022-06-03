@@ -213,6 +213,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
         comboLonhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
+        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã hóa đơn:");
 
