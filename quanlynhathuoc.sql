@@ -88,7 +88,7 @@ CREATE TABLE phieunhap (
 
 CREATE TABLE donvitinh
 (
-	MaDonViTinh int IDENTITY(1,1) primary key NOT NULL,
+	MaDonViTinh int primary key NOT NULL,
 	TenDonviTinh nvarchar(50) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
@@ -137,7 +137,7 @@ CREATE TABLE tinh (
 -- Cấu trúc bảng cho bảng loaithuoc
 
 create TABLE loaithuoc (
-	MaLoaiThuoc int IDENTITY(1,1) primary key NOT NULL,
+	MaLoaiThuoc int  primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
@@ -147,7 +147,7 @@ create TABLE loaithuoc (
 -- Cấu trúc bảng cho bảng nhacungcap
 
 CREATE TABLE nhacungcap(
-	MaNhaCungCap int IDENTITY(1,1) primary key NOT NULL,
+	MaNhaCungCap int  primary key NOT NULL,
 	TenNhaCungCap nvarchar(50) NOT NULL,
 	MaHuyen int NOT NULL,
 	SoDienThoai varchar(10)  NOT NULL,
@@ -186,12 +186,14 @@ CREATE TABLE loainhanvien (
 -- Cấu trúc bảng cho bảng thuoc
 
 create table thuoc(
-	MaThuoc int IDENTITY(1,1) primary key ,
+	MaThuoc int  primary key ,
 	TenThuoc nvarchar(50) NOT NULL,
 	MoTa nvarchar(1000) NOT NULL,
 	DoTuoi int NOT NULL,
 	HinhAnh nvarchar NOT NULL,
 	MaDonViTinh int NOT NULL,
+	MaDonViQuiDoi int NOT NULL,
+	TiLeQuiDoi int NOT NULL,
 	MaNhaCungCap int NOT NULL,
 	MaLoaiThuoc int,
 	GiaBan MONEY NOT NULL,
@@ -224,7 +226,8 @@ CREATE TABLE phanquyen (
 ALTER TABLE thuoc
 	ADD CONSTRAINT FK_thuoc_nhacungcap foreign key (MaNhaCungCap) references nhacungcap(MaNhaCungCap),
 	CONSTRAINT FK_thuoc_donvitinh foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
-	CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc)
+	CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc),
+	CONSTRAINT FK_thuoc_donviQuidoi foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
 	
 -- Tạo các ràng buộc cho các bảng nhacungcap 
 ALTER TABLE nhacungcap
@@ -508,14 +511,14 @@ INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Bảo vệ', 50
 INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
 values (N'HieuNV', 1, '05/08/2001', 1, '0251643987', N'Nam', N'Cử nhân')
 INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
-values (N'QuyNV', 2, '11/04/2001', 2, '0365894854', N'Nam', N'Thạc sĩ')
+values (N'QuyNV', 2, '11/04/2001', 1, '0365894854', N'Nam', N'Thạc sĩ')
 
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng khachhang
 INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) 
 values (N'TinhBV', N'Nam', '07/02/2001','0251643987', 1)
 INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) 
-values (N'HauPP', N'Nam', '04/02/2001','0251643978', 6)
+values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 
 --Test TRIGGER
 
@@ -577,7 +580,8 @@ insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q4', N'Phụ bán thuốc', 'qlBanThuoc xemThuoc xemKhuyenMai xemKhachHang');
 
 insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
-values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 1, 'Q1'), //pass: Hieu123.
-('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 1, 'Q1'), //pass: Tinh123.
-('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 1, 'Q1'), //Hau123.
-('vietquy, N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 1, 'Q1') //Quy123.
+values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 10, 'Q1'), --pass: Hieu123.
+('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 10, 'Q1'), --pass: Tinh123.
+('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 10, 'Q1'), --Hau123.
+('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 10, 'Q1') --Quy123.
+
