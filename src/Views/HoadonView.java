@@ -66,8 +66,7 @@ public class HoadonView extends javax.swing.JPanel {
         for (T t : list) {
             if (t instanceof Hoadon) {
                 Hoadon hd = (Hoadon) t;
-//                String[] date = hd.getNgayLap().toString().split("-");
-//                String ngayBD = date[2] + "/" + date[1] + "/" + date[0];
+
                 SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 String formatted = format1.format(hd.getNgayLap().getTime());
                 String nhanvien = hd.getMaNhanvien() + " - " + hd.getTenNhanvien();

@@ -32,7 +32,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class QuenMatKhauForm extends JFrame {
+public class QuenmatkhauView extends JFrame {
 
     int countCaptcha = 0;
     ImageIcon icon;
@@ -43,7 +43,7 @@ public class QuenMatKhauForm extends JFrame {
 
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
-    public QuenMatKhauForm() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    public QuenmatkhauView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
@@ -529,9 +529,9 @@ public class QuenMatKhauForm extends JFrame {
                         lblThongBaoResetPwd.setText("Vui lòng chờ trong giây lát, hệ thống đang xử lý...");
                         em.sendEmail(tk, email);
                     } catch (MessagingException ex) {
-                        Logger.getLogger(QuenMatKhauForm.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(QuenmatkhauView.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (UnsupportedEncodingException ex) {
-                        Logger.getLogger(QuenMatKhauForm.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(QuenmatkhauView.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     lblThongBaoResetPwd.setText("Vui lòng kiếm tra tài khoản email để nhận mật khẩu mới!");
                 }
@@ -548,7 +548,7 @@ public class QuenMatKhauForm extends JFrame {
     }//GEN-LAST:event_txtTenTaiKhoanInputMethodTextChanged
 
     private void btnQuayLaiDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuayLaiDNActionPerformed
-        new LoginForm().setVisible(true);
+        new LoginView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnQuayLaiDNActionPerformed
 

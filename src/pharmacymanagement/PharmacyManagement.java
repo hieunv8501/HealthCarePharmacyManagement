@@ -1,6 +1,6 @@
 package pharmacymanagement;
 
-import Views.LoginForm;
+import Views.LoginView;
 import java.awt.EventQueue;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -11,7 +11,7 @@ public class PharmacyManagement {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                LoginForm lg = new LoginForm();
+                LoginView lg = new LoginView();
                 lg.setVisible(true);             
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 SwingUtilities.updateComponentTreeUI(lg);

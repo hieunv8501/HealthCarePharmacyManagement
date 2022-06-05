@@ -6,11 +6,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class BeginForm extends JPanel {
+public class BeginView extends JPanel {
 
     JLabel lbInfo;
 
-    public BeginForm(String text) {
+    public BeginView(String text) {
         setLayout(new GridBagLayout());
 
         lbInfo = new JLabel(text);

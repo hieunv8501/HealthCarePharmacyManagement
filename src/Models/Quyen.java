@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Quyen {
-    String maQuyen, tenQuyen, chitietQuyen;
-    boolean daXoa;
-    DBConnection quyenDBConnection;
+    private String maQuyen, tenQuyen, chitietQuyen;
+    private boolean daXoa;
+    private DBConnection quyenDBConnection;
 
     public Quyen() {
     }

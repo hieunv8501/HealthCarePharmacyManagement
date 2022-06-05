@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Models;
 
-/**
- *
- * @author TinhBui
- */
 public class ChitietHoadon {
 
     private int maHoadon;
@@ -58,8 +50,6 @@ public class ChitietHoadon {
     public void setMaLo(int maLo) {
         this.maLo = maLo;
     }
-
-
 
     public int getSoluong() {
         return soluong;

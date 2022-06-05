@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Taikhoan {
-    String taikhoan, matkhau, maQuyen;
-    int maNhanvien;
-    boolean daXoa;
-    DBConnection taikhoanConnection;
+    private String taikhoan, matkhau, maQuyen;
+    private int maNhanvien;
+    private boolean daXoa;
+    private DBConnection taikhoanConnection;
     
     public Taikhoan(){}
     

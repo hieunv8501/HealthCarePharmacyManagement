@@ -1,48 +1,115 @@
 package Views;
 
+import Controllers.NhanvienController;
 import Models.Quyen;
 import Controllers.QuyenController;
-import FormHelpers.QuyenFormHelper;
+import FormHelpers.QuyenViewHelper;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class QuyenForm extends JPanel {
+public class QuyenView extends JPanel {
 
     QuyenController quyenCtrl = new QuyenController();
     DefaultTableModel tbModel;
-    final int MAQUYEN_I = 1, CHITIET_I = 2;
-    
-    public QuyenForm() {
+
+    public QuyenView() {
         initComponents();
-        tbModel = (DefaultTableModel)tblQuyen.getModel();
+        tbModel = (DefaultTableModel) tblQuyen.getModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tblQuyen.setDefaultRenderer(String.class, centerRenderer);
+        ((DefaultTableCellRenderer) tblQuyen.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        tblQuyen.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
+        tblQuyen.getTableHeader().setOpaque(false);
         tblQuyen.getTableHeader().setBackground(Color.YELLOW);
-        tblQuyen.getTableHeader().setForeground(new Color(0, 0, 0));
         tblQuyen.setUpdateSelectionOnSort(true);
         tblQuyen.setFillsViewportHeight(true);
         tblQuyen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
-        
+
         // buttons
-        if (!LoginForm.quyenLogin.getChitietQuyen().contains("qlQuyen")) {
+        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlQuyen")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
-            btnTaiLenExcel.setEnabled(false);            
+            btnTaiLenExcel.setEnabled(false);
             btnTaiXuongExcel.setEnabled(false);
         }
-        refresh();     
+        tblQuyen.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                String maquyen = getSelectedRow(1);
+                if (maquyen != null) {
+                    showInfo(maquyen);
+                }
+            }
+        });
+        refresh();
     }
-    
+
+//    private int countSpaceChar(String str) {
+//        int count = 0;
+//        for(int i=0;i<str.length();i++){
+//            if (str.[i].equals(" ")) count++;
+//        }
+//        return count;
+//    }
     private void refresh() {
         quyenCtrl.readDB();
+        txtMaQuyen.setText("");
+        txtTenQuyen.setText("");
+        txtChitietquyen.setText("");
         loadDataToTable();
     }
-    
-    private void loadDataToTable(){
+
+    String getStringFromSb(StringBuilder sb, int stringLength) {
+        String returnStr = sb.substring(0, stringLength);
+        sb.delete(0, stringLength);
+        return returnStr;
+    }
+
+    private void showInfo(String _maquyen) {
+        if (_maquyen != null) {
+            // show hình
+            for (Quyen q : quyenCtrl.getDanhSachQuyen()) {
+                if (q.getMaQuyen().equals(_maquyen)) {
+                    // show info
+                    txtMaQuyen.setText(q.getMaQuyen());
+                    txtTenQuyen.setText(q.getTenQuyen());
+                    txtChitietquyen.setText(q.getChitietQuyen());
+
+                    var tempStr = q.getChitietQuyen();
+                    String str1 = null, str2 = null, str3 = null;
+                    int count = tempStr.length() - tempStr.replace(" ", "").length();
+                    char[] tempStrChar = tempStr.toCharArray();
+                    System.out.println(tempStrChar);
+                    if (count >= 6 && count <= 15) {
+                        int countTemp = 0;
+                        for (int i = 0; i < tempStr.length(); i++) {
+                            if (tempStr.charAt(i) == (char) 32) {
+                                countTemp++;
+                                if (countTemp == 6) break;
+                            }
+                        }
+                    }
+                    txtarA.setText(String.valueOf(count));
+
+                    return;
+                }
+            }
+        }
+    }
+
+    private void loadDataToTable() {
         tbModel.setRowCount(0);
         var quyenList = quyenCtrl.getDanhSachQuyen();
         int stt = 0;
@@ -52,16 +119,14 @@ public class QuyenForm extends JPanel {
                 String.valueOf(stt),
                 q.getMaQuyen(),
                 q.getTenQuyen(),
-                q.getChitietQuyen(),                
-                (q.isDaXoa() ? "Đã tạm khóa": "Bình thường"),
-            });     
+                q.getChitietQuyen(),
+                (q.isDaXoa() ? "Đã tạm khóa" : "Bình thường"),});
         }
     }
- 
+
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
-
     private String getSelectedRow(int col) {
         int i = tblQuyen.getSelectedRow();
         if (i >= 0) {
@@ -70,7 +135,7 @@ public class QuyenForm extends JPanel {
         }
         return null;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,14 +159,20 @@ public class QuyenForm extends JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblQuyen = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        txtChitietquyen = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtarA = new javax.swing.JTextArea();
 
         setPreferredSize(new java.awt.Dimension(1200, 745));
 
-        txtMaQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaQuyen.setEditable(false);
+        txtMaQuyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtMaQuyen.setForeground(new java.awt.Color(255, 0, 0));
         txtMaQuyen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
-        txtTenQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTenQuyen.setEditable(false);
+        txtTenQuyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtTenQuyen.setForeground(new java.awt.Color(255, 0, 0));
         txtTenQuyen.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtTenQuyen.setAlignmentX(0.0F);
         txtTenQuyen.setAlignmentY(0.0F);
@@ -139,6 +210,11 @@ public class QuyenForm extends JPanel {
         btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         cbbChonTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbbChonTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã Quyền", "Tên Quyền", "Chi Tiết Quyền", "Quyền Đã Ẩn" }));
@@ -166,7 +242,7 @@ public class QuyenForm extends JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
         tblQuyen.setAutoCreateRowSorter(true);
-        tblQuyen.setBackground(new java.awt.Color(255, 255, 0));
+        tblQuyen.setBackground(new java.awt.Color(240, 240, 240));
         tblQuyen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 255, 0), null, null));
         tblQuyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblQuyen.setModel(new javax.swing.table.DefaultTableModel(
@@ -205,55 +281,59 @@ public class QuyenForm extends JPanel {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        txtChitietquyen.setEditable(false);
+        txtChitietquyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtChitietquyen.setForeground(new java.awt.Color(255, 0, 0));
+        txtChitietquyen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 731, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 113, Short.MAX_VALUE)
-        );
+        txtarA.setEditable(false);
+        txtarA.setColumns(5);
+        txtarA.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtarA.setForeground(new java.awt.Color(255, 0, 0));
+        txtarA.setRows(5);
+        txtarA.setEnabled(false);
+        jScrollPane1.setViewportView(txtarA);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(168, Short.MAX_VALUE)
-                .addComponent(btnThem)
-                .addGap(39, 39, 39)
-                .addComponent(btnSua)
-                .addGap(39, 39, 39)
-                .addComponent(btnXoa)
-                .addGap(39, 39, 39)
-                .addComponent(btnLamMoi)
-                .addGap(39, 39, 39)
-                .addComponent(btnTaiLenExcel)
-                .addGap(39, 39, 39)
-                .addComponent(btnTaiXuongExcel)
-                .addContainerGap(169, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtTenQuyen, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMaQuyen))
-                .addGap(44, 44, 44)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(351, 351, 351)
-                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(btnTimKiem)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTenQuyen, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMaQuyen))
+                        .addGap(29, 29, 29)
+                        .addComponent(txtChitietquyen, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 156, Short.MAX_VALUE)
+                                .addComponent(btnThem)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnSua)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnXoa)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnLamMoi)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnTaiLenExcel)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnTaiXuongExcel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnTimKiem)))
+                        .addContainerGap(169, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,8 +344,8 @@ public class QuyenForm extends JPanel {
                         .addComponent(txtMaQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
                         .addComponent(txtTenQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40)
+                    .addComponent(txtChitietquyen))
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnThem)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,35 +353,41 @@ public class QuyenForm extends JPanel {
                     .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiLenExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
-        
+
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        QuyenFormHelper quyenHelper = new QuyenFormHelper("Thêm", "");
+        QuyenViewHelper quyenHelper = new QuyenViewHelper("Thêm", "");
         quyenHelper.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 refresh();
             }
-        });         
+        });
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         String maquyen = getSelectedRow(1);
         if (maquyen != null) {
-            QuyenFormHelper suaq = new QuyenFormHelper("Sửa", maquyen);
+            QuyenViewHelper suaq = new QuyenViewHelper("Sửa", maquyen);
             suaq.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
@@ -317,7 +403,19 @@ public class QuyenForm extends JPanel {
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         refresh();
     }//GEN-LAST:event_btnLamMoiActionPerformed
-    
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        String maquyen = getSelectedRow(1);
+        if (maquyen != null) {
+            if (JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa quyền " + maquyen + " ?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                new QuyenController().delete(maquyen);
+                refresh();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn quyền nào để xóa");
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
@@ -329,11 +427,13 @@ public class QuyenForm extends JPanel {
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbbChonTimKiem;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblQuyen;
+    private javax.swing.JTextField txtChitietquyen;
     private javax.swing.JTextField txtMaQuyen;
     private javax.swing.JTextField txtTenQuyen;
     private javax.swing.JTextField txtTimKiem;
+    private javax.swing.JTextArea txtarA;
     // End of variables declaration//GEN-END:variables
 }

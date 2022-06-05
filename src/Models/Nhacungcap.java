@@ -1,20 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Models;
 
-/**
- *
- * @author HauPC
- */
 public class Nhacungcap {
     private int maNhacungcap;
     private String tenNhacungcap;
-    private String maHuyen;
+    private Xa xa;
     private String soDienthoai;
     private String fax;
     //Phuong thuc
+
+    public Xa getXa() {
+        return xa;
+    }
+
+    public void setXa(Xa xa) {
+        this.xa = xa;
+    }
 
     public void setMaNhacungcap(int maNhacungcap) {
         this.maNhacungcap = maNhacungcap;
@@ -24,9 +24,6 @@ public class Nhacungcap {
         this.tenNhacungcap = tenNhacungcap;
     }
 
-    public void setMaHuyen(String maHuyen) {
-        this.maHuyen = maHuyen;
-    }
 
     public void setSoDienthoai(String soDienthoai) {
         this.soDienthoai = soDienthoai;
@@ -42,10 +39,6 @@ public class Nhacungcap {
 
     public String getTenNhacungcap() {
         return tenNhacungcap;
-    }
-
-    public String getMaHuyen() {
-        return maHuyen;
     }
 
     public String getSoDienthoai() {

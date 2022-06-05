@@ -1,28 +1,82 @@
 package Models;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 
 public class ChitietPhieunhap {
-    int maPhieunhap;
-    int maThuoc;
-    int maDonvitinh;
-    int soluong;
-    float dongia;
-    LocalDate ngaySanxuat;
-    LocalDate ngayHethan;
-    boolean daxoa;
 
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int maDonvitinh, int soluong, float dongia, LocalDate ngaySanxuat, LocalDate ngayHethan, boolean daxoa) {
+    private int maPhieunhap;
+    private int maThuoc;
+    private int maDonvitinh;
+    private int soluong;
+    private float dongia;
+    private Calendar ngaySanxuat;
+    private Calendar ngayHethan;
+    private boolean daXoa;
+    
+    private String tenThuoc;
+    private String tenLoaiThuoc;
+    private String tenDonvitinh;
+    private int maLo;
+    
+    
+    public ChitietPhieunhap() {}
+    
+    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, Calendar ngaySanxuat, Calendar ngayHethan, boolean daXoa) {
         this.maPhieunhap = maPhieunhap;
         this.maThuoc = maThuoc;
-        this.maDonvitinh = maDonvitinh;
-        this.soluong = soluong;
-        this.dongia = dongia;
+        this.soluong = soLuong;
+        this.dongia = donGia;
         this.ngaySanxuat = ngaySanxuat;
         this.ngayHethan = ngayHethan;
-        this.daxoa = daxoa;
+        this.daXoa = daXoa;
     }
 
+    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, Calendar ngaySanxuat, Calendar ngayHethan) {
+        this.maPhieunhap = maPhieunhap;
+        this.maThuoc = maThuoc;
+        this.soluong = soLuong;
+        this.dongia = donGia;
+        this.ngaySanxuat = ngaySanxuat;
+        this.ngayHethan = ngayHethan;
+    }
+
+
+    public ChitietPhieunhap(int maPhieunhap, int maLo, int maThuoc, String tenThuoc, String tenLoaiThuoc, int maDonvitinh, String tenDonvitinh, int soLuong, float donGia, boolean daXoa) {
+        this.maPhieunhap = maPhieunhap;
+        this.maLo = maLo;
+        this.maThuoc = maThuoc;
+        this.tenThuoc = tenThuoc;
+        this.tenLoaiThuoc = tenLoaiThuoc;
+        this.soluong = soLuong;
+        this.maDonvitinh = maDonvitinh;
+        this.tenDonvitinh = tenDonvitinh;
+        this.dongia = donGia;
+        this.daXoa = daXoa;
+    }
+    
+    public int getMaLo() {
+        return maLo;
+    }
+
+    public void setMaLo(int maLo) {
+        this.maLo = maLo;
+    }
+    
+    public String getTenDonvitinh() {
+        return tenDonvitinh;
+    }
+
+    public void setTenDonvitinh(String tenDonvitinh) {
+        this.tenDonvitinh = tenDonvitinh;
+    }
+    public String getTenThuoc() {
+        return tenThuoc;
+    }
+
+    public void setTenThuoc(String tenThuoc) {
+        this.tenThuoc = tenThuoc;
+    }
+    
     public int getMaPhieunhap() {
         return maPhieunhap;
     }
@@ -37,14 +91,6 @@ public class ChitietPhieunhap {
 
     public void setMaThuoc(int maThuoc) {
         this.maThuoc = maThuoc;
-    }
-
-    public int getMaDonvitinh() {
-        return maDonvitinh;
-    }
-
-    public void setMaDonvitinh(int maDonvitinh) {
-        this.maDonvitinh = maDonvitinh;
     }
 
     public int getSoluong() {
@@ -63,28 +109,27 @@ public class ChitietPhieunhap {
         this.dongia = dongia;
     }
 
-    public LocalDate getNgaySanxuat() {
+    public Calendar getNgaySanxuat() {
         return ngaySanxuat;
     }
 
-    public void setNgaySanxuat(LocalDate ngaySanxuat) {
+    public void setNgaySanxuat(Calendar ngaySanxuat) {
         this.ngaySanxuat = ngaySanxuat;
     }
 
-    public LocalDate getNgayHethan() {
+    public Calendar getNgayHethan() {
         return ngayHethan;
     }
 
-    public void setNgayHethan(LocalDate ngayHethan) {
+    public void setNgayHethan(Calendar ngayHethan) {
         this.ngayHethan = ngayHethan;
     }
 
     public boolean isDaxoa() {
-        return daxoa;
+        return daXoa;
     }
 
     public void setDaxoa(boolean daxoa) {
-        this.daxoa = daxoa;
+        this.daXoa = daxoa;
     }
-    
 }

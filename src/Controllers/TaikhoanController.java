@@ -11,16 +11,7 @@ public class TaikhoanController {
     public TaikhoanController() {
         dstk = taikhoanDA.readDB();
     }
-
-    public void showConsole() {
-        dstk.forEach((tk) -> {
-            System.out.print(tk.getTaikhoan()+ " ");
-            System.out.print(tk.getMatkhau()+ " ");
-            System.out.print(tk.getMaNhanvien()+ " ");
-            System.out.print(tk.getMaQuyen());
-        });
-    }
-
+    
     public String[] getHeaders() {
         return new String[]{"Tên tài khoản", "Mật khẩu", "Mã nhân viên", "Mã quyền"};
     }

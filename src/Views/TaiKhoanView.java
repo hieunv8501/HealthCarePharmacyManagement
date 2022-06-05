@@ -4,30 +4,38 @@ import Components.ExcelOperation;
 import Models.Taikhoan;
 import Controllers.TaikhoanController;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class TaiKhoanForm extends JPanel {
+public class TaikhoanView extends JPanel {
     
     TaikhoanController taikhoanCtrl = new TaikhoanController();
     DefaultTableModel tbModel;
     final int TENDANGNHAP_I = 1, MATKHAU_I = 2, MANHANVIEN_I = 3, MAQUYEN_I = 4;
     
-    public TaiKhoanForm() {
+    public TaikhoanView() {
         initComponents();
         tbModel = (DefaultTableModel)tblTaiKhoan.getModel();
-        tblTaiKhoan.getTableHeader().setBackground(Color.YELLOW);
-        tblTaiKhoan.getTableHeader().setForeground(new Color(0, 0, 0));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tblTaiKhoan.setDefaultRenderer(String.class, centerRenderer);
+        ((DefaultTableCellRenderer) tblTaiKhoan.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        tblTaiKhoan.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
+        tblTaiKhoan.getTableHeader().setOpaque(false);
+        tblTaiKhoan.getTableHeader().setBackground(Color.YELLOW);       
         tblTaiKhoan.setUpdateSelectionOnSort(true);
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
         
         // buttons
-        if (!LoginForm.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
+        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
@@ -189,7 +197,7 @@ public class TaiKhoanForm extends JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
         tblTaiKhoan.setAutoCreateRowSorter(true);
-        tblTaiKhoan.setBackground(new java.awt.Color(255, 255, 0));
+        tblTaiKhoan.setBackground(new java.awt.Color(240, 240, 240));
         tblTaiKhoan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblTaiKhoan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

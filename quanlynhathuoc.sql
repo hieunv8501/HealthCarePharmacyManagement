@@ -74,7 +74,7 @@ CREATE TABLE chitietphieunhap (
 -- Cấu trúc bảng cho bảng phieunhap
 
 CREATE TABLE phieunhap (
-	MaPhieuNhap INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	MaPhieuNhap INT primary key NOT NULL,
 	MaNhaCungCap INT NOT NULL,
 	MaNhanVien INT NOT NULL,
 	NgayNhap DATETIME NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE tinh (
 -- Cấu trúc bảng cho bảng loaithuoc
 
 create TABLE loaithuoc (
-	MaLoaiThuoc int  primary key NOT NULL,
+	MaLoaiThuoc int primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
 	DaXoa BIT DEFAULT 0,
 
@@ -147,9 +147,9 @@ create TABLE loaithuoc (
 -- Cấu trúc bảng cho bảng nhacungcap
 
 CREATE TABLE nhacungcap(
-	MaNhaCungCap int  primary key NOT NULL,
+	MaNhaCungCap int primary key NOT NULL,
 	TenNhaCungCap nvarchar(50) NOT NULL,
-	MaHuyen int NOT NULL,
+	MaXa int NOT NULL,
 	SoDienThoai varchar(10)  NOT NULL,
 	Fax varchar(30)  DEFAULT NULL,
 	DaXoa BIT DEFAULT 0,
@@ -186,7 +186,7 @@ CREATE TABLE loainhanvien (
 -- Cấu trúc bảng cho bảng thuoc
 
 create table thuoc(
-	MaThuoc int  primary key ,
+	MaThuoc int primary key ,
 	TenThuoc nvarchar(50) NOT NULL,
 	MoTa nvarchar(1000) NOT NULL,
 	DoTuoi int NOT NULL,
@@ -318,7 +318,6 @@ AS BEGIN
 	ELSE BEGIN
 		UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongMoi WHERE MaLo = @MaLo
 	END
-
 END
 
 GO
@@ -388,7 +387,7 @@ GO
 ALTER TRIGGER TG_INSERT_HOADON ON hoadon 
 FOR UPDATE
 AS BEGIN
-	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY,  @SoLuong INT, @DonGia MONEY
+	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY, @SoLuong INT, @DonGia MONEY
 
 	SELECT @MaHoaDon = MaHoaDon, @MaKhuyenMai = MaKhuyenMai FROM INSERTED
 
@@ -411,10 +410,7 @@ AS BEGIN
 	CLOSE CUR_CTHD
 	DEALLOCATE CUR_CTHD
 
-
 	UPDATE hoadon SET TongTien = @TongTien - ((@TongTien * @PhanTramKhuyenMai) / 100) WHERE MaHoaDon = @MaHoaDon
-
-	--UPDATE hoadon SET TongTien = TongTien - ((TongTien *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
 END
 
 GO
@@ -599,8 +595,7 @@ insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
 ('Q2', N'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
 ('Q3', N'Nhân viên bán thuốc', 'qlBanThuoc xemThuoc xemLoaiThuoc xemHoaDon xemNhanVien xemKhachHang'),
-('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC'),
-('Q4', N'Phụ bán thuốc', 'qlBanThuoc xemThuoc xemKhuyenMai xemKhachHang');
+('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC')
 
 insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
 values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 10, 'Q1'), --pass: Hieu123.

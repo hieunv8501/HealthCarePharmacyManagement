@@ -3,10 +3,13 @@ package FormHelpers;
 import Models.Quyen;
 import Controllers.QuyenController;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,14 +18,16 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneLayout;
+import javax.swing.border.TitledBorder;
 
-public class QuyenFormHelper extends JFrame {
+public class QuyenViewHelper extends JFrame {
 
     String type;
     QuyenController quyenCtrl = new QuyenController();
     Quyen quyen;
 
-    JTextField txtMaQuyen = new JTextField(15);
+    JTextField txtMaQuyen = new JTextField(10);
     JTextField txtTenQuyen = new JTextField(20);
     ChiTietQuyenForm chitietForm = new ChiTietQuyenForm();
 
@@ -30,16 +35,18 @@ public class QuyenFormHelper extends JFrame {
     JButton btnSua = new JButton("Sửa");
     JButton btnHuy = new JButton("Hủy");
 
-    public QuyenFormHelper(String _type, String _maq) {
+    public QuyenViewHelper(String _type, String _maq) {
         this.setLayout(new BorderLayout());
-        this.setSize(450, 750);
+        this.setSize(675, 650);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.type = _type;
 
         // inputs
-        txtMaQuyen.setBorder(BorderFactory.createTitledBorder("Mã quyền"));
-        txtTenQuyen.setBorder(BorderFactory.createTitledBorder("Tên quyền"));
+        txtMaQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mã quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        txtMaQuyen.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtTenQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Tên quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        txtTenQuyen.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
         JPanel plInput = new JPanel();
         plInput.add(txtMaQuyen);
@@ -95,7 +102,7 @@ public class QuyenFormHelper extends JFrame {
         btnHuy.addActionListener((ae) -> {
             this.dispose();
         });
-
+        
         this.setVisible(true);
     }
 
@@ -157,9 +164,9 @@ class ChiTietQuyenForm extends JPanel {
     ArrayList<PanelChonQuyen> dsPanel = new ArrayList<>();
 
     public ChiTietQuyenForm() {
-        setPreferredSize(new Dimension(300, 600));
-        setLayout(new FlowLayout());
-        setBorder(BorderFactory.createTitledBorder("Chi tiết quyền: "));
+        setPreferredSize(new Dimension(650, 500));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Chi tiết quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
 
         dsPanel.add(new PanelChonQuyen("Bán thuốc", new String[]{"Bán thuốc"}, new String[]{"qlBanThuoc"}));
         dsPanel.add(new PanelChonQuyen("Nhập thuốc", new String[]{"Nhập thuốc"}, new String[]{"qlNhapThuoc"}));
@@ -175,7 +182,7 @@ class ChiTietQuyenForm extends JPanel {
         dsPanel.add(new PanelChonQuyen("Quyền", type, new String[]{"xemQuyen", "qlQuyen"}));        
         dsPanel.add(new PanelChonQuyen("Thống kê", type, new String[]{"xemQuyen", "qlQuyen"}));
 
-
+        
         for (PanelChonQuyen p : dsPanel) {
             this.add(p);
         }
@@ -203,11 +210,12 @@ class PanelChonQuyen extends JPanel {
 
     JCheckBox chb;
     JComboBox<String> cb;
-
+    private DefaultListCellRenderer listRenderer;
+    
     public PanelChonQuyen(String name, String[] type, String[] value) {
-        this.setPreferredSize(new Dimension(250, 50));
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
-
+        this.setPreferredSize(new Dimension(300, 60));
+        this.setLayout(new FlowLayout(FlowLayout.LEADING));
+        
         this.name = name;
         this.type = type;
         this.value = value;
@@ -216,6 +224,10 @@ class PanelChonQuyen extends JPanel {
         this.add(this.chb);
 
         this.cb = new JComboBox<>(this.type);
+        this.cb.setPreferredSize(new Dimension(100, 20));
+        listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        this.cb.setRenderer(listRenderer);
         this.cb.setEnabled(false);
         this.add(this.cb);
 

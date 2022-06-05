@@ -8,7 +8,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class DBConnection {
-    static int countConection = 0;
+    static int countConnection = 0;
     static int countQuery = 0;
     static int countUpdate = 0;
 
@@ -17,6 +17,7 @@ public class DBConnection {
     public Connection getConn() {
         return conn;
     }
+    
     Statement stmt = null;
     ResultSet resultSet = null;
 
@@ -49,8 +50,8 @@ public class DBConnection {
             String databaseURL = "jdbc:sqlserver://"+ ipAddress + ";databaseName=" + databaseName + ";encrypt=true;trustServerCertificate=true;";     
             conn = DriverManager.getConnection(databaseURL, username, password);
             stmt = conn.createStatement();
-            countConection++;
-            System.out.println("Code status " + countConection + ": SUCCESSFULLY CONNECTED TO DATABASE: '" + databaseName + "'");
+            countConnection++;
+            System.out.println("Code status " + countConnection + ": SUCCESSFULLY CONNECTED TO DATABASE: '" + databaseName + "'");
             System.out.println("------------------------------------------------------------------------------------");
         } catch (SQLException ex) {
             //System.err.println("-- ERROR! Can't connect to database: '" + databaseName + "'");

@@ -1,7 +1,6 @@
 package Models;
 
 import DBConnection.DBConnection;
-import java.util.Calendar;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -21,18 +20,6 @@ public class Nhanvien {
     public Nhanvien() {
     }
 
-//    public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, LoaiNhanvien loaiNhanvien, Xa xa, long luong, boolean daXoa) {
-//        this.maNhanvien = maNhanvien;
-//        this.tenNhanvien = tenNhanvien;
-//        this.ngaySinh = ngaySinh;
-//        this.soDienThoai = soDienThoai;
-//        this.gioiTinh = gioiTinh;
-//        this.bangCap = bangCap;
-//        this.loaiNhanvien = loaiNhanvien;
-//        this.xa = xa;
-//        this.luong = luong;
-//        this.daXoa = daXoa;
-//    }
     public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, int MaLoaiNhanvien, int maxa, long luong, boolean daXoa) {
         this.maNhanvien = maNhanvien;
         this.tenNhanvien = tenNhanvien;

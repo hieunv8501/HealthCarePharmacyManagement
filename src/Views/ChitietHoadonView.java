@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Views;
 
 import java.awt.Color;
@@ -212,8 +208,6 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         jLabel3.setText("Số lượng:");
 
         comboLonhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
-        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã hóa đơn:");

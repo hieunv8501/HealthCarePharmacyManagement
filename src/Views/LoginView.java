@@ -21,8 +21,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
@@ -38,12 +36,12 @@ import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginForm extends JFrame {
+public class LoginView extends JFrame {
 
     int countCaptcha = 0;
     ImageIcon icon;
     static Captcha img;
-    public LoginForm() {
+    public LoginView() {
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
         //btnDangNhap.setBackground(new Color(0,0,0,0));
@@ -513,15 +511,15 @@ public class LoginForm extends JFrame {
 
     private void btnQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuenMatKhauMouseClicked
         try {
-            new QuenMatKhauForm().setVisible(true);
+            new QuenmatkhauView().setVisible(true);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_btnQuenMatKhauMouseClicked
@@ -624,8 +622,8 @@ public class LoginForm extends JFrame {
 //                        // Khởi tạo một layout mainView mới               
 //                        // Mainview with resize, status: testing
                         Toolkit toolkit = Toolkit.getDefaultToolkit();
-                        int frameWidth = 1500;
-                        int frameHeight = 800;
+                        int frameWidth = 1540;
+                        int frameHeight = 815;
                         Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
                         Dimension initialDimension = new Dimension(frameWidth, frameHeight);
                         MainView mainView = new MainView(initialDimension, initialLocation);

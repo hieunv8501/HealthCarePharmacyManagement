@@ -13,21 +13,6 @@ public class NhanvienController {
         dsnv = nhanvienDA.readDB();
     }
 
-    public void showConsole() {
-        dsnv.forEach((nv) -> {
-            System.out.print(nv.getMaNhanvien()+ " ");
-            System.out.println(nv.getTenNhanvien()+ " ");
-            System.out.println(nv.getLoaiNhanvien()+ " ");
-            System.out.println(nv.getNgaySinh() + " ");
-            System.out.println(nv.getXa()+ " ");
-            System.out.println(nv.getSoDienThoai()+ " ");
-            System.out.println(nv.getGioiTinh()+ " ");
-            System.out.println(nv.getBangCap());
-            System.out.println(nv.getLuong()+ " ");
-            System.out.println(nv.isDaXoa()+ " ");
-        });
-    }
-
     public String[] getHeaders() {
         return new String[]{"Mã nhân viên", "Tên nhân viên", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Trạng thái"};
     }
