@@ -1,4 +1,4 @@
-package FormHelpers;
+package Helpers;
 
 import java.awt.Color;
 import java.awt.Font;

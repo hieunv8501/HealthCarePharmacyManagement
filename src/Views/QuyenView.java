@@ -3,7 +3,7 @@ package Views;
 import Controllers.NhanvienController;
 import Models.Quyen;
 import Controllers.QuyenController;
-import FormHelpers.QuyenViewHelper;
+import Helpers.QuyenViewHelper;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;

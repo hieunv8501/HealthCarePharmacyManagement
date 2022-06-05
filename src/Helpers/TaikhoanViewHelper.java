@@ -1,4 +1,4 @@
-package FormHelpers;
+package Helpers;
 
 import Controllers.TaikhoanController;
 import Models.Taikhoan;
@@ -26,6 +26,8 @@ public class TaikhoanViewHelper extends JFrame {
     String type;
     TaikhoanController taikhoanCtrl = new TaikhoanController();
     Taikhoan tkSua;
+    private final Font font = new Font("Segoe UI Semibold", Font.BOLD, 14);
+    private final Font btnFont = new Font("Segoe UI Semibold", Font.PLAIN, 14);
 
     JTextField txtTentaikhoan = new JTextField(15);
     JPasswordField txtPwd = new JPasswordField(15);
@@ -50,8 +52,8 @@ public class TaikhoanViewHelper extends JFrame {
         this.type = _type;
 
         // input set border
-        txtTentaikhoan.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Tên tài khoản", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
-        txtPwd.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mật khẩu", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        txtTentaikhoan.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Tên tài khoản", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
+        txtPwd.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mật khẩu", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
         //txtMaNV.setBorder(BorderFactory.createTitledBorder("Nhân viên"));
         //txtMaQuyen.setBorder(BorderFactory.createTitledBorder("Quyền"));
         cbChonTrangThai = new JComboBox<>(new String[]{"Ẩn", "Hiện"});
@@ -59,6 +61,7 @@ public class TaikhoanViewHelper extends JFrame {
         btnChonNhanVien.setToolTipText("Chọn nhân viên");
         btnChonQuyen.setText("Chọn");
         btnChonQuyen.setToolTipText("Chọn quyền");
+
         
         //set size + height
         txtTentaikhoan.setPreferredSize(new Dimension(40, 50));
@@ -68,11 +71,11 @@ public class TaikhoanViewHelper extends JFrame {
         cbChonTrangThai.setPreferredSize(new Dimension(65, 30));
         
         //set Font
-        txtTentaikhoan.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-        txtPwd.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-        txtMaNV.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-        txtMaQuyen.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-        cbChonTrangThai.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+        txtTentaikhoan.setFont(font);
+        txtPwd.setFont(font);
+        txtMaNV.setFont(font);
+        txtMaQuyen.setFont(font);
+        cbChonTrangThai.setFont(font);
         //set color 
         txtTentaikhoan.setForeground(Color.red);
         txtPwd.setForeground(Color.red);
@@ -82,17 +85,17 @@ public class TaikhoanViewHelper extends JFrame {
         
         //add button to Layout
         JPanel plChonNhanVien = new JPanel();
-        plChonNhanVien.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Nhân viên", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        plChonNhanVien.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Nhân viên", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
         plChonNhanVien.add(txtMaNV);
         plChonNhanVien.add(btnChonNhanVien);
 
         JPanel plChonQuyen = new JPanel();
-        plChonQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mã quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        plChonQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mã quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
         plChonQuyen.add(txtMaQuyen);
         plChonQuyen.add(btnChonQuyen);
 
         JPanel plChonTT = new JPanel();
-        plChonTT.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Trạng thái", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
+        plChonTT.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Trạng thái", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
         //JLabel lbChonTT = new JLabel("Trạng thái: ");
         //plChonTT.add(lbChonTT);
         plChonTT.add(cbChonTrangThai);

@@ -1,4 +1,4 @@
-package FormHelpers;
+package Helpers;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

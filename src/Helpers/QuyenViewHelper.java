@@ -1,4 +1,4 @@
-package FormHelpers;
+package Helpers;
 
 import Models.Quyen;
 import Controllers.QuyenController;

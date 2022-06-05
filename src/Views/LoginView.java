@@ -7,7 +7,7 @@ import Controllers.TaikhoanController;
 import Controllers.QuyenController;
 import Controllers.NhanvienController;
 import Components.ExcelOperation;
-import FormHelpers.Captcha;
+import Helpers.Captcha;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,14 +33,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
+import Helpers.DialogWaiting;
 
 public class LoginView extends JFrame {
 
     int countCaptcha = 0;
     ImageIcon icon;
     static Captcha img;
+
     public LoginView() {
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
@@ -194,6 +197,7 @@ public class LoginView extends JFrame {
 
         txtCaptcha.addKeyListener(new KeyListener() {
             String captchaa;
+
             @Override
             public void keyTyped(KeyEvent e) {
             }
@@ -538,12 +542,12 @@ public class LoginView extends JFrame {
         String tentk = txtTenDangNhap.getText();
         char[] mk = txtMatKhau.getPassword();
         String captcha = txtCaptcha.getText();
-        
+
         if (!txtCaptcha.getText().equals("") && !txtCaptcha.getText().equals(img.getImageCodeCaptcha())) {
-                lblVerifyCaptcha.setText("Captcha nhập vào không đúng!");
-                return;
+            lblVerifyCaptcha.setText("Captcha nhập vào không đúng!");
+            return;
         }
-        
+
         if (tentk.isEmpty() && mk.length == 0 && captcha.isEmpty()) {
             jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
             jlblVerifyPwd.setText("Không được để trống mật khẩu!");
@@ -585,9 +589,8 @@ public class LoginView extends JFrame {
             jlblVerifyUsername.setText("Không được để trống tên tài khoản!");
             txtTenDangNhap.requestFocus();
             return;
-        }
-        else {
-            
+        } else {
+
             jlblVerifyUsername.setText("");
             jlblVerifyPwd.setText("");
             TaikhoanController taikhoanCtrl = new TaikhoanController();
@@ -619,25 +622,37 @@ public class LoginView extends JFrame {
                             new ExcelOperation(saveFileName).write("");
                         }
 
-//                        // Khởi tạo một layout mainView mới               
-//                        // Mainview with resize, status: testing
-                        Toolkit toolkit = Toolkit.getDefaultToolkit();
-                        int frameWidth = 1540;
-                        int frameHeight = 815;
-                        Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
-                        Dimension initialDimension = new Dimension(frameWidth, frameHeight);
-                        MainView mainView = new MainView(initialDimension, initialLocation);
+                        //initialize dialog waiting 
+                        DialogWaiting wait = new DialogWaiting();
 
-                        JPanel viewContainer = (JPanel) mainView.getContentPane();
-                        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
-                        headerPanel.setPreferredSize(new Dimension(frameWidth, 35));
-                        headerPanel.addMouseListener(mainView);
-                        headerPanel.addMouseMotionListener(mainView);
-                        viewContainer.add(headerPanel, BorderLayout.NORTH);
-                        mainView.setVisible(true);
-//
-//                        //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class
-//                        //new MainView().setVisible(true);
+                        SwingWorker<Void, Void> mySwingWorker = new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                // Khởi tạo một layout mainView mới               
+                                // Mainview with resize, status: testing
+                                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                                int frameWidth = 1535;
+                                int frameHeight = 815;
+                                Point initialLocation = new Point((int) toolkit.getScreenSize().getWidth() / 2 - frameWidth / 2, (int) toolkit.getScreenSize().getHeight() / 2 - frameHeight / 2);
+                                Dimension initialDimension = new Dimension(frameWidth, frameHeight);
+                                MainView mainView = new MainView(initialDimension, initialLocation);
+
+                                JPanel viewContainer = (JPanel) mainView.getContentPane();
+                                JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
+                                headerPanel.setPreferredSize(new Dimension(frameWidth, 35));
+                                headerPanel.addMouseListener(mainView);
+                                headerPanel.addMouseMotionListener(mainView);
+                                viewContainer.add(headerPanel, BorderLayout.NORTH);
+                                mainView.setVisible(true);
+                                wait.close();
+                                return null;
+                            }
+                        };
+                        mySwingWorker.execute();
+                        wait.makeWaiting("Đang kết nối hệ thống, vui lòng đợi...", evt);
+                        //end
+
+                        //MainView withour resizing - to select, uncomment 2 lines belows this line & uncomment another codes from MainView class
                         this.dispose();
                     } else {
                         jlblVerifyPwd.setText("Mật khẩu không đúng!");
@@ -915,3 +930,5 @@ class capcha {
         return buffImg;
     }
 }
+
+
