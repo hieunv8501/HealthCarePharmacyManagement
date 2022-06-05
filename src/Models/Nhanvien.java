@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.XaController;
 import DBConnection.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public class Nhanvien {
     private String tenNhanvien, soDienThoai, gioiTinh, bangCap;
     private LocalDate ngaySinh;
     private int loaiNhanvien;
-    private int xa;
+    private Xa xa;
     private long luong;
     private boolean daXoa;
     DBConnection nhanvienConnection;;
@@ -20,7 +21,7 @@ public class Nhanvien {
     public Nhanvien() {
     }
 
-    public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, int MaLoaiNhanvien, int maxa, long luong, boolean daXoa) {
+    public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, int MaLoaiNhanvien, Xa xa, long luong, boolean daXoa) {
         this.maNhanvien = maNhanvien;
         this.tenNhanvien = tenNhanvien;
         this.ngaySinh = ngaySinh;
@@ -89,17 +90,13 @@ public class Nhanvien {
         this.loaiNhanvien = loaiNhanvien;
     }
 
-    public int getXa() {
-        return this.xa;
+    public Xa getXa() {
+        return xa;
     }
-    
-//    public String getHuyen() {
-//        return xa.getHuyen();
-//    }
-//    
-//    public String getTinh() {
-//        return xa.getTinh();
-//    }
+
+    public void setXa(Xa xa) {
+        this.xa = xa;
+    }
 
     public long getLuong() {
         return luong;
@@ -128,14 +125,15 @@ public class Nhanvien {
                     int manv = rs.getInt("MaNhanVien");
                     String tennv = rs.getString("TenNhanVien");
                     LocalDate ngaysinh = rs.getDate("NgaySinh").toLocalDate();
-                    int xa = rs.getInt("MaXa");      
+                    int xa = rs.getInt("MaXa");    
+                    XaController xaCtrl = new XaController();
                     int loainhanvien = rs.getInt("MaLoaiNhanVien");
                     String sdt = rs.getString("SoDienThoai");
                     String gioitinh = rs.getString("GioiTinh");      
                     String bangcap = rs.getString("BangCap");    
                     long luong = rs.getLong("Luong");                                    
                     boolean daxoa = rs.getInt("DaXoa") == 1? true : false;
-                    dsnv.add(new Nhanvien(manv, tennv, ngaysinh, sdt, gioitinh, bangcap, loainhanvien, xa, luong, daxoa));
+                    dsnv.add(new Nhanvien(manv, tennv, ngaysinh, sdt, gioitinh, bangcap, loainhanvien, xaCtrl.getXa(xa), luong, daxoa));
                 }
             }
         } catch (SQLException ex) {

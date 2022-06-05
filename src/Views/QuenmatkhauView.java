@@ -519,7 +519,7 @@ public class QuenmatkhauView extends JFrame {
                 //Check email and captcha
 
                 // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
-                Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
+                Nhanvien nv = new NhanvienController().getNhanVien(tk.getNv().getMaNhanvien());
                 if (nv.isDaXoa() == true) {
                     JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ tài khoản này đã bị ẨN khỏi hệ thống!");
                     return;

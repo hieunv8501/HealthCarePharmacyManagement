@@ -12,15 +12,6 @@ public class QuyenController {
         dsq = quyenDA.readDB();
     }
 
-    public void showConsole() {
-        this.dsq.forEach((q) -> {
-            System.out.print(q.getMaQuyen() + " ");
-            System.out.print(q.getTenQuyen()+ " ");
-            System.out.print(q.getChitietQuyen());
-            System.out.println("");
-        });
-    }
-
     public String[] getHeaders() {
         return new String[]{"Mã quyền", "Tên quyền", "Chi tiết quyền"};
     }

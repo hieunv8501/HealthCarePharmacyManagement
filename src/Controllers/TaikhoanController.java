@@ -36,8 +36,8 @@ public class TaikhoanController {
             if (type.equals("Tất cả")) {
                 if (tk.getTaikhoan().toLowerCase().contains(value.toLowerCase())
 //                        || tk.getMatkhau().toLowerCase().contains(value.toLowerCase())
-                        || tk.getMaNhanvien() == Integer.parseInt(value)
-                        || tk.getMaQuyen().toLowerCase().contains(value.toLowerCase())) {
+                        || tk.getNv().getMaNhanvien() == Integer.parseInt(value)
+                        || tk.getQ().getMaQuyen().toLowerCase().contains(value.toLowerCase())) {
                     result.add(tk);
                 }
             } else {
@@ -53,12 +53,12 @@ public class TaikhoanController {
 //                        }
 //                        break;
                     case "Mã nhân viên":
-                        if (tk.getMaNhanvien() == Integer.parseInt(value)) {
+                        if (tk.getNv().getMaNhanvien() == Integer.parseInt(value)) {
                             result.add(tk);
                         }
                         break;
                     case "Mã quyền":
-                        if (tk.getMaQuyen().toLowerCase().contains(value.toLowerCase())) {
+                        if (tk.getQ().getMaQuyen().toLowerCase().contains(value.toLowerCase())) {
                             result.add(tk);
                         }
                         break;
@@ -97,8 +97,8 @@ public class TaikhoanController {
             dstk.forEach((tk) -> {
                 if (tk.getTaikhoan().equals(taikhoan.getTaikhoan())) {
                     tk.setMatkhau(taikhoan.getMatkhau());
-                    tk.setMaNhanvien(taikhoan.getMaNhanvien());
-                    tk.setMaQuyen(taikhoan.getMaQuyen());                    
+                    tk.setNv(taikhoan.getNv());
+                    tk.setQ(taikhoan.getQ());                    
                     tk.setDaXoa(taikhoan.isDaXoa());
                 }
             });

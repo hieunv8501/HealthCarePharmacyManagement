@@ -10,6 +10,7 @@ public class Thuoc {
     private String hinhanh;
     private int trangthai;
     private float giaBan;
+    private boolean DaXoa;
     //Phuong thuc cua Thuoc
 
     public float getGiaBan() {
@@ -76,9 +77,18 @@ public class Thuoc {
         return trangthai;
     }
 
+    public boolean isDaXoa() {
+        return DaXoa;
+    }
+
+    public void setDaXoa(boolean DaXoa) {
+        this.DaXoa = DaXoa;
+    }
+
     @Override
     public String toString() {
         return ("Thông tin về thuốc là\n Mã thuốc:" + this.maThuoc + "\t Tên thuốc: " + this.tenThuoc + "\t Mota:" + this.mota + "\t Hình ảnh: " + this.hinhanh + "\t Nhà cung cấp" + this.nhacungcap);
 
     }
+
 }

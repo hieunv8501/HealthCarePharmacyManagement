@@ -596,7 +596,7 @@ public class LoginView extends JFrame {
             //Kiểm tra xem có tồn tại tên tài khoản như này không
             if (tk != null) {
                 // Kiểm tra xem nhân viên của tài khoản này có bị khóa (Ẩn/xóa) hay không
-                Nhanvien nv = new NhanvienController().getNhanVien(tk.getMaNhanvien());
+                Nhanvien nv = new NhanvienController().getNhanVien(tk.getNv().getMaNhanvien());
                 if (nv.isDaXoa() == true) {
                     JOptionPane.showMessageDialog(this, "Tài khoản này đã bị tạm khóa, do chủ nhân tài khoản này đã bị ẨN khỏi hệ thống!");
                     return;
@@ -608,7 +608,7 @@ public class LoginView extends JFrame {
                     if (BCrypt.checkpw(String.valueOf(password), tk.getMatkhau())) {
                         taiKhoanLogin = tk;
                         nhanVienLogin = nv;
-                        quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getMaQuyen());
+                        quyenLogin = new QuyenController().getQuyen(taiKhoanLogin.getQ().getMaQuyen());
 
                         // Đăng nhập thành công
                         if (ckbNhoMatKhau.isSelected()) {

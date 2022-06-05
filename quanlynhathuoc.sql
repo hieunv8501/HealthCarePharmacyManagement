@@ -231,9 +231,10 @@ ALTER TABLE thuoc
 	
 -- Tạo các ràng buộc cho các bảng nhacungcap 
 ALTER TABLE nhacungcap
-	ADD CONSTRAINT FK_nhacungcap_huyen foreign key (MaHuyen) references huyen(MaHuyen)
+	add CONSTRAINT FK_nhacungcap_xa foreign key (MaXa) references Xa(MaXa)
 -- Các ràng buộc cho bảng chitietphieunhap
---
+
+
 ALTER TABLE chitietphieunhap
 	ADD CONSTRAINT FK_CTPHIEUNHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc (MaThuoc),
 	CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap),
@@ -548,8 +549,8 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 
 --INSERT INTO donvitinh (TenDonViTinh) values (N'Vỉ 5 viên')
 
---INSERT INTO tinh (MaTinh, TenTinh) values (1, N'An Giang')
---INSERT INTO huyen (MaHuyen, TenHuyen, MaTinh) values (1, N'Ba Vì', 1)
+--INSERT INTO tinh values (1, N'An Giang')
+--INSERT INTO huyen values (1, N'Ba Vì', 1)
 
 --INSERT INTO nhanvien (TenNhanVien, NgaySinh, MaHuyen, SoDienThoai, TrangThai, GioiTinh, BangCap, Luong) 
 --	values (N'HieuNV', '05/08/2001', 1, '0251643987', 0, N'Nam', N'Cử nhân', 10000000)
@@ -589,7 +590,7 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 --SELECT * FROM taikhoan
 --SELECT * FROM phanquyen
 
-select * from phanquyen
+select * from phieunhap
 
 insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 ('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),

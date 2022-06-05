@@ -55,15 +55,15 @@ public class PhieunhapView extends JPanel {
         for (Phieunhap pn : phieuNhapList) {
             stt++;
             SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String formatted = format1.format(pn.getNgaynhap().getTime());
-            tbModel.addRow(new Object[]{
+            String formatted = format1.format(pn.getNgayNhap().getTime());
+            tbModel.addRow(new String[]{
                 String.valueOf(stt),
                 String.valueOf(pn.getMaPhieunhap()),
-                String.valueOf(pn.getMaNhacungcap() + " " ),
-                String.valueOf(pn.getMaNhanvien()),
+                String.valueOf(pn.getNcc().getMaNhacungcap()),
+                String.valueOf(pn.getNv().getMaNhanvien()),
                 String.valueOf(formatted),
                 String.valueOf(pn.getTongTien()),
-                pn.isDaxoa() ? "Đã tạm khóa" : "Bình thường",
+                pn.isDaXoa()? "Đã tạm khóa" : "Bình thường",
             });
         }
     }

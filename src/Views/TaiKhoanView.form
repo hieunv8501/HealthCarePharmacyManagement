@@ -21,17 +21,39 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="316" max="-2" attributes="0"/>
-              <Component id="cbbChonTimKiem" min="-2" pref="150" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="txtTimKiem" min="-2" pref="183" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="btnTimKiem" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="lblProfile" min="-2" pref="211" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtTenTaiKhoan" pref="226" max="32767" attributes="0"/>
+                          <Component id="txtPwd" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtMaNhanVien" pref="251" max="32767" attributes="0"/>
+                          <Component id="txtMaQuyen" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="txtTrangThai" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="317" max="-2" attributes="0"/>
+                      <Component id="cbbChonTimKiem" min="-2" pref="150" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="txtTimKiem" min="-2" pref="183" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="btnTimKiem" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="168" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="169" max="32767" attributes="0"/>
               <Component id="btnThem" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
               <Component id="btnSua" min="-2" max="-2" attributes="0"/>
@@ -41,49 +63,44 @@
               <Component id="btnLamMoi" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
               <Component id="btnTaiLenExcel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="btnTaiXuongExcel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="169" max="32767" attributes="0"/>
+              <EmptySpace pref="167" max="32767" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="pwdMatKhau" max="32767" attributes="0"/>
-                  <Component id="txtTenTaiKhoan" pref="508" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtMaNhanVien" max="32767" attributes="0"/>
-                  <Component id="txtMaQuyen" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtTenTaiKhoan" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                  <Component id="txtMaNhanVien" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtMaQuyen" min="-2" pref="50" max="-2" attributes="0"/>
-                  <Component id="pwdMatKhau" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtTenTaiKhoan" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="txtMaNhanVien" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="txtTrangThai" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtMaQuyen" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="txtPwd" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblProfile" min="-2" pref="176" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnTaiXuongExcel" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSua" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnXoa" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnLamMoi" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnTaiLenExcel" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnTaiXuongExcel" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cbbChonTimKiem" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="txtTimKiem" min="-2" pref="40" max="-2" attributes="0"/>
@@ -99,6 +116,7 @@
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txtTenTaiKhoan">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
@@ -323,12 +341,13 @@
     </Container>
     <Component class="javax.swing.JTextField" name="txtMaQuyen">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="M&#xe3; quy&#x1ec1;n">
+            <TitledBorder title="Quy&#x1ec1;n">
               <Font PropertyName="font" name="Segoe UI Semibold" size="14" style="0"/>
             </TitledBorder>
           </Border>
@@ -337,23 +356,49 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtMaNhanVien">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="M&#xe3; nh&#xe2;n vi&#xea;n">
+            <TitledBorder title="Nh&#xe2;n vi&#xea;n">
               <Font PropertyName="font" name="Segoe UI Semibold" size="14" style="0"/>
             </TitledBorder>
           </Border>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="pwdMatKhau">
+    <Component class="javax.swing.JPasswordField" name="txtPwd">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="M&#x1ead;t kh&#x1ea9;u">
+              <Font PropertyName="font" name="Segoe UI Semibold" size="14" style="0"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblProfile">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="&#x1ea2;nh h&#x1ed3; s&#x1a1;"/>
+          </Border>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtTrangThai">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="0"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Tr&#x1ea1;ng th&#xe1;i">
               <Font PropertyName="font" name="Segoe UI Semibold" size="14" style="0"/>
             </TitledBorder>
           </Border>

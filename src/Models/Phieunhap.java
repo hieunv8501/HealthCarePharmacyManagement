@@ -5,38 +5,16 @@ import java.util.Calendar;
 public class Phieunhap {
 
     private int maPhieunhap;
-    private int maNhacungcap;
-    private int maNhanvien;
+    private Nhanvien nv;
+    private Nhacungcap ncc;
     private Calendar ngayNhap;
     private float tongTien;
     private boolean daXoa;
-    private Nhanvien nv;
-    private Nhacungcap ncc;
-    private String tenNhacungcap;
-    private String tenNhanvien;
-
-    public Phieunhap(int maPhieunhap, int maNhacungcap, int maNhanvien, Calendar ngayNhap, float tongTien, boolean daXoa) {
-        this.maPhieunhap = maPhieunhap;
-        this.maNhacungcap = maNhacungcap;
-        this.maNhanvien = maNhanvien;
-        this.ngayNhap = ngayNhap;
-        this.tongTien = tongTien;
-        this.daXoa = daXoa;
-    }
     
-     public Phieunhap(int maNhacungcap, int maNhanvien, Calendar ngayNhap, float tongTien) {
-        this.maNhacungcap = maNhacungcap;
-        this.maNhanvien = maNhanvien;
-        this.ngayNhap = ngayNhap;
-        this.tongTien = tongTien;
-    }
-
     public Phieunhap(int maPhieunhap, Nhacungcap nCC, Nhanvien nV, Calendar ngayNhap, float tongTien, boolean daXoa) {
         this.maPhieunhap = maPhieunhap;
-        this.ncc.setMaNhacungcap(nCC.getMaNhacungcap());
-        this.ncc.setTenNhacungcap(nCC.getTenNhacungcap());
-        this.nv.setMaNhanvien(nV.getMaNhanvien());
-        this.nv.setTenNhanvien(nV.getTenNhanvien());
+        this.ncc = nCC;
+        this.nv = nV;
         this.ngayNhap = ngayNhap;
         this.tongTien = tongTien;
         this.daXoa = daXoa;
@@ -50,27 +28,27 @@ public class Phieunhap {
         this.maPhieunhap = maPhieunhap;
     }
 
-    public int getMaNhacungcap() {
-        return maNhacungcap;
+    public Nhanvien getNv() {
+        return nv;
     }
 
-    public void setMaNhacungcap(int maNhacungcap) {
-        this.maNhacungcap = maNhacungcap;
+    public void setNv(Nhanvien nv) {
+        this.nv = nv;
     }
 
-    public int getMaNhanvien() {
-        return maNhanvien;
+    public Nhacungcap getNcc() {
+        return ncc;
     }
 
-    public void setMaNhanvien(int maNhanvien) {
-        this.maNhanvien = maNhanvien;
+    public void setNcc(Nhacungcap ncc) {
+        this.ncc = ncc;
     }
 
-    public Calendar getNgaynhap() {
+    public Calendar getNgayNhap() {
         return ngayNhap;
     }
 
-    public void setNgaynhap(Calendar ngayNhap) {
+    public void setNgayNhap(Calendar ngayNhap) {
         this.ngayNhap = ngayNhap;
     }
 
@@ -82,12 +60,14 @@ public class Phieunhap {
         this.tongTien = tongTien;
     }
 
-    public boolean isDaxoa() {
+    public boolean isDaXoa() {
         return daXoa;
     }
 
-    public void setDaxoa(boolean daXoa) {
+    public void setDaXoa(boolean daXoa) {
         this.daXoa = daXoa;
-    }     
+    }
+
+        
 }
 

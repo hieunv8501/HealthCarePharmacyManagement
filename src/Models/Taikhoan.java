@@ -1,5 +1,7 @@
 package Models;
 
+import Controllers.NhanvienController;
+import Controllers.QuyenController;
 import DBConnection.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,18 +9,19 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Taikhoan {
-    private String taikhoan, matkhau, maQuyen;
-    private int maNhanvien;
+    private String taikhoan, matkhau;
+    private Quyen q;
+    private Nhanvien nv;
     private boolean daXoa;
     private DBConnection taikhoanConnection;
     
     public Taikhoan(){}
     
-    public Taikhoan(String taikhoan, String matkhau, int maNhanvien, String maQuyen, boolean daXoa) {
+    public Taikhoan(String taikhoan, String matkhau, Nhanvien nv, Quyen qQ, boolean daXoa) {
         this.taikhoan = taikhoan;
         this.matkhau = matkhau;
-        this.maNhanvien = maNhanvien;
-        this.maQuyen = maQuyen;
+        this.nv = nv;
+        this.q = qQ;
         this.daXoa = daXoa;
     }
 
@@ -38,22 +41,22 @@ public class Taikhoan {
         this.matkhau = matkhau;
     }
 
-    public int getMaNhanvien() {
-        return maNhanvien;
+    public Nhanvien getNv() {
+        return nv;
     }
 
-    public void setMaNhanvien(int maNhanvien) {
-        this.maNhanvien = maNhanvien;
+    public void setNv(Nhanvien nv) {
+        this.nv = nv;
     }
 
-    public String getMaQuyen() {
-        return maQuyen;
+    public Quyen getQ() {
+        return q;
     }
 
-    public void setMaQuyen(String maQuyen) {
-        this.maQuyen = maQuyen;
+    public void setQ(Quyen q) {
+        this.q = q;
     }
-    
+
     public boolean isDaXoa() {
         return daXoa;
     }
@@ -73,9 +76,11 @@ public class Taikhoan {
                     String tentk = rs.getString("TenTaiKhoan");
                     String matkhau = rs.getString("MatKhau");
                     int manv = rs.getInt("MaNhanVien");
-                    String maquyen = rs.getString("MaQuyen");                    
+                    NhanvienController nvCtrl = new NhanvienController();
+                    String maquyen = rs.getString("MaQuyen");
+                    QuyenController qCtrl = new QuyenController();
                     boolean daxoa = rs.getBoolean("DaXoa");                 
-                    dstk.add(new Taikhoan(tentk, matkhau, manv, maquyen, daxoa));
+                    dstk.add(new Taikhoan(tentk, matkhau, nvCtrl.getNhanVien(manv), qCtrl.getQuyen(maquyen), daxoa));
                 }
             }
 
@@ -90,7 +95,7 @@ public class Taikhoan {
     public Boolean themTaiKhoan(Taikhoan tk) {
         taikhoanConnection = new DBConnection();
         Boolean ok = taikhoanConnection.sqlUpdate("INSERT INTO taikhoan (TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) VALUES ('"
-                + tk.getTaikhoan()+ "', '" + tk.getMatkhau()+ "', '" + tk.getMaNhanvien()+ "', '" + tk.getMaQuyen() + "');");
+                + tk.getTaikhoan()+ "', '" + tk.getMatkhau()+ "', '" + tk.getNv().getMaNhanvien() + "', '" + tk.getQ().getMaQuyen()+ "');");
         taikhoanConnection.closeConnection();
         return ok;
     }
@@ -111,8 +116,8 @@ public class Taikhoan {
 
     public Boolean capnhatTaiKhoan(Taikhoan tk) {
         taikhoanConnection = new DBConnection();
-        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET MatKhau='" + tk.getMatkhau() + "', MaNhanVien = '" + tk.getMaNhanvien()
-                + "', MaQuyen = '" + tk.getMaQuyen() + "', DaXoa = '" + tk.isDaXoa() + "' WHERE TenTaiKhoan='" + tk.getTaikhoan() + "'");
+        Boolean ok = taikhoanConnection.sqlUpdate("UPDATE taikhoan SET MatKhau='" + tk.getMatkhau() + "', MaNhanVien = '" + tk.getNv().getMaNhanvien()
+                + "', MaQuyen = '" + tk.getQ().getMaQuyen()+ "', DaXoa = '" + tk.isDaXoa() + "' WHERE TenTaiKhoan='" + tk.getTaikhoan() + "'");
         taikhoanConnection.closeConnection(); 
         return ok;
     }

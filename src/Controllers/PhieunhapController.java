@@ -64,7 +64,7 @@ public class PhieunhapController {
     }
 
     public void themPhieuNhap(Phieunhap pn) {
-        Calendar cal1 = pn.getNgaynhap();
+        Calendar cal1 = pn.getNgayNhap();
 
         String ngayNhap;
         SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -75,8 +75,8 @@ public class PhieunhapController {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, pn.getMaPhieunhap());
-            pre.setInt(2, pn.getMaNhacungcap());
-            pre.setInt(3, pn.getMaNhanvien());
+            pre.setInt(2, pn.getNcc().getMaNhacungcap());
+            pre.setInt(3, pn.getNv().getMaNhanvien());
             pre.setString(4, ngayNhap);
             pre.executeUpdate();
             conn.closeConnection();
@@ -113,7 +113,7 @@ public class PhieunhapController {
     }
 
     public void capnhatPhieunhap(Phieunhap pn) {
-        Calendar cal1 = pn.getNgaynhap();
+        Calendar cal1 = pn.getNgayNhap();
 
         String ngayNhap;
         SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -122,8 +122,8 @@ public class PhieunhapController {
         try {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
-            pre.setInt(1, pn.getMaNhacungcap());
-            pre.setInt(2, pn.getMaNhanvien());
+            pre.setInt(1, pn.getNcc().getMaNhacungcap());
+            pre.setInt(2, pn.getNv().getMaNhanvien());
             pre.setString(3, ngayNhap);
             pre.setInt(4, pn.getMaPhieunhap());
 
@@ -190,7 +190,7 @@ public class PhieunhapController {
 
     public ArrayList<Phieunhap> layDanhsachPhieuNhap() {
         ArrayList<Phieunhap> dspn = new ArrayList<>();
-        String sqlCommand = "SELECT * FROM phieunhap, nhanvien WHERE phieunhap.DaXoa = 0 AND nhanvien.MaNhanVien = phieunhap.MaNhanVien";
+        String sqlCommand = "SELECT * FROM phieunhap WHERE phieunhap.DaXoa = 0";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(sqlCommand);
@@ -207,7 +207,8 @@ public class PhieunhapController {
                     cal.setTime(sdf.parse(date));
 
                     float tongTien = rs.getFloat("TongTien");
-                    dspn.add(new Phieunhap(maPhieunhap, nccCtrl.getNhacungcap(maNhacungcap), nvCtrl.getNhanVien(maNhanvien), cal, tongTien, false));
+                    Boolean daXoa = rs.getBoolean("DaXoa");
+                    dspn.add(new Phieunhap(maPhieunhap, nccCtrl.getNhacungcap(maNhacungcap), nvCtrl.getNhanVien(maNhanvien), cal, tongTien, daXoa));
 
                 }
             }
@@ -235,7 +236,8 @@ public class PhieunhapController {
                     float donGia = rs.getFloat("DonGia");
                     int maDonvitinh = rs.getInt("MaDonViTinh");
                     String tenDonvitinh = rs.getString("TenDonViTinh");
-                    ChitietPhieunhap ctpn = new ChitietPhieunhap(maPhieunhap, maLo, maThuoc, tenThuoc, tenLoaiThuoc, maDonvitinh, tenDonvitinh, soLuong, donGia, false);
+                    Boolean daXoa = rs.getBoolean("DaXoa");
+                    ChitietPhieunhap ctpn = new ChitietPhieunhap(maPhieunhap, maLo, maThuoc, tenThuoc, tenLoaiThuoc, maDonvitinh, tenDonvitinh, soLuong, donGia, daXoa);
                     dsctpn.add(ctpn);
                 }
             }
@@ -261,7 +263,6 @@ public class PhieunhapController {
                     Nhanvien nhanvien = new Nhanvien();
                     nhanvien.setMaNhanvien(maNhanvien);
                     nhanvien.setTenNhanvien(tenNhanVien);
-
                     dsnv.add(nhanvien);
                 }
             }
