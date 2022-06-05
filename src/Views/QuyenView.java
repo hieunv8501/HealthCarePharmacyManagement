@@ -391,7 +391,7 @@ public class QuyenView extends JPanel {
             });
 
         } else {
-            JOptionPane.showMessageDialog(null, "Chưa chọn quyền nào để sửa");
+            JOptionPane.showMessageDialog(this, "Chưa chọn quyền nào để sửa");
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 

@@ -38,7 +38,11 @@ public class PhieunhapController {
         }
         return null;
     }
-
+    
+    public int getNextID() {
+        return this.layDanhsachPhieuNhapAll().size() + 1;
+    }
+    
     public ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();
         String sqlCommand = "SELECT * FROM thuoc WHERE DaXoa = 0";
@@ -219,7 +223,39 @@ public class PhieunhapController {
         }
         return dspn;
     }
+    
+    public ArrayList<Phieunhap> layDanhsachPhieuNhapAll() {
+        ArrayList<Phieunhap> dspn = new ArrayList<>();
+        String sqlCommand = "SELECT * FROM phieunhap";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(sqlCommand);
+            if (rs != null) {
+                while (rs.next()) {
+                    int maPhieunhap = rs.getInt("MaPhieuNhap");
+                    int maNhanvien = rs.getInt("MaNhanVien");
+                    int maNhacungcap = rs.getInt("MaNhaCungCap");
+                    NhanvienController nvCtrl = new NhanvienController();
+                    NhacungcapController nccCtrl = new NhacungcapController();
+                    String date = rs.getString("NgayNhap");
+                    Calendar cal = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                    cal.setTime(sdf.parse(date));
 
+                    float tongTien = rs.getFloat("TongTien");
+                    Boolean daXoa = rs.getBoolean("DaXoa");
+                    dspn.add(new Phieunhap(maPhieunhap, nccCtrl.getNhacungcap(maNhacungcap), nvCtrl.getNhanVien(maNhanvien), cal, tongTien, daXoa));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return dspn;
+    }
+    
+    
     public ArrayList<ChitietPhieunhap> layDanhsachChitietPhieunhap(int maPhieunhap) {
         ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
         String sqlCommand = "SELECT * FROM chitietphieunhap, thuoc, lonhap, donvitinh WHERE chitietphieunhap.DaXoa = 0 AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND MaPhieuNhap = '" + maPhieunhap + "'";

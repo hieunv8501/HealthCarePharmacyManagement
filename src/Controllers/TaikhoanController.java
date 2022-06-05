@@ -15,7 +15,7 @@ public class TaikhoanController {
     public String[] getHeaders() {
         return new String[]{"Tên tài khoản", "Mật khẩu", "Mã nhân viên", "Mã quyền"};
     }
-
+    
     public void readDB() {
         dstk = taikhoanDA.readDB();
     }
@@ -92,7 +92,6 @@ public class TaikhoanController {
 
     public Boolean capnhatTaiKhoan(Taikhoan taikhoan) {
         Boolean ok = taikhoanDA.capnhatTaiKhoan(taikhoan);
-
         if (ok) {
             dstk.forEach((tk) -> {
                 if (tk.getTaikhoan().equals(taikhoan.getTaikhoan())) {

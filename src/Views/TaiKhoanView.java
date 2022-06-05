@@ -1,8 +1,11 @@
 package Views;
 
 import Components.ExcelOperation;
+import Controllers.QuyenController;
 import Models.Taikhoan;
 import Controllers.TaikhoanController;
+import FormHelpers.QuyenViewHelper;
+import FormHelpers.TaikhoanViewHelper;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,32 +13,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class TaikhoanView extends JPanel {
-    
+
     TaikhoanController taikhoanCtrl = new TaikhoanController();
     DefaultTableModel tbModel;
     final int TENDANGNHAP_I = 1, MATKHAU_I = 2, MANHANVIEN_I = 3, MAQUYEN_I = 4;
-    
+
     public TaikhoanView() {
         initComponents();
-        tbModel = (DefaultTableModel)tblTaiKhoan.getModel();
+        tbModel = (DefaultTableModel) tblTaiKhoan.getModel();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tblTaiKhoan.setDefaultRenderer(String.class, centerRenderer);
         ((DefaultTableCellRenderer) tblTaiKhoan.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tblTaiKhoan.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tblTaiKhoan.getTableHeader().setOpaque(false);
-        tblTaiKhoan.getTableHeader().setBackground(Color.YELLOW);       
+        tblTaiKhoan.getTableHeader().setBackground(Color.YELLOW);
         tblTaiKhoan.setUpdateSelectionOnSort(true);
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
-        
+
         // buttons
         if (!LoginView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
             btnThem.setEnabled(false);
@@ -43,9 +47,9 @@ public class TaikhoanView extends JPanel {
             btnSua.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
         }
-        
+
         refresh();
-        
+
         tblTaiKhoan.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
             @Override
             public void mouseReleased(MouseEvent me) {
@@ -55,19 +59,19 @@ public class TaikhoanView extends JPanel {
                 }
             }
         });
-        
+
         btnThem.addActionListener((ActionEvent ae) -> {
             btnThemMouseClicked();
         });
-        
+
         btnXoa.addActionListener((ActionEvent ae) -> {
             btnXoaMouseClicked();
         });
-        
+
         btnSua.addActionListener((ActionEvent ae) -> {
             btnSuaMouseClicked();
         });
-        
+
         btnLamMoi.addActionListener((ActionEvent ae) -> {
             refresh();
         });
@@ -77,9 +81,9 @@ public class TaikhoanView extends JPanel {
 //        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
 //            new DocExcel().docFileExcelTaiKhoan();
 //        });
-        
+
     }
-    
+
     private void showInfo(String _tentk) {
         if (_tentk != null) {
             // show hình
@@ -89,14 +93,14 @@ public class TaikhoanView extends JPanel {
                     txtTenTaiKhoan.setText(tk.getTaikhoan());
                     txtPwd.setText(tk.getMatkhau());
                     txtMaNhanVien.setText(tk.getNv().getMaNhanvien() + " - " + tk.getNv().getTenNhanvien());
-                    txtMaQuyen.setText(tk.getQ().getMaQuyen() + " - " + tk.getQ().getTenQuyen());                                      
-                    txtTrangThai.setText(tk.isDaXoa()? "Đã tạm ẩn" : "Bình thường");
+                    txtMaQuyen.setText(tk.getQ().getMaQuyen() + " - " + tk.getQ().getTenQuyen());
+                    txtTrangThai.setText(tk.isDaXoa() ? "Đã tạm ẩn" : "Bình thường");
                     return;
                 }
             }
         }
     }
-    
+
     private void refresh() {
         taikhoanCtrl.readDB();
         txtTenTaiKhoan.setText("");
@@ -108,23 +112,25 @@ public class TaikhoanView extends JPanel {
         lblProfile.setIcon(null);
         loadDataToTable();
     }
-    
-    private void loadDataToTable(){
+
+    private void loadDataToTable() {
         tbModel.setRowCount(0);
         var taikhoanList = taikhoanCtrl.getDanhSachTaiKhoan();
         int stt = 0;
         for (Taikhoan tk : taikhoanList) {
-            stt++;
-            tbModel.addRow(new String[]{
-                String.valueOf(stt),
-                tk.getTaikhoan(),
-                String.valueOf(tk.getMatkhau()),
-                String.valueOf(tk.getNv().getMaNhanvien()),
-                tk.getQ().getMaQuyen(),
-                tk.isDaXoa()?"Đã tạm khóa":"Bình thường",
-            });     
+            if (!tk.isDaXoa()) {
+                stt++;
+                tbModel.addRow(new String[]{
+                    String.valueOf(stt),
+                    tk.getTaikhoan(),
+                    String.valueOf(tk.getMatkhau()),
+                    String.valueOf(tk.getNv().getMaNhanvien()),
+                    tk.getQ().getMaQuyen(),
+                    tk.isDaXoa() ? "Đã tạm khóa" : "Bình thường",});
+            }
         }
     }
+
     private String getSelectedRow(int col) {
         int i = tblTaiKhoan.getSelectedRow();
         if (i >= 0) {
@@ -133,25 +139,56 @@ public class TaikhoanView extends JPanel {
         }
         return null;
     }
-    private void btnThemMouseClicked(){
-        
+
+    private void btnThemMouseClicked() {
+        TaikhoanViewHelper taikhoanHelper = new TaikhoanViewHelper("Thêm", "");
+        taikhoanHelper.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                refresh();
+            }
+        });
     }
-    private void btnXoaMouseClicked(){
-        System.out.println("1");
+
+    private void btnXoaMouseClicked() {
+        String tentaikhoan = getSelectedRow(1);
+        if (tentaikhoan != null) {
+            if (JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa tài khoản " + tentaikhoan + " này không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                new TaikhoanController().softDelete(tentaikhoan);
+                refresh();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn tài khoản nào để xóa");
+        }
     }
-    private void btnSuaMouseClicked(){
-        System.out.println("2");
+
+    private void btnSuaMouseClicked() {
+        String maquyen = getSelectedRow(1);
+        if (maquyen != null) {
+            TaikhoanViewHelper suatk = new TaikhoanViewHelper("Sửa", maquyen);
+            suatk.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    refresh();
+                }
+            });
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn tài khoản nào để sửa");
+        }
     }
-    private void xuatFileExcelTaiKhoan(){
+
+    private void xuatFileExcelTaiKhoan() {
         System.out.println("3");
     }
-    private void docFileExcelTaiKhoan(){
+
+    private void docFileExcelTaiKhoan() {
         System.out.println("4");
     }
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
-    
+
 //    public String getSelectedRow(int col) {
 //        int i = tblLayout.getTable().getSelectedRow();
 //        if (i >= 0) {
@@ -160,8 +197,6 @@ public class TaikhoanView extends JPanel {
 //        }
 //        return null;
 //    }
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -193,7 +228,8 @@ public class TaikhoanView extends JPanel {
         setPreferredSize(new java.awt.Dimension(1200, 745));
 
         txtTenTaiKhoan.setEditable(false);
-        txtTenTaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTenTaiKhoan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtTenTaiKhoan.setForeground(new java.awt.Color(255, 0, 0));
         txtTenTaiKhoan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tên tài khoản", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -226,6 +262,7 @@ public class TaikhoanView extends JPanel {
         btnTaiXuongExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
         btnTaiXuongExcel.setText("Xuất Excel");
 
+        txtTimKiem.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtTimKiem.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,20 +315,25 @@ public class TaikhoanView extends JPanel {
         );
 
         txtMaQuyen.setEditable(false);
-        txtMaQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaQuyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtMaQuyen.setForeground(new java.awt.Color(255, 0, 0));
         txtMaQuyen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         txtMaNhanVien.setEditable(false);
-        txtMaNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaNhanVien.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtMaNhanVien.setForeground(new java.awt.Color(255, 0, 0));
         txtMaNhanVien.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         txtPwd.setEditable(false);
+        txtPwd.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        txtPwd.setForeground(new java.awt.Color(255, 0, 0));
         txtPwd.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mật khẩu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         lblProfile.setBorder(javax.swing.BorderFactory.createTitledBorder("Ảnh hồ sơ"));
 
         txtTrangThai.setEditable(false);
-        txtTrangThai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtTrangThai.setForeground(new java.awt.Color(255, 0, 0));
         txtTrangThai.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Trạng thái", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -315,16 +357,16 @@ public class TaikhoanView extends JPanel {
                         .addGap(35, 35, 35)
                         .addComponent(txtTrangThai))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(317, 317, 317)
+                        .addContainerGap(300, Short.MAX_VALUE)
                         .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnTimKiem)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 341, Short.MAX_VALUE)))
                 .addGap(95, 95, 95))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 169, Short.MAX_VALUE)
+                .addGap(0, 180, Short.MAX_VALUE)
                 .addComponent(btnThem)
                 .addGap(39, 39, 39)
                 .addComponent(btnSua)
@@ -336,7 +378,7 @@ public class TaikhoanView extends JPanel {
                 .addComponent(btnTaiLenExcel)
                 .addGap(40, 40, 40)
                 .addComponent(btnTaiXuongExcel)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +419,7 @@ public class TaikhoanView extends JPanel {
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTimKiemActionPerformed
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;

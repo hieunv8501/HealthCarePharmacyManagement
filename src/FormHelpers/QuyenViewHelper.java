@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneLayout;
 import javax.swing.border.TitledBorder;
 
 public class QuyenViewHelper extends JFrame {
@@ -73,7 +72,7 @@ public class QuyenViewHelper extends JFrame {
                 }
             }
             if (this.quyen == null) {
-                JOptionPane.showMessageDialog(null, "Lỗi, không tìm thấy quyền");
+                JOptionPane.showMessageDialog(this, "Lỗi, không tìm thấy quyền");
                 this.dispose();
             }
 
@@ -125,7 +124,6 @@ public class QuyenViewHelper extends JFrame {
             String maquyen = txtMaQuyen.getText();
             String tenquyen = txtTenQuyen.getText();
             String chitietquyen = chitietForm.getQuyen();
-            System.out.println(chitietquyen);
 
             if (quyenCtrl.update(maquyen, tenquyen, chitietquyen)) {
                 JOptionPane.showMessageDialog(this, "Sửa " + maquyen + " thành công!");
