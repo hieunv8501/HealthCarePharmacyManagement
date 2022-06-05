@@ -44,10 +44,11 @@ public class QuyenViewHelper extends JFrame {
 
         // inputs
         txtMaQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Mã quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
-        txtMaQuyen.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtMaQuyen.setFont(new Font("SansSerif", Font.BOLD, 13));
+        txtMaQuyen.setForeground(Color.RED);
         txtTenQuyen.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Tên quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
-        txtTenQuyen.setFont(new Font("SansSerif", Font.PLAIN, 14));
-
+        txtTenQuyen.setFont(new Font("SansSerif", Font.BOLD, 13));
+        txtTenQuyen.setForeground(Color.RED);
         JPanel plInput = new JPanel();
         plInput.add(txtMaQuyen);
         plInput.add(txtTenQuyen);
@@ -214,6 +215,7 @@ class PanelChonQuyen extends JPanel {
     
     public PanelChonQuyen(String name, String[] type, String[] value) {
         this.setPreferredSize(new Dimension(300, 60));
+        this.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
         this.setLayout(new FlowLayout(FlowLayout.LEADING));
         
         this.name = name;
@@ -221,13 +223,16 @@ class PanelChonQuyen extends JPanel {
         this.value = value;
 
         this.chb = new JCheckBox(this.name);
+        this.chb.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
         this.add(this.chb);
 
         this.cb = new JComboBox<>(this.type);
-        this.cb.setPreferredSize(new Dimension(100, 20));
+        
+        this.cb.setPreferredSize(new Dimension(130, 20));
         listRenderer = new DefaultListCellRenderer();
         listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
         this.cb.setRenderer(listRenderer);
+        this.cb.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
         this.cb.setEnabled(false);
         this.add(this.cb);
 

@@ -85,24 +85,29 @@ public class QuyenView extends JPanel {
                     // show info
                     txtMaQuyen.setText(q.getMaQuyen());
                     txtTenQuyen.setText(q.getTenQuyen());
-                    txtChitietquyen.setText(q.getChitietQuyen());
 
-                    var tempStr = q.getChitietQuyen();
-                    String str1 = null, str2 = null, str3 = null;
-                    int count = tempStr.length() - tempStr.replace(" ", "").length();
-                    char[] tempStrChar = tempStr.toCharArray();
-                    System.out.println(tempStrChar);
-                    if (count >= 6 && count <= 15) {
+                    String tempStr1 = q.getChitietQuyen();
+                    String tempStr2 = q.getChitietQuyen();
+                    String str1 = null, str2 = null;
+                    int count = tempStr1.length() - tempStr1.replace(" ", "").length();
+                    int nextIndexString = 0;
+                    if (count >= 6 && count <= 12) {
                         int countTemp = 0;
-                        for (int i = 0; i < tempStr.length(); i++) {
-                            if (tempStr.charAt(i) == (char) 32) {
+                        for (int i = 0; i < tempStr2.length(); i++) {
+                            if (tempStr2.charAt(i) == (char) 32) {
+                                if (countTemp == 6) {        
+                                    nextIndexString = i;
+                                    break;
+                                }  
                                 countTemp++;
-                                if (countTemp == 6) break;
                             }
+                            
                         }
+                        str1 = tempStr2.substring(0, nextIndexString);
+                        str2 = tempStr2.substring(nextIndexString+1, tempStr2.length());
+                        txtChitietquyen.setText(str1 + System.getProperty("line.separator") + str2);
                     }
-                    txtarA.setText(String.valueOf(count));
-
+                    else if (count < 6) txtChitietquyen.setText(q.getChitietQuyen());
                     return;
                 }
             }
@@ -159,9 +164,8 @@ public class QuyenView extends JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblQuyen = new javax.swing.JTable();
-        txtChitietquyen = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtarA = new javax.swing.JTextArea();
+        txtChitietquyen = new javax.swing.JTextArea();
 
         setPreferredSize(new java.awt.Dimension(1200, 745));
 
@@ -281,18 +285,17 @@ public class QuyenView extends JPanel {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
         );
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        jScrollPane1.setForeground(new java.awt.Color(255, 0, 0));
+        jScrollPane1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+
         txtChitietquyen.setEditable(false);
+        txtChitietquyen.setBackground(new java.awt.Color(240, 240, 240));
+        txtChitietquyen.setColumns(20);
         txtChitietquyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtChitietquyen.setForeground(new java.awt.Color(255, 0, 0));
-        txtChitietquyen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
-
-        txtarA.setEditable(false);
-        txtarA.setColumns(5);
-        txtarA.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        txtarA.setForeground(new java.awt.Color(255, 0, 0));
-        txtarA.setRows(5);
-        txtarA.setEnabled(false);
-        jScrollPane1.setViewportView(txtarA);
+        txtChitietquyen.setRows(5);
+        jScrollPane1.setViewportView(txtChitietquyen);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -301,17 +304,17 @@ public class QuyenView extends JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtTenQuyen, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMaQuyen))
-                        .addGap(29, 29, 29)
-                        .addComponent(txtChitietquyen, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(339, 339, 339)
+                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnTimKiem))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 156, Short.MAX_VALUE)
                                 .addComponent(btnThem)
                                 .addGap(39, 39, 39)
@@ -323,17 +326,15 @@ public class QuyenView extends JPanel {
                                 .addGap(39, 39, 39)
                                 .addComponent(btnTaiLenExcel)
                                 .addGap(39, 39, 39)
-                                .addComponent(btnTaiXuongExcel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(73, 73, 73)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btnTimKiem)))
-                        .addContainerGap(169, Short.MAX_VALUE))))
+                                .addComponent(btnTaiXuongExcel)))
+                        .addContainerGap(169, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTenQuyen, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMaQuyen))
+                        .addGap(45, 45, 45)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,7 +345,7 @@ public class QuyenView extends JPanel {
                         .addComponent(txtMaQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
                         .addComponent(txtTenQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtChitietquyen))
+                    .addComponent(jScrollPane1))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnThem)
@@ -353,18 +354,12 @@ public class QuyenView extends JPanel {
                     .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiLenExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -430,10 +425,9 @@ public class QuyenView extends JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblQuyen;
-    private javax.swing.JTextField txtChitietquyen;
+    private javax.swing.JTextArea txtChitietquyen;
     private javax.swing.JTextField txtMaQuyen;
     private javax.swing.JTextField txtTenQuyen;
     private javax.swing.JTextField txtTimKiem;
-    private javax.swing.JTextArea txtarA;
     // End of variables declaration//GEN-END:variables
 }
