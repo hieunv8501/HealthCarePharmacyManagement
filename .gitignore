@@ -1,3 +1,6 @@
 # NetBeans specific #
 build
 /dist/
+nbproject/
+test/
+temp
