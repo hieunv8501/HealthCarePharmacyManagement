@@ -1,11 +1,74 @@
 package Controllers;
 
+import DBConnection.DBConnection;
 import Models.Nhanvien;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 
 public class NhanvienController {
 
+    public void themNhanvien(Nhanvien nhanvien) {
+        LocalDate ngaysinh = nhanvien.getNgaySinh();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedString = ngaysinh.format(formatter);
+        String command = "INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) values (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            DBConnection con = new DBConnection();
+            PreparedStatement pre = con.getConn().prepareStatement(command);
+            pre.setString(1, nhanvien.getTenNhanvien());
+            pre.setInt(2, nhanvien.getLoaiNhanvien());
+            pre.setString(3, formattedString);
+            pre.setInt(4, nhanvien.getXa());
+            pre.setString(5, nhanvien.getSoDienThoai());
+            pre.setString(6, nhanvien.getGioiTinh());
+            pre.setString(7, nhanvien.getBangCap());
+            pre.executeUpdate();
+            System.out.println("Thêm nhân viên thành công");
+            con.closeConnection();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void suaNhanvien(Nhanvien nhanvien) {
+        LocalDate ngaysinh = nhanvien.getNgaySinh();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedString = ngaysinh.format(formatter);
+        String command = "UPDATE nhanvien SET TenNhanVien = ?, MaLoaiNhanVien = ?, NgaySinh = ?, MaXa = ?, SoDienThoai = ?, GioiTinh = ?, BangCap = ?";
+        try {
+            DBConnection con = new DBConnection();
+            PreparedStatement pre = con.getConn().prepareStatement(command);
+            pre.setString(1, nhanvien.getTenNhanvien());
+            pre.setInt(2, nhanvien.getLoaiNhanvien());
+            pre.setString(3, formattedString);
+            pre.setInt(4, nhanvien.getXa());
+            pre.setString(5, nhanvien.getSoDienThoai());
+            pre.setString(6, nhanvien.getGioiTinh());
+            pre.setString(7, nhanvien.getBangCap());
+            pre.executeUpdate();
+            System.out.println("Sửa nhân viên thành công");
+            con.closeConnection();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void xoaNhanvien(int maNhanvien) {
+        String command = "UPDATE nhanvien SET DaXoa = 1 WHERE MaNhanVien = " + maNhanvien;
+        try {
+            DBConnection con = new DBConnection();
+            PreparedStatement pre = con.getConn().prepareStatement(command);
+            pre.executeUpdate();
+            System.out.println("Xóa Nhân viên thành công");
+            con.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private ArrayList<Nhanvien> dsnv = new ArrayList<>();
     private Nhanvien nhanvienDA = new Nhanvien();
 
@@ -121,7 +184,7 @@ public class NhanvienController {
 //        }
 //        return ok;
 //    }
-
+//
 //    public Boolean add(String manv, String tennv, LocalDate ngaysinh, String diachi, String sdt, int trangthai) {
 //        NhanVien nv = new NhanVien(manv, tennv, ngaysinh, diachi, sdt, trangthai);
 //        return add(nv);

@@ -46,6 +46,9 @@ public class Xa {
         return huyen.getTinh();
     }
     
+    public String getDiaChi() {
+        return getTenXa() + " - " + getHuyen() + " - " + getTinh();
+    }
     
     
 }

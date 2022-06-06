@@ -4,7 +4,8 @@
  */
 package Models;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+
 
 /**
  *
@@ -13,14 +14,14 @@ import java.util.Calendar;
 public class Khachhang {
     private int maKhachhang;
     private String tenKhachhang, gioitinh, soDienthoai;
-    private Calendar ngaySinh;
+    private LocalDate ngaySinh;
     private Xa xa;
     private boolean khachQuen, daXoa;
 
     public Khachhang() {
     }
 
-    public Khachhang(int maKhachhang, String tenKhachhang, String gioitinh, String soDienthoai, Calendar ngaySinh, Xa xa, boolean khachQuen, boolean daXoa) {
+    public Khachhang(int maKhachhang, String tenKhachhang, String gioitinh, String soDienthoai, LocalDate ngaySinh, Xa xa, boolean khachQuen, boolean daXoa) {
         this.maKhachhang = maKhachhang;
         this.tenKhachhang = tenKhachhang;
         this.gioitinh = gioitinh;
@@ -63,16 +64,16 @@ public class Khachhang {
         this.soDienthoai = soDienthoai;
     }
 
-    public Calendar getNgaySinh() {
+    public LocalDate getNgaySinh() {
         return ngaySinh;
     }
 
-    public void setNgaySinh(Calendar ngaySinh) {
+    public void setNgaySinh(LocalDate ngaySinh) {
         this.ngaySinh = ngaySinh;
     }
 
-    public Xa getXa() {
-        return xa;
+    public int getXa() {
+        return xa.getMaXa();
     }
 
     public void setXa(Xa xa) {

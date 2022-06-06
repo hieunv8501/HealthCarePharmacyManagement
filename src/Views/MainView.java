@@ -45,6 +45,8 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     QuyenForm quyenForm = new QuyenForm();  
     TaiKhoanForm taikhoanForm = new TaiKhoanForm();
     PhieuNhapForm phieunhapForm = new PhieuNhapForm();
+    KhachHangView khachhangView = new KhachHangView();
+    NhanVienView nhanvienView = new NhanVienView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -309,6 +311,14 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             case "Cài đặt":
                 emptypage.setLabelText("Cài đặt đang bảo trì, vui lòng thử lại sau");
                 plContent.add(emptypage, BorderLayout.CENTER);
+                break;
+                
+            case "Khách hàng":
+                plContent.add(khachhangView, BorderLayout.CENTER);
+                break;
+                
+            case "Nhân viên":
+                plContent.add(nhanvienView, BorderLayout.CENTER);
                 break;
 
         }
