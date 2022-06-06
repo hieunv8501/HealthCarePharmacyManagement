@@ -155,7 +155,10 @@ CREATE TABLE nhacungcap(
 	DaXoa BIT DEFAULT 0,
 
 )
-
+drop table thuoc
+drop table nhacungcap
+delete thuoc
+delete nhacungcap
 ----------------------------------------------------------
 -- Cấu trúc bảng cho bảng nhanvien
 
@@ -189,7 +192,7 @@ create table thuoc(
 	MaThuoc int primary key ,
 	TenThuoc nvarchar(50) NOT NULL,
 	MoTa nvarchar(1000) NOT NULL,
-	DoTuoi int NOT NULL,
+	DoTuoi nvarchar(200) NOT NULL,
 	HinhAnh nvarchar NOT NULL,
 	MaDonViTinh int NOT NULL,
 	MaDonViQuiDoi int NOT NULL,
@@ -200,6 +203,7 @@ create table thuoc(
 	DaXoa BIT DEFAULT 0,
  
 )
+
 ----------------------------------------------------------
 -- Cấu trúc bảng cho bảng taikhoan
 
@@ -227,8 +231,8 @@ ALTER TABLE thuoc
 	ADD CONSTRAINT FK_thuoc_nhacungcap foreign key (MaNhaCungCap) references nhacungcap(MaNhaCungCap),
 	CONSTRAINT FK_thuoc_donvitinh foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
 	CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc),
-	CONSTRAINT FK_thuoc_donviQuidoi foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
-	
+	CONSTRAINT FK_thuoc_donviQuidoi foreign key (MaDonViTinh) references donvitinh(MaDonViTinh)
+alter table thuoc drop CONSTRAINT FK_thuoc_nhacungcap,FK_thuoc_donvitinh,FK_thuoc_loaithuoc,FK_thuoc_donviQuidoi
 -- Tạo các ràng buộc cho các bảng nhacungcap 
 ALTER TABLE nhacungcap
 	add CONSTRAINT FK_nhacungcap_xa foreign key (MaXa) references Xa(MaXa)
@@ -604,3 +608,7 @@ values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39B
 ('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 10, 'Q1'), --Hau123.
 ('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 10, 'Q1') --Quy123.
 
+
+insert into tinh values('1',N'Hồ chí Minh');
+insert into huyen values('1',N'Thủ đức','1');
+insert into xa values('1',N'Đông Hòa','1');

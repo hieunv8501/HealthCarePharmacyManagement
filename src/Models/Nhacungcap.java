@@ -1,5 +1,12 @@
 package Models;
 
+import Controllers.XaController;
+import DBConnection.DBConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 public class Nhacungcap {
 
     private int maNhacungcap;
@@ -8,7 +15,8 @@ public class Nhacungcap {
     private String soDienthoai;
     private String fax;
     private boolean DaXoa;
-    //Phuong thuc
+    DBConnection NhacungcapConnection;
+    //Phuong thuc 
 
     public Nhacungcap(int maNhacungcap, String tenNhacungcap, Xa xa, String soDienthoai, String fax, boolean DaXoa) {
         this.maNhacungcap = maNhacungcap;
@@ -19,6 +27,16 @@ public class Nhacungcap {
         this.DaXoa = DaXoa;
     }
 
+    public Nhacungcap(int maNhacungcap, String tenNhacungcap, Xa xa, String soDienthoai, String fax) {
+        this.maNhacungcap = maNhacungcap;
+        this.tenNhacungcap = tenNhacungcap;
+        this.xa = xa;
+        this.soDienthoai = soDienthoai;
+        this.fax = fax;
+    }
+    public Nhacungcap() {
+    }
+    
     public int getMaNhacungcap() {
         return maNhacungcap;
     }
@@ -66,5 +84,35 @@ public class Nhacungcap {
     public void setDaXoa(boolean DaXoa) {
         this.DaXoa = DaXoa;
     }
+    public ArrayList<Nhacungcap> readDB() {
+        ArrayList<Nhacungcap> dsNhacungcap = new ArrayList();
+        NhacungcapConnection = new DBConnection();
+        try {
+            String query = "SELECT * FROM nhacungcap";
+            ResultSet rs = NhacungcapConnection.sqlQuery(query);
+            if (rs != null) {
+                while (rs.next()) {
+                    int maNhacungcap = rs.getInt("MaNhaCungCap");
+                    String tenNhacungcap= rs.getString("TenNhaCungCap");
+                    XaController xaController=new XaController();
+                    int maXa=rs.getInt("MaXa");
+                    Xa xaNhacungcap= xaController.getXa(maXa);
+                    String sodienthoai= rs.getString("SoDienThoai");
+                    String fax =rs.getString("Fax");                                
+                    boolean daXoa= (rs.getInt("DaXoa")==1)? true:false;
+                    dsNhacungcap.add(new Nhacungcap(maNhacungcap,tenNhacungcap,xaNhacungcap,sodienthoai,fax,daXoa));
+                }
+            }          
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng thuốc");
+        } finally {
+            NhacungcapConnection.closeConnection();
+        }
+        return dsNhacungcap;
+    }
 
+    @Override
+    public String toString() {
+        return tenNhacungcap;
+    }
 }

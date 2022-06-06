@@ -132,7 +132,7 @@ public class WriteExcelNhacungcap {
         cell.setCellValue(nhacungcap.getTenNhacungcap());
  
         cell = row.createCell(COLUMN_Huyen);
-        cell.setCellValue(nhacungcap.getMaHuyen());
+        cell.setCellValue(nhacungcap.getXa().getMaXa());
         
  
         cell = row.createCell(COLUMN_SoDienThoai);

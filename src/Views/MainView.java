@@ -45,7 +45,10 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     QuyenView quyenForm = new QuyenView();  
     TaikhoanView taikhoanForm = new TaikhoanView();
     PhieunhapView phieunhapForm = new PhieunhapView();
-
+    NhacungcapView nhacungcap=new NhacungcapView();
+    ThuocView thuoc=new ThuocView();
+    LoaiThuocView loaiThuoc=new LoaiThuocView();
+    DonvitinhView donvitinh=new DonvitinhView();
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
     private Point dragStartPoint = new Point(0, 0);
@@ -89,10 +92,13 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
+            "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
+            "Đơn vị tính", "icons8_assistant_30px.png", "", "qlThuoc",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
             "seperate", "1", "", "",
             "Nhân viên", "icons8_assistant_30px.png", "xemNhanVien", "qlNhanVien",
+            
             "Khách hàng", "icons8_user_30px.png", "xemKhachHang", "qlKhachHang",
             "Nhà cung cấp", "icons8_company_30px.png", "xemNCC", "qlNCC",
             "seperate", "1", "", "",
@@ -310,6 +316,15 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 emptypage.setLabelText("Cài đặt đang bảo trì, vui lòng thử lại sau");
                 plContent.add(emptypage, BorderLayout.CENTER);
                 break;
+            case "Nhà cung cấp":
+                plContent.add(nhacungcap, BorderLayout.CENTER);
+                break;
+            case "Thuốc":
+                plContent.add(thuoc, BorderLayout.CENTER);
+            case "Loại thuốc":
+                plContent.add(loaiThuoc, BorderLayout.CENTER);
+            case "Đơn vị tính":
+                plContent.add(donvitinh, BorderLayout.CENTER);
 
         }
         headerTitle.setLabel(nameAction.toUpperCase());

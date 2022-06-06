@@ -6,8 +6,13 @@ package Views;
 
 import Controllers.LoaiThuocController;
 import Models.LoaiThuoc;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +28,14 @@ public class LoaiThuocView extends javax.swing.JPanel {
     public LoaiThuocView() {
         initComponents();
          //this.setLocationRelativeTo(null);
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableDanhSachLoaiThuoc.setDefaultRenderer(String.class, centerRenderer);
+        ((DefaultTableCellRenderer) tableDanhSachLoaiThuoc.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        tableDanhSachLoaiThuoc.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
+        tableDanhSachLoaiThuoc.getTableHeader().setOpaque(false);
+        tableDanhSachLoaiThuoc.getTableHeader().setBackground(Color.YELLOW);
+         tableDanhSachLoaiThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ShowData();
     }
 
@@ -50,12 +63,19 @@ public class LoaiThuocView extends javax.swing.JPanel {
         btnXuatFile = new javax.swing.JButton();
         btnThoat = new javax.swing.JButton();
 
-        panelThongTinLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin loại thuốc"));
+        panelThongTinLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin loại thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
+        labelMaLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelMaLoaiThuoc.setText("Mã loại thuốc");
 
+        labelTenLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelTenLoaiThuoc.setText("Tên loại thuốc");
 
+        txtMaLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        txtTenLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,6 +83,7 @@ public class LoaiThuocView extends javax.swing.JPanel {
             }
         });
 
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,6 +91,7 @@ public class LoaiThuocView extends javax.swing.JPanel {
             }
         });
 
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,8 +142,11 @@ public class LoaiThuocView extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelDanhsachLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách loại thuốc"));
+        panelDanhsachLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI", 1, 16), new java.awt.Color(51, 51, 255))); // NOI18N
+        panelDanhsachLoaiThuoc.setForeground(new java.awt.Color(51, 51, 255));
+        panelDanhsachLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
 
+        tableDanhSachLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableDanhSachLoaiThuoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -140,6 +165,7 @@ public class LoaiThuocView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableDanhSachLoaiThuoc);
 
+        btnThemFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnThemFile.setText("Thêm từ file");
         btnThemFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,8 +173,10 @@ public class LoaiThuocView extends javax.swing.JPanel {
             }
         });
 
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnXuatFile.setText("Xuất file");
 
+        btnThoat.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnThoat.setText("Thoát");
 
         javax.swing.GroupLayout panelDanhsachLoaiThuocLayout = new javax.swing.GroupLayout(panelDanhsachLoaiThuoc);
@@ -160,7 +188,7 @@ public class LoaiThuocView extends javax.swing.JPanel {
                 .addComponent(btnThemFile)
                 .addGap(38, 38, 38)
                 .addComponent(btnXuatFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(btnThoat)
                 .addGap(40, 40, 40))
             .addGroup(panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

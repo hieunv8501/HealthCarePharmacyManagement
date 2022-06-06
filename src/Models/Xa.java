@@ -45,6 +45,11 @@ public class Xa {
     public String getTinh() {
         return huyen.getTinh();
     }
+
+    @Override
+    public String toString() {
+        return tenXa;
+    }
     
     public String getDiaChi() {
         return getTenXa() + " - " + getHuyen() + " - " + getTinh();

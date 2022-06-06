@@ -8,6 +8,7 @@ package Components;
  *
  * @author HauPC
  */
+import Controllers.XaController;
 import Models.Nhacungcap;
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,7 +86,8 @@ public class ReadExcelNhacungcap {
                     nhacungcap.setTenNhacungcap((String) getCellValue(cell));
                     break;
                 case COLUMN_Huyen:
-                    nhacungcap.setMaHuyen(new BigDecimal((double) cellValue).intValue());
+                    XaController xaController=new XaController();
+                    nhacungcap.setXa( xaController.getXa( new BigDecimal((double) cellValue).intValue()));
                     break;
                 case COLUMN_SoDienThoai:
                     nhacungcap.setSoDienthoai((String) getCellValue(cell));
