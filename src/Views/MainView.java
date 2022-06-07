@@ -321,10 +321,13 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
             case "Thuốc":
                 plContent.add(thuoc, BorderLayout.CENTER);
+                break;
             case "Loại thuốc":
                 plContent.add(loaiThuoc, BorderLayout.CENTER);
+                break;
             case "Đơn vị tính":
                 plContent.add(donvitinh, BorderLayout.CENTER);
+                break;
 
         }
         headerTitle.setLabel(nameAction.toUpperCase());
