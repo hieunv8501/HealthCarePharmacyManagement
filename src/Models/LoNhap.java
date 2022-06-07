@@ -2,15 +2,15 @@ package Models;
 
 public class LoNhap {
     private int maLo;
-    private int maThuoc;
-    private int maPhieunhap;
+    private Thuoc thuoc;
+    private Phieunhap phieunhap;
     private int soluongConlai;
     private boolean daXoa;
 
-    public LoNhap(int maLo, int maThuoc, int maPhieunhap, int soluongConlai, boolean daXoa) {
+    public LoNhap(int maLo, Thuoc thuoc, Phieunhap phieunhap, int soluongConlai, boolean daXoa) {
         this.maLo = maLo;
-        this.maThuoc = maThuoc;
-        this.maPhieunhap = maPhieunhap;
+        this.thuoc = thuoc;
+        this.phieunhap = phieunhap;
         this.soluongConlai = soluongConlai;
         this.daXoa = daXoa;
     }
@@ -26,20 +26,20 @@ public class LoNhap {
         this.maLo = maLo;
     }
 
-    public int getMaThuoc() {
-        return maThuoc;
+    public Thuoc getThuoc() {
+        return thuoc;
     }
 
-    public void setMaThuoc(int maThuoc) {
-        this.maThuoc = maThuoc;
+    public void setThuoc(Thuoc thuoc) {
+        this.thuoc = thuoc;
     }
 
-    public int getMaPhieunhap() {
-        return maPhieunhap;
+    public Phieunhap getPhieunhap() {
+        return phieunhap;
     }
 
-    public void setMaPhieunhap(int maPhieunhap) {
-        this.maPhieunhap = maPhieunhap;
+    public void setPhieunhap(Phieunhap phieunhap) {
+        this.phieunhap = phieunhap;
     }
 
     public int getSoluongConlai() {

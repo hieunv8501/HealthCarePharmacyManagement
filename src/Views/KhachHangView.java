@@ -4,7 +4,7 @@
  */
 package Views;
 
-import Controllers.KhachhangController;
+//import Controllers.KhachhangController;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,7 +16,7 @@ public class KhachHangView extends javax.swing.JPanel {
     /**
      * Creates new form KhachHangView
      */
-    KhachhangController Khachhangcrtl = new KhachhangController();
+    //KhachhangController Khachhangcrtl = new KhachhangController();
     private DefaultTableModel tableModel;
     public KhachHangView() {
         initComponents();

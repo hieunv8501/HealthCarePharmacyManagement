@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
 import Controllers.HoadonController;
+import Controllers.KhachhangController;
 import Controllers.KhuyenmaiController;
+import Controllers.NhanvienController;
 
 import Models.Hoadon;
 import Models.Nhanvien;
@@ -29,17 +27,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author TinhBui
- */
 public class HoadonView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form HoadonView
-     */
     private DefaultTableModel modelHD;
     HoadonController hdctr = new HoadonController();
+    NhanvienController nvctr = new NhanvienController();
+    KhuyenmaiController kmctr = new KhuyenmaiController();
+    KhachhangController khctr = new KhachhangController();
     private int indexOfList;
     private int maHoadon;
 
@@ -69,11 +63,11 @@ public class HoadonView extends javax.swing.JPanel {
 
                 SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 String formatted = format1.format(hd.getNgayLap().getTime());
-                String nhanvien = hd.getMaNhanvien() + " - " + hd.getTenNhanvien();
-                String khachhang = hd.getMaKhachhang() + " - " + hd.getTenKhachhang();
+                String nhanvien = hd.getNhanvien().getMaNhanvien()+ " - " + hd.getNhanvien().getTenNhanvien();
+                String khachhang = hd.getKhachhang().getMaKhachhang()+ " - " + hd.getKhachhang().getTenKhachhang();
 
                 model.addRow(new Object[]{
-                    hd.getMaHoadon(), nhanvien, khachhang, hd.getMaKhuyenmai(), formatted, hd.getTongTien()
+                    hd.getMaHoadon(), nhanvien, khachhang, hd.getKhuyenmai().getMaKhuyenmai(), formatted, hd.getTongTien()
                 });
 
             }
@@ -466,7 +460,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
+            Hoadon hd = new Hoadon(nvctr.getNhanVien(Integer.parseInt(MNV)), khctr.layKhachHang(Integer.parseInt(MKH)), kmctr.layMaKhuyenmai(MKM), dateLap.getCalendar());
             hdctr.themHoaDon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             ChitietHoadonView cthd = new ChitietHoadonView();
@@ -496,7 +490,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
+            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), nvctr.getNhanVien(Integer.parseInt(MNV)), khctr.layKhachHang(Integer.parseInt(MKH)),kmctr.layMaKhuyenmai(MKM), dateLap.getCalendar());
             hdctr.capnhatHoadon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             this.reset();

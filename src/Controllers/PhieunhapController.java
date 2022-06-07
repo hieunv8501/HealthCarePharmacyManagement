@@ -12,6 +12,7 @@ import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -38,11 +39,11 @@ public class PhieunhapController {
         }
         return null;
     }
-    
+
     public int getNextID() {
         return this.layDanhsachPhieuNhapAll().size() + 1;
     }
-    
+
     public ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();
         String sqlCommand = "SELECT * FROM thuoc WHERE DaXoa = 0";
@@ -92,20 +93,13 @@ public class PhieunhapController {
     public void themChitietPhieunhap(ChitietPhieunhap ctpn) {
         String sqlCommand = "INSERT INTO chitietphieunhap(MaPhieuNhap, MaThuoc, NgaySanXuat, NgayHetHan, SoLuong, DonGia) VALUES (?,?,?,?,?)";
 
-        Calendar cal1 = ctpn.getNgaySanxuat();
-        Calendar cal2 = ctpn.getNgayHethan();
-
-        String nsx, nhh;
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        nsx = fm.format(cal1.getTime());
-        nhh = fm.format(cal2.getTime());
         try {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getMaPhieunhap());
-            pre.setInt(2, ctpn.getMaThuoc());
-            pre.setString(3, nsx);
-            pre.setString(4, nhh);
+            pre.setInt(2, ctpn.getThuoc().getMaThuoc());
+            pre.setString(3, ctpn.getNgaySanxuat().toString());
+            pre.setString(4, ctpn.getNgaySanxuat().toString());
             pre.setInt(5, ctpn.getSoluong());
             pre.setFloat(6, ctpn.getDongia());
 
@@ -141,23 +135,23 @@ public class PhieunhapController {
     public void capnhatChitietPhieunhap(ChitietPhieunhap ctpn) {
         String sqlCommand = "UPDATE chitietphieunhap SET SoLuong = ?, DonGia = ?, NgaySanXuat = ?, NgayHetHan = ? WHERE MaPhieuNhap = ? AND MaThuoc = ?";
 
-        Calendar cal1 = ctpn.getNgaySanxuat();
-        Calendar cal2 = ctpn.getNgayHethan();
-
-        String nsx, nhh;
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        nsx = fm.format(cal1.getTime());
-        nhh = fm.format(cal2.getTime());
+//        Calendar cal1 = ctpn.getNgaySanxuat();
+//        Calendar cal2 = ctpn.getNgayHethan();
+//
+//        String nsx, nhh;
+//        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        nsx = fm.format(cal1.getTime());
+//        nhh = fm.format(cal2.getTime());
 
         try {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getSoluong());
             pre.setFloat(2, ctpn.getDongia());
-            pre.setString(3, nsx);
-            pre.setString(4, nhh);
+            pre.setString(3, ctpn.getNgaySanxuat().toString());
+            pre.setString(4, ctpn.getNgayHethan().toString());
             pre.setInt(5, ctpn.getMaPhieunhap());
-            pre.setInt(6, ctpn.getMaThuoc());
+            pre.setInt(6, ctpn.getThuoc().getMaThuoc());
 
             pre.executeUpdate();
             conn.closeConnection();
@@ -184,7 +178,7 @@ public class PhieunhapController {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getMaPhieunhap());
-            pre.setInt(2, ctpn.getMaThuoc());
+            pre.setInt(2, ctpn.getThuoc().getMaThuoc());
             pre.executeUpdate();
             conn.closeConnection();
         } catch (Exception e) {
@@ -223,7 +217,7 @@ public class PhieunhapController {
         }
         return dspn;
     }
-    
+
     public ArrayList<Phieunhap> layDanhsachPhieuNhapAll() {
         ArrayList<Phieunhap> dspn = new ArrayList<>();
         String sqlCommand = "SELECT * FROM phieunhap";
@@ -254,8 +248,7 @@ public class PhieunhapController {
         }
         return dspn;
     }
-    
-    
+
     public ArrayList<ChitietPhieunhap> layDanhsachChitietPhieunhap(int maPhieunhap) {
         ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
         String sqlCommand = "SELECT * FROM chitietphieunhap, thuoc, lonhap, donvitinh WHERE chitietphieunhap.DaXoa = 0 AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND MaPhieuNhap = '" + maPhieunhap + "'";
@@ -264,17 +257,17 @@ public class PhieunhapController {
             ResultSet rs = con.sqlQuery(sqlCommand);
             if (rs != null) {
                 while (rs.next()) {
+
                     int maLo = rs.getInt("MaLo");
                     int maThuoc = rs.getInt("MaThuoc");
-                    String tenThuoc = rs.getString("TenThuoc");
-                    String tenLoaiThuoc = rs.getString("TenLoaiThuoc");
                     int soLuong = rs.getInt("SoLuong");
                     float donGia = rs.getFloat("DonGia");
-                    int maDonvitinh = rs.getInt("MaDonViTinh");
-                    String tenDonvitinh = rs.getString("TenDonViTinh");
+                    LocalDate ngaySanxuat = rs.getDate("NgaySanXuat").toLocalDate();
+                    LocalDate ngayHethan = rs.getDate("NgayHetHan").toLocalDate();
                     Boolean daXoa = rs.getBoolean("DaXoa");
-                    ChitietPhieunhap ctpn = new ChitietPhieunhap(maPhieunhap, maLo, maThuoc, tenThuoc, tenLoaiThuoc, maDonvitinh, tenDonvitinh, soLuong, donGia, daXoa);
-                    dsctpn.add(ctpn);
+                    LonhapController loCtrl = new LonhapController();
+                    ThuocController thuocCtrl = new ThuocController();
+                    dsctpn.add(new ChitietPhieunhap(maPhieunhap, loCtrl.layLoNhap(maLo), thuocCtrl.getThuoc(maThuoc), soLuong, donGia, ngaySanxuat, ngaySanxuat, daXoa));
                 }
             }
         } catch (Exception e) {
@@ -295,7 +288,7 @@ public class PhieunhapController {
                 while (rs.next()) {
                     int maNhanvien = rs.getInt("MaNhanVien");
                     String tenNhanVien = rs.getString("TenNhanVien");
-                    
+
                     Nhanvien nhanvien = new Nhanvien();
                     nhanvien.setMaNhanvien(maNhanvien);
                     nhanvien.setTenNhanvien(tenNhanVien);

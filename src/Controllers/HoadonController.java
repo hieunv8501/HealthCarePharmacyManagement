@@ -144,18 +144,19 @@ public class HoadonController {
                     int maHoadon = rs.getInt("MaHoaDon");
                     int maNhanvien = rs.getInt("MaNhanVien");
                     int maKhachhang = rs.getInt("MaKhachHang");
-                    String tenNhanvien = rs.getString("TenNhanVien");
-                    String tenKhachhang = rs.getString("TenKhachHang");
                     String maKhuyenmai = rs.getString("MaKhuyenMai");
+                    
+                    NhanvienController nhanvienCtrl = new NhanvienController();
+                    KhachhangController khachhangCtrl = new KhachhangController();
+                    KhuyenmaiController khuyenmaiCtrl = new KhuyenmaiController();
 
                     String date = rs.getString("NgayLap");
                     Calendar cal = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     cal.setTime(sdf.parse(date));
-//                    LocalDate ngayLap = rs.getDate("NgayLap").toLocalDate();
-
+                    
                     float tongTien = rs.getFloat("TongTien");
-                    dshd.add(new Hoadon(maHoadon, maNhanvien, tenNhanvien, maKhachhang, tenKhachhang, maKhuyenmai, cal, tongTien, false));
+                    dshd.add(new Hoadon(maHoadon, nhanvienCtrl.getNhanVien(maNhanvien), khachhangCtrl.layKhachHang(maKhachhang), khuyenmaiCtrl.layMaKhuyenmai(maKhuyenmai), cal, tongTien, false));
 
                 }
             }
@@ -268,9 +269,9 @@ public class HoadonController {
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
-            pre.setInt(1, HD.getMaNhanvien());
-            pre.setInt(2, HD.getMaKhachhang());
-            pre.setString(3, HD.getMaKhuyenmai());
+            pre.setInt(1, HD.getNhanvien().getMaNhanvien());
+            pre.setInt(2, HD.getKhachhang().getMaKhachhang());
+            pre.setString(3, HD.getKhuyenmai().getMaKhuyenmai());
             pre.setString(4, dateFormat);
             pre.executeUpdate();
             System.out.println("Thêm hóa đơn thành công");
@@ -311,9 +312,9 @@ public class HoadonController {
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
-            pre.setInt(1, HD.getMaNhanvien());
-            pre.setInt(2, HD.getMaKhachhang());
-            pre.setString(3, HD.getMaKhuyenmai());
+            pre.setInt(1, HD.getNhanvien().getMaNhanvien());
+            pre.setInt(2, HD.getKhachhang().getMaKhachhang());
+            pre.setString(3, HD.getKhuyenmai().getMaKhuyenmai());
             pre.setString(4, dateFormat);
             pre.setInt(5, HD.getMaHoadon());
 

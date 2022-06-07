@@ -5,57 +5,35 @@ import java.util.Calendar;
 public class Hoadon {
 
     private int maHoadon;
-    private int maNhanvien;
-    private String tenNhanvien;
-    private int maKhachhang;
-    private String tenKhachhang;
-    private String maKhuyenmai;
+    private Nhanvien nhanvien;
+    private Khachhang khachhang;
+    private Khuyenmai khuyenmai;
     private Calendar ngayLap;
     private float tongTien;
     private boolean daXoa;
     
-    public String getTenNhanvien() {
-        return tenNhanvien;
-    }
-
-    public void setTenNhanvien(String tenNhanvien) {
-        this.tenNhanvien = tenNhanvien;
-    }
-
-    public String getTenKhachhang() {
-        return tenKhachhang;
-    }
-
-    public void setTenKhachhang(String tenKhachhang) {
-        this.tenKhachhang = tenKhachhang;
-    }
-
-    public Hoadon(int maHoadon, int maNhanvien, String tenNhanvien, int maKhachhang, String tenKhachhang, String maKhuyenmai, Calendar ngayLap, float tongTien, boolean daXoa) {
+    public Hoadon(int maHoadon, Nhanvien nhanvien, Khachhang khachhang, Khuyenmai khuyenmai, Calendar ngayLap, float tongTien, boolean daXoa) {
         this.maHoadon = maHoadon;
-        this.maNhanvien = maNhanvien;
-        this.tenNhanvien = tenNhanvien;
-        this.maKhachhang = maKhachhang;
-        this.tenKhachhang = tenKhachhang;
-        this.maKhuyenmai = maKhuyenmai;
+        this.nhanvien = nhanvien;
+        this.khachhang = khachhang;
+        this.khuyenmai = khuyenmai;
         this.ngayLap = ngayLap;
         this.tongTien = tongTien;
         this.daXoa = daXoa;
     }
-
-
-
-    public Hoadon(int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
-        this.maNhanvien = maNhanvien;
-        this.maKhachhang = maKhachhang;
-        this.maKhuyenmai = maKhuyenmai;
+    
+    public Hoadon(Nhanvien nhanvien, Khachhang khachhang, Khuyenmai khuyenmai, Calendar ngayLap) {
+        this.nhanvien = nhanvien;
+        this.khachhang = khachhang;
+        this.khuyenmai = khuyenmai;
         this.ngayLap = ngayLap;
     }
 
-    public Hoadon(int maHoadon, int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
+    public Hoadon(int maHoadon, Nhanvien nhanVien, Khachhang khachHang, Khuyenmai maKhuyenmai, Calendar ngayLap) {
         this.maHoadon = maHoadon;
-        this.maNhanvien = maNhanvien;
-        this.maKhachhang = maKhachhang;
-        this.maKhuyenmai = maKhuyenmai;
+        this.nhanvien = nhanVien;
+        this.khachhang = khachHang;
+        this.khuyenmai = maKhuyenmai;
         this.ngayLap = ngayLap;
     }
 
@@ -67,28 +45,28 @@ public class Hoadon {
         this.maHoadon = maHoadon;
     }
 
-    public int getMaNhanvien() {
-        return maNhanvien;
+    public Nhanvien getNhanvien() {
+        return nhanvien;
     }
 
-    public void setMaNhanvien(int maNhanvien) {
-        this.maNhanvien = maNhanvien;
+    public void setNhanvien(Nhanvien nhanvien) {
+        this.nhanvien = nhanvien;
     }
 
-    public int getMaKhachhang() {
-        return maKhachhang;
+    public Khachhang getKhachhang() {
+        return khachhang;
     }
 
-    public void setMaKhachhang(int maKhachhang) {
-        this.maKhachhang = maKhachhang;
+    public void setKhachhang(Khachhang khachhang) {
+        this.khachhang = khachhang;
     }
 
-    public String getMaKhuyenmai() {
-        return maKhuyenmai;
+    public Khuyenmai getKhuyenmai() {
+        return khuyenmai;
     }
 
-    public void setMaKhuyenmai(String maKhuyenmai) {
-        this.maKhuyenmai = maKhuyenmai;
+    public void setKhuyenmai(Khuyenmai khuyenmai) {
+        this.khuyenmai = khuyenmai;
     }
 
     public Calendar getNgayLap() {

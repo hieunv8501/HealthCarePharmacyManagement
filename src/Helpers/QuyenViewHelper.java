@@ -1,5 +1,8 @@
 package Helpers;
 
+import Components.CancelButton;
+import Components.InsertButton;
+import Components.UpdateButton;
 import Models.Quyen;
 import Controllers.QuyenController;
 import java.awt.BorderLayout;
@@ -21,7 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class QuyenViewHelper extends JFrame {
-
     String type;
     QuyenController quyenCtrl = new QuyenController();
     Quyen quyen;
@@ -30,9 +32,9 @@ public class QuyenViewHelper extends JFrame {
     JTextField txtTenQuyen = new JTextField(20);
     ChiTietQuyenForm chitietForm = new ChiTietQuyenForm();
 
-    JButton btnThem = new JButton("Thêm");
-    JButton btnSua = new JButton("Sửa");
-    JButton btnHuy = new JButton("Hủy");
+    InsertButton btnThem = new InsertButton();
+    UpdateButton btnSua = new UpdateButton();
+    CancelButton btnHuy = new CancelButton();
 
     public QuyenViewHelper(String _type, String _maq) {
         this.setLayout(new BorderLayout());

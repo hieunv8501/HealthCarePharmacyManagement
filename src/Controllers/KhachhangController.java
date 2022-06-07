@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class KhachhangController {
-
+    
+    
     public void themKhachHang(Khachhang KH) {
         
-        Calendar ngay = KH.getNgaySinh();
+        LocalDate ngay = KH.getNgaySinh();
         String dateFormat;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat = df.format(ngay.getTime());
+        dateFormat = df.format(ngay);
         
         String command = "INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) values (?, ?, ?, ? ,?)";
         try {
@@ -36,10 +37,10 @@ public class KhachhangController {
     }
     
     public void suaKhachhang(Khachhang KH) {
-        Calendar ngay = KH.getNgaySinh();
+        LocalDate ngay = KH.getNgaySinh();
         String dateFormat;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat = df.format(ngay.getTime());
+        dateFormat = df.format(ngay);
         
         String command = "UPDATE khachhang SET TenKhachHang = ?, GioiTinh = ?, NgaySinh = ?, SoDienThoai = ?, MaXa = ? WHERE MaKhachHang = ?";
         try {
@@ -101,5 +102,12 @@ public class KhachhangController {
             con.closeConnection();
         }
         return dsKhachhang;
+    }
+    
+    public Khachhang layKhachHang(int maKH) {
+        for(Khachhang kh : layDSKhachHang()){
+            if (kh.getMaKhachhang() == maKH) return kh;
+        }
+        return null;
     }
 }

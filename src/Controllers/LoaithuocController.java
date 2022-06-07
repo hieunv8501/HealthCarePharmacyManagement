@@ -3,7 +3,9 @@ import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import Models.LoaiThuoc;
 import java.util.ArrayList;
-public class LoaiThuocController {
+
+public class LoaithuocController {
+    
     public static void themLoaiThuoc(LoaiThuoc loaiThuoc)
     {
         String command="INSERT INTO loaithuoc(MaLoaiThuoc,TenLoaiThuoc)  values (?,?)";
