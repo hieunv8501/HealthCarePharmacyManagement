@@ -20,15 +20,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author TinhBui
- */
 public class KhuyenmaiView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form KhuyenmaiView
-     */
     Calendar cld = Calendar.getInstance();
     KhuyenmaiController kmctr = new KhuyenmaiController();
     private DefaultTableModel modelMKM;
@@ -50,7 +43,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         txtMKM.setEditable(false);
         modelMKM = (DefaultTableModel) dsMaKM.getModel();
         List<Khuyenmai> dskm;
-        dskm = kmctr.layDanhsachMKM();
+        dskm = KhuyenmaiController.layDanhsachMKM();
         this.showData(dskm, modelMKM);
     }
 
@@ -75,7 +68,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
     public void reset() {
         modelMKM = (DefaultTableModel) dsMaKM.getModel();
         List<Khuyenmai> dskm;
-        dskm = kmctr.layDanhsachMKM();
+        dskm = KhuyenmaiController.layDanhsachMKM();
         this.showData(dskm, modelMKM);
     }
 
@@ -94,7 +87,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     public String CheckMKM(String mkm) {
         List<Khuyenmai> dskm;
-        dskm = kmctr.layDanhsachMKMAll();
+        dskm = KhuyenmaiController.layDanhsachMKMAll();
         for (Khuyenmai t : dskm) {
             if (t instanceof Khuyenmai) {
                 Khuyenmai km = (Khuyenmai) t;
@@ -435,7 +428,6 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         }
         if (check == true) {
             Khuyenmai KM = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dieukienKM, phantramKM, ngayBD, ngayKT, false);
-
             kmctr.themMaKhuyenmai(KM);
             String MKM = CheckMKM(randomMKM());
             txtMKM.setText(MKM);
@@ -509,7 +501,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        Khuyenmai km = kmctr.layMaKhuyenmai(searchBox.getText());
+        Khuyenmai km = KhuyenmaiController.layMaKhuyenmai(searchBox.getText());
         if (km == null) {
             JOptionPane.showMessageDialog(null, "Mã khuyến mãi không tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 

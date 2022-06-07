@@ -1,26 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
 //import Controllers.KhachhangController;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author admin
- */
 public class KhachHangView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form KhachHangView
-     */
     //KhachhangController Khachhangcrtl = new KhachhangController();
     private DefaultTableModel tableModel;
+
     public KhachHangView() {
         initComponents();
-        
     }
 
     /**

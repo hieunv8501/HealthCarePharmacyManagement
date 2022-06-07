@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class XaController {
 
-    public ArrayList<Xa> getDanhsachXa() {
+    public static ArrayList<Xa> getDanhsachXa() {
         ArrayList<Xa> dsXa = new ArrayList<>();
         String query = "SELECT * FROM xa";
         DBConnection con = new DBConnection();
@@ -31,7 +31,7 @@ public class XaController {
         return dsXa;
     }
     
-    public Xa getXa(int _maxa) {
+    public static Xa getXa(int _maxa) {
         for (var xa : getDanhsachXa()) {
             if (xa.getMaXa() == _maxa) {
                 return xa;

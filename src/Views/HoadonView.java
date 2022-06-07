@@ -31,9 +31,6 @@ public class HoadonView extends javax.swing.JPanel {
 
     private DefaultTableModel modelHD;
     HoadonController hdctr = new HoadonController();
-    NhanvienController nvctr = new NhanvienController();
-    KhuyenmaiController kmctr = new KhuyenmaiController();
-    KhachhangController khctr = new KhachhangController();
     private int indexOfList;
     private int maHoadon;
 
@@ -77,7 +74,7 @@ public class HoadonView extends javax.swing.JPanel {
     public void reset() {
         modelHD = (DefaultTableModel) dsHoaDon.getModel();
         List<Hoadon> dshd;
-        dshd = hdctr.layDanhsachHD();
+        dshd = HoadonController.layDanhsachHD();
         this.showData(dshd, modelHD);
     }
 
@@ -88,7 +85,7 @@ public class HoadonView extends javax.swing.JPanel {
         comboMaKM.removeAllItems();
 
         List<Nhanvien> dsnv;
-        dsnv = hdctr.layDanhSachMNV();
+        dsnv = HoadonController.layDanhSachMNV();
         for (Nhanvien t : dsnv) {
             if (t instanceof Nhanvien) {
                 Nhanvien nv = (Nhanvien) t;
@@ -97,7 +94,7 @@ public class HoadonView extends javax.swing.JPanel {
         }
 
         List<Khachhang> dskh;
-        dskh = hdctr.layDanhSachMKH();
+        dskh = HoadonController.layDanhSachMKH();
         for (Khachhang t : dskh) {
             if (t instanceof Khachhang) {
                 Khachhang kh = (Khachhang) t;
@@ -105,9 +102,8 @@ public class HoadonView extends javax.swing.JPanel {
             }
         }
 
-        KhuyenmaiController kmctr = new KhuyenmaiController();
         List<Khuyenmai> dsmkm;
-        dsmkm = kmctr.layDanhsachMKM();
+        dsmkm = KhuyenmaiController.layDanhsachMKM();
         comboMaKM.addItem("");
         for (Khuyenmai t : dsmkm) {
             if (t instanceof Khuyenmai) {
@@ -421,7 +417,7 @@ public class HoadonView extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        txtMHD.setText(String.valueOf(hdctr.getMaxMHD()));
+        txtMHD.setText(String.valueOf(HoadonController.getMaxMHD()));
         btnLuu.setEnabled(true);
         btnHuy.setEnabled(true);
         btnThem.setEnabled(false);
@@ -460,7 +456,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(nvctr.getNhanVien(Integer.parseInt(MNV)), khctr.layKhachHang(Integer.parseInt(MKH)), kmctr.layMaKhuyenmai(MKM), dateLap.getCalendar());
+            Hoadon hd = new Hoadon(NhanvienController.getNhanVien(Integer.parseInt(MNV)), KhachhangController.layKhachHang(Integer.parseInt(MKH)), KhuyenmaiController.layMaKhuyenmai(MKM), dateLap.getCalendar());
             hdctr.themHoaDon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             ChitietHoadonView cthd = new ChitietHoadonView();
@@ -490,7 +486,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), nvctr.getNhanVien(Integer.parseInt(MNV)), khctr.layKhachHang(Integer.parseInt(MKH)),kmctr.layMaKhuyenmai(MKM), dateLap.getCalendar());
+            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), NhanvienController.getNhanVien(Integer.parseInt(MNV)), KhachhangController.layKhachHang(Integer.parseInt(MKH)),KhuyenmaiController.layMaKhuyenmai(MKM), dateLap.getCalendar());
             hdctr.capnhatHoadon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             this.reset();

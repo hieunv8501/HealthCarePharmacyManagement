@@ -80,7 +80,8 @@ public class QuyenView extends JPanel {
     private void showInfo(String _maquyen) {
         if (_maquyen != null) {
             // show hình
-            for (Quyen q : quyenCtrl.getDanhSachQuyen()) {
+            var dsQuyen = QuyenController.getDanhSachQuyen();
+            for (Quyen q : dsQuyen) {
                 if (q.getMaQuyen().equals(_maquyen)) {
                     // show info
                     txtMaQuyen.setText(q.getMaQuyen());
@@ -116,9 +117,9 @@ public class QuyenView extends JPanel {
 
     private void loadDataToTable() {
         tbModel.setRowCount(0);
-        var quyenList = quyenCtrl.getDanhSachQuyen();
+        var dsQuyen = quyenCtrl.getDanhSachQuyen();
         int stt = 0;
-        for (Quyen q : quyenList) {
+        for (Quyen q : dsQuyen) {
             stt++;
             tbModel.addRow(new String[]{
                 String.valueOf(stt),

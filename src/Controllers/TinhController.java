@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class TinhController {
 
-    public ArrayList<Tinh> getDanhsachTinh() {
+    public static ArrayList<Tinh> getDanhsachTinh() {
         ArrayList<Tinh> dsTinh = new ArrayList<>();
         String query = "SELECT * FROM tinh";
         DBConnection con = new DBConnection();
@@ -28,7 +28,7 @@ public class TinhController {
         return dsTinh;
     }
     
-    public Tinh getTinh(int _maTinh) {
+    public static Tinh getTinh(int _maTinh) {
         for (var tinh : getDanhsachTinh()) {
             if (tinh.getMaTinh() == _maTinh) {
                 return tinh;

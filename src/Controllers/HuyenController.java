@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class HuyenController {
 
-    public ArrayList<Huyen> getDanhsachHuyen() {
+    public static ArrayList<Huyen> getDanhsachHuyen() {
         ArrayList<Huyen> dsHuyen = new ArrayList<>();
         String query = "SELECT * FROM huyen";
         DBConnection con = new DBConnection();
@@ -31,7 +31,7 @@ public class HuyenController {
         return dsHuyen;
     }
     
-    public Huyen getHuyen(int _mahuyen) {
+    public static Huyen getHuyen(int _mahuyen) {
         for (var huyen : getDanhsachHuyen()) {
             if (huyen.getMaHuyen() == _mahuyen) {
                 return huyen;

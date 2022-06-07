@@ -64,7 +64,7 @@ public class HoadonController {
         return null;
     }
 
-    public ArrayList<Thuoc> layDanhSachThuoc() {
+    public static ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();
         String query = "SELECT * FROM thuoc WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -88,7 +88,7 @@ public class HoadonController {
         return dsth;
     }
 
-    public ArrayList<LoNhap> layDanhSachLonhap(int soLuong, int maThuoc) {
+    public static ArrayList<LoNhap> layDanhSachLonhap(int soLuong, int maThuoc) {
         ArrayList<LoNhap> dsln = new ArrayList<>();
         String query = "SELECT * FROM lonhap WHERE DaXoa = 0 AND MaThuoc = " + maThuoc + " AND SoLuongConLai >= " + soLuong;
         DBConnection con = new DBConnection();
@@ -112,7 +112,7 @@ public class HoadonController {
         return dsln;
     }
 
-    public int getMaxMHD() {
+    public static int getMaxMHD() {
         String query = "SELECT MAX(MaHoaDon) AS MaxMHD FROM hoadon";
         DBConnection con = new DBConnection();
         try {
@@ -131,7 +131,7 @@ public class HoadonController {
         return 0;
     }
 
-    public ArrayList<Hoadon> layDanhsachHD() {
+    public static ArrayList<Hoadon> layDanhsachHD() {
         ArrayList<Hoadon> dshd = new ArrayList<>();
         String query = "SELECT * FROM hoadon, nhanvien, khachhang WHERE hoadon.DaXoa = 0 AND nhanvien.MaNhanVien = hoadon.MaNhanVien AND hoadon.MaKhachHang = khachhang.MaKhachHang";
         DBConnection con = new DBConnection();
@@ -200,7 +200,7 @@ public class HoadonController {
         return dscthd;
     }
 
-    public ArrayList<Nhanvien> layDanhSachMNV() {
+    public static ArrayList<Nhanvien> layDanhSachMNV() {
         ArrayList<Nhanvien> dsnv = new ArrayList<>();
         String query = "SELECT * FROM nhanvien WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -229,7 +229,7 @@ public class HoadonController {
         return dsnv;
     }
 
-    public ArrayList<Khachhang> layDanhSachMKH() {
+    public static ArrayList<Khachhang> layDanhSachMKH() {
         ArrayList<Khachhang> dskh = new ArrayList<>();
         String query = "SELECT * FROM khachhang WHERE DaXoa = 0";
         DBConnection con = new DBConnection();

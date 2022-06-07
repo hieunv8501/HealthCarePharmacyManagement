@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class NhacungcapController {
-    
-    public ArrayList<Nhacungcap> getDanhsachNhacungcap() {
+
+    public static ArrayList<Nhacungcap> getDanhsachNhacungcap() {
         ArrayList<Nhacungcap> dsNcc = new ArrayList<>();
         String sqlCommmand = "SELECT * FROM nhacungcap Where nhacungcap.DaXoa = 0;";
         DBConnection conn = new DBConnection();
@@ -20,9 +20,9 @@ public class NhacungcapController {
                     String tenNCC = rs.getString("TenNhaCungCap");
                     int maxa = rs.getInt("MaXa");
                     XaController xaCtrl = new XaController();
-                    String fax = rs.getString("Fax");               
-                    String sdt = rs.getString("SoDienThoai");               
-                    boolean daXoa = rs.getBoolean("DaXoa");                 
+                    String fax = rs.getString("Fax");
+                    String sdt = rs.getString("SoDienThoai");
+                    boolean daXoa = rs.getBoolean("DaXoa");
                     dsNcc.add(new Nhacungcap(maNCC, tenNCC, xaCtrl.getXa(maxa), sdt, fax, daXoa));
                 }
             }
@@ -34,7 +34,8 @@ public class NhacungcapController {
         }
         return dsNcc;
     }
-    public Nhacungcap getNhacungcap(int _maNCC) {
+
+    public static Nhacungcap getNhacungcap(int _maNCC) {
         for (var ncc : getDanhsachNhacungcap()) {
             if (ncc.getMaNhacungcap() == _maNCC) {
                 return ncc;
@@ -42,9 +43,9 @@ public class NhacungcapController {
         }
         return null;
     }
-     public static void themNhacungcap(Nhacungcap nhacungcap) throws Exception
-    {
-        String command="INSERT INTO nhacungcap(MaNhacungcap,TenNhacungcap,MaXa,SoDienThoai,Fax)  values (?,?,?,?,?)";
+
+    public static void themNhacungcap(Nhacungcap nhacungcap) throws Exception {
+        String command = "INSERT INTO nhacungcap(MaNhacungcap,TenNhacungcap,MaXa,SoDienThoai,Fax)  values (?,?,?,?,?)";
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -60,12 +61,12 @@ public class NhacungcapController {
             e.printStackTrace();
             throw new Exception("Thêm nhà cung cấp không thành công");
         }
-        
+
     }
-    public static void xoaNhacungcap(int maNhacungcap) throws Exception
-    {
-       String command="UPDATE nhacungcap set DaXoa=1 where MaNhacungcap=?";
-       try {
+
+    public static void xoaNhacungcap(int maNhacungcap) throws Exception {
+        String command = "UPDATE nhacungcap set DaXoa=1 where MaNhacungcap=?";
+        try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
             pre.setInt(1, maNhacungcap);
@@ -74,12 +75,12 @@ public class NhacungcapController {
             con.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
-             throw new Exception("Xóa nhà cung cấp không thành công");
+            throw new Exception("Xóa nhà cung cấp không thành công");
         }
     }
-    public static void capnhatNhacungcap(Nhacungcap nhacungcap,int maNhacungcapCu) throws Exception
-    {
-        String command="UPDATE nhacungcap SET MaNhaCungCap=?, TenNhacungcap=?, MaXa=?,SoDienThoai=?,Fax=? where MaNhaCungCap=?";
+
+    public static void capnhatNhacungcap(Nhacungcap nhacungcap, int maNhacungcapCu) throws Exception {
+        String command = "UPDATE nhacungcap SET MaNhaCungCap=?, TenNhacungcap=?, MaXa=?,SoDienThoai=?,Fax=? where MaNhaCungCap=?";
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -94,51 +95,41 @@ public class NhacungcapController {
             con.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
-             throw new Exception("Cập nhật nhà cung cấp không thành công");
+            throw new Exception("Cập nhật nhà cung cấp không thành công");
         }
     }
-     public static  ArrayList<Nhacungcap> timkiemNhacungcap(String userText)
-    {
+
+    public static ArrayList<Nhacungcap> timkiemNhacungcap(String userText) {
         ArrayList<Nhacungcap> dsNhacungcap = new ArrayList();
         ArrayList<Nhacungcap> dsNhacungcapTimKiem = new ArrayList();
-        dsNhacungcap=getDanhSachNhacungcap();
-        dsNhacungcap.forEach(nhacungcap->{
-            String c= String.valueOf(nhacungcap.getMaNhacungcap());
-            if(c.toLowerCase().startsWith(userText))
-            {
+        dsNhacungcap = getDanhSachNhacungcap();
+        dsNhacungcap.forEach(nhacungcap -> {
+            String c = String.valueOf(nhacungcap.getMaNhacungcap());
+            if (c.toLowerCase().startsWith(userText)) {
                 dsNhacungcapTimKiem.add(nhacungcap);
-            }
-            else
-            {
-                if(nhacungcap.getTenNhacungcap().toLowerCase().contains(userText))
-                {
+            } else {
+                if (nhacungcap.getTenNhacungcap().toLowerCase().contains(userText)) {
                     dsNhacungcapTimKiem.add(nhacungcap);
+                } else {
+                    if (nhacungcap.getSoDienthoai().toLowerCase().startsWith(userText)) {
+                        dsNhacungcapTimKiem.add(nhacungcap);
+                    } else {
+                        if (nhacungcap.getFax().toLowerCase().startsWith(userText)) {
+                            dsNhacungcapTimKiem.add(nhacungcap);
+                        }
+
+                    }
                 }
-                else
-                {
-                     if(nhacungcap.getSoDienthoai().toLowerCase().startsWith(userText))
-                     {
-                    dsNhacungcapTimKiem.add(nhacungcap);
-                      }
-                     else
-                     {
-                          if(nhacungcap.getFax().toLowerCase().startsWith(userText))
-                          {
-                                  dsNhacungcapTimKiem.add(nhacungcap);
-                          }
-                          
-                     }
-                }
-                
+
             }
         }
-       );
+        );
         return dsNhacungcapTimKiem;
-         
+
     }
-    public static ArrayList<Nhacungcap> getDanhSachNhacungcap()
-    {
-        Nhacungcap c=new Nhacungcap();
+
+    public static ArrayList<Nhacungcap> getDanhSachNhacungcap() {
+        Nhacungcap c = new Nhacungcap();
         return c.readDB();
     }
 }

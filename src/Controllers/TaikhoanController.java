@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class TaikhoanController {
 
-    private ArrayList<Taikhoan> dstk = new ArrayList<Taikhoan>();
+    private static ArrayList<Taikhoan> dstk = new ArrayList<Taikhoan>();
     Taikhoan taikhoanDA = new Taikhoan();
 
     public TaikhoanController() {
@@ -117,7 +117,7 @@ public class TaikhoanController {
         return ok;
     }
     
-    public ArrayList<Taikhoan> getDanhSachTaiKhoan() {
+    public static ArrayList<Taikhoan> getDanhSachTaiKhoan() {
         return dstk;
     }
 }

@@ -44,7 +44,7 @@ public class PhieunhapController {
         return this.layDanhsachPhieuNhapAll().size() + 1;
     }
 
-    public ArrayList<Thuoc> layDanhSachThuoc() {
+    public static ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();
         String sqlCommand = "SELECT * FROM thuoc WHERE DaXoa = 0";
         DBConnection conn = new DBConnection();
@@ -142,7 +142,6 @@ public class PhieunhapController {
 //        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        nsx = fm.format(cal1.getTime());
 //        nhh = fm.format(cal2.getTime());
-
         try {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
@@ -186,7 +185,7 @@ public class PhieunhapController {
         }
     }
 
-    public ArrayList<Phieunhap> layDanhsachPhieuNhap() {
+    public static ArrayList<Phieunhap> layDanhsachPhieuNhap() {
         ArrayList<Phieunhap> dspn = new ArrayList<>();
         String sqlCommand = "SELECT * FROM phieunhap WHERE phieunhap.DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -218,7 +217,7 @@ public class PhieunhapController {
         return dspn;
     }
 
-    public ArrayList<Phieunhap> layDanhsachPhieuNhapAll() {
+    public static ArrayList<Phieunhap> layDanhsachPhieuNhapAll() {
         ArrayList<Phieunhap> dspn = new ArrayList<>();
         String sqlCommand = "SELECT * FROM phieunhap";
         DBConnection con = new DBConnection();
@@ -278,7 +277,7 @@ public class PhieunhapController {
         return dsctpn;
     }
 
-    public ArrayList<Nhanvien> layDanhsachNhanvien() {
+    public static ArrayList<Nhanvien> layDanhsachNhanvien() {
         ArrayList<Nhanvien> dsnv = new ArrayList<>();
         String sqlCommand = "SELECT * FROM nhanvien WHERE DaXoa = 0";
         DBConnection con = new DBConnection();

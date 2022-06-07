@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ThuocController {
 
-    public Thuoc getThuoc(int maThuoc) {
+    public static Thuoc getThuoc(int maThuoc) {
         for (Thuoc q : getDanhSachThuoc()) {
             if (q.getMaThuoc() == maThuoc) return q;
         }

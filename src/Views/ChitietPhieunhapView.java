@@ -15,14 +15,11 @@ import Models.ChitietPhieunhap;
 
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class ChitietPhieunhapView extends JFrame {
-    
+
     private int maPhieunhap;
     PhieunhapController pnCtrl = new PhieunhapController();
     private DefaultTableModel modelCTPN;
@@ -45,7 +42,6 @@ public class ChitietPhieunhapView extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-
     }
 
     public <T> void showData(List<T> list, DefaultTableModel model) {
@@ -53,7 +49,7 @@ public class ChitietPhieunhapView extends JFrame {
         for (T t : list) {
             if (t instanceof ChitietPhieunhap) {
                 ChitietPhieunhap ctpn = (ChitietPhieunhap) t;
-                String soluong = ctpn.getSoluong()+ " : " + ctpn.getThuoc().getDonvitinh().getTenDonvitinh();
+                String soluong = ctpn.getSoluong() + " : " + ctpn.getThuoc().getDonvitinh().getTenDonvitinh();
                 model.addRow(new Object[]{
                     ctpn.getLoNhap().getMaLo(), ctpn.getThuoc().getMaThuoc(), ctpn.getThuoc().getTenThuoc(), ctpn.getThuoc().getDonvitinh().getTenDonvitinh(), soluong, ctpn.getDongia()
                 });
@@ -74,7 +70,7 @@ public class ChitietPhieunhapView extends JFrame {
         txtMaPN.setText(String.valueOf(this.maPhieunhap));
 
         List<Thuoc> dst;
-        dst = pnCtrl.layDanhSachThuoc();
+        dst = PhieunhapController.layDanhSachThuoc();
         for (Thuoc t : dst) {
             if (t instanceof Thuoc) {
                 Thuoc th = (Thuoc) t;

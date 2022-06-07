@@ -47,8 +47,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     PhieunhapView phieunhapForm = new PhieunhapView();
     NhacungcapView nhacungcap=new NhacungcapView();
     ThuocView thuoc=new ThuocView();
-    LoaiThuocView loaiThuoc=new LoaiThuocView();
+    LoaithuocView loaiThuoc=new LoaithuocView();
     DonvitinhView donvitinh=new DonvitinhView();
+    
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
     private Point dragStartPoint = new Point(0, 0);
@@ -93,7 +94,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
             "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
-            "Đơn vị tính", "icons8_assistant_30px.png", "", "qlThuoc",
+            "Đơn vị tính", "icons8_assistant_30px.png", "", "alThuoc",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
             "seperate", "1", "", "",

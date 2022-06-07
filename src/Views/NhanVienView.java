@@ -1,18 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
-/**
- *
- * @author admin
- */
 public class NhanVienView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form NhanVienView
-     */
     public NhanVienView() {
         initComponents();
     }

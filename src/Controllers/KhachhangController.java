@@ -73,7 +73,7 @@ public class KhachhangController {
         }
     }
     
-    public ArrayList<Khachhang> layDSKhachHang() {
+    public static ArrayList<Khachhang> layDSKhachHang() {
         ArrayList<Khachhang> dsKhachhang = new ArrayList<>();
         String query = "SELECT * FROM khachhang WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -104,7 +104,7 @@ public class KhachhangController {
         return dsKhachhang;
     }
     
-    public Khachhang layKhachHang(int maKH) {
+    public static Khachhang layKhachHang(int maKH) {
         for(Khachhang kh : layDSKhachHang()){
             if (kh.getMaKhachhang() == maKH) return kh;
         }

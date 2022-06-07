@@ -4,10 +4,10 @@ import Models.Quyen;
 import java.util.ArrayList;
 
 public class QuyenController {
-    
-    private ArrayList<Quyen> dsq = new ArrayList<Quyen>();
+
+    private static ArrayList<Quyen> dsq = new ArrayList<Quyen>();
     Quyen quyenDA = new Quyen();
- 
+
     public QuyenController() {
         dsq = quyenDA.readDB();
     }
@@ -19,9 +19,9 @@ public class QuyenController {
     public void readDB() {
         this.dsq = quyenDA.readDB();
     }
-    
+
     public String getNextID() {
-        return "Q" + String.valueOf(this.dsq.size() + 1);
+        return "Q" + String.valueOf(dsq.size() + 1);
     }
 
     public Quyen getQuyen(String maquyen) {
@@ -110,8 +110,8 @@ public class QuyenController {
         return ok;
     }
 
-    public ArrayList<Quyen> getDanhSachQuyen() {
-        return this.dsq;
-    } 
-    
+    public static ArrayList<Quyen> getDanhSachQuyen() {
+        return dsq;
+    }
+
 }

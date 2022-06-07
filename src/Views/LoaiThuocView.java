@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
 import Controllers.LoaithuocController;
@@ -15,15 +11,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author HauPC
- */
 public class LoaithuocView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form LoaiThuocView
-     */
     ArrayList<LoaiThuoc> dsLoaithuoc;
 
     public LoaithuocView() {

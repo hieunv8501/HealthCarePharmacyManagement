@@ -9,14 +9,16 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class Donvitinh {
+
     private int maDonvitinh;
     private String tenDonvitinh;
     private String giatri;
     private boolean daXoa;
-    public Donvitinh()
-    {
-        
+
+    public Donvitinh() {
+
     }
+
     public Donvitinh(int maDonvitinh, String tenDonvitinh, String giatri, boolean daXoa) {
         this.maDonvitinh = maDonvitinh;
         this.tenDonvitinh = tenDonvitinh;
@@ -29,7 +31,7 @@ public class Donvitinh {
         this.tenDonvitinh = tenDonvitinh;
         this.giatri = giatri;
     }
-    
+
     public int getMaDonvitinh() {
         return maDonvitinh;
     }
@@ -63,9 +65,7 @@ public class Donvitinh {
         return tenDonvitinh;
     }
 
-    
-    
-    public ArrayList<Donvitinh> readDB() {
+    public static ArrayList<Donvitinh> readDB() {
         ArrayList<Donvitinh> dsDonvitinh = new ArrayList();
         DBConnection DonvitinhConnection = new DBConnection();
         try {
@@ -74,13 +74,13 @@ public class Donvitinh {
             if (rs != null) {
                 while (rs.next()) {
                     int maDonvitinh = rs.getInt("MaDonViTinh");
-                    String tenDonvitinh= rs.getString("TenDonViTinh");
-                    String giatri=rs.getString("GiaTri"); 
-                    boolean daXoa= (rs.getInt("DaXoa")==1)? true:false;
-                    dsDonvitinh.add(new Donvitinh(maDonvitinh,tenDonvitinh,giatri,daXoa));
+                    String tenDonvitinh = rs.getString("TenDonViTinh");
+                    String giatri = rs.getString("GiaTri");
+                    boolean daXoa = (rs.getInt("DaXoa") == 1) ? true : false;
+                    dsDonvitinh.add(new Donvitinh(maDonvitinh, tenDonvitinh, giatri, daXoa));
                 }
             }
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng đơn vị tính");
         } finally {

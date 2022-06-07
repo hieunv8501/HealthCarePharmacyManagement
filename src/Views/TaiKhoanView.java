@@ -23,7 +23,6 @@ public class TaikhoanView extends JPanel {
 
     TaikhoanController taikhoanCtrl = new TaikhoanController();
     DefaultTableModel tbModel;
-    final int TENDANGNHAP_I = 1, MATKHAU_I = 2, MANHANVIEN_I = 3, MAQUYEN_I = 4;
 
     public TaikhoanView() {
         initComponents();
@@ -87,7 +86,7 @@ public class TaikhoanView extends JPanel {
     private void showInfo(String _tentk) {
         if (_tentk != null) {
             // show hình
-            for (Taikhoan tk : taikhoanCtrl.getDanhSachTaiKhoan()) {
+            for (Taikhoan tk : TaikhoanController.getDanhSachTaiKhoan()) {
                 if (tk.getTaikhoan().equals(_tentk)) {
                     // show info
                     txtTenTaiKhoan.setText(tk.getTaikhoan());
@@ -115,7 +114,7 @@ public class TaikhoanView extends JPanel {
 
     private void loadDataToTable() {
         tbModel.setRowCount(0);
-        var taikhoanList = taikhoanCtrl.getDanhSachTaiKhoan();
+        var taikhoanList = TaikhoanController.getDanhSachTaiKhoan();
         int stt = 0;
         for (Taikhoan tk : taikhoanList) {
             if (!tk.isDaXoa()) {
@@ -178,13 +177,13 @@ public class TaikhoanView extends JPanel {
         }
     }
 
-    private void xuatFileExcelTaiKhoan() {
-        System.out.println("3");
-    }
-
-    private void docFileExcelTaiKhoan() {
-        System.out.println("4");
-    }
+//    private void xuatFileExcelTaiKhoan() {
+//        System.out.println("3");
+//    }
+//
+//    private void docFileExcelTaiKhoan() {
+//        System.out.println("4");
+//    }
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
