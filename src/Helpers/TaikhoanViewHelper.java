@@ -112,7 +112,6 @@ public class TaikhoanViewHelper extends JFrame {
         //btnTailen.add
         plChonAnhDaiDien.add(btnTailen);
         plChonAnhDaiDien.add(lblAnhDaiDien);
-        
 
         JPanel plInput = new JPanel();
         plInput.add(txtTentaikhoan);
@@ -121,7 +120,7 @@ public class TaikhoanViewHelper extends JFrame {
         plInput.add(plChonQuyen);
         plInput.add(plChonTT);
         plInput.add(plChonAnhDaiDien);
-        
+
         // panel buttons
         JPanel plButton = new JPanel();
 
@@ -135,7 +134,7 @@ public class TaikhoanViewHelper extends JFrame {
 
         } else {
             this.setTitle("Sửa tài khoản");
-            for (Taikhoan tk : taikhoanCtrl.getDanhSachTaiKhoan()) {
+            for (Taikhoan tk : TaikhoanController.getDanhSachTaiKhoan()) {
                 if (tk.getTaikhoan().equals(_username)) {
                     this.tkSua = tk;
                 }
@@ -193,10 +192,8 @@ public class TaikhoanViewHelper extends JFrame {
 
             tkNew.setTaikhoan(username);
             tkNew.setMatkhau(saveHashPwd(pass));
-            NhanvienController nvCtrl = new NhanvienController();
-            QuyenController quyenCtrl = new QuyenController();
-            tkNew.setNv(nvCtrl.getNhanVien(manv));
-            tkNew.setQ(quyenCtrl.getQuyen(maquyen));
+            tkNew.setNv(NhanvienController.getNhanVien(manv));
+            tkNew.setQ(QuyenController.getQuyen(maquyen));
 
             if (taikhoanCtrl.themTaiKhoan(tkNew)) {
                 JOptionPane.showMessageDialog(this, "Thêm tài khoản " + username + " thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -216,10 +213,8 @@ public class TaikhoanViewHelper extends JFrame {
 
             tkUpdate.setTaikhoan(username);
             tkUpdate.setMatkhau(pass);
-            NhanvienController nvCtrl = new NhanvienController();
-            QuyenController quyenCtrl = new QuyenController();
-            tkUpdate.setNv(nvCtrl.getNhanVien(manv));
-            tkUpdate.setQ(quyenCtrl.getQuyen(maquyen));
+            tkUpdate.setNv(NhanvienController.getNhanVien(manv));
+            tkUpdate.setQ(QuyenController.getQuyen(maquyen));
             tkUpdate.setDaXoa(trangthai);
 
             if (taikhoanCtrl.capnhatTaiKhoan(tkUpdate)) {

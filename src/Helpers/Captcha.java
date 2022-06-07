@@ -38,10 +38,11 @@ public class Captcha {
         fontHeight = height - 8;
         codeY = height - 10;
     }
-    
-    public static String getImageCodeCaptcha(){
+
+    public static String getImageCodeCaptcha() {
         return img;
     }
+
     public BufferedImage ToImages() {
         BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         try {
@@ -52,7 +53,7 @@ public class Captcha {
             g.setColor(Color.WHITE);
             g.fillRect(0, 0, width, height);
             //Create a font, the size of the font should be determined according to the height of the picture.
-            
+
             //Draw the border.
             g.setColor(Color.BLACK);
             g.drawRect(0, 0, width - 1, height - 1);
@@ -66,7 +67,7 @@ public class Captcha {
             //randomCode is used to save the randomly generated verification code so that the user can log in for verification.
             StringBuffer randomCode = new StringBuffer();
             int red = 0, green = 0, blue = 0;
-            
+
             //Randomly generate a verification code with codeCount numbers.
             for (int i = 0; i < codeCount; i++) {
                 //Get the randomly generated verification code number.
@@ -78,43 +79,43 @@ public class Captcha {
                         font = new Font("Arial", Font.PLAIN, fontHeight);
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform);                       
+                        rotatedFont = font.deriveFont(affineTransform);
                         break;
                     case 1:
                         font = new Font("Segoe UI", Font.PLAIN, fontHeight);
-                        affineTransform = new AffineTransform();                        
-                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
-                        break;
-                    case 2:
-                        font = new Font("Times New Roman", Font.PLAIN, fontHeight);   
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
+                    case 2:
+                        font = new Font("Times New Roman", Font.PLAIN, fontHeight);
+                        affineTransform = new AffineTransform();
+                        affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
+                        rotatedFont = font.deriveFont(affineTransform);
                         break;
                     case 3:
                         font = new Font("Serif", Font.PLAIN, fontHeight);
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
+                        rotatedFont = font.deriveFont(affineTransform);
                         break;
                     case 4:
                         font = new Font("SansSerif", Font.PLAIN, fontHeight);
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
-                        break;   
+                        rotatedFont = font.deriveFont(affineTransform);
+                        break;
                     case 5:
                         font = new Font("Verdana", Font.PLAIN, fontHeight);
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
+                        rotatedFont = font.deriveFont(affineTransform);
                         break;
                     default:
                         font = new Font("Roboto", Font.PLAIN, fontHeight);
                         affineTransform = new AffineTransform();
                         affineTransform.rotate(Math.toRadians(randRadInt), 0, 0);
-                        rotatedFont = font.deriveFont(affineTransform); 
+                        rotatedFont = font.deriveFont(affineTransform);
                         break;
                 }
                 //Set the font
@@ -129,14 +130,13 @@ public class Captcha {
                     blue = random.nextInt(255);
                 }
                 //Draw the verification code into the image with a randomly generated color.              
-                g.setColor(new Color(red, green, blue));               
-                g.drawString(strRand, i * codeX + codeX, codeY + 1);               
+                g.setColor(new Color(red, green, blue));
+                g.drawString(strRand, i * codeX + codeX, codeY + 1);
                 //Combine the four random numbers generated.
                 randomCode.append(strRand);
             }
             img = randomCode.toString();
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return buffImg;

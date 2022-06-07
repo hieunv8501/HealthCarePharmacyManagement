@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.function.Consumer;
 import org.mindrot.jbcrypt.BCrypt;
-import Controllers.TaikhoanController;
 import Models.Taikhoan;
 
 public class Email {

@@ -20,11 +20,11 @@ public class QuyenController {
         this.dsq = quyenDA.readDB();
     }
 
-    public String getNextID() {
+    public static String getNextID() {
         return "Q" + String.valueOf(dsq.size() + 1);
     }
 
-    public Quyen getQuyen(String maquyen) {
+    public static Quyen getQuyen(String maquyen) {
         for (Quyen q : dsq) {
             if (q.getMaQuyen().equals(maquyen)) {
                 return q;
@@ -33,7 +33,7 @@ public class QuyenController {
         return null;
     }
 
-    public ArrayList<Quyen> search(String value, String type) {
+    public static ArrayList<Quyen> search(String value, String type) {
         ArrayList<Quyen> result = new ArrayList<Quyen>();
 
         dsq.forEach((q) -> {
