@@ -4,7 +4,7 @@
  */
 package Views;
 
-import Controllers.LoaiThuocController;
+import Controllers.LoaithuocController;
 import Models.LoaiThuoc;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,23 +19,24 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author HauPC
  */
-public class LoaiThuocView extends javax.swing.JPanel {
+public class LoaithuocView extends javax.swing.JPanel {
 
     /**
      * Creates new form LoaiThuocView
      */
-      ArrayList<LoaiThuoc> dsLoaiThuoc;
-    public LoaiThuocView() {
+    ArrayList<LoaiThuoc> dsLoaithuoc;
+
+    public LoaithuocView() {
         initComponents();
-         //this.setLocationRelativeTo(null);
-         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        //this.setLocationRelativeTo(null);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachLoaiThuoc.setDefaultRenderer(String.class, centerRenderer);
         ((DefaultTableCellRenderer) tableDanhSachLoaiThuoc.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachLoaiThuoc.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachLoaiThuoc.getTableHeader().setOpaque(false);
         tableDanhSachLoaiThuoc.getTableHeader().setBackground(Color.YELLOW);
-         tableDanhSachLoaiThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableDanhSachLoaiThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ShowData();
     }
 
@@ -237,28 +238,27 @@ public class LoaiThuocView extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        String maLoaiThuocString=txtMaLoaiThuoc.getText();
+        String maLoaiThuocString = txtMaLoaiThuoc.getText();
 
-        String tenLoaiThuoc=txtTenLoaiThuoc.getText();
-        if(maLoaiThuocString.equals("")||tenLoaiThuoc.equals(""))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không bỏ trống các trường dữ liệu","Thông báo",JOptionPane.WARNING_MESSAGE);
+        String tenLoaiThuoc = txtTenLoaiThuoc.getText();
+        if (maLoaiThuocString.equals("") || tenLoaiThuoc.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không bỏ trống các trường dữ liệu", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         int maLoaiThuoc;
         try {
-            maLoaiThuoc=Integer.parseInt(maLoaiThuocString);
+            maLoaiThuoc = Integer.parseInt(maLoaiThuocString);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Lỗi định dạng số","Thông báo",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng số", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        LoaiThuoc loaiThuocMoi=new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc);
+        LoaiThuoc loaiThuocMoi = new LoaiThuoc(maLoaiThuoc, tenLoaiThuoc);
         try {
-            LoaiThuocController.themLoaiThuoc(loaiThuocMoi);
-            JOptionPane.showMessageDialog(this,"Thêm loại thuốc"+tenLoaiThuoc+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            LoaithuocController.themLoaiThuoc(loaiThuocMoi);
+            JOptionPane.showMessageDialog(this, "Thêm loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(this,"Lỗi, không thêm được loại thuốc "+tenLoaiThuoc+" !!!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi, không thêm được loại thuốc " + tenLoaiThuoc + " !!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
         ShowData();
@@ -267,38 +267,35 @@ public class LoaiThuocView extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachLoaiThuoc.getSelectedRow();
-        int selectedMaLoaiThuoc=Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsLoaiThuoc.size();i++)
-        {
-            if(dsLoaiThuoc.get(i).getMaLoaiThuoc()==selectedMaLoaiThuoc)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachLoaiThuoc.getSelectedRow();
+        int selectedMaLoaiThuoc = Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsLoaithuoc.size(); i++) {
+            if (dsLoaithuoc.get(i).getMaLoaiThuoc() == selectedMaLoaiThuoc) {
+                selected = i;
             }
         }
-        String maLoaiThuocString=txtMaLoaiThuoc.getText();
-        String tenLoaiThuoc=txtTenLoaiThuoc.getText();
-        if(maLoaiThuocString.equals("")||tenLoaiThuoc.equals(""))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không bỏ trống các trường dữ liệu","Thông báo",JOptionPane.WARNING_MESSAGE);
+        String maLoaiThuocString = txtMaLoaiThuoc.getText();
+        String tenLoaiThuoc = txtTenLoaiThuoc.getText();
+        if (maLoaiThuocString.equals("") || tenLoaiThuoc.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không bỏ trống các trường dữ liệu", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         int maLoaiThuoc;
         try {
-            maLoaiThuoc=Integer.parseInt(maLoaiThuocString);
+            maLoaiThuoc = Integer.parseInt(maLoaiThuocString);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Lỗi định dạng mã số Loại thuốc","Thông báo",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng mã số Loại thuốc", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        LoaiThuoc loaiThuocMoi=new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc);
-        int maLoaiThuocCu=(dsLoaiThuoc.get(selected).getMaLoaiThuoc());
+        LoaiThuoc loaiThuocMoi = new LoaiThuoc(maLoaiThuoc, tenLoaiThuoc);
+        int maLoaiThuocCu = (dsLoaithuoc.get(selected).getMaLoaiThuoc());
         try {
-            LoaiThuocController.capnhatLoaiThuoc(loaiThuocMoi,maLoaiThuocCu);
-            JOptionPane.showMessageDialog(this,"Cập nhật loại thuốc"+tenLoaiThuoc+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            LoaithuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
+            JOptionPane.showMessageDialog(this, "Cập nhật loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(this,"Lỗi, không cập nhật được loại thuốc "+tenLoaiThuoc+" !!!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi, không cập nhật được loại thuốc " + tenLoaiThuoc + " !!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
         ShowData();
@@ -306,24 +303,22 @@ public class LoaiThuocView extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachLoaiThuoc.getSelectedRow();
-        int selectedMaLoaiThuoc=Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsLoaiThuoc.size();i++)
-        {
-            if(dsLoaiThuoc.get(i).getMaLoaiThuoc()==selectedMaLoaiThuoc)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachLoaiThuoc.getSelectedRow();
+        int selectedMaLoaiThuoc = Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsLoaithuoc.size(); i++) {
+            if (dsLoaithuoc.get(i).getMaLoaiThuoc() == selectedMaLoaiThuoc) {
+                selected = i;
             }
         }
-        int maLoaiThuoc=dsLoaiThuoc.get(selected).getMaLoaiThuoc();
+        int maLoaiThuoc = dsLoaithuoc.get(selected).getMaLoaiThuoc();
         try {
-            LoaiThuocController.xoaLoaiThuoc(maLoaiThuoc);
-            JOptionPane.showMessageDialog(this,"Xóa loại thuốc"+dsLoaiThuoc.get(selected).getTenLoaiThuoc()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            LoaithuocController.xoaLoaiThuoc(maLoaiThuoc);
+            JOptionPane.showMessageDialog(this, "Xóa loại thuốc" + dsLoaithuoc.get(selected).getTenLoaiThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Xóa loại thuốc"+dsLoaiThuoc.get(selected).getTenLoaiThuoc()+" không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Xóa loại thuốc" + dsLoaithuoc.get(selected).getTenLoaiThuoc() + " không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         ShowData();
@@ -331,44 +326,39 @@ public class LoaiThuocView extends javax.swing.JPanel {
 
     private void tableDanhSachLoaiThuocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDanhSachLoaiThuocMouseClicked
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachLoaiThuoc.getSelectedRow();
-        int selectedMaLoaiThuoc=Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsLoaiThuoc.size();i++)
-        {
-            if(dsLoaiThuoc.get(i).getMaLoaiThuoc()==selectedMaLoaiThuoc)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachLoaiThuoc.getSelectedRow();
+        int selectedMaLoaiThuoc = Integer.parseInt(tableDanhSachLoaiThuoc.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsLoaithuoc.size(); i++) {
+            if (dsLoaithuoc.get(i).getMaLoaiThuoc() == selectedMaLoaiThuoc) {
+                selected = i;
             }
         }
-        if(selected>=0)
-        {
-            txtMaLoaiThuoc.setText(String.valueOf(dsLoaiThuoc.get(selected).getMaLoaiThuoc()));
-            txtTenLoaiThuoc.setText(dsLoaiThuoc.get(selected).getTenLoaiThuoc());
+        if (selected >= 0) {
+            txtMaLoaiThuoc.setText(String.valueOf(dsLoaithuoc.get(selected).getMaLoaiThuoc()));
+            txtTenLoaiThuoc.setText(dsLoaithuoc.get(selected).getTenLoaiThuoc());
         }
     }//GEN-LAST:event_tableDanhSachLoaiThuocMouseClicked
 
     private void btnThemFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemFileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemFileActionPerformed
-    public void ShowData()
-    {
-        DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachLoaiThuoc.getModel();
+    public void ShowData() {
+        DefaultTableModel tblModel = (DefaultTableModel) tableDanhSachLoaiThuoc.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsLoaiThuoc=LoaiThuocController.getDanhSachLoaiThuoc();
-        if(!dsLoaiThuoc.isEmpty()){
-                dsLoaiThuoc.forEach((nhacungcap1)->{
-                if(!nhacungcap1.isDaXoa())
-                tblModel.addRow(new Object[]{nhacungcap1.getMaLoaiThuoc(),nhacungcap1.getTenLoaiThuoc()});
-                });
-        }
-        else
-        {
-          JOptionPane.showMessageDialog(this,"Danh sách loại thuốc rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        dsLoaithuoc = LoaithuocController.getDanhSachLoaiThuoc();
+        if (!dsLoaithuoc.isEmpty()) {
+            dsLoaithuoc.forEach((nhacungcap1) -> {
+                if (!nhacungcap1.isDaXoa()) {
+                    tblModel.addRow(new Object[]{nhacungcap1.getMaLoaiThuoc(), nhacungcap1.getTenLoaiThuoc()});
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách loại thuốc rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;

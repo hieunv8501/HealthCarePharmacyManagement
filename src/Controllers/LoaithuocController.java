@@ -1,14 +1,14 @@
 package Controllers;
+
 import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import Models.LoaiThuoc;
 import java.util.ArrayList;
 
 public class LoaithuocController {
-    
-    public static void themLoaiThuoc(LoaiThuoc loaiThuoc)
-    {
-        String command="INSERT INTO loaithuoc(MaLoaiThuoc,TenLoaiThuoc)  values (?,?)";
+
+    public static void themLoaiThuoc(LoaiThuoc loaiThuoc) {
+        String command = "INSERT INTO loaithuoc(MaLoaiThuoc,TenLoaiThuoc)  values (?,?)";
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -20,16 +20,16 @@ public class LoaithuocController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    public static void xoaLoaiThuoc(int maLoaiThuoc)
-    {
-       String command="UPDATE loaithuoc set DaXoa=1 where MaLoaiThuoc=?";
-       try {
+
+    public static void xoaLoaiThuoc(int maLoaiThuoc) {
+        String command = "UPDATE loaithuoc set DaXoa=1 where MaLoaiThuoc=?";
+        try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
             pre.setInt(1, maLoaiThuoc);
-        
+
             pre.executeUpdate();
             System.out.println("Xóa mã loại thuốc thành công");
             con.closeConnection();
@@ -37,9 +37,9 @@ public class LoaithuocController {
             e.printStackTrace();
         }
     }
-    public static void capnhatLoaiThuoc(LoaiThuoc loaiThuoc,int maLoaiThuocCu)
-    {
-        String command="UPDATE loaithuoc SET MaLoaiThuoc=?, TenLoaiThuoc=? WHERE MaLoaiThuoc=?";
+
+    public static void capnhatLoaiThuoc(LoaiThuoc loaiThuoc, int maLoaiThuocCu) {
+        String command = "UPDATE loaithuoc SET MaLoaiThuoc=?, TenLoaiThuoc=? WHERE MaLoaiThuoc=?";
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -53,9 +53,9 @@ public class LoaithuocController {
             e.printStackTrace();
         }
     }
-    public static ArrayList<LoaiThuoc> getDanhSachLoaiThuoc()
-    {
-        LoaiThuoc LoaiThuocDatabase=new LoaiThuoc();
+
+    public static ArrayList<LoaiThuoc> getDanhSachLoaiThuoc() {
+        LoaiThuoc LoaiThuocDatabase = new LoaiThuoc();
         return LoaiThuocDatabase.readDB();
     }
 }
