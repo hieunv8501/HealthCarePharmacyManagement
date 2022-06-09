@@ -23,18 +23,36 @@ public class TinhController {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            con.closeConnection();
+            try {
+                con.closeConnection();
+            } catch (Exception e) {
+            }
         }
         return dsTinh;
     }
-    
+
     public Tinh getTinh(int _maTinh) {
-        for (var tinh : getDanhsachTinh()) {
-            if (tinh.getMaTinh() == _maTinh) {
-                return tinh;
+        Tinh tinh = null;
+        String query = "Select * from tinh where MaTinh = " + _maTinh + " ";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+            if (rs != null) {
+                while (rs.next()) {
+                    int maTinh = rs.getInt("MaTinh");
+                    String tenTinh = rs.getString("TenTinh");
+                    tinh = new Tinh(maTinh, tenTinh);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.closeConnection();
+            } catch (Exception e) {
             }
         }
-        return null;
+        return tinh;
     }
-    
+
 }
