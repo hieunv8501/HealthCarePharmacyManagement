@@ -1,82 +1,31 @@
 package Models;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class ChitietPhieunhap {
 
     private int maPhieunhap;
-    private int maThuoc;
-    private int maDonvitinh;
+    private LoNhap loNhap;
+    private Thuoc thuoc;
     private int soluong;
     private float dongia;
-    private Calendar ngaySanxuat;
-    private Calendar ngayHethan;
+    private LocalDate ngaySanxuat;
+    private LocalDate ngayHethan;
     private boolean daXoa;
-    
-    private String tenThuoc;
-    private String tenLoaiThuoc;
-    private String tenDonvitinh;
-    private int maLo;
-    
     
     public ChitietPhieunhap() {}
     
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, Calendar ngaySanxuat, Calendar ngayHethan, boolean daXoa) {
+    public ChitietPhieunhap(int maPhieunhap, LoNhap loNhap, Thuoc thuoc, int soLuong, float donGia, LocalDate ngaySanxuat, LocalDate ngayHethan, boolean daXoa) {
         this.maPhieunhap = maPhieunhap;
-        this.maThuoc = maThuoc;
+        this.loNhap = loNhap;
+        this.thuoc = thuoc;
         this.soluong = soLuong;
         this.dongia = donGia;
         this.ngaySanxuat = ngaySanxuat;
-        this.ngayHethan = ngayHethan;
+        this.ngayHethan = ngayHethan;    
         this.daXoa = daXoa;
     }
 
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, Calendar ngaySanxuat, Calendar ngayHethan) {
-        this.maPhieunhap = maPhieunhap;
-        this.maThuoc = maThuoc;
-        this.soluong = soLuong;
-        this.dongia = donGia;
-        this.ngaySanxuat = ngaySanxuat;
-        this.ngayHethan = ngayHethan;
-    }
-
-
-    public ChitietPhieunhap(int maPhieunhap, int maLo, int maThuoc, String tenThuoc, String tenLoaiThuoc, int maDonvitinh, String tenDonvitinh, int soLuong, float donGia, boolean daXoa) {
-        this.maPhieunhap = maPhieunhap;
-        this.maLo = maLo;
-        this.maThuoc = maThuoc;
-        this.tenThuoc = tenThuoc;
-        this.tenLoaiThuoc = tenLoaiThuoc;
-        this.soluong = soLuong;
-        this.maDonvitinh = maDonvitinh;
-        this.tenDonvitinh = tenDonvitinh;
-        this.dongia = donGia;
-        this.daXoa = daXoa;
-    }
-    
-    public int getMaLo() {
-        return maLo;
-    }
-
-    public void setMaLo(int maLo) {
-        this.maLo = maLo;
-    }
-    
-    public String getTenDonvitinh() {
-        return tenDonvitinh;
-    }
-
-    public void setTenDonvitinh(String tenDonvitinh) {
-        this.tenDonvitinh = tenDonvitinh;
-    }
-    public String getTenThuoc() {
-        return tenThuoc;
-    }
-
-    public void setTenThuoc(String tenThuoc) {
-        this.tenThuoc = tenThuoc;
-    }
-    
     public int getMaPhieunhap() {
         return maPhieunhap;
     }
@@ -85,12 +34,20 @@ public class ChitietPhieunhap {
         this.maPhieunhap = maPhieunhap;
     }
 
-    public int getMaThuoc() {
-        return maThuoc;
+    public LoNhap getLoNhap() {
+        return loNhap;
     }
 
-    public void setMaThuoc(int maThuoc) {
-        this.maThuoc = maThuoc;
+    public void setLoNhap(LoNhap loNhap) {
+        this.loNhap = loNhap;
+    }
+
+    public Thuoc getThuoc() {
+        return thuoc;
+    }
+
+    public void setThuoc(Thuoc thuoc) {
+        this.thuoc = thuoc;
     }
 
     public int getSoluong() {
@@ -109,27 +66,29 @@ public class ChitietPhieunhap {
         this.dongia = dongia;
     }
 
-    public Calendar getNgaySanxuat() {
+    public LocalDate getNgaySanxuat() {
         return ngaySanxuat;
     }
 
-    public void setNgaySanxuat(Calendar ngaySanxuat) {
+    public void setNgaySanxuat(LocalDate ngaySanxuat) {
         this.ngaySanxuat = ngaySanxuat;
     }
 
-    public Calendar getNgayHethan() {
+    public LocalDate getNgayHethan() {
         return ngayHethan;
     }
 
-    public void setNgayHethan(Calendar ngayHethan) {
+    public void setNgayHethan(LocalDate ngayHethan) {
         this.ngayHethan = ngayHethan;
     }
 
-    public boolean isDaxoa() {
+    public boolean isDaXoa() {
         return daXoa;
     }
 
-    public void setDaxoa(boolean daxoa) {
-        this.daXoa = daxoa;
+    public void setDaXoa(boolean daXoa) {
+        this.daXoa = daXoa;
     }
+    
+    
 }

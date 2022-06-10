@@ -1,6 +1,5 @@
 package Views;
 
-import Controllers.NhanvienController;
 import Models.Quyen;
 import Controllers.QuyenController;
 import Helpers.QuyenViewHelper;
@@ -37,7 +36,7 @@ public class QuyenView extends JPanel {
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
 
         // buttons
-        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlQuyen")) {
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlQuyen")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
@@ -80,7 +79,8 @@ public class QuyenView extends JPanel {
     private void showInfo(String _maquyen) {
         if (_maquyen != null) {
             // show hình
-            for (Quyen q : quyenCtrl.getDanhSachQuyen()) {
+            var dsQuyen = QuyenController.getDanhSachQuyen();
+            for (Quyen q : dsQuyen) {
                 if (q.getMaQuyen().equals(_maquyen)) {
                     // show info
                     txtMaQuyen.setText(q.getMaQuyen());
@@ -116,9 +116,9 @@ public class QuyenView extends JPanel {
 
     private void loadDataToTable() {
         tbModel.setRowCount(0);
-        var quyenList = quyenCtrl.getDanhSachQuyen();
+        var dsQuyen = quyenCtrl.getDanhSachQuyen();
         int stt = 0;
-        for (Quyen q : quyenList) {
+        for (Quyen q : dsQuyen) {
             stt++;
             tbModel.addRow(new String[]{
                 String.valueOf(stt),
@@ -132,7 +132,7 @@ public class QuyenView extends JPanel {
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
-    private String getSelectedRow(int col) {
+    public String getSelectedRow(int col) {
         int i = tblQuyen.getSelectedRow();
         if (i >= 0) {
             int realI = tblQuyen.convertRowIndexToModel(i);

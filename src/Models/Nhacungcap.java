@@ -15,7 +15,7 @@ public class Nhacungcap {
     private String soDienthoai;
     private String fax;
     private boolean DaXoa;
-    DBConnection NhacungcapConnection;
+    DBConnection nhacungcapConnection;
     //Phuong thuc 
 
     public Nhacungcap(int maNhacungcap, String tenNhacungcap, Xa xa, String soDienthoai, String fax, boolean DaXoa) {
@@ -86,10 +86,10 @@ public class Nhacungcap {
     }
     public ArrayList<Nhacungcap> readDB() {
         ArrayList<Nhacungcap> dsNhacungcap = new ArrayList();
-        NhacungcapConnection = new DBConnection();
+        nhacungcapConnection = new DBConnection();
         try {
             String query = "SELECT * FROM nhacungcap";
-            ResultSet rs = NhacungcapConnection.sqlQuery(query);
+            ResultSet rs = nhacungcapConnection.sqlQuery(query);
             if (rs != null) {
                 while (rs.next()) {
                     int maNhacungcap = rs.getInt("MaNhaCungCap");
@@ -106,7 +106,7 @@ public class Nhacungcap {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng thuốc");
         } finally {
-            NhacungcapConnection.closeConnection();
+            nhacungcapConnection.closeConnection();
         }
         return dsNhacungcap;
     }

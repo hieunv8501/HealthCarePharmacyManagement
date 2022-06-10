@@ -33,7 +33,7 @@ public class PhieunhapView extends JPanel {
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //t0ạo border rỗng
 
         // buttons
-        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlPhieuNhap")) {
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlPhieuNhap")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
@@ -44,15 +44,15 @@ public class PhieunhapView extends JPanel {
     }
 
     private void refresh() {
-        phieunhapCtrl.layDanhsachPhieuNhap();
+        PhieunhapController.layDanhsachPhieuNhap();
         loadDataToTable();
     }
 
     private void loadDataToTable() {
         tbModel.setRowCount(0);
-        var phieuNhapList = phieunhapCtrl.layDanhsachPhieuNhap();
+        var dsPhieuNhap = PhieunhapController.layDanhsachPhieuNhap();
         int stt = 0;
-        for (Phieunhap pn : phieuNhapList) {
+        for (Phieunhap pn : dsPhieuNhap) {
             stt++;
             SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             String formatted = format1.format(pn.getNgayNhap().getTime());

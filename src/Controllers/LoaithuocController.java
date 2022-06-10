@@ -1,10 +1,12 @@
 package Controllers;
+
 import DBConnection.DBConnection;
 import java.sql.PreparedStatement;
 import Models.LoaiThuoc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class LoaiThuocController {
@@ -12,6 +14,7 @@ public class LoaiThuocController {
     public static  void themLoaiThuoc(LoaiThuoc loaiThuoc)
     {
         String command="INSERT INTO loaithuoc(MaLoaiThuoc,TenLoaiThuoc,MoTa)  values (?,?,?)";
+
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -24,16 +27,16 @@ public class LoaiThuocController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    public static void xoaLoaiThuoc(int maLoaiThuoc)
-    {
-       String command="UPDATE loaithuoc set DaXoa=1 where MaLoaiThuoc=?";
-       try {
+
+    public static void xoaLoaiThuoc(int maLoaiThuoc) {
+        String command = "UPDATE loaithuoc set DaXoa=1 where MaLoaiThuoc=?";
+        try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
             pre.setInt(1, maLoaiThuoc);
-        
+
             pre.executeUpdate();
             System.out.println("Xóa mã loại thuốc thành công");
             con.closeConnection();
@@ -45,6 +48,7 @@ public class LoaiThuocController {
     {
         String command="UPDATE loaithuoc SET MaLoaiThuoc=?, TenLoaiThuoc=?, MoTa=? WHERE MaLoaiThuoc=?";
         DBConnection con = new DBConnection();
+
         try {
             
             PreparedStatement pre = con.getConn().prepareStatement(command);
@@ -96,5 +100,6 @@ public class LoaiThuocController {
         }
             return null;
         
+
     }
 }

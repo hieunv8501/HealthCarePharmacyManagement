@@ -1,16 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Models;
 
 import java.time.LocalDate;
 
-
-/**
- *
- * @author admin
- */
 public class Khachhang {
     private int maKhachhang;
     private String tenKhachhang, gioitinh, soDienthoai;
@@ -96,5 +87,8 @@ public class Khachhang {
         this.daXoa = daXoa;
     }
     
+    public String getDiaChi() {
+        return this.xa.getDiaChi();
+    }
     
 }

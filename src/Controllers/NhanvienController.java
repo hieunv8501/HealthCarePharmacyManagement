@@ -1,12 +1,11 @@
 package Controllers;
 
 import Models.Nhanvien;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class NhanvienController {
 
-    private ArrayList<Nhanvien> dsnv = new ArrayList<>();
+    private static ArrayList<Nhanvien> dsnv = new ArrayList<>();
     private Nhanvien nhanvienDA = new Nhanvien();
 
     public NhanvienController() {
@@ -25,9 +24,9 @@ public class NhanvienController {
         return "NV" + String.valueOf(this.dsnv.size() + 1);
     }
 
-    public Nhanvien getNhanVien(int manv) {
-        for (var nv : dsnv) {
-            if (nv.getMaNhanvien() == manv) {
+    public static Nhanvien getNhanVien(int manv) {
+        for (Nhanvien nv : dsnv) {
+            if (nv.getMaNhanvien()== manv) {
                 return nv;
             }
         }
@@ -157,7 +156,7 @@ public class NhanvienController {
 //        return ok;
 //    }
 //
-//    public ArrayList<NhanVien> getDsnv() {
-//        return dsnv;
-//    }
+    public static ArrayList<Nhanvien> getDanhSachNhanvien() {
+        return dsnv;
+    }
 }

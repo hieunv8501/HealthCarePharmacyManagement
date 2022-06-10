@@ -4,10 +4,10 @@ import Models.Quyen;
 import java.util.ArrayList;
 
 public class QuyenController {
-    
-    private ArrayList<Quyen> dsq = new ArrayList<Quyen>();
+
+    private static ArrayList<Quyen> dsq = new ArrayList<Quyen>();
     Quyen quyenDA = new Quyen();
- 
+
     public QuyenController() {
         dsq = quyenDA.readDB();
     }
@@ -19,12 +19,12 @@ public class QuyenController {
     public void readDB() {
         this.dsq = quyenDA.readDB();
     }
-    
-    public String getNextID() {
-        return "Q" + String.valueOf(this.dsq.size() + 1);
+
+    public static String getNextID() {
+        return "Q" + String.valueOf(dsq.size() + 1);
     }
 
-    public Quyen getQuyen(String maquyen) {
+    public static Quyen getQuyen(String maquyen) {
         for (Quyen q : dsq) {
             if (q.getMaQuyen().equals(maquyen)) {
                 return q;
@@ -33,7 +33,7 @@ public class QuyenController {
         return null;
     }
 
-    public ArrayList<Quyen> search(String value, String type) {
+    public static ArrayList<Quyen> search(String value, String type) {
         ArrayList<Quyen> result = new ArrayList<Quyen>();
 
         dsq.forEach((q) -> {
@@ -110,8 +110,8 @@ public class QuyenController {
         return ok;
     }
 
-    public ArrayList<Quyen> getDanhSachQuyen() {
-        return this.dsq;
-    } 
-    
+    public static ArrayList<Quyen> getDanhSachQuyen() {
+        return dsq;
+    }
+
 }

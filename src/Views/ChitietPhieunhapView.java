@@ -15,14 +15,11 @@ import Models.ChitietPhieunhap;
 
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class ChitietPhieunhapView extends JFrame {
-    
+
     private int maPhieunhap;
     PhieunhapController pnCtrl = new PhieunhapController();
     private DefaultTableModel modelCTPN;
@@ -43,8 +40,7 @@ public class ChitietPhieunhapView extends JFrame {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
 
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     }
 
@@ -53,9 +49,9 @@ public class ChitietPhieunhapView extends JFrame {
         for (T t : list) {
             if (t instanceof ChitietPhieunhap) {
                 ChitietPhieunhap ctpn = (ChitietPhieunhap) t;
-                String soluong = ctpn.getSoluong()+ " : " + ctpn.getTenDonvitinh();
+                String soluong = ctpn.getSoluong() + " : " + ctpn.getThuoc().getDonvitinh().getTenDonvitinh();
                 model.addRow(new Object[]{
-                    ctpn.getMaLo(), ctpn.getMaThuoc(), ctpn.getTenThuoc(), ctpn.getTenDonvitinh(), soluong, ctpn.getDongia()
+                    ctpn.getLoNhap().getMaLo(), ctpn.getThuoc().getMaThuoc(), ctpn.getThuoc().getTenThuoc(), ctpn.getThuoc().getDonvitinh().getTenDonvitinh(), soluong, ctpn.getDongia()
                 });
 
             }
@@ -74,7 +70,7 @@ public class ChitietPhieunhapView extends JFrame {
         txtMaPN.setText(String.valueOf(this.maPhieunhap));
 
         List<Thuoc> dst;
-        dst = pnCtrl.layDanhSachThuoc();
+        dst = PhieunhapController.layDanhSachThuoc();
         for (Thuoc t : dst) {
             if (t instanceof Thuoc) {
                 Thuoc th = (Thuoc) t;

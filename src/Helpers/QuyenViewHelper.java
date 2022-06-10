@@ -1,5 +1,8 @@
 package Helpers;
 
+import Components.CancelButton;
+import Components.InsertButton;
+import Components.UpdateButton;
 import Models.Quyen;
 import Controllers.QuyenController;
 import java.awt.BorderLayout;
@@ -11,7 +14,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,7 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class QuyenViewHelper extends JFrame {
-
     String type;
     QuyenController quyenCtrl = new QuyenController();
     Quyen quyen;
@@ -30,9 +31,9 @@ public class QuyenViewHelper extends JFrame {
     JTextField txtTenQuyen = new JTextField(20);
     ChiTietQuyenForm chitietForm = new ChiTietQuyenForm();
 
-    JButton btnThem = new JButton("Thêm");
-    JButton btnSua = new JButton("Sửa");
-    JButton btnHuy = new JButton("Hủy");
+    InsertButton btnThem = new InsertButton();
+    UpdateButton btnSua = new UpdateButton();
+    CancelButton btnHuy = new CancelButton();
 
     public QuyenViewHelper(String _type, String _maq) {
         this.setLayout(new BorderLayout());
@@ -59,14 +60,14 @@ public class QuyenViewHelper extends JFrame {
         // 2 case Thêm - Sửa
         if (this.type.equals("Thêm")) {
             this.setTitle("Thêm quyền");
-            txtMaQuyen.setText(quyenCtrl.getNextID());
+            txtMaQuyen.setText(QuyenController.getNextID());
 
             btnThem.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_add_30px.png")));
             plButton.add(btnThem);
 
         } else {
             this.setTitle("Sửa quyền");
-            for (Quyen q : quyenCtrl.getDanhSachQuyen()) {
+            for (Quyen q : QuyenController.getDanhSachQuyen()) {
                 if (q.getMaQuyen().equals(_maq)) {
                     this.quyen = q;
                 }

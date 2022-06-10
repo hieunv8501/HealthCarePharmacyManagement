@@ -14,7 +14,7 @@ public class BeginView extends JPanel {
         setLayout(new GridBagLayout());
 
         lbInfo = new JLabel(text);
-        lbInfo.setFont(new Font("Arial", Font.BOLD, 40));
+        lbInfo.setFont(new Font("Segoue UI", Font.BOLD, 40));
         lbInfo.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_thumb_up_99px.png")));
 
         add(lbInfo);

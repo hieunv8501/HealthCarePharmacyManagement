@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
 import Components.AutoCompletion;
@@ -32,20 +28,24 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.*;
-/**
- *
- * @author HauPC
- */
+
+import javax.swing.table.TableModel;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class NhacungcapView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form NhacungcapView
-     */
-   
     ArrayList<Nhacungcap> dsNhacungcap;
+
     public NhacungcapView() {
         initComponents();
-         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableNhacungcap.setDefaultRenderer(String.class, centerRenderer);
         ((DefaultTableCellRenderer) tableNhacungcap.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
@@ -61,6 +61,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnXoa.setEnabled(false);
         txtMaNhacungcap.setEditable(false);
         ShowSearchComboBox();  
+
         //txtMaNhacungcap.addKeyListener(new KeyCustom());
     }
 
@@ -450,33 +451,29 @@ public class NhacungcapView extends javax.swing.JPanel {
                     .addComponent(btnXuatFile)
                     .addComponent(btnThemfile))
                 .addGap(17, 17, 17))
+
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableNhacungcapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableNhacungcapMouseClicked
         // TODO add your handling code here:
         //chon dong trong bang nha cung cap se hien thi du lieu len text field
-        int selectedrow=tableNhacungcap.getSelectedRow();
-        int selectedMaNhacungcap=Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsNhacungcap.size();i++)
-        {
-            if(dsNhacungcap.get(i).getMaNhacungcap()==selectedMaNhacungcap)
-            {
-                selected=i;
+        int selectedrow = tableNhacungcap.getSelectedRow();
+        int selectedMaNhacungcap = Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsNhacungcap.size(); i++) {
+            if (dsNhacungcap.get(i).getMaNhacungcap() == selectedMaNhacungcap) {
+                selected = i;
             }
         }
-        if(selected>=0)
-        {
+        if (selected >= 0) {
             txtMaNhacungcap.setText(String.valueOf(dsNhacungcap.get(selected).getMaNhacungcap()));
             txtTenNhacungcap.setText(dsNhacungcap.get(selected).getTenNhacungcap());
-             DefaultComboBoxModel xaComboBoxModel=(DefaultComboBoxModel) txtXa.getModel();
-             
-            for(int i=0;i<xaComboBoxModel.getSize();i++)
-            {
-                 Xa xa=(Xa) xaComboBoxModel.getElementAt(i);
-                if(xa.getMaXa()==(dsNhacungcap.get(selected).getXa()).getMaXa())
-                {
+            DefaultComboBoxModel xaComboBoxModel = (DefaultComboBoxModel) txtXa.getModel();
+
+            for (int i = 0; i < xaComboBoxModel.getSize(); i++) {
+                Xa xa = (Xa) xaComboBoxModel.getElementAt(i);
+                if (xa.getMaXa() == (dsNhacungcap.get(selected).getXa()).getMaXa()) {
                     txtXa.setSelectedIndex(i);
                     break;
                 }
@@ -500,40 +497,38 @@ public class NhacungcapView extends javax.swing.JPanel {
         txtMaNhacungcap.setEnabled(true);
         
 
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableNhacungcap.getSelectedRow();
-        int selectedMaNhacungcap=Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsNhacungcap.size();i++)
-        {
-            if(dsNhacungcap.get(i).getMaNhacungcap()==selectedMaNhacungcap)
-            {
-                selected=i;
+        int selectedrow = tableNhacungcap.getSelectedRow();
+        int selectedMaNhacungcap = Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsNhacungcap.size(); i++) {
+            if (dsNhacungcap.get(i).getMaNhacungcap() == selectedMaNhacungcap) {
+                selected = i;
             }
         }
-        String maNhacungcapString=txtMaNhacungcap.getText();
-        int maNhacungcap=Integer.parseInt(maNhacungcapString);
-        String tenNhacungcap=txtTenNhacungcap.getText();
-        String soDienThoai=txtSodienthoai.getText();
-        Xa xa=(Xa) txtXa.getSelectedItem();
-        String fax=txtfax.getText();
-        if(maNhacungcapString.equals("")||tenNhacungcap.equals("")||soDienThoai.equals("")||xa.equals("")||fax.equals(""))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không được bỏ trống các ô thông tin!!!","Thông báo",JOptionPane.WARNING_MESSAGE);
+        String maNhacungcapString = txtMaNhacungcap.getText();
+        int maNhacungcap = Integer.parseInt(maNhacungcapString);
+        String tenNhacungcap = txtTenNhacungcap.getText();
+        String soDienThoai = txtSodienthoai.getText();
+        Xa xa = (Xa) txtXa.getSelectedItem();
+        String fax = txtfax.getText();
+        if (maNhacungcapString.equals("") || tenNhacungcap.equals("") || soDienThoai.equals("") || xa.equals("") || fax.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không được bỏ trống các ô thông tin!!!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        Nhacungcap nhacungcap=new Nhacungcap(maNhacungcap,tenNhacungcap,xa,soDienThoai,fax);
-        int maNhacungcapCu=(dsNhacungcap.get(selected).getMaNhacungcap());
+        Nhacungcap nhacungcap = new Nhacungcap(maNhacungcap, tenNhacungcap, xa, soDienThoai, fax);
+        int maNhacungcapCu = (dsNhacungcap.get(selected).getMaNhacungcap());
         try {
-            NhacungcapController.capnhatNhacungcap(nhacungcap,maNhacungcapCu);
-            JOptionPane.showMessageDialog(this,"Cap nhat nhà cung cấp"+nhacungcap.getTenNhacungcap()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            NhacungcapController.capnhatNhacungcap(nhacungcap, maNhacungcapCu);
+            JOptionPane.showMessageDialog(this, "Cap nhat nhà cung cấp" + nhacungcap.getTenNhacungcap() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Cập nhật nhà cung cấp không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cập nhật nhà cung cấp không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -541,24 +536,22 @@ public class NhacungcapView extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableNhacungcap.getSelectedRow();
-        int selectedMaNhacungcap=Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsNhacungcap.size();i++)
-        {
-            if(dsNhacungcap.get(i).getMaNhacungcap()==selectedMaNhacungcap)
-            {
-                selected=i;
+        int selectedrow = tableNhacungcap.getSelectedRow();
+        int selectedMaNhacungcap = Integer.parseInt(tableNhacungcap.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsNhacungcap.size(); i++) {
+            if (dsNhacungcap.get(i).getMaNhacungcap() == selectedMaNhacungcap) {
+                selected = i;
             }
         }
-        int maNhacungcap=dsNhacungcap.get(selected).getMaNhacungcap();
+        int maNhacungcap = dsNhacungcap.get(selected).getMaNhacungcap();
         try {
             NhacungcapController.xoaNhacungcap(maNhacungcap);
-            JOptionPane.showMessageDialog(this,"Xóa nhà cung cấp"+dsNhacungcap.get(selected).getTenNhacungcap()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp" + dsNhacungcap.get(selected).getTenNhacungcap() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Xóa nhà cung cấp"+dsNhacungcap.get(selected).getTenNhacungcap()+" không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp" + dsNhacungcap.get(selected).getTenNhacungcap() + " không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         ShowData();
@@ -569,15 +562,15 @@ public class NhacungcapView extends javax.swing.JPanel {
         // TODO add your handling code here:
         System.out.println(evt.getKeyChar());
         if (evt.isControlDown() && evt.getKeyCode() == 65) {
-        System.out.println("Select All"); 
-}
+            System.out.println("Select All");
+        }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         // TODO add your handling code here:
-         System.out.println(evt.getKeyChar());
+        System.out.println(evt.getKeyChar());
         if (evt.isControlDown() && evt.getKeyCode() == 65) {
-        System.out.println("Select All"); 
+            System.out.println("Select All");
         }
     }//GEN-LAST:event_formKeyReleased
 
@@ -588,36 +581,31 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void txtMaNhacungcapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaNhacungcapKeyPressed
         // TODO add your handling code here:
         System.out.println(evt.getKeyCode());
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtTenNhacungcap.requestFocus();
         }
     }//GEN-LAST:event_txtMaNhacungcapKeyPressed
 
     private void txtTenNhacungcapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenNhacungcapKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtXa.requestFocus();
         }
     }//GEN-LAST:event_txtTenNhacungcapKeyPressed
 
     private void txtSodienthoaiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSodienthoaiKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtfax.requestFocus();
         }
     }//GEN-LAST:event_txtSodienthoaiKeyPressed
 
     private void txtfaxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfaxKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnThem.requestFocus();
         }
-        if(evt.isControlDown()&&evt.getKeyCode()==KeyEvent.VK_S)
-        {
+        if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_S) {
             btnThem.doClick();
         }
     }//GEN-LAST:event_txtfaxKeyPressed
@@ -625,88 +613,78 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         //Tìm kiếm nhà cung cấp.
-        String searchText=String.valueOf(JcomboboxSearch.getSelectedItem());
-      DefaultTableModel tblModel=(DefaultTableModel) tableNhacungcap.getModel();
+        String searchText = String.valueOf(JcomboboxSearch.getSelectedItem());
+        DefaultTableModel tblModel = (DefaultTableModel) tableNhacungcap.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsNhacungcap=NhacungcapController.timkiemNhacungcap(searchText);
-        if(!dsNhacungcap.isEmpty()){
-                dsNhacungcap.forEach((nhacungcap1)->{
-                 if(!nhacungcap1.isDaXoa())
-                 {
-                tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(),nhacungcap1.getTenNhacungcap(),nhacungcap1.getXa(),nhacungcap1.getSoDienthoai(),nhacungcap1.getFax()});
-                 }
-                });
+        dsNhacungcap = NhacungcapController.timkiemNhacungcap(searchText);
+        if (!dsNhacungcap.isEmpty()) {
+            dsNhacungcap.forEach((nhacungcap1) -> {
+                if (!nhacungcap1.isDaXoa()) {
+                    tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(), nhacungcap1.getTenNhacungcap(), nhacungcap1.getXa(), nhacungcap1.getSoDienthoai(), nhacungcap1.getFax()});
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách nhà cung cấp rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-        else
-        {
-          JOptionPane.showMessageDialog(this,"Danh sách nhà cung cấp rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-        }
-        
+
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnXuatFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatFileActionPerformed
         // TODO add your handling code here:
         //Tham khảo tại https://stackhowto.com/export-data-from-jtable-to-excel-in-java/
-          WriteExcelNhacungcap writeExcelNhacungcap=new WriteExcelNhacungcap();
-          final List<Nhacungcap> nhacungcaps = NhacungcapController.getDanhSachNhacungcap();
-           JFileChooser fchoose = new JFileChooser();
-           int option = fchoose.showOpenDialog(fchoose);
-           if(option == JFileChooser.APPROVE_OPTION){
-             String name = fchoose.getSelectedFile().getName(); 
-             String path = fchoose.getSelectedFile().getParentFile().getPath();
-             String file = path + "\\" + name + ".xlsx"; 
-             final String excelFilePath = file;
-             try{
-                 writeExcelNhacungcap.writeExcel(nhacungcaps, excelFilePath);
-             }
-             catch(IOException e)
-             {
-                 JOptionPane.showMessageDialog(this,e.toString(),"Lỗi",JOptionPane.ERROR_MESSAGE);
-             }
-             
-           }
+        WriteExcelNhacungcap writeExcelNhacungcap = new WriteExcelNhacungcap();
+        final List<Nhacungcap> nhacungcaps = NhacungcapController.getDanhSachNhacungcap();
+        JFileChooser fchoose = new JFileChooser();
+        int option = fchoose.showOpenDialog(fchoose);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            String name = fchoose.getSelectedFile().getName();
+            String path = fchoose.getSelectedFile().getParentFile().getPath();
+            String file = path + "\\" + name + ".xlsx";
+            final String excelFilePath = file;
+            try {
+                writeExcelNhacungcap.writeExcel(nhacungcaps, excelFilePath);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, e.toString(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_btnXuatFileActionPerformed
 
     private void btnThemfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemfileActionPerformed
         // TODO add your handling code here:
-           JFileChooser fileChooser=new JFileChooser();
-        FileNameExtensionFilter filefilter= new FileNameExtensionFilter("File excel","xlsx","xls","csv");
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filefilter = new FileNameExtensionFilter("File excel", "xlsx", "xls", "csv");
         fileChooser.setFileFilter(filefilter);
         fileChooser.setMultiSelectionEnabled(false);
-        int x=fileChooser.showDialog(this, "Open");
-        
-        if(x==JFileChooser.APPROVE_OPTION)
-        {
-            File file=fileChooser.getSelectedFile();
-             if(!file.exists())
-            {
-                int result = JOptionPane.showConfirmDialog(this,"The file "+file.getName()+" không tồn tại","Thông báo",JOptionPane.OK_OPTION,JOptionPane.ERROR_MESSAGE);
+        int x = fileChooser.showDialog(this, "Open");
 
-            }
-            else{
-                try{
-            
-            ReadExcelNhacungcap c=new ReadExcelNhacungcap();
-            ArrayList<Nhacungcap>dsnhaNhacungcaps=c.readExcel(file.getAbsolutePath());
-            dsnhaNhacungcaps.forEach(Nhacungcap->{
+        if (x == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (!file.exists()) {
+                int result = JOptionPane.showConfirmDialog(this, "The file " + file.getName() + " không tồn tại", "Thông báo", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+
+            } else {
                 try {
-                    NhacungcapController.themNhacungcap(Nhacungcap);
-                } catch (Exception ex) {
-                    Logger.getLogger(NhacungcapView.class.getName()).log(Level.SEVERE, null, ex);
+
+                    ReadExcelNhacungcap c = new ReadExcelNhacungcap();
+                    ArrayList<Nhacungcap> dsnhaNhacungcaps = c.readExcel(file.getAbsolutePath());
+                    dsnhaNhacungcaps.forEach(Nhacungcap -> {
+                        try {
+                            NhacungcapController.themNhacungcap(Nhacungcap);
+                        } catch (Exception ex) {
+                            Logger.getLogger(NhacungcapView.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    JOptionPane.showMessageDialog(this, "Thêm danh sách nhà cung cấp từ file: " + file.getAbsolutePath() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    ShowData();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.toString(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            });
-            JOptionPane.showMessageDialog(this,"Thêm danh sách nhà cung cấp từ file: "+ file.getAbsolutePath()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-               ShowData();
-                }
-                 catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(this,e.toString(),"Lỗi",JOptionPane.ERROR_MESSAGE);
             }
+
         }
-           
-        }
-             
+
     }//GEN-LAST:event_btnThemfileActionPerformed
 
     private void txtTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhActionPerformed
@@ -831,6 +809,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         else
         {
           JOptionPane.showMessageDialog(this,"Danh sách nhà cung cấp rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+
         }
         tableNhacungcap.setAutoCreateRowSorter(true);
         txtMaNhacungcap.setEnabled(false);
@@ -840,24 +819,24 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnXoa.setEnabled(true);
         btnHuy.setEnabled(true);
     }
-         public void ShowSearchComboBox()
-    {
-       DefaultComboBoxModel jcomboBoxModel= (DefaultComboBoxModel) JcomboboxSearch.getModel();
+
+    public void ShowSearchComboBox() {
+        DefaultComboBoxModel jcomboBoxModel = (DefaultComboBoxModel) JcomboboxSearch.getModel();
         jcomboBoxModel.removeAllElements();
-        dsNhacungcap.forEach(Nhacungcap->{
-                   jcomboBoxModel.addElement(Nhacungcap.getMaNhacungcap());
-                    jcomboBoxModel.addElement(Nhacungcap.getTenNhacungcap());
-                     jcomboBoxModel.addElement(Nhacungcap.getSoDienthoai());
-                      jcomboBoxModel.addElement(Nhacungcap.getXa().getTenXa());
-                       jcomboBoxModel.addElement(Nhacungcap.getFax());
+        dsNhacungcap.forEach(Nhacungcap -> {
+            jcomboBoxModel.addElement(Nhacungcap.getMaNhacungcap());
+            jcomboBoxModel.addElement(Nhacungcap.getTenNhacungcap());
+            jcomboBoxModel.addElement(Nhacungcap.getSoDienthoai());
+            jcomboBoxModel.addElement(Nhacungcap.getXa().getTenXa());
+            jcomboBoxModel.addElement(Nhacungcap.getFax());
         }
         );
-         
-       
-          AutoCompletion searchAutoCompletion = null;
-           JcomboboxSearch.setModel(jcomboBoxModel);
-           searchAutoCompletion.enable(JcomboboxSearch);
+
+        AutoCompletion searchAutoCompletion = null;
+        JcomboboxSearch.setModel(jcomboBoxModel);
+        searchAutoCompletion.enable(JcomboboxSearch);
     }
+
 //      public int getMaNhacungcapMoi()
 //      {
 //          int maNhacungcapMoi=1;
@@ -941,21 +920,22 @@ public class NhacungcapView extends javax.swing.JPanel {
      class KeyCustom implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
-             System.out.println(e.getKeyChar());
+            System.out.println(e.getKeyChar());
         }
+
         @Override
         public void keyPressed(KeyEvent e) {
-              System.out.println(e.getKeyChar());
-        if (e.isControlDown() && e.getKeyCode() == 65) {
-        System.out.println("Select All");
-        }
+            System.out.println(e.getKeyChar());
+            if (e.isControlDown() && e.getKeyCode() == 65) {
+                System.out.println("Select All");
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
-         }   
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JcomboboxSearch;
@@ -988,4 +968,3 @@ public class NhacungcapView extends javax.swing.JPanel {
     private javax.swing.JTextField txtfax;
     // End of variables declaration//GEN-END:variables
 }
-

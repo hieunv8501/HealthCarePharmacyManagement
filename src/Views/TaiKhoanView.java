@@ -23,7 +23,6 @@ public class TaikhoanView extends JPanel {
 
     TaikhoanController taikhoanCtrl = new TaikhoanController();
     DefaultTableModel tbModel;
-    final int TENDANGNHAP_I = 1, MATKHAU_I = 2, MANHANVIEN_I = 3, MAQUYEN_I = 4;
 
     public TaikhoanView() {
         initComponents();
@@ -35,17 +34,19 @@ public class TaikhoanView extends JPanel {
         tblTaiKhoan.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tblTaiKhoan.getTableHeader().setOpaque(false);
         tblTaiKhoan.getTableHeader().setBackground(Color.YELLOW);
+        //tblTaiKhoan.getTableHeader()
         tblTaiKhoan.setUpdateSelectionOnSort(true);
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
-
+        
         // buttons
-        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
-            btnThem.setEnabled(false);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
+            btnThem.setEnabled(true);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
+            btnTaiXuongExcel.setEnabled(false);
         }
 
         refresh();
@@ -87,7 +88,7 @@ public class TaikhoanView extends JPanel {
     private void showInfo(String _tentk) {
         if (_tentk != null) {
             // show hình
-            for (Taikhoan tk : taikhoanCtrl.getDanhSachTaiKhoan()) {
+            for (Taikhoan tk : TaikhoanController.getDanhSachTaiKhoan()) {
                 if (tk.getTaikhoan().equals(_tentk)) {
                     // show info
                     txtTenTaiKhoan.setText(tk.getTaikhoan());
@@ -115,7 +116,7 @@ public class TaikhoanView extends JPanel {
 
     private void loadDataToTable() {
         tbModel.setRowCount(0);
-        var taikhoanList = taikhoanCtrl.getDanhSachTaiKhoan();
+        var taikhoanList = TaikhoanController.getDanhSachTaiKhoan();
         int stt = 0;
         for (Taikhoan tk : taikhoanList) {
             if (!tk.isDaXoa()) {
@@ -178,13 +179,13 @@ public class TaikhoanView extends JPanel {
         }
     }
 
-    private void xuatFileExcelTaiKhoan() {
-        System.out.println("3");
-    }
-
-    private void docFileExcelTaiKhoan() {
-        System.out.println("4");
-    }
+//    private void xuatFileExcelTaiKhoan() {
+//        System.out.println("3");
+//    }
+//
+//    private void docFileExcelTaiKhoan() {
+//        System.out.println("4");
+//    }
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
@@ -307,9 +308,7 @@ public class TaikhoanView extends JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,43 +343,45 @@ public class TaikhoanView extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(300, Short.MAX_VALUE)
+                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(btnTimKiem)
+                .addGap(0, 436, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPwd))
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMaQuyen))
-                        .addGap(35, 35, 35)
-                        .addComponent(txtTrangThai))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnThem)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnSua)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnXoa)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnLamMoi)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnTaiLenExcel)
+                        .addGap(40, 40, 40))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(300, Short.MAX_VALUE)
-                        .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnTimKiem)
-                        .addGap(0, 341, Short.MAX_VALUE)))
-                .addGap(95, 95, 95))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 180, Short.MAX_VALUE)
-                .addComponent(btnThem)
-                .addGap(39, 39, 39)
-                .addComponent(btnSua)
-                .addGap(39, 39, 39)
-                .addComponent(btnXoa)
-                .addGap(39, 39, 39)
-                .addComponent(btnLamMoi)
-                .addGap(39, 39, 39)
-                .addComponent(btnTaiLenExcel)
-                .addGap(40, 40, 40)
-                .addComponent(btnTaiXuongExcel)
-                .addContainerGap(156, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                            .addComponent(txtPwd))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                            .addComponent(txtMaQuyen))
+                        .addGap(50, 50, 50)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTrangThai, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnTaiXuongExcel)
+                        .addGap(0, 144, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

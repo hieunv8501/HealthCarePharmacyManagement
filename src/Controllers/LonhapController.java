@@ -1,12 +1,12 @@
 package Controllers;
+
 import DBConnection.DBConnection;
 import Models.LoNhap;
 import java.sql.ResultSet;
 
 public class LonhapController {
-    
-        public LoNhap layLoNhap(int maLo) {
 
+    public static LoNhap layLoNhap(int maLo) {
         String query = "SELECT * FROM lonhap Where DaXoa = 0 AND MaLo = '" + maLo + "'";
         DBConnection con = new DBConnection();
         try {
@@ -28,5 +28,5 @@ public class LonhapController {
         }
         return null;
     }
-    
+
 }

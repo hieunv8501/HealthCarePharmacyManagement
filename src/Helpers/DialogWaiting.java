@@ -8,7 +8,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;

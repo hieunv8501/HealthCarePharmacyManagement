@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class KhuyenmaiController {
 
-    public ArrayList<Khuyenmai> layDanhsachMKM() {
+    public static ArrayList<Khuyenmai> layDanhsachMKM() {
         ArrayList<Khuyenmai> dsmkm = new ArrayList<>();
         String query = "SELECT * FROM khuyenmai Where DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -38,8 +38,8 @@ public class KhuyenmaiController {
         }
         return dsmkm;
     }
-    
-     public ArrayList<Khuyenmai> layDanhsachMKMAll() {
+
+    public static ArrayList<Khuyenmai> layDanhsachMKMAll() {
         ArrayList<Khuyenmai> dsmkm = new ArrayList<>();
         String query = "SELECT * FROM khuyenmai";
         DBConnection con = new DBConnection();
@@ -69,7 +69,7 @@ public class KhuyenmaiController {
         return dsmkm;
     }
 
-    public Khuyenmai layMaKhuyenmai(String MKM) {
+    public static Khuyenmai layMaKhuyenmai(String MKM) {
 
         String query = "SELECT * FROM khuyenmai Where DaXoa = 0 AND MaKhuyenMai = '" + MKM + "'";
         DBConnection con = new DBConnection();

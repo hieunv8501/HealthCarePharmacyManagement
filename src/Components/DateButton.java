@@ -11,6 +11,7 @@ public class DateButton extends JButton {
         JButton datePickerButton = dp.getComponentToggleCalendarButton();
         datePickerButton.setText("");
         datePickerButton.setIcon(dPickerIcon);
+        
     }
     
 }

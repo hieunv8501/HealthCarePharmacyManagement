@@ -20,15 +20,8 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author TinhBui
- */
 public class ChitietHoadonView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CTHD
-     */
     private int maHoadon;
     HoadonController hdctr = new HoadonController();
     private DefaultTableModel modelCTHD;
@@ -51,7 +44,6 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         btnXoa.setEnabled(false);
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
 
     }
 
@@ -82,7 +74,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         txtMHD.setText(String.valueOf(this.maHoadon));
 
         List<Thuoc> dst;
-        dst = hdctr.layDanhSachThuoc();
+        dst = HoadonController.layDanhSachThuoc();
         for (Thuoc t : dst) {
             if (t instanceof Thuoc) {
                 Thuoc th = (Thuoc) t;
@@ -364,9 +356,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         hdctr.capnhatCTHD(cthd);
         this.reset();
 
-        LonhapController lnctr = new LonhapController();
         LoNhap ln = new LoNhap();
-        ln = lnctr.layLoNhap(Integer.parseInt(maLo2));
+        ln = LonhapController.layLoNhap(Integer.parseInt(maLo2));
         comboLonhap.removeAllItems();
         comboLonhap.addItem("Mã lô: " + ln.getMaLo() + " - Số lượng còn lại: " + ln.getSoluongConlai());
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -413,9 +404,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         comboThuoc.setSelectedItem(s1 + " - " + s2);
         String soluong = s4.split(" : ")[0];
         spinSoluong.setValue(Integer.parseInt(soluong));
-        LonhapController lnctr = new LonhapController();
         LoNhap ln = new LoNhap();
-        ln = lnctr.layLoNhap(Integer.parseInt(s3));
+        ln = LonhapController.layLoNhap(Integer.parseInt(s3));
         comboLonhap.removeAllItems();
         comboLonhap.addItem("Mã lô: " + ln.getMaLo() + " - Số lượng còn lại: " + ln.getSoluongConlai());
         txtDongia.setText(s5);

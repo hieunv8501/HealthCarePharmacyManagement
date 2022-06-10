@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -47,10 +46,14 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     PhieunhapView phieunhapForm = new PhieunhapView();
     NhacungcapView nhacungcap=new NhacungcapView();
     ThuocView thuoc=new ThuocView();
-    LoaiThuocView loaiThuoc=new LoaiThuocView();
+    LoaithuocView loaiThuoc=new LoaithuocView();
     DonvitinhView donvitinh=new DonvitinhView();
     ThongKeDoanhThuThuoc thongkeDonThuoc=new ThongKeDoanhThuThuoc();
     BaoCaoDoanhThu baocaoDoanhThu=new BaoCaoDoanhThu();
+
+    KhachHangView khachhangview = new KhachHangView();
+    
+
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
     private Point dragStartPoint = new Point(0, 0);
@@ -94,8 +97,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
-            "Loại thuốc", "LoaiThuoc.png", "", "qlThuoc",
-            "Đơn vị tính", "Donvitinh.png", "", "qlThuoc",
+
+            "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
+            "Đơn vị tính", "icons8_assistant_30px.png", "", "alThuoc",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
             "seperate", "1", "", "",
@@ -124,7 +128,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 
             } else {
                 //cài đặt các tab ở sidebar
-                String chitietquyen = LoginView.quyenLogin.getChitietQuyen();
+                String chitietquyen = DangnhapView.quyenLogin.getChitietQuyen();
                 if (chitietquyen.contains(navItemInfo[i + 2]) || chitietquyen.contains(navItemInfo[i + 3])) {
                     SidebarButton sb = new SidebarButton(new Rectangle(0, 0, 0, 46), navItemInfo[i], navItemInfo[i + 1]);
                     sb.addMouseListener(this);
@@ -195,15 +199,15 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         header.addItem(btnMinimize, false);
 
         //Button kết thúc phiên làm việc
-        if (LoginView.taiKhoanLogin != null) {
+        if (DangnhapView.taiKhoanLogin != null) {
 
-            String tenNhanVien = LoginView.nhanVienLogin.getTenNhanvien();
+            String tenNhanVien = DangnhapView.nhanVienLogin.getTenNhanvien();
 
             SidebarButton btnLogout = new SidebarButton(new Rectangle(0, 0, menuW - btnWidth, headerH), tenNhanVien, "icons8_logout_20px.png");
             btnLogout.setBgDefault(new Color(35, 35, 112));
             btnLogout.setBgHover(new Color(190, 49, 49));
             btnLogout.relocate2();
-            btnLogout.setToolTipText("Kết thúc phiên làm việc (" + tenNhanVien + " - " + LoginView.nhanVienLogin.getMaNhanvien() + ")");
+            btnLogout.setToolTipText("Kết thúc phiên làm việc (" + tenNhanVien + " - " + DangnhapView.nhanVienLogin.getMaNhanvien() + ")");
             btnLogout.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent me) {
@@ -221,7 +225,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             btnSettingUser.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent me) {
-                    //new DoiMatKhauForm(LoginView.taiKhoanLogin.getUsername()).setVisible(true);
+                    //new DoiMatKhauForm(DangnhapView.taiKhoanLogin.getUsername()).setVisible(true);
                 }
             });
             header.addItem(btnSettingUser, false);
@@ -254,7 +258,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             }
         });
         plContent.setLayout(new BorderLayout());
-        plContent.add(new BeginView("Xin chào " + LoginView.nhanVienLogin.getTenNhanvien() + " - " + LoginView.nhanVienLogin.getMaNhanvien()), BorderLayout.CENTER);
+        plContent.add(new BeginView("Xin chào " + DangnhapView.nhanVienLogin.getTenNhanvien() + " - " + DangnhapView.nhanVienLogin.getMaNhanvien()), BorderLayout.CENTER);
 
         //addMouseListener(this);
         add(scrollMenu, BorderLayout.WEST);
@@ -273,12 +277,12 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     //Func logout
     private void logout() {
         int reply = JOptionPane.showConfirmDialog(getRootPane(),
-                "Bạn có chắc muốn kết thúc phiên làm việc của " + LoginView.nhanVienLogin.getTenNhanvien() + "?", "Chú ý",
+                "Bạn có chắc muốn kết thúc phiên làm việc của " + DangnhapView.nhanVienLogin.getTenNhanvien() + "?", "Chú ý",
                 JOptionPane.YES_NO_OPTION);
 
         if (reply == JOptionPane.YES_OPTION) {
-            new ExcelOperation(LoginView.saveFileName).write(""); // xóa dữ liệu đăng nhập
-            new LoginView().setVisible(true);
+            new ExcelOperation(DangnhapView.saveFileName).write(""); // xóa dữ liệu đăng nhập
+            new DangnhapView().setVisible(true);
             this.dispose();
         }
     }
@@ -332,6 +336,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
             case "Thống kê":
                 plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
+                break;
+            case "Khách hàng":
+                plContent.add(khachhangview, BorderLayout.CENTER);
                 break;
 
         }
@@ -562,7 +569,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //
 //            } else {
 //
-//                String chitietquyen = LoginView.quyenLogin.getChitietQuyen();
+//                String chitietquyen = DangnhapView.quyenLogin.getChitietQuyen();
 //                if (chitietquyen.contains(navItemInfo[i + 2]) || chitietquyen.contains(navItemInfo[i + 3])) {
 //                    SidebarButton nb = new SidebarButton(new Rectangle(0, 0, 0, 50), navItemInfo[i], navItemInfo[i + 1]);
 //                    nb.addMouseListener(this);
@@ -630,15 +637,15 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //        header.addItem(btnMinimize, false);
 //
 //        //Button kết thúc phiên làm việc
-//        if (LoginView.taiKhoanLogin != null) {
+//        if (DangnhapView.taiKhoanLogin != null) {
 //
-//            String tenNhanVien = LoginView.nhanVienLogin.getTenNhanvien();
+//            String tenNhanVien = DangnhapView.nhanVienLogin.getTenNhanvien();
 //
 //            SidebarButton btnLogout = new SidebarButton(new Rectangle(0, 0, menuW - btnWidth, headerH), tenNhanVien, "icons8_exit_30px.png");
 //            btnLogout.setBgDefault(new Color(headerBg, headerBg, headerBg));
 //            btnLogout.setBgHover(new Color(49, 49, 49));
 //            btnLogout.relocate2();
-//            btnLogout.setToolTipText("Kết thúc phiên làm việc (" + tenNhanVien + " - " + LoginView.nhanVienLogin.getMaNhanvien()+ ")");
+//            btnLogout.setToolTipText("Kết thúc phiên làm việc (" + tenNhanVien + " - " + DangnhapView.nhanVienLogin.getMaNhanvien()+ ")");
 //            btnLogout.addMouseListener(new MouseAdapter() {
 //                @Override
 //                public void mousePressed(MouseEvent me) {
@@ -656,7 +663,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //            btnSettingUser.addMouseListener(new MouseAdapter() {
 //                @Override
 //                public void mousePressed(MouseEvent me) {
-//                    //new DoiMatKhauForm(LoginView.taiKhoanLogin.getUsername()).setVisible(true);
+//                    //new DoiMatKhauForm(DangnhapView.taiKhoanLogin.getUsername()).setVisible(true);
 //                }
 //            });
 //            header.addItem(btnSettingUser, false);
@@ -678,7 +685,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //        });
 //
 //        plContent.setLayout(new BorderLayout());
-//        plContent.add(new BeginView("Chào " + LoginView.nhanVienLogin.getTenNhanvien()+ " - " + LoginView.nhanVienLogin.getMaNhanvien()), BorderLayout.CENTER);
+//        plContent.add(new BeginView("Chào " + DangnhapView.nhanVienLogin.getTenNhanvien()+ " - " + DangnhapView.nhanVienLogin.getMaNhanvien()), BorderLayout.CENTER);
 //
 //        addMouseListener(this);
 //        add(scrollMenu, BorderLayout.WEST);
@@ -693,12 +700,12 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //    //Func logout
 //    private void logout() {
 //        int reply = JOptionPane.showConfirmDialog(getRootPane(),
-//                "Bạn có chắc muốn kết thúc phiên làm việc của " + LoginView.nhanVienLogin.getTenNhanvien()+ "?", "Chú ý",
+//                "Bạn có chắc muốn kết thúc phiên làm việc của " + DangnhapView.nhanVienLogin.getTenNhanvien()+ "?", "Chú ý",
 //                JOptionPane.YES_NO_OPTION);
 //
 //        if (reply == JOptionPane.YES_OPTION) {
-//            new ExcelOperation(LoginView.saveFileName).write(""); // xóa dữ liệu đăng nhập
-//            new LoginView().setVisible(true);
+//            new ExcelOperation(DangnhapView.saveFileName).write(""); // xóa dữ liệu đăng nhập
+//            new DangnhapView().setVisible(true);
 //            this.dispose();
 //        }
 //    }

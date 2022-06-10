@@ -32,12 +32,28 @@ public class XaController {
     }
     
     public Xa getXa(int _maxa) {
-        for (var xa : getDanhsachXa()) {
-            if (xa.getMaXa() == _maxa) {
-                return xa;
+        Xa xa = null;
+        String query = "Select * from xa where MaXa = " + _maxa + " ";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+            if (rs != null) {
+                while (rs.next()) {
+                    int maXa = rs.getInt("MaXa");
+                    String tenXa = rs.getString("TenXa");
+                    int maHuyen = rs.getInt("MaHuyen");
+                    HuyenController huyenCtrl = new HuyenController();
+                    xa = new Xa(maXa, tenXa, huyenCtrl.getHuyen(maHuyen));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.closeConnection();
+            } catch (Exception e) {
             }
         }
-        return null;
+        return xa;
     }
-    
 }

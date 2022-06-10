@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controllers;
 
 import DBConnection.DBConnection;
@@ -9,19 +5,16 @@ import Models.Huyen;
 import Models.Tinh;
 import Models.Xa;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-/**
- *
- * @author admin
- */
 public class DiaChiController {
 
-    public Xa layDoiTuongXa(int maXa) {
+    public static Xa layDoiTuongXa(int maXa) {
         Xa xa = null;
         String query = "select xa.MaXa, xa.TenXa, huyen.MaHuyen, huyen.TenHuyen, tinh.MaTinh, tinh.TenTinh from (xa JOIN huyen on xa.MaHuyen = huyen.MaHuyen) join tinh on huyen.MaTinh = tinh.MaTinh where xa.MaXa = '" + maXa + "'";
-        DBConnection con = new DBConnection();
+        DBConnection conn = new DBConnection();
         try {
-            ResultSet rs = con.sqlQuery(query);
+            ResultSet rs = conn.sqlQuery(query);
 
             if (rs != null) {
                 while (rs.next()) {
@@ -35,10 +28,9 @@ public class DiaChiController {
                     xa = new Xa(maXa, tenXa, huyen);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         } finally {
-            con.closeConnection();
+            conn.closeConnection();
         }
         return xa;
     }

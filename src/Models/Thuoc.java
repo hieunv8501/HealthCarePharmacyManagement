@@ -68,8 +68,6 @@ public class Thuoc {
         this.dotuoi = dotuoi;
     }
 
-    
-
     public int getMaThuoc() {
         return maThuoc;
     }
@@ -93,8 +91,6 @@ public class Thuoc {
     public String getHinhanh() {
         return hinhanh;
     }
-
-    
 
     public boolean isDaXoa() {
         return DaXoa;
@@ -158,11 +154,6 @@ public class Thuoc {
         this.loaiThuoc = loaiThuoc;
         this.giaBan = giaBan;
     }
-
-    
-
-
-    
     @Override
     public String toString() {
         return ("Thông tin về thuốc là\n Mã thuốc:" + this.maThuoc + "\t Tên thuốc: " + this.tenThuoc + "\t Mota:" + this.mota + "\t Hình ảnh: " + this.hinhanh + "\t Nhà cung cấp" + this.nhacungcap);
