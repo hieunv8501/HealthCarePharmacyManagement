@@ -582,10 +582,6 @@ VALUES (1, 1, 1, '20/05/2022')
 INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
 VALUES (2, 2, 2, '20/05/2022')
 
-select * from phieunhap
-select * from chitietphieunhap
-select * from lonhap
-
 --Dữ liệu chi tiết phiếu nhập
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
 VALUES (1, 1, 10, 1000, '01/03/2022', '20/05/2022' )
@@ -593,6 +589,14 @@ INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat
 VALUES (1, 2, 10, 5000, '01/03/2022', '20/05/2022' )
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
 VALUES (2, 3, 5, 8000, '01/03/2022', '20/05/2022' )
+
+--Dữ liệu lô nhập
+INSERT INTO lonhap (MaPhieuNhap, MaThuoc, SoLuongConLai) 
+VALUES (1, 1, 20)
+INSERT INTO lonhap (MaPhieuNhap, MaThuoc, SoLuongConLai) 
+VALUES (1, 2, 20)
+INSERT INTO lonhap (MaPhieuNhap, MaThuoc, SoLuongConLai) 
+VALUES (2, 3, 20)
 
 --Dữ liệu quyền
 insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
