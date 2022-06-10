@@ -29,7 +29,6 @@ public class DiaChiController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             conn.closeConnection();
         }
