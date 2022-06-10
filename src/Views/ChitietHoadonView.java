@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package Views;
 
 import java.awt.Color;
@@ -11,17 +15,22 @@ import Models.ChitietHoadon;
 import Models.Thuoc;
 import Models.LoNhap;
 import Models.Donvitinh;
-import Models.Hoadon;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author TinhBui
+ */
 public class ChitietHoadonView extends javax.swing.JFrame {
 
+    /**
+     * Creates new form CTHD
+     */
     private int maHoadon;
     HoadonController hdctr = new HoadonController();
     private DefaultTableModel modelCTHD;
@@ -74,7 +83,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         txtMHD.setText(String.valueOf(this.maHoadon));
 
         List<Thuoc> dst;
-        dst = HoadonController.layDanhSachThuoc();
+        dst = hdctr.layDanhSachThuoc();
         for (Thuoc t : dst) {
             if (t instanceof Thuoc) {
                 Thuoc th = (Thuoc) t;
@@ -114,6 +123,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         txtDonvi = new javax.swing.JTextField();
         btnSua = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        btnLammoi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,8 +131,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
         txtDongia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(153, 51, 0));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +140,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             }
         });
 
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +200,11 @@ public class ChitietHoadonView extends javax.swing.JFrame {
                 comboThuocItemStateChanged(evt);
             }
         });
+        comboThuoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboThuocActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Chọn thuốc:");
@@ -206,8 +222,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
         txtDonvi.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(0, 204, 0));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,12 +231,21 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             }
         });
 
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(204, 0, 0));
+        btnBack.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-back-arrow-30.png"))); // NOI18N
         btnBack.setText("Quay lại");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
+            }
+        });
+
+        btnLammoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLammoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        btnLammoi.setText("Làm mới");
+        btnLammoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLammoiActionPerformed(evt);
             }
         });
 
@@ -264,19 +289,22 @@ public class ChitietHoadonView extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(183, 183, 183)
-                                .addComponent(btnThem)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnSua)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnXoa)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnBack)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 338, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jScrollPane2)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(btnThem)
+                .addGap(52, 52, 52)
+                .addComponent(btnLammoi)
+                .addGap(52, 52, 52)
+                .addComponent(btnSua)
+                .addGap(52, 52, 52)
+                .addComponent(btnXoa)
+                .addGap(52, 52, 52)
+                .addComponent(btnBack)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,7 +337,8 @@ public class ChitietHoadonView extends javax.swing.JFrame {
                     .addComponent(btnThem)
                     .addComponent(btnSua)
                     .addComponent(btnXoa)
-                    .addComponent(btnBack))
+                    .addComponent(btnBack)
+                    .addComponent(btnLammoi))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -356,8 +385,9 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         hdctr.capnhatCTHD(cthd);
         this.reset();
 
+        LonhapController lnctr = new LonhapController();
         LoNhap ln = new LoNhap();
-        ln = LonhapController.layLoNhap(Integer.parseInt(maLo2));
+        ln = lnctr.layLoNhap(Integer.parseInt(maLo2));
         comboLonhap.removeAllItems();
         comboLonhap.addItem("Mã lô: " + ln.getMaLo() + " - Số lượng còn lại: " + ln.getSoluongConlai());
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -404,8 +434,9 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         comboThuoc.setSelectedItem(s1 + " - " + s2);
         String soluong = s4.split(" : ")[0];
         spinSoluong.setValue(Integer.parseInt(soluong));
+        LonhapController lnctr = new LonhapController();
         LoNhap ln = new LoNhap();
-        ln = LonhapController.layLoNhap(Integer.parseInt(s3));
+        ln = lnctr.layLoNhap(Integer.parseInt(s3));
         comboLonhap.removeAllItems();
         comboLonhap.addItem("Mã lô: " + ln.getMaLo() + " - Số lượng còn lại: " + ln.getSoluongConlai());
         txtDongia.setText(s5);
@@ -423,6 +454,23 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_dsCTHDMouseClicked
+
+    private void btnLammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLammoiActionPerformed
+        // TODO add your handling code here:
+        int input = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (input == 0) {
+            comboLonhap.setEnabled(true);
+            comboThuoc.setEnabled(true);
+
+            this.reset();
+        }
+
+    }//GEN-LAST:event_btnLammoiActionPerformed
+
+    private void comboThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboThuocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboThuocActionPerformed
 
     /**
      * @param args the command line arguments
@@ -462,6 +510,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnLammoi;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;

@@ -1,9 +1,11 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package Views;
 
 import Controllers.HoadonController;
-import Controllers.KhachhangController;
 import Controllers.KhuyenmaiController;
-import Controllers.NhanvienController;
 
 import Models.Hoadon;
 import Models.Nhanvien;
@@ -27,8 +29,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author TinhBui
+ */
 public class HoadonView extends javax.swing.JPanel {
 
+    /**
+     * Creates new form HoadonView
+     */
     private DefaultTableModel modelHD;
     HoadonController hdctr = new HoadonController();
     private int indexOfList;
@@ -43,7 +52,6 @@ public class HoadonView extends javax.swing.JPanel {
         dsHoaDon.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsHoaDon.getTableHeader().setOpaque(false);
         dsHoaDon.getTableHeader().setBackground(Color.YELLOW);
-        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
@@ -57,14 +65,15 @@ public class HoadonView extends javax.swing.JPanel {
         for (T t : list) {
             if (t instanceof Hoadon) {
                 Hoadon hd = (Hoadon) t;
-
+//                String[] date = hd.getNgayLap().toString().split("-");
+//                String ngayBD = date[2] + "/" + date[1] + "/" + date[0];
                 SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 String formatted = format1.format(hd.getNgayLap().getTime());
-                String nhanvien = hd.getNhanvien().getMaNhanvien()+ " - " + hd.getNhanvien().getTenNhanvien();
-                String khachhang = hd.getKhachhang().getMaKhachhang()+ " - " + hd.getKhachhang().getTenKhachhang();
+                String nhanvien = hd.getMaNhanvien() + " - " + hd.getTenNhanvien();
+                String khachhang = hd.getMaKhachhang() + " - " + hd.getTenKhachhang();
 
                 model.addRow(new Object[]{
-                    hd.getMaHoadon(), nhanvien, khachhang, hd.getKhuyenmai().getMaKhuyenmai(), formatted, hd.getTongTien()
+                    hd.getMaHoadon(), nhanvien, khachhang, hd.getMaKhuyenmai(), formatted, hd.getTongTien()
                 });
 
             }
@@ -74,7 +83,7 @@ public class HoadonView extends javax.swing.JPanel {
     public void reset() {
         modelHD = (DefaultTableModel) dsHoaDon.getModel();
         List<Hoadon> dshd;
-        dshd = HoadonController.layDanhsachHD();
+        dshd = hdctr.layDanhsachHD();
         this.showData(dshd, modelHD);
     }
 
@@ -85,7 +94,7 @@ public class HoadonView extends javax.swing.JPanel {
         comboMaKM.removeAllItems();
 
         List<Nhanvien> dsnv;
-        dsnv = HoadonController.layDanhSachMNV();
+        dsnv = hdctr.layDanhSachMNV();
         for (Nhanvien t : dsnv) {
             if (t instanceof Nhanvien) {
                 Nhanvien nv = (Nhanvien) t;
@@ -94,7 +103,7 @@ public class HoadonView extends javax.swing.JPanel {
         }
 
         List<Khachhang> dskh;
-        dskh = HoadonController.layDanhSachMKH();
+        dskh = hdctr.layDanhSachMKH();
         for (Khachhang t : dskh) {
             if (t instanceof Khachhang) {
                 Khachhang kh = (Khachhang) t;
@@ -102,8 +111,9 @@ public class HoadonView extends javax.swing.JPanel {
             }
         }
 
+        KhuyenmaiController kmctr = new KhuyenmaiController();
         List<Khuyenmai> dsmkm;
-        dsmkm = KhuyenmaiController.layDanhsachMKM();
+        dsmkm = kmctr.layDanhsachMKM();
         comboMaKM.addItem("");
         for (Khuyenmai t : dsmkm) {
             if (t instanceof Khuyenmai) {
@@ -146,21 +156,21 @@ public class HoadonView extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtMHD = new javax.swing.JTextField();
         btnXemCT = new javax.swing.JButton();
-        btnThem1 = new javax.swing.JButton();
 
         dateLap.setDateFormatString("dd-MM-yyyy");
         dateLap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThem.setText("Thêm mới");
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnLuu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnLuu.setForeground(new java.awt.Color(0, 204, 0));
+        btnLuu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLuu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-save-30.png"))); // NOI18N
         btnLuu.setText("Lưu");
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,8 +178,8 @@ public class HoadonView extends javax.swing.JPanel {
             }
         });
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(0, 0, 204));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,9 +187,9 @@ public class HoadonView extends javax.swing.JPanel {
             }
         });
 
-        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnHuy.setForeground(new java.awt.Color(255, 0, 0));
-        btnHuy.setText("Hủy");
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        btnHuy.setText("Làm mới");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
@@ -233,8 +243,8 @@ public class HoadonView extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         jLabel5.setText("Ngày lập:");
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(153, 0, 0));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,19 +278,12 @@ public class HoadonView extends javax.swing.JPanel {
 
         txtMHD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnXemCT.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnXemCT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXemCT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_agreement_30px.png"))); // NOI18N
         btnXemCT.setText("Xem chi tiết");
         btnXemCT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXemCTActionPerformed(evt);
-            }
-        });
-
-        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThem1.setText("Tải lại trang");
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReload(evt);
             }
         });
 
@@ -331,26 +334,18 @@ public class HoadonView extends javax.swing.JPanel {
                                         .addComponent(giay, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)))))
                         .addGap(63, 63, 63))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(800, 800, 800)
-                                .addComponent(btnXemCT))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnThem)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnThem1)))
+                .addGap(113, 113, 113)
+                .addComponent(btnThem)
+                .addGap(80, 80, 80)
+                .addComponent(btnHuy)
+                .addGap(80, 80, 80)
+                .addComponent(btnLuu)
+                .addGap(80, 80, 80)
+                .addComponent(btnSua)
+                .addGap(80, 80, 80)
+                .addComponent(btnXoa)
+                .addGap(80, 80, 80)
+                .addComponent(btnXemCT)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -361,19 +356,14 @@ public class HoadonView extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboMaKM, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnThem1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboMaKM, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -398,7 +388,7 @@ public class HoadonView extends javax.swing.JPanel {
                                 .addComponent(jLabel7)
                                 .addComponent(jLabel8))
                             .addComponent(jLabel6))))
-                .addGap(40, 40, 40)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnLuu)
@@ -406,7 +396,7 @@ public class HoadonView extends javax.swing.JPanel {
                     .addComponent(btnHuy)
                     .addComponent(btnXoa)
                     .addComponent(btnXemCT))
-                .addContainerGap(438, Short.MAX_VALUE))
+                .addContainerGap(428, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap(315, Short.MAX_VALUE)
@@ -417,7 +407,7 @@ public class HoadonView extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        txtMHD.setText(String.valueOf(HoadonController.getMaxMHD()));
+        txtMHD.setText(String.valueOf(hdctr.getMaxMHD()));
         btnLuu.setEnabled(true);
         btnHuy.setEnabled(true);
         btnThem.setEnabled(false);
@@ -456,7 +446,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(NhanvienController.getNhanVien(Integer.parseInt(MNV)), KhachhangController.layKhachHang(Integer.parseInt(MKH)), KhuyenmaiController.layMaKhuyenmai(MKM), dateLap.getCalendar());
+            Hoadon hd = new Hoadon(Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
             hdctr.themHoaDon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             ChitietHoadonView cthd = new ChitietHoadonView();
@@ -486,7 +476,7 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), NhanvienController.getNhanVien(Integer.parseInt(MNV)), KhachhangController.layKhachHang(Integer.parseInt(MKH)),KhuyenmaiController.layMaKhuyenmai(MKM), dateLap.getCalendar());
+            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
             hdctr.capnhatHoadon(hd);
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             this.reset();
@@ -498,7 +488,7 @@ public class HoadonView extends javax.swing.JPanel {
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
         int input = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             comboNhanvien.removeAllItems();
             comboKhachhang.removeAllItems();
@@ -509,10 +499,11 @@ public class HoadonView extends javax.swing.JPanel {
             giay.setValue(0);
             txtMHD.setText(null);
 
-            btnHuy.setEnabled(false);
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
             btnThem.setEnabled(true);
+
+            this.reset();
 
         }
     }//GEN-LAST:event_btnHuyActionPerformed
@@ -598,31 +589,12 @@ public class HoadonView extends javax.swing.JPanel {
         this.reset();
     }//GEN-LAST:event_btnXemCTActionPerformed
 
-    private void btnReload(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReload
-        // TODO add your handling code here:
-        this.reset();
-        comboNhanvien.removeAllItems();
-        comboKhachhang.removeAllItems();
-        comboMaKM.removeAllItems();
-        dateLap.setCalendar(null);
-        gio.setValue(0);
-        phut.setValue(0);
-        giay.setValue(0);
-        txtMHD.setText(null);
-
-        btnHuy.setEnabled(false);
-        btnLuu.setEnabled(false);
-        btnSua.setEnabled(false);
-        btnThem.setEnabled(true);
-    }//GEN-LAST:event_btnReload
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem1;
     private javax.swing.JButton btnXemCT;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> comboKhachhang;

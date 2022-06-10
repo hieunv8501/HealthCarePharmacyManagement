@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package Views;
 
 import Controllers.KhuyenmaiController;
@@ -20,8 +24,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author TinhBui
+ */
 public class KhuyenmaiView extends javax.swing.JPanel {
 
+    /**
+     * Creates new form KhuyenmaiView
+     */
     Calendar cld = Calendar.getInstance();
     KhuyenmaiController kmctr = new KhuyenmaiController();
     private DefaultTableModel modelMKM;
@@ -36,15 +47,12 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         dsMaKM.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsMaKM.getTableHeader().setOpaque(false);
         dsMaKM.getTableHeader().setBackground(Color.YELLOW);
-        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMKM.setEditable(false);
-        modelMKM = (DefaultTableModel) dsMaKM.getModel();
-        List<Khuyenmai> dskm;
-        dskm = KhuyenmaiController.layDanhsachMKM();
-        this.showData(dskm, modelMKM);
+
+        this.reset();
     }
 
     public <T> void showData(List<T> list, DefaultTableModel model) {
@@ -68,7 +76,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
     public void reset() {
         modelMKM = (DefaultTableModel) dsMaKM.getModel();
         List<Khuyenmai> dskm;
-        dskm = KhuyenmaiController.layDanhsachMKM();
+        dskm = kmctr.layDanhsachMKM();
         this.showData(dskm, modelMKM);
     }
 
@@ -87,7 +95,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     public String CheckMKM(String mkm) {
         List<Khuyenmai> dskm;
-        dskm = KhuyenmaiController.layDanhsachMKMAll();
+        dskm = kmctr.layDanhsachMKMAll();
         for (Khuyenmai t : dskm) {
             if (t instanceof Khuyenmai) {
                 Khuyenmai km = (Khuyenmai) t;
@@ -204,16 +212,17 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         dateKT.setDateFormatString("dd-MM-yyyy");
         dateKT.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThem.setText("Thêm mới");
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnLuu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnLuu.setForeground(new java.awt.Color(0, 204, 0));
+        btnLuu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLuu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-save-30.png"))); // NOI18N
         btnLuu.setText("Lưu");
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,8 +230,8 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             }
         });
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(0, 0, 204));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,17 +239,17 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             }
         });
 
-        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnHuy.setForeground(new java.awt.Color(255, 0, 0));
-        btnHuy.setText("Hủy");
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        btnHuy.setText("Làm mới");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
             }
         });
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(153, 0, 0));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,13 +311,13 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                                 .addGap(209, 209, 209)
                                 .addComponent(btnThem)
                                 .addGap(80, 80, 80)
-                                .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnHuy)
                                 .addGap(80, 80, 80)
-                                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(80, 80, 80)
-                                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72)
+                                .addComponent(btnXoa))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(235, 235, 235)
                                 .addComponent(jLabel7)
@@ -362,7 +371,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                     .addComponent(btnSua)
                     .addComponent(btnHuy)
                     .addComponent(btnXoa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -378,7 +387,6 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         String MKM = CheckMKM(randomMKM());
         txtMKM.setText(MKM);
         btnLuu.setEnabled(true);
-        btnHuy.setEnabled(true);
         dateBD.setCalendar(cld);
         cld.add(Calendar.DATE, 1);
         dateKT.setCalendar(cld);
@@ -388,8 +396,11 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
+//        int input = JOptionPane.showConfirmDialog(null,
+//                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+//        if (input == 0) {
         int input = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             txtMKM.setText("");
             txtTKM.setText("");
@@ -398,12 +409,13 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             dateBD.setCalendar(null);
             dateKT.setCalendar(null);
 
-            btnHuy.setEnabled(false);
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
             btnThem.setEnabled(true);
-
+            this.reset();
         }
+
+//        }
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
@@ -428,6 +440,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         }
         if (check == true) {
             Khuyenmai KM = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dieukienKM, phantramKM, ngayBD, ngayKT, false);
+
             kmctr.themMaKhuyenmai(KM);
             String MKM = CheckMKM(randomMKM());
             txtMKM.setText(MKM);
@@ -479,11 +492,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         dateKT.setCalendar(cal2);
 
         txtMKM.setEnabled(false);
-        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(true);
         btnXoa.setEnabled(true);
-        btnHuy.setEnabled(true);
 
 
     }//GEN-LAST:event_dsMaKMMouseClicked
@@ -501,7 +512,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        Khuyenmai km = KhuyenmaiController.layMaKhuyenmai(searchBox.getText());
+        Khuyenmai km = kmctr.layMaKhuyenmai(searchBox.getText());
         if (km == null) {
             JOptionPane.showMessageDialog(null, "Mã khuyến mãi không tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 

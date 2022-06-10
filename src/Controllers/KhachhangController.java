@@ -111,7 +111,7 @@ public class KhachhangController {
 
     public static Khachhang layKhachHang(int maKH) {
         Khachhang khachhang = null;
-        String query = "SELECT * FROM khachhang WHERE DaXoa = 0 AND MaKH = " + maKH + "";
+        String query = "SELECT * FROM khachhang WHERE DaXoa = 0 AND MaKhachHang = " + maKH + "";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(query);

@@ -39,20 +39,20 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 
     //Khởi tạo các đối tượng trang JPanel và add các đối tượng trang ở switch case phía dưới bên trong method doAction để chuyển trang, ví dụ: Empty Page - Trang trắng
     EmptyPage emptypage = new EmptyPage();
-    KhuyenmaiView khuyenmai = new KhuyenmaiView();
+//    KhuyenmaiView khuyenmai = new KhuyenmaiView();
     HoadonView hoadon = new HoadonView();
-    QuyenView quyenForm = new QuyenView();  
-    TaikhoanView taikhoanForm = new TaikhoanView();
-    PhieunhapView phieunhapForm = new PhieunhapView();
-    NhacungcapView nhacungcap=new NhacungcapView();
-    ThuocView thuoc=new ThuocView();
-    LoaithuocView loaiThuoc=new LoaithuocView();
-    DonvitinhView donvitinh=new DonvitinhView();
-    ThongKeDoanhThuThuoc thongkeDonThuoc=new ThongKeDoanhThuThuoc();
-    BaoCaoDoanhThu baocaoDoanhThu=new BaoCaoDoanhThu();
-
-    KhachHangView khachhangview = new KhachHangView();
-    
+//    QuyenView quyenForm = new QuyenView();
+//    TaikhoanView taikhoanForm = new TaikhoanView();
+//    PhieunhapView phieunhapForm = new PhieunhapView();
+//    NhacungcapView nhacungcap = new NhacungcapView();
+//    ThuocView thuoc = new ThuocView();
+//    LoaithuocView loaiThuoc = new LoaithuocView();
+//    DonvitinhView donvitinh = new DonvitinhView();
+//    ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
+//    BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
+//    QuanlyKhoView quanlykho = new QuanlyKhoView();
+//
+//    KhachHangView khachhangview = new KhachHangView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -97,14 +97,12 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
-
             "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
             "Đơn vị tính", "icons8_assistant_30px.png", "", "alThuoc",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
             "seperate", "1", "", "",
             "Nhân viên", "icons8_assistant_30px.png", "xemNhanVien", "qlNhanVien",
-            
             "Khách hàng", "icons8_user_30px.png", "xemKhachHang", "qlKhachHang",
             "Nhà cung cấp", "icons8_company_30px.png", "xemNCC", "qlNCC",
             "seperate", "1", "", "",
@@ -292,27 +290,27 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         plContent.removeAll();
         //Đi tới các trang
         switch (nameAction) {
-            
-            case "Khuyến mãi":
-                plContent.add(khuyenmai, BorderLayout.CENTER);
-                break;
 
+//            case "Khuyến mãi":
+//                plContent.add(khuyenmai, BorderLayout.CENTER);
+//                break;
+//
             case "Hóa đơn":
                 plContent.add(hoadon, BorderLayout.CENTER);
                 break;
-                
-            case "Tài khoản":
-                plContent.add(taikhoanForm, BorderLayout.CENTER);
-                break;
-                
-            case "Quyền":
-                plContent.add(quyenForm, BorderLayout.CENTER);
-                break;
-                
-            case "Nhập thuốc":
-                plContent.add(phieunhapForm, BorderLayout.CENTER);
-                break;
-                
+//
+//            case "Tài khoản":
+//                plContent.add(taikhoanForm, BorderLayout.CENTER);
+//                break;
+//
+//            case "Quyền":
+//                plContent.add(quyenForm, BorderLayout.CENTER);
+//                break;
+//
+//            case "Nhập thuốc":
+//                plContent.add(phieunhapForm, BorderLayout.CENTER);
+//                break;
+
             case "Công cụ":
                 emptypage.setLabelText("Công cụ đang bảo trì, vui lòng thử lại sau");
                 plContent.add(emptypage, BorderLayout.CENTER);
@@ -322,24 +320,24 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 emptypage.setLabelText("Cài đặt đang bảo trì, vui lòng thử lại sau");
                 plContent.add(emptypage, BorderLayout.CENTER);
                 break;
-            case "Nhà cung cấp":
-                plContent.add(nhacungcap, BorderLayout.CENTER);
-                break;
-            case "Thuốc":
-                plContent.add(thuoc, BorderLayout.CENTER);
-                break;
-            case "Loại thuốc":
-                plContent.add(loaiThuoc, BorderLayout.CENTER);
-                break;
-            case "Đơn vị tính":
-                plContent.add(donvitinh, BorderLayout.CENTER);
-                break;
-            case "Thống kê":
-                plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
-                break;
-            case "Khách hàng":
-                plContent.add(khachhangview, BorderLayout.CENTER);
-                break;
+//            case "Nhà cung cấp":
+//                plContent.add(nhacungcap, BorderLayout.CENTER);
+//                break;
+//            case "Thuốc":
+//                plContent.add(thuoc, BorderLayout.CENTER);
+//                break;
+//            case "Loại thuốc":
+//                plContent.add(loaiThuoc, BorderLayout.CENTER);
+//                break;
+//            case "Đơn vị tính":
+//                plContent.add(donvitinh, BorderLayout.CENTER);
+//                break;
+//            case "Thống kê":
+//                plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
+//                break;
+//            case "Khách hàng":
+//                plContent.add(khachhangview, BorderLayout.CENTER);
+//                break;
 
         }
         headerTitle.setLabel(nameAction.toUpperCase());

@@ -9,11 +9,12 @@ import Models.Khachhang;
 import Models.Thuoc;
 import Models.LoNhap;
 import Models.Donvitinh;
-import Models.ChitietHoadon;
 
+import Models.ChitietHoadon;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class HoadonController {
@@ -64,7 +65,7 @@ public class HoadonController {
         return null;
     }
 
-    public static ArrayList<Thuoc> layDanhSachThuoc() {
+    public ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();
         String query = "SELECT * FROM thuoc WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -88,9 +89,11 @@ public class HoadonController {
         return dsth;
     }
 
-    public static ArrayList<LoNhap> layDanhSachLonhap(int soLuong, int maThuoc) {
+    public ArrayList<LoNhap> layDanhSachLonhap(int soLuong, int maThuoc) {
         ArrayList<LoNhap> dsln = new ArrayList<>();
-        String query = "SELECT * FROM lonhap WHERE DaXoa = 0 AND MaThuoc = " + maThuoc + " AND SoLuongConLai >= " + soLuong;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        String query = "SELECT * FROM lonhap, chitietphieunhap WHERE lonhap.DaXoa = 0 AND chitietphieunhap.MaThuoc = lonhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND NgayHetHan >= '" + formatter.format(date) + "' AND lonhap.MaThuoc = " + maThuoc + " AND SoLuongConLai >= " + soLuong;
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(query);
@@ -112,7 +115,7 @@ public class HoadonController {
         return dsln;
     }
 
-    public static int getMaxMHD() {
+    public int getMaxMHD() {
         String query = "SELECT MAX(MaHoaDon) AS MaxMHD FROM hoadon";
         DBConnection con = new DBConnection();
         try {
@@ -131,7 +134,7 @@ public class HoadonController {
         return 0;
     }
 
-    public static ArrayList<Hoadon> layDanhsachHD() {
+    public ArrayList<Hoadon> layDanhsachHD() {
         ArrayList<Hoadon> dshd = new ArrayList<>();
         String query = "SELECT * FROM hoadon, nhanvien, khachhang WHERE hoadon.DaXoa = 0 AND nhanvien.MaNhanVien = hoadon.MaNhanVien AND hoadon.MaKhachHang = khachhang.MaKhachHang";
         DBConnection con = new DBConnection();
@@ -144,19 +147,18 @@ public class HoadonController {
                     int maHoadon = rs.getInt("MaHoaDon");
                     int maNhanvien = rs.getInt("MaNhanVien");
                     int maKhachhang = rs.getInt("MaKhachHang");
+                    String tenNhanvien = rs.getString("TenNhanVien");
+                    String tenKhachhang = rs.getString("TenKhachHang");
                     String maKhuyenmai = rs.getString("MaKhuyenMai");
-                    
-                    NhanvienController nhanvienCtrl = new NhanvienController();
-                    KhachhangController khachhangCtrl = new KhachhangController();
-                    KhuyenmaiController khuyenmaiCtrl = new KhuyenmaiController();
 
                     String date = rs.getString("NgayLap");
                     Calendar cal = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     cal.setTime(sdf.parse(date));
-                    
+//                    LocalDate ngayLap = rs.getDate("NgayLap").toLocalDate();
+
                     float tongTien = rs.getFloat("TongTien");
-                    dshd.add(new Hoadon(maHoadon, nhanvienCtrl.getNhanVien(maNhanvien), khachhangCtrl.layKhachHang(maKhachhang), khuyenmaiCtrl.layMaKhuyenmai(maKhuyenmai), cal, tongTien, false));
+                    dshd.add(new Hoadon(maHoadon, maNhanvien, tenNhanvien, maKhachhang, tenKhachhang, maKhuyenmai, cal, tongTien, false));
 
                 }
             }
@@ -200,7 +202,7 @@ public class HoadonController {
         return dscthd;
     }
 
-    public static ArrayList<Nhanvien> layDanhSachMNV() {
+    public ArrayList<Nhanvien> layDanhSachMNV() {
         ArrayList<Nhanvien> dsnv = new ArrayList<>();
         String query = "SELECT * FROM nhanvien WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -229,7 +231,7 @@ public class HoadonController {
         return dsnv;
     }
 
-    public static ArrayList<Khachhang> layDanhSachMKH() {
+    public ArrayList<Khachhang> layDanhSachMKH() {
         ArrayList<Khachhang> dskh = new ArrayList<>();
         String query = "SELECT * FROM khachhang WHERE DaXoa = 0";
         DBConnection con = new DBConnection();
@@ -269,9 +271,9 @@ public class HoadonController {
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
-            pre.setInt(1, HD.getNhanvien().getMaNhanvien());
-            pre.setInt(2, HD.getKhachhang().getMaKhachhang());
-            pre.setString(3, HD.getKhuyenmai().getMaKhuyenmai());
+            pre.setInt(1, HD.getMaNhanvien());
+            pre.setInt(2, HD.getMaKhachhang());
+            pre.setString(3, HD.getMaKhuyenmai());
             pre.setString(4, dateFormat);
             pre.executeUpdate();
             System.out.println("Thêm hóa đơn thành công");
@@ -312,9 +314,9 @@ public class HoadonController {
         try {
             DBConnection con = new DBConnection();
             PreparedStatement pre = con.getConn().prepareStatement(command);
-            pre.setInt(1, HD.getNhanvien().getMaNhanvien());
-            pre.setInt(2, HD.getKhachhang().getMaKhachhang());
-            pre.setString(3, HD.getKhuyenmai().getMaKhuyenmai());
+            pre.setInt(1, HD.getMaNhanvien());
+            pre.setInt(2, HD.getMaKhachhang());
+            pre.setString(3, HD.getMaKhuyenmai());
             pre.setString(4, dateFormat);
             pre.setInt(5, HD.getMaHoadon());
 

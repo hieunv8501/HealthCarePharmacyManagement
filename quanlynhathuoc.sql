@@ -312,7 +312,7 @@ ALTER TABLE lonhap
 GO
 
 -- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
-CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
+ALTER TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
 FOR UPDATE
 AS BEGIN
 	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT, @DaXoa BIT
@@ -324,6 +324,7 @@ AS BEGIN
 	ELSE BEGIN
 		UPDATE lonhap SET SoLuongConLai = SoLuongConLai + @SoLuongMoi WHERE MaLo = @MaLo
 	END
+
 END
 
 GO
@@ -359,7 +360,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -390,10 +391,10 @@ END
 
 GO
 -- Tính tổng tiền khi sửa (sửa mã khuyến mãi) hóa đơn
-CREATE TRIGGER TG_INSERT_HOADON ON hoadon 
+ALTER TRIGGER TG_INSERT_HOADON ON hoadon 
 FOR UPDATE
 AS BEGIN
-	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY, @SoLuong INT, @DonGia MONEY
+	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY,  @SoLuong INT, @DonGia MONEY
 
 	SELECT @MaHoaDon = MaHoaDon, @MaKhuyenMai = MaKhuyenMai FROM INSERTED
 
@@ -416,34 +417,45 @@ AS BEGIN
 	CLOSE CUR_CTHD
 	DEALLOCATE CUR_CTHD
 
+
 	UPDATE hoadon SET TongTien = @TongTien - ((@TongTien * @PhanTramKhuyenMai) / 100) WHERE MaHoaDon = @MaHoaDon
+
+	--UPDATE hoadon SET TongTien = TongTien - ((TongTien *  @PhanTramKhuyenMai) / 100)  WHERE MaHoaDon = @MaHoaDon
 END
 
 GO
 -- Tính số lượng thuốc còn lại khi thêm chi tiết phiếu nhập (nhập thuốc)
-CREATE TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
+ALTER TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
 FOR INSERT
 AS BEGIN
-	INSERT INTO lonhap(MaThuoc, MaPhieuNhap, SoLuongConLai)
-	SELECT MaThuoc, MaPhieuNhap, SoLuong
-	FROM INSERTED
+	DECLARE @MaThuoc INT, @MaPhieuNhap INT, @SoLuong INT, @TiLeQuiDoi INT
+	SELECT @MaThuoc = inserted.MaThuoc, @MaPhieuNhap = MaPhieuNhap, @SoLuong = SoLuong, @TiLeQuiDoi = TiLeQuiDoi FROM inserted, thuoc WHERE inserted.MaThuoc = thuoc.MaThuoc
+	INSERT INTO lonhap(MaThuoc, MaPhieuNhap, SoLuongConLai) VALUES(@MaThuoc, @MaPhieuNhap, @SoLuong*@TiLeQuiDoi)
+
 END
 
 GO
 -- Tính số lượng thuốc còn lại khi sửa chi tiết phiếu nhập
-CREATE TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
+ALTER TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
 FOR UPDATE
 AS BEGIN
 
-	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT
-	SELECT  @SoLuongMoi = SoLuong, @MaThuoc = MaThuoc, @MaPhieuNhap = MaPhieuNhap
-		FROM INSERTED
+	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaThuoc VARCHAR(10), @MaPhieuNhap INT, @TiLeQuiDoi INT, @DaXoa BIT
+	SELECT  @SoLuongMoi = SoLuong, @MaThuoc = inserted.MaThuoc, @MaPhieuNhap = MaPhieuNhap, @TiLeQuiDoi = TiLeQuiDoi, @DaXoa = inserted.DaXoa
+		FROM INSERTED, thuoc WHERE inserted.MaThuoc = thuoc.MaThuoc
 	SELECT  @SoLuongCu = SoLuong FROM DELETED
 
-	UPDATE lonhap 
-		SET SoLuongConLai = SoLuongConLai - @SoLuongCu + @SoLuongMoi
-		WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
+	IF(@DaXoa = 0) BEGIN
+		UPDATE lonhap 
+			SET SoLuongConLai = SoLuongConLai - @SoLuongCu*@TiLeQuiDoi + @SoLuongMoi*@TiLeQuiDoi
+			WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
+	END ELSE BEGIN
+		UPDATE lonhap 
+			SET @DaXoa = 1
+			WHERE MaThuoc = @MaThuoc AND MaPhieuNhap = @MaPhieuNhap
+	END
 END
+
 
 GO
 -- Tính số lượng thuốc còn lại khi xóa chi tiết phiếu nhập 
