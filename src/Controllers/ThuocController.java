@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 public class ThuocController {
     private static ArrayList<Thuoc> dsThuoc = new ArrayList();
+    public static Thuoc getThuoc(int maThuoc) {
+        for (Thuoc q : getDanhSachThuoc()) {
+            if (q.getMaThuoc() == maThuoc) return q;
+        }
+        return null;
+    }
     public static void themThuoc(Thuoc thuoc)
     {
   

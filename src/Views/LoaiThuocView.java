@@ -1,6 +1,6 @@
 package Views;
 
-import Controllers.LoaithuocController;
+import Controllers.LoaiThuocController;
 import Models.LoaiThuoc;
 import java.awt.Color;
 import java.awt.Font;
@@ -297,30 +297,6 @@ btnLuu.setEnabled(true);
  btnHuy.setEnabled(true);
  txtMaLoaiThuoc.setEditable(false);
  btnThem.setEnabled(false);
-
-        String tenLoaiThuoc = txtTenLoaiThuoc.getText();
-        if (maLoaiThuocString.equals("") || tenLoaiThuoc.equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng không bỏ trống các trường dữ liệu", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        int maLoaiThuoc;
-        try {
-            maLoaiThuoc = Integer.parseInt(maLoaiThuocString);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi định dạng số", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        LoaiThuoc loaiThuocMoi = new LoaiThuoc(maLoaiThuoc, tenLoaiThuoc);
-        try {
-            LoaithuocController.themLoaiThuoc(loaiThuocMoi);
-            JOptionPane.showMessageDialog(this, "Thêm loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(this, "Lỗi, không thêm được loại thuốc " + tenLoaiThuoc + " !!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        ShowData();
-
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -349,10 +325,10 @@ btnLuu.setEnabled(true);
             return;
         }
         LoaiThuoc loaiThuocMoi=new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc,mota);
-        int maLoaiThuocCu=(dsLoaiThuoc.get(selected).getMaLoaiThuoc());
+        int maLoaiThuocCu=(dsLoaithuoc.get(selected).getMaLoaiThuoc());
 
         try {
-            LoaithuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
+            LoaiThuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
             JOptionPane.showMessageDialog(this, "Cập nhật loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -374,7 +350,7 @@ btnLuu.setEnabled(true);
         }
         int maLoaiThuoc = dsLoaithuoc.get(selected).getMaLoaiThuoc();
         try {
-            LoaithuocController.xoaLoaiThuoc(maLoaiThuoc);
+            LoaiThuocController.xoaLoaiThuoc(maLoaiThuoc);
             JOptionPane.showMessageDialog(this, "Xóa loại thuốc" + dsLoaithuoc.get(selected).getTenLoaiThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
         } catch (Exception e) {
@@ -397,9 +373,9 @@ btnLuu.setEnabled(true);
         }
         if(selected>=0)
         {
-            txtMaLoaiThuoc.setText(String.valueOf(dsLoaiThuoc.get(selected).getMaLoaiThuoc()));
-            txtTenLoaiThuoc.setText(dsLoaiThuoc.get(selected).getTenLoaiThuoc());
-            txtMoTa.setText(dsLoaiThuoc.get(selected).getMota());
+            txtMaLoaiThuoc.setText(String.valueOf(dsLoaithuoc.get(selected).getMaLoaiThuoc()));
+            txtTenLoaiThuoc.setText(dsLoaithuoc.get(selected).getTenLoaiThuoc());
+            txtMoTa.setText(dsLoaithuoc.get(selected).getMota());
 
         }
         txtMaLoaiThuoc.setEnabled(false);
@@ -472,9 +448,9 @@ btnLuu.setEnabled(true);
         DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachLoaiThuoc.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsLoaiThuoc=LoaiThuocController.getDanhSachLoaiThuoc();
-        if(!dsLoaiThuoc.isEmpty()){
-                dsLoaiThuoc.forEach((loaiThuoc)->{
+       dsLoaithuoc=LoaiThuocController.getDanhSachLoaiThuoc();
+        if(!dsLoaithuoc.isEmpty()){
+                dsLoaithuoc.forEach((loaiThuoc)->{
                 if(!loaiThuoc.isDaXoa())
                 tblModel.addRow(new Object[]{loaiThuoc.getMaLoaiThuoc(),loaiThuoc.getTenLoaiThuoc(),loaiThuoc.getMota()});
                 });
@@ -494,7 +470,7 @@ btnLuu.setEnabled(true);
     public int getMaLoaiThuocMoi()
     {
         int maThuocMoi=0;
-        for(LoaiThuoc loaiThuoc:dsLoaiThuoc)
+        for(LoaiThuoc loaiThuoc:dsLoaithuoc)
         {
             if(loaiThuoc.getMaLoaiThuoc()>maThuocMoi)
             {

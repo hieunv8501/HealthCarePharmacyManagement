@@ -15,7 +15,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STDocPartGallery;
 
 /**
  *

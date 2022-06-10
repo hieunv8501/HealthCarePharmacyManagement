@@ -4,7 +4,7 @@ import Components.ReadExcelNhacungcap;
 import Components.ReadExcelThuoc;
 import Controllers.DonvitinhController;
 import Controllers.ThuocController;
-import Controllers.LoaithuocController;
+import Controllers.LoaiThuocController;
 import javax.swing.DefaultListModel;
 import Models.Donvitinh;
 import java.io.BufferedReader;
@@ -900,7 +900,7 @@ public class ThuocView extends javax.swing.JPanel {
     public void showLoaiThuoc() {
         DefaultComboBoxModel loaiThuocModel = (DefaultComboBoxModel) txtLoaiThuoc.getModel();
         loaiThuocModel.removeAllElements();
-        ArrayList<LoaiThuoc> danhsachLoaiThuoc = LoaithuocController.getDanhSachLoaiThuoc();
+        ArrayList<LoaiThuoc> danhsachLoaiThuoc = LoaiThuocController.getDanhSachLoaiThuoc();
         danhsachLoaiThuoc.forEach(LoaiThuoc -> {
             loaiThuocModel.addElement(LoaiThuoc);
         });

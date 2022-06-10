@@ -17,9 +17,9 @@ public class DonvitinhController {
 
                 return donvitinh;
             }
+         return null;
         }
-        return null;
-    }
+       
 
     public static void themDonvitinh(Donvitinh donvitinh) {
         String command = "INSERT INTO donvitinh(MaDonvitinh,TenDonvitinh,GiaTri)  values (?,?,?)";
