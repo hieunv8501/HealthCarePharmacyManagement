@@ -21,11 +21,6 @@ public class KhachhangController {
 
         LocalDate ngay = KH.getNgaySinh();
         String dateFormat;
-        ZonedDateTime zonedDateTime = ngayLocalDate.atStartOfDay(ZoneId.systemDefault());
-        Instant instant = zonedDateTime.toInstant();
-        Date date = Date.from(instant);
-        Calendar ngay = Calendar.getInstance();
-        ngay.setTime(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay);
 
@@ -49,14 +44,7 @@ public class KhachhangController {
     public void suaKhachhang(Khachhang KH) {
 
         LocalDate ngay = KH.getNgaySinh();
-
         String dateFormat;
-        ZonedDateTime zonedDateTime = ngayLocalDate.atStartOfDay(ZoneId.systemDefault());
-        Instant instant = zonedDateTime.toInstant();
-        Date date = Date.from(instant);
-        Calendar ngay = Calendar.getInstance();
-        ngay.setTime(date);
-        
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay);
 
