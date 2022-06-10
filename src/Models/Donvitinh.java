@@ -64,28 +64,5 @@ public class Donvitinh {
     public String toString() {
         return tenDonvitinh;
     }
-
-    public static ArrayList<Donvitinh> readDB() {
-        ArrayList<Donvitinh> dsDonvitinh = new ArrayList();
-        DBConnection DonvitinhConnection = new DBConnection();
-        try {
-            String query = "SELECT * FROM donvitinh";
-            ResultSet rs = DonvitinhConnection.sqlQuery(query);
-            if (rs != null) {
-                while (rs.next()) {
-                    int maDonvitinh = rs.getInt("MaDonViTinh");
-                    String tenDonvitinh = rs.getString("TenDonViTinh");
-                    String giatri = rs.getString("GiaTri");
-                    boolean daXoa = (rs.getInt("DaXoa") == 1) ? true : false;
-                    dsDonvitinh.add(new Donvitinh(maDonvitinh, tenDonvitinh, giatri, daXoa));
-                }
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng đơn vị tính");
-        } finally {
-            DonvitinhConnection.closeConnection();
-        }
-        return dsDonvitinh;
-    }
+    
 }

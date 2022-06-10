@@ -1,3 +1,4 @@
+
 CREATE DATABASE quanlynhathuoc;
 GO
 USE quanlynhathuoc;
@@ -89,6 +90,7 @@ CREATE TABLE donvitinh
 (
 	MaDonViTinh int primary key NOT NULL,
 	TenDonviTinh nvarchar(50) NOT NULL,
+  GiaTri nvarchar(100),
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -138,6 +140,7 @@ CREATE TABLE tinh (
 create TABLE loaithuoc (
 	MaLoaiThuoc int primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
+  MoTa nvarchar(500) ,
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -521,6 +524,36 @@ BEGIN
 	WHERE MaLoaiNhanVien = @MaLoaiNhanVien
 END
 GO
+-- Procedure  Số lượng đơn bán mỗi năm
+create PROCEDURE SoLuongDonBan @Nam as int
+AS
+select Month(hoadon.NgayLap) as Thang ,Count(*) as SoLuong from hoadon 
+where YEAR(hoadon.NgayLap)=@Nam and DaXoa=0
+Group by MONTH(hoadon.NgayLap)
+GO
+Declare @Nam as int ='2022'
+exec SoLuongDonBan @Nam
+
+Declare @Nam as int ='2022'
+exec DoanhThuTheoNam @Nam
+
+alter PROCEDURE DoanhThuTheoNam @Nam as int
+--Procedure Tính doanh thu theo năm
+create PROCEDURE DoanhThuTheoNam @Nam as int
+AS
+select Month(hoadon.NgayLap) as Thang , SUM(hoadon.TongTien) as doanhthu from hoadon 
+where YEAR(hoadon.NgayLap)=@Nam and DaXoa=0
+Group by MONTH(hoadon.NgayLap)
+GO
+
+--Procedure lấy năm của hóa đơn
+CREATE PROCEDURE LayNam
+AS
+select Year(hoadon.NgayLap) as Nam  from hoadon 
+Group by Year(hoadon.NgayLap)
+order by  Year(hoadon.NgayLap) DESC
+GO
+
 
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng loainhanvien
@@ -645,4 +678,5 @@ insert into xa values(1, N'Đông Hòa',1);
 --SELECT * FROM phanquyen
 
 select * from phieunhap
+
 

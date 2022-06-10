@@ -48,8 +48,12 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     ThuocView thuoc=new ThuocView();
     LoaithuocView loaiThuoc=new LoaithuocView();
     DonvitinhView donvitinh=new DonvitinhView();
+    ThongKeDoanhThuThuoc thongkeDonThuoc=new ThongKeDoanhThuThuoc();
+    BaoCaoDoanhThu baocaoDoanhThu=new BaoCaoDoanhThu();
+
     KhachHangView khachhangview = new KhachHangView();
     
+
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
     private Point dragStartPoint = new Point(0, 0);
@@ -93,6 +97,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
+
             "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
             "Đơn vị tính", "icons8_assistant_30px.png", "", "alThuoc",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
@@ -328,6 +333,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
             case "Đơn vị tính":
                 plContent.add(donvitinh, BorderLayout.CENTER);
+                break;
+            case "Thống kê":
+                plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
                 break;
             case "Khách hàng":
                 plContent.add(khachhangview, BorderLayout.CENTER);

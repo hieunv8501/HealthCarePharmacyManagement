@@ -3,34 +3,32 @@ package Views;
 import Components.AutoCompletion;
 import Components.ReadExcelNhacungcap;
 import Components.WriteExcelNhacungcap;
-import static Components.WriteExcelNhacungcap.writeExcel;
+import Controllers.HuyenController;
 import Controllers.NhacungcapController;
+import Controllers.TinhController;
 import Controllers.XaController;
 import Models.Huyen;
 import Models.Nhacungcap;
+import Models.Tinh;
 import Models.Xa;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.*;
+
 import javax.swing.table.TableModel;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -56,8 +54,13 @@ public class NhacungcapView extends javax.swing.JPanel {
         tableNhacungcap.getTableHeader().setBackground(Color.YELLOW);
         showXa();
         ShowData();
-
-        ShowSearchComboBox();
+        showTinh();
+        btnHuy.setEnabled(false);
+        btnLuu.setEnabled(false);
+        btnSua.setEnabled(false);
+        btnXoa.setEnabled(false);
+        txtMaNhacungcap.setEditable(false);
+        ShowSearchComboBox();  
 
         //txtMaNhacungcap.addKeyListener(new KeyCustom());
     }
@@ -76,7 +79,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         tableNhacungcap = new javax.swing.JTable();
         panelThongtinNhacungcap = new javax.swing.JPanel();
         labelTennhacungcap = new javax.swing.JLabel();
-        labelHuyen = new javax.swing.JLabel();
+        labelXa = new javax.swing.JLabel();
         lableSdt = new javax.swing.JLabel();
         labelFax = new javax.swing.JLabel();
         labelManhacungcap = new javax.swing.JLabel();
@@ -88,12 +91,14 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnLuu = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
         txtXa = new javax.swing.JComboBox<>();
+        txtHuyen = new javax.swing.JComboBox<>();
+        labelHuyen = new javax.swing.JLabel();
+        txtTinh = new javax.swing.JComboBox<>();
+        labelTinh = new javax.swing.JLabel();
         btnThemfile = new javax.swing.JButton();
         btnXuatFile = new javax.swing.JButton();
-        btnHuy = new javax.swing.JButton();
-        btnThoat = new javax.swing.JButton();
         labelTimKiem = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
         JcomboboxSearch = new javax.swing.JComboBox<>();
@@ -120,7 +125,7 @@ public class NhacungcapView extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Mã nhà cung cấp", "Tên nhà cung cấp", "Huyện", "Số điện thoại", "Fax"
+                "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Fax"
             }
         ));
         tableNhacungcap.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -152,8 +157,8 @@ public class NhacungcapView extends javax.swing.JPanel {
         labelTennhacungcap.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelTennhacungcap.setText("Tên nhà cung cấp: ");
 
-        labelHuyen.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
-        labelHuyen.setText("Xã:");
+        labelXa.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
+        labelXa.setText("Xã:");
 
         lableSdt.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         lableSdt.setText("Số điện thoại:");
@@ -188,6 +193,9 @@ public class NhacungcapView extends javax.swing.JPanel {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSodienthoaiKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSodienthoaiKeyTyped(evt);
+            }
         });
 
         txtfax.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -200,9 +208,13 @@ public class NhacungcapView extends javax.swing.JPanel {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtfaxKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfaxKeyTyped(evt);
+            }
         });
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +225,11 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnLuu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnLuu.setForeground(new java.awt.Color(0, 255, 0));
         btnLuu.setText("Lưu");
+        btnLuu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuActionPerformed(evt);
+            }
+        });
 
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnSua.setForeground(new java.awt.Color(0, 0, 255));
@@ -232,11 +249,41 @@ public class NhacungcapView extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 0, 0));
-        jButton2.setText("Hủy");
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnHuy.setForeground(new java.awt.Color(255, 0, 0));
+        btnHuy.setText("Hủy");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
 
         txtXa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtXa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtXaActionPerformed(evt);
+            }
+        });
+
+        txtHuyen.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtHuyen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHuyenActionPerformed(evt);
+            }
+        });
+
+        labelHuyen.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
+        labelHuyen.setText("Huyện:");
+
+        txtTinh.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtTinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTinhActionPerformed(evt);
+            }
+        });
+
+        labelTinh.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
+        labelTinh.setText("Tỉnh:");
 
         javax.swing.GroupLayout panelThongtinNhacungcapLayout = new javax.swing.GroupLayout(panelThongtinNhacungcap);
         panelThongtinNhacungcap.setLayout(panelThongtinNhacungcapLayout);
@@ -246,35 +293,48 @@ public class NhacungcapView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
-                        .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lableSdt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelHuyen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(50, 50, 50)
-                        .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSodienthoai)
-                            .addComponent(txtXa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
                         .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(labelManhacungcap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelTennhacungcap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
-                                .addComponent(labelFax, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(9, 9, 9)))
+                            .addComponent(labelTennhacungcap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMaNhacungcap)
+                            .addComponent(txtTenNhacungcap)))
+                    .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                        .addComponent(labelFax, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                        .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
                                 .addComponent(btnThem)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                                .addComponent(btnHuy)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnLuu)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnSua)
                                 .addGap(33, 33, 33)
                                 .addComponent(btnXoa))
-                            .addComponent(txtMaNhacungcap)
-                            .addComponent(txtTenNhacungcap)
-                            .addComponent(txtfax, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                                .addGap(117, 117, 117)
+                                .addComponent(txtfax))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelThongtinNhacungcapLayout.createSequentialGroup()
+                        .addComponent(labelTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(txtTinh, 0, 420, Short.MAX_VALUE))
+                    .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                        .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                                .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelXa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50))
+                            .addGroup(panelThongtinNhacungcapLayout.createSequentialGroup()
+                                .addComponent(lableSdt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSodienthoai)
+                            .addComponent(txtXa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtHuyen, 0, 420, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panelThongtinNhacungcapLayout.setVerticalGroup(
@@ -289,9 +349,17 @@ public class NhacungcapView extends javax.swing.JPanel {
                     .addComponent(labelTennhacungcap))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelHuyen)
-                    .addComponent(txtXa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTinh))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelHuyen))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtXa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelXa))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelThongtinNhacungcapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lableSdt)
                     .addComponent(txtSodienthoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -305,8 +373,7 @@ public class NhacungcapView extends javax.swing.JPanel {
                     .addComponent(btnLuu)
                     .addComponent(btnSua)
                     .addComponent(btnXoa)
-                    .addComponent(jButton2))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnHuy)))
         );
 
         btnThemfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -327,14 +394,6 @@ public class NhacungcapView extends javax.swing.JPanel {
             }
         });
 
-        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnHuy.setForeground(new java.awt.Color(255, 0, 51));
-        btnHuy.setText("Hủy");
-
-        btnThoat.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThoat.setForeground(new java.awt.Color(255, 153, 0));
-        btnThoat.setText("Thoát");
-
         labelTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         labelTimKiem.setText("Tìm kiếm");
 
@@ -347,6 +406,11 @@ public class NhacungcapView extends javax.swing.JPanel {
         });
 
         JcomboboxSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        JcomboboxSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcomboboxSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -359,43 +423,35 @@ public class NhacungcapView extends javax.swing.JPanel {
                         .addComponent(labelTimKiem)
                         .addGap(71, 71, 71)
                         .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
+                        .addGap(43, 43, 43)
                         .addComponent(btnTimKiem))
                     .addComponent(panelThongtinNhacungcap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(btnThemfile)
                             .addGap(27, 27, 27)
-                            .addComponent(btnXuatFile)
-                            .addGap(83, 83, 83)
-                            .addComponent(btnHuy)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnThoat))
+                            .addComponent(btnXuatFile))
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 365, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelTimKiem))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTimKiem)
                     .addComponent(btnTimKiem))
-                .addGap(18, 18, 18)
-                .addComponent(panelThongtinNhacungcap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
+                .addComponent(panelThongtinNhacungcap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnHuy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnXuatFile)
-                            .addComponent(btnThemfile)))
-                    .addComponent(btnThoat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(84, 84, 84))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnXuatFile)
+                    .addComponent(btnThemfile))
+                .addGap(17, 17, 17))
+
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -434,33 +490,13 @@ public class NhacungcapView extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        String maNhacungcapString = txtMaNhacungcap.getText();
-        int maNhacungcap = -1;
-        try {
-            maNhacungcap = Integer.parseInt(maNhacungcapString);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Mã nhà cung cấp không hợp lệ", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        txtMaNhacungcap.setText(String.valueOf(getMaNhacungcapMoi()));
+        btnLuu.setEnabled(true);
+        btnHuy.setEnabled(true);
+        btnThem.setEnabled(false);
+        txtMaNhacungcap.setEnabled(true);
+        
 
-        String tenNhacungcap = txtTenNhacungcap.getText();
-        String soDienThoai = txtSodienthoai.getText();
-        Xa xa = (Xa) txtXa.getSelectedItem();
-        String fax = txtfax.getText();
-        if (maNhacungcapString.equals("") || tenNhacungcap.equals("") || soDienThoai.equals("") || xa.equals("") || fax.equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng không được bỏ trống các ô thông tin!!!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        Nhacungcap nhacungcap = new Nhacungcap(maNhacungcap, tenNhacungcap, xa, soDienThoai, fax);
-        try {
-            NhacungcapController.themNhacungcap(nhacungcap);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp không thành công", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp" + nhacungcap.getTenNhacungcap() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        ShowData();
 
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -650,21 +686,138 @@ public class NhacungcapView extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnThemfileActionPerformed
-    public void ShowData() {
-        DefaultTableModel tblModel = (DefaultTableModel) tableNhacungcap.getModel();
+
+    private void txtTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhActionPerformed
+        // TODO add your handling code here:
+         Tinh tinhSelected=(Tinh)txtTinh.getSelectedItem();
+        showHuyen(tinhSelected.getMaTinh());
+    }//GEN-LAST:event_txtTinhActionPerformed
+
+    private void txtHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHuyenActionPerformed
+        // TODO add your handling code here:
+          Huyen huyenSelected=(Huyen) txtHuyen.getSelectedItem();
+        if(huyenSelected!=null)
+        {
+        showXa(huyenSelected.getMaHuyen());
+        }
+        else
+        {
+               DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
+      xaBoxModel.removeAllElements();
+        }
+    }//GEN-LAST:event_txtHuyenActionPerformed
+
+    private void txtXaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtXaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtXaActionPerformed
+
+    private void JcomboboxSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcomboboxSearchActionPerformed
+        // TODO add your handling code here:
+        //String searchText=(String)JcomboboxSearch.getSelectedItem();      
+        
+    }//GEN-LAST:event_JcomboboxSearchActionPerformed
+
+    private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        // TODO add your handling code here:
+        String maNhacungcapString=txtMaNhacungcap.getText();
+        int maNhacungcap=-1;
+        try{
+        maNhacungcap=Integer.parseInt(maNhacungcapString);
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this,"Mã nhà cung cấp không hợp lệ","Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+                
+        String tenNhacungcap=txtTenNhacungcap.getText();
+        String soDienThoai=txtSodienthoai.getText();
+        Xa xa=(Xa) txtXa.getSelectedItem();
+        String fax=txtfax.getText();
+        if(maNhacungcapString.equals("")||maNhacungcapString.equals(null)||tenNhacungcap.equals("")||tenNhacungcap.equals(null)||soDienThoai.equals("")||soDienThoai.equals(null)||xa.equals("")||fax.equals("")||fax.equals(null)||xa.equals(null))
+        {
+            JOptionPane.showMessageDialog(this,"Vui lòng không được bỏ trống các ô thông tin!!!","Thông báo",JOptionPane.WARNING_MESSAGE);
+        }
+        Nhacungcap nhacungcap=new Nhacungcap(maNhacungcap,tenNhacungcap,xa,soDienThoai,fax);
+        try {
+            NhacungcapController.themNhacungcap(nhacungcap);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Thêm nhà cung cấp không thành công","Thông báo",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(this,"Thêm nhà cung cấp "+nhacungcap.getTenNhacungcap()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            ShowData();
+    }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+         int input = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (input == 0) {
+            if (input == 0) {
+            txtMaNhacungcap.setText("");
+            txtTenNhacungcap.setText("");
+            txtSodienthoai.setText("");
+            txtfax.setText("");
+                   
+            btnHuy.setEnabled(false);
+            btnLuu.setEnabled(false);
+            btnSua.setEnabled(false);
+            btnThem.setEnabled(true);
+            tableNhacungcap.getSelectionModel().clearSelection();
+
+        }
+        }
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void txtSodienthoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSodienthoaiKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+       
+        if(!(Character.isDigit(c))||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)
+        {
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtSodienthoaiKeyTyped
+
+    private void txtfaxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfaxKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+       
+        if(!(Character.isDigit(c))||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)
+        {
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtfaxKeyTyped
+        public void ShowData()
+    {
+        DefaultTableModel tblModel=(DefaultTableModel) tableNhacungcap.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-        dsNhacungcap = NhacungcapController.getDanhSachNhacungcap();
-        if (!dsNhacungcap.isEmpty()) {
-            dsNhacungcap.forEach((nhacungcap1) -> {
-                if (!nhacungcap1.isDaXoa()) {
-                    tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(), nhacungcap1.getTenNhacungcap(), nhacungcap1.getXa(), nhacungcap1.getSoDienthoai(), nhacungcap1.getFax()});
-                }
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Danh sách nhà cung cấp rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+       dsNhacungcap=NhacungcapController.getDanhSachNhacungcap();
+        if(!dsNhacungcap.isEmpty()){
+                dsNhacungcap.forEach((nhacungcap1)->{
+                 if(!nhacungcap1.isDaXoa())
+                 {
+                tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(),nhacungcap1.getTenNhacungcap(),nhacungcap1.getXa().getDiaChi(),nhacungcap1.getSoDienthoai(),nhacungcap1.getFax()});
+                 }
+                });
+        }
+        else
+        {
+          JOptionPane.showMessageDialog(this,"Danh sách nhà cung cấp rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+
         }
         tableNhacungcap.setAutoCreateRowSorter(true);
+        txtMaNhacungcap.setEnabled(false);
+        btnHuy.setEnabled(false);
+        btnLuu.setEnabled(false);
+        btnSua.setEnabled(true);
+        btnXoa.setEnabled(true);
+        btnHuy.setEnabled(true);
     }
 
     public void ShowSearchComboBox() {
@@ -684,31 +837,87 @@ public class NhacungcapView extends javax.swing.JPanel {
         searchAutoCompletion.enable(JcomboboxSearch);
     }
 
-    public int getMaNhacungcapMoi() {
-        int maNhacungcapMoi = 1;
-        if (!dsNhacungcap.isEmpty()) {
-            for (int i = 0; i < dsNhacungcap.size(); i++) {
-                if (dsNhacungcap.get(i).getMaNhacungcap() > maNhacungcapMoi) {
-                    maNhacungcapMoi = dsNhacungcap.get(i).getMaNhacungcap();
-                }
+//      public int getMaNhacungcapMoi()
+//      {
+//          int maNhacungcapMoi=1;
+//           if(!dsNhacungcap.isEmpty())
+//           {
+//                for(int i=0;i<dsNhacungcap.size();i++)
+//                {
+//                    if(dsNhacungcap.get(i).getMaNhacungcap()>maNhacungcapMoi)
+//                    {
+//                        maNhacungcapMoi=dsNhacungcap.get(i).getMaNhacungcap();
+//                    }
+//                }
+//        }
+//           return maNhacungcapMoi;
+//        
+//      }
+      public void showTinh()
+    {
+        DefaultComboBoxModel tinhBoxModel=(DefaultComboBoxModel) txtTinh.getModel();
+      tinhBoxModel.removeAllElements();
+      TinhController tinhController=new TinhController();
+        ArrayList<Tinh> dsTinh= tinhController.getDanhsachTinh();
+        dsTinh.forEach(tinh->{
+            tinhBoxModel.addElement(tinh);
+        });        
+    }
+    public void showHuyen(){
+        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
+      huyenBoxModel.removeAllElements();
+      HuyenController huyenController=new HuyenController();
+        ArrayList<Huyen> dsHuyen= huyenController.getDanhsachHuyen();
+        dsHuyen.forEach(huyen->{
+            huyenBoxModel.addElement(huyen);
+        });      
+    }
+    public void showHuyen(int maTinh){
+        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
+      huyenBoxModel.removeAllElements();
+      HuyenController huyenController=new HuyenController();
+        ArrayList<Huyen> dsHuyen= huyenController.getDanhsachHuyen();
+        dsHuyen.forEach(huyen->{
+            if(huyen.getTinh().getMaTinh()==maTinh)
+            huyenBoxModel.addElement(huyen);
+        });      
+    }
+    public void showXa(){
+        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
+      xaBoxModel.removeAllElements();
+      XaController xaController=new XaController();
+        ArrayList<Xa> dsXa= xaController.getDanhsachXa();
+        dsXa.forEach(xa->{
+            xaBoxModel.addElement(xa);
+        });       
+    }
+    public void showXa(int maHuyen){
+        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
+      xaBoxModel.removeAllElements();
+      XaController xaController=new XaController();
+        ArrayList<Xa> dsXa= xaController.getDanhsachXa();
+        dsXa.forEach(xa->{
+            if(xa.getHuyen().getMaHuyen()==maHuyen)
+            xaBoxModel.addElement(xa);
+        });       
+    }
+    public int getMaNhacungcapMoi()
+     {
+         int maNhacungcapMoi=0;
+          if(!dsNhacungcap.isEmpty())
+           {
+        for(Nhacungcap nhacungcap:dsNhacungcap)
+        {
+            if(nhacungcap.getMaNhacungcap()>maNhacungcapMoi)
+            {
+                maNhacungcapMoi=nhacungcap.getMaNhacungcap();
             }
         }
-        return maNhacungcapMoi;
-
-    }
-
-    public void showXa() {
-        DefaultComboBoxModel xaComboBoxModel = (DefaultComboBoxModel) txtXa.getModel();
-        xaComboBoxModel.removeAllElements();
-        XaController xaController = new XaController();
-        ArrayList<Xa> danhsachXa = xaController.getDanhsachXa();
-        danhsachXa.forEach(xa -> {
-            xaComboBoxModel.addElement(xa);
-        });
-    }
-
-    class KeyCustom implements KeyListener {
-
+           }
+        return maNhacungcapMoi+1;
+           
+     }
+     class KeyCustom implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
             System.out.println(e.getKeyChar());
@@ -735,11 +944,9 @@ public class NhacungcapView extends javax.swing.JPanel {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThemfile;
-    private javax.swing.JButton btnThoat;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatFile;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelFax;
@@ -747,12 +954,16 @@ public class NhacungcapView extends javax.swing.JPanel {
     private javax.swing.JLabel labelManhacungcap;
     private javax.swing.JLabel labelTennhacungcap;
     private javax.swing.JLabel labelTimKiem;
+    private javax.swing.JLabel labelTinh;
+    private javax.swing.JLabel labelXa;
     private javax.swing.JLabel lableSdt;
     private javax.swing.JPanel panelThongtinNhacungcap;
     private javax.swing.JTable tableNhacungcap;
+    private javax.swing.JComboBox<String> txtHuyen;
     private javax.swing.JTextField txtMaNhacungcap;
     private javax.swing.JTextField txtSodienthoai;
     private javax.swing.JTextField txtTenNhacungcap;
+    private javax.swing.JComboBox<String> txtTinh;
     private javax.swing.JComboBox<String> txtXa;
     private javax.swing.JTextField txtfax;
     // End of variables declaration//GEN-END:variables
