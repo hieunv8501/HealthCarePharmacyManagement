@@ -1,5 +1,5 @@
 CREATE DATABASE quanlynhathuoc;
-
+GO
 USE quanlynhathuoc;
 SET DATEFORMAT dmy;
 
@@ -61,7 +61,6 @@ CREATE TABLE lonhap(
 CREATE TABLE chitietphieunhap (
 	MaPhieuNhap INT NOT NULL,
 	MaThuoc INT NOT NULL,
-	MaDonViTinh INT,
 	SoLuong INT NOT NULL,
 	DonGia MONEY NOT NULL,
 	NgaySanXuat DATETIME,
@@ -240,9 +239,8 @@ ALTER TABLE nhacungcap
 
 
 ALTER TABLE chitietphieunhap
-	ADD CONSTRAINT FK_CTPHIEUNHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc (MaThuoc),
-	CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap),
-	CONSTRAINT FK_CTPHIEUNHAP_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh (MaDonViTinh)
+ADD CONSTRAINT FK_CTPHIEUNHAP_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc (MaThuoc),
+CONSTRAINT FK_CTPHIEUNHAP_PHIEUNHAP FOREIGN KEY (MaPhieuNhap) REFERENCES phieunhap (MaPhieuNhap)
 
 --
 -- Các ràng buộc cho bảng phieunhap
@@ -311,7 +309,7 @@ ALTER TABLE lonhap
 GO
 
 -- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
-ALTER TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
+CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
 FOR UPDATE
 AS BEGIN
 	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT, @DaXoa BIT
@@ -358,7 +356,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -389,7 +387,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa (sửa mã khuyến mãi) hóa đơn
-ALTER TRIGGER TG_INSERT_HOADON ON hoadon 
+CREATE TRIGGER TG_INSERT_HOADON ON hoadon 
 FOR UPDATE
 AS BEGIN
 	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY, @SoLuong INT, @DonGia MONEY
@@ -536,6 +534,10 @@ INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, 
 values (N'HieuNV', 1, '05/08/2001', 1, '0251643987', N'Nam', N'Cử nhân')
 INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
 values (N'QuyNV', 2, '11/04/2001', 1, '0365894854', N'Nam', N'Thạc sĩ')
+INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
+values (N'TinhBV', 1, '27/02/2001', 1, '0125463879', N'Nam', N'Cử nhân')
+INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
+values (N'HauPP', 2, '11/08/2001', 1, '0221456387', N'Nam', N'Thạc sĩ')
 
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng khachhang
@@ -544,33 +546,74 @@ values (N'TinhBV', N'Nam', '07/02/2001','0251643987', 1)
 INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) 
 values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 
---Test TRIGGER
-
 --INSERT INTO phieunhap (MaNhaCungCap, MaNhanVien, NgayNhap, TongTien) VALUES (1, 1, '22/04/2022', 10)
 
---INSERT INTO thuoc (TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaNhaCungCap, MaLoaiThuoc, GiaBan)
---		VALUES (N'Thuốc đau đầu', N'Thuốc trị đau đầu, nhức đầu', 20, 'A', 1, 1, 1, 20)
+--Dữ liệu thuốc
+INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
+VALUES (1, N'Panadol Extra', N'Thuốc trị đau đầu, nhức đầu', N'Từ 18 tuổi trở lên', N'A', 1, 1, 1, 1, 1, 3000)
+INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
+VALUES (2, N'VOMINA 50mg', N'Thuốc chống say tàu xe', N'Từ 18 tuổi trở lên', N'B', 1, 1, 1, 2, 2, 5000)
+INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
+VALUES (3, N'Domperidon STADA 10mg', N'Thuốc trị tác dụng phụ chống nôn, chống say do các tác dụng phụ của thuốc kháng sinh', N'Từ 18 tuổi trở lên', N'B', 1, 1, 1, 3, 2, 10000)
 
---INSERT INTO donvitinh (TenDonViTinh) values (N'Vỉ 5 viên')
+select * from thuoc
 
---INSERT INTO tinh values (1, N'An Giang')
---INSERT INTO huyen values (1, N'Ba Vì', 1)
+--Dữ liệu loại thuốc
+INSERT INTO loaithuoc(MaLoaiThuoc, TenLoaiThuoc)
+VALUES (1, N'Thuốc trị đau đầu, nhức đầu')
+INSERT INTO loaithuoc (MaLoaiThuoc, TenLoaiThuoc)
+VALUES (2, N'Thuốc chống say tàu xe')
 
---INSERT INTO nhanvien (TenNhanVien, NgaySinh, MaHuyen, SoDienThoai, TrangThai, GioiTinh, BangCap, Luong) 
---	values (N'HieuNV', '05/08/2001', 1, '0251643987', 0, N'Nam', N'Cử nhân', 10000000)
 
---INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaHuyen) 
---	values (N'TinhBui', N'Nam' ,'05/18/2001', '0125478963', 1)
+--Dữ liệu đơn vị tính
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (1, N'Vỉ 5 viên')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (2, N'Hộp 30 viên')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (3, N'Chai 100ml')
 
---INSERT INTO nhacungcap (TenNhaCungCap, MaHuyen, SoDienThoai, Fax) 
---	values (N'Công ty Cổ phần SX Thuốc Thiên Ân', 1, '025155517', '12105552')
+--Dữ liệu nhà cung cấp
+INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) values (1, N'Công ty Cổ phần SX Thuốc Thiên Ân', 1, '025155517', '12105552')
+INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) values (2, N'Công ty Cổ phần SX Thuốc Hương Cảng', 1, '025155517', '12105552')
+INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) values (3, N'Công ty TNHH Một Thành Viên An Bình', 1, '025155517', '12105552')
+INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) values (4, N'Công ty Cổ phần Thiện Tâm', 1, '025155517', '12105552')
 
---INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, MaDonViTinh, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
---		VALUES (1, 3, 1, 1, 10, '01/03/2022', '20/05/2022' )
+--Dữ liệu phiếu nhập
+INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
+VALUES (1, 1, 1, '20/05/2022')
+INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
+VALUES (2, 2, 2, '20/05/2022')
 
---UPDATE chitietphieunhap SET SoLuong = 10, NgaySanXuat = '01/04/2022' WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+select * from phieunhap
+select * from chitietphieunhap
+select * from lonhap
 
---DELETE chitietphieunhap WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+--Dữ liệu chi tiết phiếu nhập
+INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
+VALUES (1, 1, 10, 1000, '01/03/2022', '20/05/2022' )
+INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
+VALUES (1, 2, 10, 5000, '01/03/2022', '20/05/2022' )
+INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
+VALUES (2, 3, 5, 8000, '01/03/2022', '20/05/2022' )
+
+--Dữ liệu quyền
+insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
+('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
+('Q2', N'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
+('Q3', N'Nhân viên bán thuốc', 'qlBanThuoc xemThuoc xemLoaiThuoc xemHoaDon xemNhanVien xemKhachHang'),
+('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC')
+
+--Dữ liệu tài khoản
+insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
+values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 1, 'Q1'), --pass: Hieu123.
+('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 3, 'Q1'), --pass: Tinh123.
+('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 4, 'Q1'), --Hau123.
+('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 2, 'Q1') --Quy123.
+
+--Dữ liệu tỉnh huyện xã
+insert into tinh values(1,N'Hồ chí Minh');
+INSERT INTO tinh values (1, N'An Giang')
+INSERT INTO huyen values (1, N'Ba Vì', 1)
+insert into huyen values(1, N'Thủ đức',1);
+insert into xa values(1, N'Đông Hòa',1);
 
 --INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '2022/04/22')
 
@@ -579,10 +622,13 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 --INSERT INTO chitiethoadon (MaHoaDon, MaThuoc, MaLo, MaDonViTinh, SoLuong, DonGia)
 --		VALUES (1, 3, 4, 1, 5, 10000)
 
+
+
+--UPDATE chitietphieunhap SET SoLuong = 10, NgaySanXuat = '01/04/2022' WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+--DELETE chitietphieunhap WHERE MaPhieuNhap = 1 AND MaThuoc = 3
+
 --UPDATE chitiethoadon SET SoLuong = 11 WHERE Malo = 3
-
---DELETE chitiethoadon 
-
+--DELETE chitiethoadon
 --SELECT * FROM lonhap
 --delete from chitietphieunhap
 --SELECT * FROM chitiethoadon
@@ -596,19 +642,3 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 
 select * from phieunhap
 
-insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
-('Q1', N'Admin', 'qlBanThuoc qlNhapThuoc qlThuoc qlLoaiThuoc qlHoaDon qlKhuyenMai qlNhanVien qlKhachHang qlPhieuNhap qlNCC qlTaiKhoan qlQuyen'),
-('Q2', N'Quản lý', 'xemThuoc xemLoaiThuoc xemHoaDon qlNhanVien qlKhachHang xemPhieuNhap xemNCC qlTaiKhoan qlQuyen'),
-('Q3', N'Nhân viên bán thuốc', 'qlBanThuoc xemThuoc xemLoaiThuoc xemHoaDon xemNhanVien xemKhachHang'),
-('Q5', N'Nhân viên nhập thuốc', 'qlNhapThuoc xemThuoc xemLoaiThuoc xemNhanVien qlPhieuNhap qlNCC')
-
-insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
-values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 10, 'Q1'), --pass: Hieu123.
-('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 10, 'Q1'), --pass: Tinh123.
-('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 10, 'Q1'), --Hau123.
-('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 10, 'Q1') --Quy123.
-
-
-insert into tinh values('1',N'Hồ chí Minh');
-insert into huyen values('1',N'Thủ đức','1');
-insert into xa values('1',N'Đông Hòa','1');
