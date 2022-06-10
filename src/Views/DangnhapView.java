@@ -38,13 +38,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 import Helpers.DialogWaiting;
 
-public class LoginView extends JFrame {
+public class DangnhapView extends JFrame {
 
     int countCaptcha = 0;
     ImageIcon icon;
     static Captcha img;
 
-    public LoginView() {
+    public DangnhapView() {
         initComponents();
         overlay.setBackground(new Color(0, 0, 0, 150));
         //btnDangNhap.setBackground(new Color(0,0,0,0));
@@ -517,13 +517,13 @@ public class LoginView extends JFrame {
         try {
             new QuenmatkhauView().setVisible(true);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DangnhapView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DangnhapView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DangnhapView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DangnhapView.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_btnQuenMatKhauMouseClicked

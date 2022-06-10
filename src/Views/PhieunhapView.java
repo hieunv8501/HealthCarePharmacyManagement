@@ -33,7 +33,7 @@ public class PhieunhapView extends JPanel {
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //t0ạo border rỗng
 
         // buttons
-        if (!LoginView.quyenLogin.getChitietQuyen().contains("qlPhieuNhap")) {
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlPhieuNhap")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);

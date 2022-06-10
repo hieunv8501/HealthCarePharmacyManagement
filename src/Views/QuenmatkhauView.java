@@ -548,7 +548,7 @@ public class QuenmatkhauView extends JFrame {
     }//GEN-LAST:event_txtTenTaiKhoanInputMethodTextChanged
 
     private void btnQuayLaiDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuayLaiDNActionPerformed
-        new LoginView().setVisible(true);
+        new DangnhapView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnQuayLaiDNActionPerformed
 

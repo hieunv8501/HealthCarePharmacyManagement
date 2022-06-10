@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,7 +53,7 @@ public class TaikhoanViewHelper extends JFrame {
     public TaikhoanViewHelper(String _type, String _username) {
         this.setLayout(new BorderLayout());
         this.setSize(550, 550);
-
+        this.setIconImage(new ImageIcon(this.getClass().getResource("/Images/logo_login.png")).getImage());
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.type = _type;
@@ -127,13 +128,14 @@ public class TaikhoanViewHelper extends JFrame {
         // Trường hợp: Thêm - Sửa
         if (this.type.equals("Thêm")) {
             this.setTitle("Thêm tài khoản");
-
+            this.setIconImage(new ImageIcon(this.getClass().getResource("/Images/icons8_add_30px.png")).getImage());
             cbChonTrangThai.setSelectedItem("Hiện");
             btnThem.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_add_30px.png")));
             plButton.add(btnThem);
 
         } else {
             this.setTitle("Sửa tài khoản");
+            this.setIconImage(new ImageIcon(this.getClass().getResource("/Images//Images/icons8_support_30px.png")).getImage());
             for (Taikhoan tk : TaikhoanController.getDanhSachTaiKhoan()) {
                 if (tk.getTaikhoan().equals(_username)) {
                     this.tkSua = tk;
@@ -173,10 +175,10 @@ public class TaikhoanViewHelper extends JFrame {
             this.dispose();
         });
         btnChonNhanVien.addActionListener((ae) -> {
-            //ChonNhanVienForm cnv = new ChonNhanVienForm(txMaNV);
+            ChonNhanVienForm cnv = new ChonNhanVienForm(txtMaNV);
         });
         btnChonQuyen.addActionListener((ae) -> {
-            //ChonQuyenForm cq = new ChonQuyenForm(txMaQuyen, null);
+            ChonQuyenForm cq = new ChonQuyenForm(txtMaQuyen, null);
         });
 
         this.setVisible(true);

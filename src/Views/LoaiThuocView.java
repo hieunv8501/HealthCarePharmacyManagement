@@ -26,9 +26,14 @@ public class LoaithuocView extends javax.swing.JPanel {
         tableDanhSachLoaiThuoc.getTableHeader().setOpaque(false);
         tableDanhSachLoaiThuoc.getTableHeader().setBackground(Color.YELLOW);
         tableDanhSachLoaiThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlThuoc")) {
+            btnThem.setEnabled(false);
+            btnXoa.setEnabled(false);
+            btnSua.setEnabled(false);
+        }
         ShowData();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

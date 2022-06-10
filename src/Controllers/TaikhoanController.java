@@ -31,7 +31,7 @@ public class TaikhoanController {
 
     public ArrayList<Taikhoan> search(String value, String type) {
         ArrayList<Taikhoan> result = new ArrayList<Taikhoan>();
-
+        
         dstk.forEach((tk) -> {
             if (type.equals("Tất cả")) {
                 if (tk.getTaikhoan().toLowerCase().contains(value.toLowerCase())
