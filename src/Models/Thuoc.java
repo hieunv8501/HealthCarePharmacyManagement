@@ -22,8 +22,7 @@ public class Thuoc {
     private LoaiThuoc loaiThuoc;
     private float giaBan;
     private boolean DaXoa;
-    DBConnection thuocConnection;
-    //Phuong thuc cua Thuoc
+   
 
     public Thuoc() {
     
@@ -113,9 +112,7 @@ public class Thuoc {
         return tileQuydoi;
     }
 
-    public DBConnection getThuocConnection() {
-        return thuocConnection;
-    }
+    
 
     public void setDonviQuydoi(Donvitinh donviQuydoi) {
         this.donviQuydoi = donviQuydoi;
@@ -164,53 +161,14 @@ public class Thuoc {
 
     
 
-    
-    
+
     
     @Override
     public String toString() {
         return ("Thông tin về thuốc là\n Mã thuốc:" + this.maThuoc + "\t Tên thuốc: " + this.tenThuoc + "\t Mota:" + this.mota + "\t Hình ảnh: " + this.hinhanh + "\t Nhà cung cấp" + this.nhacungcap);
 
     }
-    public ArrayList<Thuoc> readDB() {
-        ArrayList<Thuoc> dsThuoc = new ArrayList();
-        thuocConnection = new DBConnection();
-        try {
-            String query = "SELECT * FROM thuoc";
-            ResultSet rs = thuocConnection.sqlQuery(query);
-            if (rs != null) {
-                while (rs.next()) {
-                    int maThuoc = rs.getInt("MaThuoc");
-                    String tenThuoc= rs.getString("TenThuoc");
-                    String mota=rs.getString("MoTa");
-                    String dotuoi= rs.getString("DoTuoi");
-                    int maNhacungcap =rs.getInt("MaNhaCungCap");
-                    NhacungcapController nhacungcapController=new NhacungcapController();
-                    Nhacungcap nhacungcap=nhacungcapController.getNhacungcap(maNhacungcap);
-                    int maDonvitinh=rs.getInt("MaDonViTinh");
-                    DonvitinhController donvitinhController=new DonvitinhController();
-                    Donvitinh donvitinh=donvitinhController.getDonvitinh(maDonvitinh);
-                    String hinhanh=rs.getString("HinhAnh");
-                    int maloaithuoc=rs.getInt("MaLoaiThuoc");
-                    String giabanString=rs.getString("GiaBan");
-                    float giaban=Float.parseFloat(giabanString);
-                    int maDonviQuidoi=rs.getInt("MaDonViQuiDoi");
-                    Donvitinh donviQuidoi=donvitinhController.getDonvitinh(maDonviQuidoi);
-                    int tilequydoi=rs.getInt("TiLeQuiDoi");
-                    boolean daXoa= (rs.getInt("DaXoa")==1)? true:false;
-                    dsThuoc.add(new Thuoc(maThuoc,tenThuoc,mota,dotuoi,hinhanh,donvitinh,donviQuidoi,tilequydoi,nhacungcap,loaiThuoc,giaban,daXoa));
-                }
-            }
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng thuốc");
-        } finally {
-            thuocConnection.closeConnection();
-        }
-        return dsThuoc;
-    }
-     public void close() {
-        thuocConnection.closeConnection();
-    }
+    
+     
 
 }

@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 public class LoaiThuoc {
     private int maLoaiThuoc;
     private String tenLoaiThuoc;
+    private String mota;
     boolean daXoa;
-    DBConnection LoaiThuocConnection;
 
     public int getMaLoaiThuoc() {
         return maLoaiThuoc;
@@ -36,45 +36,35 @@ public class LoaiThuoc {
         this.tenLoaiThuoc = tenLoaiThuoc;
     }
 
-    public LoaiThuoc(int maLoaiThuoc, String tenLoaiThuoc) {
+    public LoaiThuoc(int maLoaiThuoc, String tenLoaiThuoc, String mota, boolean daXoa) {
         this.maLoaiThuoc = maLoaiThuoc;
         this.tenLoaiThuoc = tenLoaiThuoc;
-    }
-
-    public LoaiThuoc(int maLoaiThuoc, String tenLoaiThuoc, boolean daXoa) {
-        this.maLoaiThuoc = maLoaiThuoc;
-        this.tenLoaiThuoc = tenLoaiThuoc;
+        this.mota = mota;
         this.daXoa = daXoa;
     }
 
+    public LoaiThuoc(int maLoaiThuoc, String tenLoaiThuoc, String mota) {
+        this.maLoaiThuoc = maLoaiThuoc;
+        this.tenLoaiThuoc = tenLoaiThuoc;
+        this.mota = mota;
+    }
+    
+    
+    public String getMota() {
+        return mota;
+    }
+
+    public void setMota(String mota) {
+        this.mota = mota;
+    }
+    
     public boolean isDaXoa() {
         return daXoa;
     }
     
     public LoaiThuoc() {
     }
-     public ArrayList<LoaiThuoc> readDB() {
-        ArrayList<LoaiThuoc> dsLoaiThuoc = new ArrayList();
-        LoaiThuocConnection = new DBConnection();
-        try {
-            String query = "SELECT * FROM loaithuoc";
-            ResultSet rs = LoaiThuocConnection.sqlQuery(query);
-            if (rs != null) {
-                while (rs.next()) {
-                    int maLoaiThuoc = rs.getInt("MaLoaiThuoc");
-                    String tenLoaiThuoc= rs.getString("TenLoaiThuoc");                                                  
-                    boolean daXoa= (rs.getInt("DaXoa")==1)? true:false;
-                    dsLoaiThuoc.add(new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc,daXoa));
-                }
-            }          
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng thuốc");
-        } finally {
-            LoaiThuocConnection.closeConnection();
-        }
-        return dsLoaiThuoc;
-    }
-
+    
     @Override
     public String toString() {
         return  tenLoaiThuoc ;

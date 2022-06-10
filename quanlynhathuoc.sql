@@ -90,10 +90,12 @@ CREATE TABLE donvitinh
 (
 	MaDonViTinh int primary key NOT NULL,
 	TenDonviTinh nvarchar(50) NOT NULL,
+	GiaTri nvarchar(100),
 	DaXoa BIT DEFAULT 0,
 
 )
 
+select * from donvitinh
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng khachhang
 
@@ -139,8 +141,8 @@ CREATE TABLE tinh (
 create TABLE loaithuoc (
 	MaLoaiThuoc int primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
+	MoTa nvarchar(500) ,
 	DaXoa BIT DEFAULT 0,
-
 )
 
 -----------------------------------------------------------
@@ -232,7 +234,7 @@ ALTER TABLE thuoc
 	CONSTRAINT FK_thuoc_donvitinh foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
 	CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc),
 	CONSTRAINT FK_thuoc_donviQuidoi foreign key (MaDonViTinh) references donvitinh(MaDonViTinh)
-alter table thuoc drop CONSTRAINT FK_thuoc_nhacungcap,FK_thuoc_donvitinh,FK_thuoc_loaithuoc,FK_thuoc_donviQuidoi
+alter table thuoc drop CONSTRAINT FK_thuoc_loaithuoc
 -- Tạo các ràng buộc cho các bảng nhacungcap 
 ALTER TABLE nhacungcap
 	add CONSTRAINT FK_nhacungcap_xa foreign key (MaXa) references Xa(MaXa)
@@ -609,6 +611,39 @@ values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39B
 ('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 10, 'Q1') --Quy123.
 
 
-insert into tinh values('1',N'Hồ chí Minh');
-insert into huyen values('1',N'Thủ đức','1');
-insert into xa values('1',N'Đông Hòa','1');
+
+create PROCEDURE SoLuongDonBan @Nam as int
+AS
+select Month(hoadon.NgayLap) as Thang ,Count(*) as SoLuong from hoadon 
+where YEAR(hoadon.NgayLap)=@Nam and DaXoa=0
+Group by MONTH(hoadon.NgayLap)
+GO
+Declare @Nam as int ='2022'
+exec SoLuongDonBan @Nam
+
+Declare @Nam as int ='2022'
+exec DoanhThuTheoNam @Nam
+select * from hoadon
+insert into hoadon values('1','1','1','28/03/2001','10000','0')
+insert into hoadon values('1','1','1','28/05/2001','100000','0')
+insert into hoadon values('1','1','1','28/06/2001','200000','0')
+insert into hoadon values('1','1','1','28/08/2001','50000','0')
+insert into hoadon values('1','1','1','28/05/2022','10000','0')
+insert into hoadon values('1','1','1','28/06/2022','200000','0')
+insert into hoadon values('1','1','1','28/08/2022','50000','0')
+alter PROCEDURE DoanhThuTheoNam @Nam as int
+create PROCEDURE DoanhThuTheoNam @Nam as int
+AS
+select Month(hoadon.NgayLap) as Thang , SUM(hoadon.TongTien) as doanhthu from hoadon 
+where YEAR(hoadon.NgayLap)=@Nam and DaXoa=0
+Group by MONTH(hoadon.NgayLap)
+GO
+
+
+alter PROCEDURE LayNam
+AS
+select Year(hoadon.NgayLap) as Nam  from hoadon 
+Group by Year(hoadon.NgayLap)
+order by  Year(hoadon.NgayLap) DESC
+GO
+

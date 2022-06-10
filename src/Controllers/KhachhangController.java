@@ -5,16 +5,25 @@ import Models.Khachhang;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class KhachhangController {
 
     public void themKhachHang(Khachhang KH) {
         
-        Calendar ngay = KH.getNgaySinh();
+        LocalDate ngayLocalDate = KH.getNgaySinh();
         String dateFormat;
+        ZonedDateTime zonedDateTime = ngayLocalDate.atStartOfDay(ZoneId.systemDefault());
+        Instant instant = zonedDateTime.toInstant();
+        Date date = Date.from(instant);
+        Calendar ngay = Calendar.getInstance();
+        ngay.setTime(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay.getTime());
         
@@ -36,8 +45,14 @@ public class KhachhangController {
     }
     
     public void suaKhachhang(Khachhang KH) {
-        Calendar ngay = KH.getNgaySinh();
+        LocalDate ngayLocalDate = KH.getNgaySinh();
         String dateFormat;
+        ZonedDateTime zonedDateTime = ngayLocalDate.atStartOfDay(ZoneId.systemDefault());
+        Instant instant = zonedDateTime.toInstant();
+        Date date = Date.from(instant);
+        Calendar ngay = Calendar.getInstance();
+        ngay.setTime(date);
+        
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay.getTime());
         
