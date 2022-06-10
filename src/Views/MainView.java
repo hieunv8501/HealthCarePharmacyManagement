@@ -48,6 +48,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     ThuocView thuoc=new ThuocView();
     LoaithuocView loaiThuoc=new LoaithuocView();
     DonvitinhView donvitinh=new DonvitinhView();
+    KhachHangView khachhangview = new KhachHangView();
     
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -327,6 +328,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
             case "Đơn vị tính":
                 plContent.add(donvitinh, BorderLayout.CENTER);
+                break;
+            case "Khách hàng":
+                plContent.add(khachhangview, BorderLayout.CENTER);
                 break;
 
         }

@@ -4,21 +4,21 @@ import DBConnection.DBConnection;
 import Models.Khachhang;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class KhachhangController {
-    
-    
+
     public void themKhachHang(Khachhang KH) {
-        
+
         LocalDate ngay = KH.getNgaySinh();
         String dateFormat;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay);
-        
+
         String command = "INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) values (?, ?, ?, ? ,?)";
         try {
             DBConnection con = new DBConnection();
@@ -35,13 +35,13 @@ public class KhachhangController {
             e.printStackTrace();
         }
     }
-    
+
     public void suaKhachhang(Khachhang KH) {
         LocalDate ngay = KH.getNgaySinh();
         String dateFormat;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat = df.format(ngay);
-        
+
         String command = "UPDATE khachhang SET TenKhachHang = ?, GioiTinh = ?, NgaySinh = ?, SoDienThoai = ?, MaXa = ? WHERE MaKhachHang = ?";
         try {
             DBConnection con = new DBConnection();
@@ -59,7 +59,7 @@ public class KhachhangController {
             e.printStackTrace();
         }
     }
-    
+
     public void xoaKhachhang(int maKhachhang) {
         String command = "UPDATE khachhang SET DaXoa = 1 WHERE MaKhachHang = " + maKhachhang;
         try {
@@ -72,7 +72,7 @@ public class KhachhangController {
             e.printStackTrace();
         }
     }
-    
+
     public static ArrayList<Khachhang> layDSKhachHang() {
         ArrayList<Khachhang> dsKhachhang = new ArrayList<>();
         String query = "SELECT * FROM khachhang WHERE DaXoa = 0";
@@ -91,23 +91,45 @@ public class KhachhangController {
                     int maXa = rs.getInt("MaXa");
                     boolean khachQuen = rs.getBoolean("KhachQuen");
                     boolean daXoa = rs.getBoolean("DaXoa");
-                    
-                    dsKhachhang.add(new Khachhang());
+
+                    dsKhachhang.add(new Khachhang(maKhachhang, tenKhachhang, gioiTinh, soDienThoai, ngaySinh, DiaChiController.layDoiTuongXa(maXa), khachQuen, daXoa));
 
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         } finally {
             con.closeConnection();
         }
         return dsKhachhang;
     }
-    
+
     public static Khachhang layKhachHang(int maKH) {
-        for(Khachhang kh : layDSKhachHang()){
-            if (kh.getMaKhachhang() == maKH) return kh;
+        Khachhang khachhang = null;
+        String query = "SELECT * FROM khachhang WHERE DaXoa = 0 AND MaKH = " + maKH + "";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    int maKhachhang = rs.getInt("MaKhachHang");
+                    String tenKhachhang = rs.getString("TenKhachHang");
+                    String gioiTinh = rs.getString("GioiTinh");
+                    LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
+                    String soDienThoai = rs.getString("SoDienThoai");
+                    int maXa = rs.getInt("MaXa");
+                    boolean khachQuen = rs.getBoolean("KhachQuen");
+                    boolean daXoa = rs.getBoolean("DaXoa");
+
+                    khachhang = new Khachhang(maKhachhang, tenKhachhang, gioiTinh, soDienThoai, ngaySinh, DiaChiController.layDoiTuongXa(maXa), khachQuen, daXoa);
+
+                }
+            }
+        } catch (SQLException e) {
+        } finally {
+            con.closeConnection();
         }
-        return null;
+        return khachhang;
     }
 }

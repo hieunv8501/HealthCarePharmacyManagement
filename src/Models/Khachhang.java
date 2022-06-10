@@ -87,5 +87,8 @@ public class Khachhang {
         this.daXoa = daXoa;
     }
     
+    public String getDiaChi() {
+        return this.xa.getDiaChi();
+    }
     
 }
