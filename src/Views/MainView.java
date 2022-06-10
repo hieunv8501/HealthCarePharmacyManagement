@@ -40,19 +40,19 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     //Khởi tạo các đối tượng trang JPanel và add các đối tượng trang ở switch case phía dưới bên trong method doAction để chuyển trang, ví dụ: Empty Page - Trang trắng
     EmptyPage emptypage = new EmptyPage();
 //    KhuyenmaiView khuyenmai = new KhuyenmaiView();
-    HoadonView hoadon = new HoadonView();
+//    HoadonView hoadon = new HoadonView();
 //    QuyenView quyenForm = new QuyenView();
-//    TaikhoanView taikhoanForm = new TaikhoanView();
-//    PhieunhapView phieunhapForm = new PhieunhapView();
-//    NhacungcapView nhacungcap = new NhacungcapView();
-//    ThuocView thuoc = new ThuocView();
-//    LoaithuocView loaiThuoc = new LoaithuocView();
-//    DonvitinhView donvitinh = new DonvitinhView();
-//    ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
-//    BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
-//    QuanlyKhoView quanlykho = new QuanlyKhoView();
-//
-//    KhachHangView khachhangview = new KhachHangView();
+    TaikhoanView taikhoanForm = new TaikhoanView();
+    PhieunhapView phieunhapForm = new PhieunhapView();
+    NhacungcapView nhacungcap = new NhacungcapView();
+    ThuocView thuoc = new ThuocView();
+    LoaithuocView loaiThuoc = new LoaithuocView();
+    DonvitinhView donvitinh = new DonvitinhView();
+    ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
+    BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
+    QuanlyKhoView quanlykho = new QuanlyKhoView();
+
+    KhachHangView khachhangview = new KhachHangView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -295,14 +295,14 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //                plContent.add(khuyenmai, BorderLayout.CENTER);
 //                break;
 //
-            case "Hóa đơn":
-                plContent.add(hoadon, BorderLayout.CENTER);
-                break;
-//
-//            case "Tài khoản":
-//                plContent.add(taikhoanForm, BorderLayout.CENTER);
+//            case "Hóa đơn":
+//                plContent.add(hoadon, BorderLayout.CENTER);
 //                break;
 //
+            case "Tài khoản":
+                plContent.add(taikhoanForm, BorderLayout.CENTER);
+                break;
+
 //            case "Quyền":
 //                plContent.add(quyenForm, BorderLayout.CENTER);
 //                break;

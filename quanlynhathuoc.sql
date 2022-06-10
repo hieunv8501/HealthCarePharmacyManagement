@@ -567,6 +567,24 @@ order by  Year(hoadon.NgayLap) DESC
 GO
 
 
+CREATE proc sp_LayThuocSapHetHang @ToDay Datetime
+as begin
+
+	SELECT SUM(SoLuong) AS SoLuongBan, MaThuoc INTO temp1 FROM chitiethoadon, hoadon
+	WHERE chitiethoadon.DaXoa = 0 AND hoadon.MaHoaDon = chitiethoadon.MaHoaDon AND MONTH(hoadon.NgayLap) = MONTH(@ToDay) - 1
+	GROUP BY chitiethoadon.MaThuoc 
+
+	SELECT  thuoc.MaThuoc, TenThuoc, SUM(SoLuongConLai)  AS SoLuong, TenDonviTinh INTO temp2 FROM lonhap, thuoc, chitietphieunhap, donvitinh
+	WHERE thuoc.DaXoa = 0 AND lonhap.DaXoa = 0 AND thuoc.MaThuoc = lonhap.MaThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND lonhap.MaPhieuNhap = chitietphieunhap.MaPhieuNhap AND NgayHetHan >= @ToDay AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh
+	GROUP BY thuoc.MaThuoc, TenThuoc, TenDonviTinh
+
+	SELECT * FROM temp1, temp2
+	WHERE temp1.MaThuoc = temp2.MaThuoc AND SoLuong/SoLuongBan < 1
+
+	drop table temp1
+	drop table temp2
+end
+
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng loainhanvien
 INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Nhân viên bán thuốc', 6500000)
