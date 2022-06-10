@@ -48,6 +48,9 @@
           </Constraints>
         </Component>
         <Component class="Views.ThongKeDoanhThuThuoc" name="thongKeDoanhThuThuoc1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="BaoCaoDoanhThu_thongKeDoanhThuThuoc1"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Th&#x1ed1;ng k&#xea; doanh thu b&#xe1;n thu&#x1ed1;c theo n&#x103;m">
