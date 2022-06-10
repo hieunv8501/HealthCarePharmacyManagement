@@ -43,7 +43,6 @@ public class XaController {
                     String tenXa = rs.getString("TenXa");
                     int maHuyen = rs.getInt("MaHuyen");
                     HuyenController huyenCtrl = new HuyenController();
-                    
                     xa = new Xa(maXa, tenXa, huyenCtrl.getHuyen(maHuyen));
                 }
             }
@@ -57,5 +56,4 @@ public class XaController {
         }
         return xa;
     }
-    
 }

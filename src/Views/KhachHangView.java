@@ -5,6 +5,10 @@
 package Views;
 
 //import Controllers.KhachhangController;
+import Controllers.KhachhangController;
+import Models.Khachhang;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,9 +22,30 @@ public class KhachHangView extends javax.swing.JPanel {
      */
     //KhachhangController Khachhangcrtl = new KhachhangController();
     private DefaultTableModel tableModel;
+    KhachhangController khctl = new KhachhangController();
+
     public KhachHangView() {
         initComponents();
-        
+        reset();
+    }
+
+    public <T> void showData(List<T> list, DefaultTableModel model) {
+        model.setRowCount(0);
+        for (T t : list) {
+            if (t instanceof Khachhang kh) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String ngaysinh = kh.getNgaySinh().format(formatter);
+                model.addRow(new Object[]{
+                    kh.getMaKhachhang(), kh.getTenKhachhang(), kh.getGioitinh(), ngaysinh, kh.getSoDienthoai(), kh.getDiaChi()});
+            }
+        }
+    }
+    
+    public void reset() {
+        tableModel = (DefaultTableModel) tableKH.getModel();
+        List<Khachhang> dskh;
+        dskh = khctl.layDSKhachHang();
+        this.showData(dskh, tableModel);
     }
 
     /**
@@ -54,7 +79,7 @@ public class KhachHangView extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableKH = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
@@ -173,7 +198,7 @@ public class KhachHangView extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách khách hàng"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableKH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -184,7 +209,7 @@ public class KhachHangView extends javax.swing.JPanel {
                 "Mã KH", "Họ Tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Địa chỉ"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableKH);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -245,10 +270,10 @@ public class KhachHangView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable tableKH;
     // End of variables declaration//GEN-END:variables
 }

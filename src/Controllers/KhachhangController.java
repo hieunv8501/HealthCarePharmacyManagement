@@ -4,6 +4,7 @@ import DBConnection.DBConnection;
 import Models.Khachhang;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -91,13 +92,11 @@ public class KhachhangController {
                     int maXa = rs.getInt("MaXa");
                     boolean khachQuen = rs.getBoolean("KhachQuen");
                     boolean daXoa = rs.getBoolean("DaXoa");
-                    
-                    dsKhachhang.add(new Khachhang());
-
+                    DiaChiController diachi = new DiaChiController();
+                    dsKhachhang.add(new Khachhang(maKhachhang, tenKhachhang, gioiTinh, soDienThoai, ngaySinh, diachi.layDoiTuongXa(maXa), khachQuen, daXoa));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         } finally {
             con.closeConnection();
         }
