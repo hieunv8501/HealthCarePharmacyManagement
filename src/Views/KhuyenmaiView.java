@@ -55,6 +55,15 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         this.reset();
     }
 
+    public String getSelectedRow(int col) {
+        int i = dsMaKM.getSelectedRow();
+        if (i >= 0) {
+            int realI = dsMaKM.convertRowIndexToModel(i);
+            return dsMaKM.getModel().getValueAt(realI, col).toString();
+        }
+        return null;
+    }
+
     public <T> void showData(List<T> list, DefaultTableModel model) {
         model.setRowCount(0);
         for (T t : list) {

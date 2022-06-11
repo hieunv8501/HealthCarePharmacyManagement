@@ -17,6 +17,15 @@ public class KhachHangView extends javax.swing.JPanel {
         reset();
     }
 
+    public String getSelectedRow(int col) {
+        int i = tableKH.getSelectedRow();
+        if (i >= 0) {
+            int realI = tableKH.convertRowIndexToModel(i);
+            return tableKH.getModel().getValueAt(realI, col).toString();
+        }
+        return null;
+    }
+
     public <T> void showData(List<T> list, DefaultTableModel model) {
         model.setRowCount(0);
         for (T t : list) {
@@ -28,13 +37,14 @@ public class KhachHangView extends javax.swing.JPanel {
             }
         }
     }
-    
+
     public void reset() {
         tableModel = (DefaultTableModel) tableKH.getModel();
         List<Khachhang> dskh;
         dskh = KhachhangController.layDSKhachHang();
         this.showData(dskh, tableModel);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

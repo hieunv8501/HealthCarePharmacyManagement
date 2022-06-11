@@ -6,6 +6,7 @@ package Views;
 
 import Controllers.HoadonController;
 import Controllers.KhuyenmaiController;
+import Helpers.*;
 
 import Models.Hoadon;
 import Models.Nhanvien;
@@ -57,6 +58,17 @@ public class HoadonView extends javax.swing.JPanel {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMHD.setEditable(false);
+        txtMKH.setEditable(false);
+        btnChonKH.setEnabled(false);
+
+        txtMKM.setEditable(false);
+        btnChonMKM.setEnabled(false);
+        btnChonKH.addActionListener((ae) -> {
+            ChonKhachhangForm ckh = new ChonKhachhangForm(txtMKH);
+        });
+        btnChonMKM.addActionListener((ae) -> {
+            ChonMaKhuyenmaiForm ckh = new ChonMaKhuyenmaiForm(txtMKM);
+        });
 
         this.reset();
     }
@@ -91,8 +103,8 @@ public class HoadonView extends javax.swing.JPanel {
     public void setValueForCombobox() {
 
         comboNhanvien.removeAllItems();
-        comboKhachhang.removeAllItems();
-        comboMaKM.removeAllItems();
+//        comboKhachhang.removeAllItems();
+//        comboMaKM.removeAllItems();
 
         List<Nhanvien> dsnv;
         dsnv = hdctr.layDanhSachMNV();
@@ -104,25 +116,24 @@ public class HoadonView extends javax.swing.JPanel {
         }
         comboNhanvien.setSelectedItem(nhanVien);
 
-        List<Khachhang> dskh;
-        dskh = hdctr.layDanhSachMKH();
-        for (Khachhang t : dskh) {
-            if (t instanceof Khachhang) {
-                Khachhang kh = (Khachhang) t;
-                comboKhachhang.addItem(String.valueOf(kh.getMaKhachhang()) + " - " + kh.getTenKhachhang());
-            }
-        }
-
-        KhuyenmaiController kmctr = new KhuyenmaiController();
-        List<Khuyenmai> dsmkm;
-        dsmkm = kmctr.layDanhsachMKM();
-        comboMaKM.addItem("");
-        for (Khuyenmai t : dsmkm) {
-            if (t instanceof Khuyenmai) {
-                Khuyenmai km = (Khuyenmai) t;
-                comboMaKM.addItem(String.valueOf(km.getMaKhuyenmai()));
-            }
-        }
+//        List<Khachhang> dskh;
+//        dskh = hdctr.layDanhSachMKH();
+//        for (Khachhang t : dskh) {
+//            if (t instanceof Khachhang) {
+//                Khachhang kh = (Khachhang) t;
+//                comboKhachhang.addItem(String.valueOf(kh.getMaKhachhang()) + " - " + kh.getTenKhachhang());
+//            }
+//        }
+//        KhuyenmaiController kmctr = new KhuyenmaiController();
+//        List<Khuyenmai> dsmkm;
+//        dsmkm = kmctr.layDanhsachMKM();
+//        comboMaKM.addItem("");
+//        for (Khuyenmai t : dsmkm) {
+//            if (t instanceof Khuyenmai) {
+//                Khuyenmai km = (Khuyenmai) t;
+//                comboMaKM.addItem(String.valueOf(km.getMaKhuyenmai()));
+//            }
+//        }
     }
 
     /**
@@ -147,8 +158,6 @@ public class HoadonView extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         btnXoa = new javax.swing.JButton();
         comboNhanvien = new javax.swing.JComboBox<>();
-        comboKhachhang = new javax.swing.JComboBox<>();
-        comboMaKM = new javax.swing.JComboBox<>();
         gio = new javax.swing.JSpinner();
         phut = new javax.swing.JSpinner();
         giay = new javax.swing.JSpinner();
@@ -158,6 +167,10 @@ public class HoadonView extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtMHD = new javax.swing.JTextField();
         btnXemCT = new javax.swing.JButton();
+        btnChonKH = new javax.swing.JButton();
+        txtMKH = new javax.swing.JTextField();
+        btnChonMKM = new javax.swing.JButton();
+        txtMKM = new javax.swing.JTextField();
 
         dateLap.setDateFormatString("dd-MM-yyyy");
         dateLap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -261,10 +274,6 @@ public class HoadonView extends javax.swing.JPanel {
             }
         });
 
-        comboKhachhang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
-        comboMaKM.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
         gio.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         phut.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -294,31 +303,71 @@ public class HoadonView extends javax.swing.JPanel {
             }
         });
 
+        btnChonKH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnChonKH.setText("Chọn");
+        btnChonKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonKHActionPerformed(evt);
+            }
+        });
+
+        txtMKH.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtMKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMKHActionPerformed(evt);
+            }
+        });
+
+        btnChonMKM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnChonMKM.setText("Chọn");
+        btnChonMKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonMKMActionPerformed(evt);
+            }
+        });
+
+        txtMKM.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtMKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMKMActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addGap(116, 116, 116)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(comboNhanvien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboKhachhang, 0, 317, Short.MAX_VALUE)
-                    .addComponent(txtMHD))
-                .addGap(96, 96, 96)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(113, 113, 113)
+                        .addComponent(btnThem)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnHuy)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnLuu))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMKH, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(comboNhanvien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChonKH)))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(202, 202, 202)
-                                .addComponent(comboMaKM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel3)
+                                .addGap(56, 56, 56)
+                                .addComponent(txtMKM))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
@@ -338,64 +387,63 @@ public class HoadonView extends javax.swing.JPanel {
                                         .addGap(51, 51, 51)
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(giay, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)))))
-                        .addGap(63, 63, 63))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(btnThem)
-                .addGap(80, 80, 80)
-                .addComponent(btnHuy)
-                .addGap(80, 80, 80)
-                .addComponent(btnLuu)
-                .addGap(80, 80, 80)
-                .addComponent(btnSua)
-                .addGap(80, 80, 80)
-                .addComponent(btnXoa)
-                .addGap(80, 80, 80)
-                .addComponent(btnXemCT)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1)
-                    .addContainerGap()))
+                                        .addComponent(giay, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChonMKM)
+                        .addGap(27, 27, 27))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSua)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnXoa)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnXemCT)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboMaKM, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)))
-                .addGap(27, 27, 27)
+                .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(27, 27, 27)
-                        .addComponent(comboKhachhang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(dateLap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel2))
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(gio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(phut, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(giay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8))
-                            .addComponent(jLabel6))))
-                .addGap(42, 42, 42)
+                                .addComponent(txtMHD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4))
+                            .addGap(27, 27, 27)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(comboNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(57, 57, 57)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtMKH, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnChonKH)))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(btnChonMKM)
+                                .addComponent(txtMKM, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(27, 27, 27)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(dateLap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(24, 24, 24)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(gio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phut, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(giay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8))
+                                .addComponent(jLabel6)))))
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnLuu)
@@ -403,12 +451,9 @@ public class HoadonView extends javax.swing.JPanel {
                     .addComponent(btnHuy)
                     .addComponent(btnXoa)
                     .addComponent(btnXemCT))
-                .addContainerGap(428, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(315, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -418,6 +463,8 @@ public class HoadonView extends javax.swing.JPanel {
         btnLuu.setEnabled(true);
         btnHuy.setEnabled(true);
         btnThem.setEnabled(false);
+        btnChonKH.setEnabled(true);
+        btnChonMKM.setEnabled(true);
 
         this.setValueForCombobox();
 
@@ -436,30 +483,36 @@ public class HoadonView extends javax.swing.JPanel {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
-        if ((int) gio.getValue() < 0 || (int) gio.getValue() > 24 || (int) phut.getValue() < 0 || (int) phut.getValue() > 60 || (int) giay.getValue() < 0 || (int) giay.getValue() > 60) {
-            JOptionPane.showMessageDialog(null, "Thời gian không hợp lệ!!!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        if (txtMKH.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng!!!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            String MNV = comboNhanvien.getSelectedItem().toString().split(" - ")[0];
-            String MKH = comboKhachhang.getSelectedItem().toString().split(" - ")[0];
-            String MKM;
-            if (comboMaKM.getSelectedItem().toString().equals("")) {
-                MKM = null;
+
+            if ((int) gio.getValue() < 0 || (int) gio.getValue() > 24 || (int) phut.getValue() < 0 || (int) phut.getValue() > 60 || (int) giay.getValue() < 0 || (int) giay.getValue() > 60) {
+                JOptionPane.showMessageDialog(null, "Thời gian không hợp lệ!!!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
             } else {
-                MKM = comboMaKM.getSelectedItem().toString();
+                String MNV = comboNhanvien.getSelectedItem().toString().split(" - ")[0];
+                String MKH = txtMKH.getText().split(" - ")[0];
 
+                String MKM;
+                if (txtMKM.getText().equals("")) {
+                    MKM = null;
+                } else {
+                    MKM = txtMKM.getText();
+                }
+
+                dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
+                dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
+                dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
+                Hoadon hd = new Hoadon(Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
+                hdctr.themHoaDon(hd);
+                this.maHoadon = Integer.valueOf(txtMHD.getText());
+                ChitietHoadonView cthd = new ChitietHoadonView();
+                cthd.setVariable(this.maHoadon);
+                cthd.setVisible(true);
+                this.reset();
             }
-
-            dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
-            dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
-            dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
-            Hoadon hd = new Hoadon(Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
-            hdctr.themHoaDon(hd);
-            this.maHoadon = Integer.valueOf(txtMHD.getText());
-            ChitietHoadonView cthd = new ChitietHoadonView();
-            cthd.setVariable(this.maHoadon);
-            cthd.setVisible(true);
-            this.reset();
         }
 
     }//GEN-LAST:event_btnLuuActionPerformed
@@ -472,12 +525,12 @@ public class HoadonView extends javax.swing.JPanel {
 
         } else {
             String MNV = comboNhanvien.getSelectedItem().toString().split(" - ")[0];
-            String MKH = comboKhachhang.getSelectedItem().toString().split(" - ")[0];
+            String MKH = txtMKH.getText().split(" - ")[0];
             String MKM;
-            if (comboMaKM.getSelectedItem().toString().equals("")) {
+            if (txtMKM.getText().equals("")) {
                 MKM = null;
             } else {
-                MKM = comboMaKM.getSelectedItem().toString();
+                MKM = txtMKM.getText();
             }
 
             dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
@@ -498,8 +551,8 @@ public class HoadonView extends javax.swing.JPanel {
                 "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             comboNhanvien.removeAllItems();
-            comboKhachhang.removeAllItems();
-            comboMaKM.removeAllItems();
+//            comboKhachhang.removeAllItems();
+//            comboMaKM.removeAllItems();
             dateLap.setCalendar(null);
             gio.setValue(0);
             phut.setValue(0);
@@ -509,6 +562,10 @@ public class HoadonView extends javax.swing.JPanel {
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
             btnThem.setEnabled(true);
+            btnChonKH.setEnabled(false);
+            txtMKH.setText("");
+            txtMKM.setText("");
+            btnChonMKM.setEnabled(false);
 
             this.reset();
 
@@ -550,9 +607,9 @@ public class HoadonView extends javax.swing.JPanel {
         this.setValueForCombobox();
         txtMHD.setText(s1);
         comboNhanvien.setSelectedItem(s2);
-        comboKhachhang.setSelectedItem(s3);
+        txtMKH.setText(s3);
 
-        comboMaKM.setSelectedItem(s4);
+        txtMKM.setText(s4);
 
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
@@ -570,8 +627,8 @@ public class HoadonView extends javax.swing.JPanel {
             hdctr.xoaHoaDon(Integer.parseInt(txtMHD.getText()));
             this.reset();
             comboNhanvien.removeAllItems();
-            comboKhachhang.removeAllItems();
-            comboMaKM.removeAllItems();
+//            comboKhachhang.removeAllItems();
+//            comboMaKM.removeAllItems();
             dateLap.setCalendar(null);
             gio.setValue(0);
             phut.setValue(0);
@@ -600,16 +657,33 @@ public class HoadonView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboNhanvienActionPerformed
 
+    private void btnChonKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonKHActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnChonKHActionPerformed
+
+    private void txtMKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMKHActionPerformed
+
+    private void btnChonMKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonMKMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChonMKMActionPerformed
+
+    private void txtMKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMKMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMKMActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonKH;
+    private javax.swing.JButton btnChonMKM;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXemCT;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> comboKhachhang;
-    private javax.swing.JComboBox<String> comboMaKM;
     private javax.swing.JComboBox<String> comboNhanvien;
     private com.toedter.calendar.JDateChooser dateLap;
     private javax.swing.JTable dsHoaDon;
@@ -626,5 +700,7 @@ public class HoadonView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner phut;
     private javax.swing.JTextField txtMHD;
+    private javax.swing.JTextField txtMKH;
+    private javax.swing.JTextField txtMKM;
     // End of variables declaration//GEN-END:variables
 }
