@@ -647,11 +647,11 @@ VALUES (2, 2, 6, '20/05/2022')
 
 --Dữ liệu chi tiết phiếu nhập
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
-VALUES (1, 1, 10, 1000, '01/03/2022', '20/05/2022' )
+VALUES (1, 1, 10, 100000, '01/03/2022', '20/06/2022' )
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
-VALUES (1, 2, 10, 5000, '01/03/2022', '20/05/2022' )
+VALUES (1, 2, 10, 500000, '01/03/2022', '20/06/2022' )
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
-VALUES (2, 3, 5, 8000, '01/03/2022', '20/05/2022' )
+VALUES (2, 3, 5, 800000, '01/03/2022', '20/05/2022' )
 
 --Dữ liệu lô nhập
 INSERT INTO lonhap (MaPhieuNhap, MaThuoc, SoLuongConLai) 
