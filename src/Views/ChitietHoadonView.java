@@ -216,6 +216,13 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         jLabel3.setText("Số lượng:");
 
         comboLonhap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        comboLonhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboLonhapActionPerformed(evt);
+            }
+        });
+
+        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã hóa đơn:");
@@ -471,6 +478,10 @@ public class ChitietHoadonView extends javax.swing.JFrame {
     private void comboThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboThuocActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboThuocActionPerformed
+
+    private void comboLonhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLonhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboLonhapActionPerformed
 
     /**
      * @param args the command line arguments

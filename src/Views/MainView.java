@@ -43,9 +43,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     HoadonView hoadon = new HoadonView();
     QuyenView quyenForm = new QuyenView();
     TaikhoanView taikhoanForm = new TaikhoanView();
-//    PhieunhapView phieunhapForm = new PhieunhapView();
+    PhieunhapView phieunhapForm = new PhieunhapView();
     NhacungcapView nhacungcap = new NhacungcapView();
-//    ThuocView thuoc = new ThuocView();
+    ThuocView thuoc = new ThuocView();
     LoaithuocView loaiThuoc = new LoaithuocView();
     DonvitinhView donvitinh = new DonvitinhView();
     ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
@@ -296,6 +296,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
 
             case "Hóa đơn":
+                hoadon.nhanVien = DangnhapView.nhanVienLogin.getMaNhanvien() + " - " + DangnhapView.nhanVienLogin.getTenNhanvien();
                 plContent.add(hoadon, BorderLayout.CENTER);
                 break;
 
@@ -307,9 +308,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 plContent.add(quyenForm, BorderLayout.CENTER);
                 break;
 
-//            case "Nhập thuốc":
-//                plContent.add(phieunhapForm, BorderLayout.CENTER);
-//                break;
+            case "Nhập thuốc":
+                plContent.add(phieunhapForm, BorderLayout.CENTER);
+                break;
 
             case "Công cụ":
                 emptypage.setLabelText("Công cụ đang bảo trì, vui lòng thử lại sau");
@@ -323,9 +324,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             case "Nhà cung cấp":
                 plContent.add(nhacungcap, BorderLayout.CENTER);
                 break;
-//            case "Thuốc":
-//                plContent.add(thuoc, BorderLayout.CENTER);
-//                break;
+            case "Thuốc":
+                plContent.add(thuoc, BorderLayout.CENTER);
+                break;
             case "Loại thuốc":
                 plContent.add(loaiThuoc, BorderLayout.CENTER);
                 break;

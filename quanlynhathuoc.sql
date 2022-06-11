@@ -295,7 +295,6 @@ ALTER TABLE hoadon
 ALTER TABLE chitiethoadon
 	ADD CONSTRAINT FK_CTHD_HOADON FOREIGN KEY (MaHoaDon) REFERENCES hoadon(MaHoaDon),
 	CONSTRAINT FK_CTHD_THUOC FOREIGN KEY (MaThuoc) REFERENCES thuoc(MaThuoc),
-	CONSTRAINT FK_CTHD_DVT FOREIGN KEY (MaDonViTinh) REFERENCES donvitinh(MaDonViTinh),
 	CONSTRAINT FK_CTHD_LONHAP FOREIGN KEY (MaLo) REFERENCES lonhap(MaLo);
 
 
@@ -312,7 +311,7 @@ ALTER TABLE lonhap
 GO
 
 -- Tính số lượng thuốc còn lại khi sửa chi tiết hóa dơn
-ALTER TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
+CREATE TRIGGER TG_UPDATE_CTHD ON chitiethoadon 
 FOR UPDATE
 AS BEGIN
 	DECLARE @SoLuongCu INT, @SoLuongMoi INT, @MaLo INT, @DaXoa BIT
@@ -360,7 +359,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -391,7 +390,7 @@ END
 
 GO
 -- Tính tổng tiền khi sửa (sửa mã khuyến mãi) hóa đơn
-ALTER TRIGGER TG_INSERT_HOADON ON hoadon 
+CREATE TRIGGER TG_INSERT_HOADON ON hoadon 
 FOR UPDATE
 AS BEGIN
 	DECLARE @MaHoaDon INT, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT, @TongTien MONEY,  @SoLuong INT, @DonGia MONEY
@@ -425,7 +424,7 @@ END
 
 GO
 -- Tính số lượng thuốc còn lại khi thêm chi tiết phiếu nhập (nhập thuốc)
-ALTER TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
+CREATE TRIGGER TG_INSERT_CTPN ON chitietphieunhap 
 FOR INSERT
 AS BEGIN
 	DECLARE @MaThuoc INT, @MaPhieuNhap INT, @SoLuong INT, @TiLeQuiDoi INT
@@ -436,7 +435,7 @@ END
 
 GO
 -- Tính số lượng thuốc còn lại khi sửa chi tiết phiếu nhập
-ALTER TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
+CREATE TRIGGER TG_UPDATE_CTPN ON chitietphieunhap 
 FOR UPDATE
 AS BEGIN
 

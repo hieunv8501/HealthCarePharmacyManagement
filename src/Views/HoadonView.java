@@ -42,6 +42,7 @@ public class HoadonView extends javax.swing.JPanel {
     HoadonController hdctr = new HoadonController();
     private int indexOfList;
     private int maHoadon;
+    public String nhanVien;
 
     public HoadonView() {
         initComponents();
@@ -101,6 +102,7 @@ public class HoadonView extends javax.swing.JPanel {
                 comboNhanvien.addItem(String.valueOf(nv.getMaNhanvien()) + " - " + nv.getTenNhanvien());
             }
         }
+        comboNhanvien.setSelectedItem(nhanVien);
 
         List<Khachhang> dskh;
         dskh = hdctr.layDanhSachMKH();
@@ -253,6 +255,11 @@ public class HoadonView extends javax.swing.JPanel {
         });
 
         comboNhanvien.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        comboNhanvien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboNhanvienActionPerformed(evt);
+            }
+        });
 
         comboKhachhang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
@@ -588,6 +595,10 @@ public class HoadonView extends javax.swing.JPanel {
 
         this.reset();
     }//GEN-LAST:event_btnXemCTActionPerformed
+
+    private void comboNhanvienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNhanvienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboNhanvienActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
