@@ -26,13 +26,16 @@ public class BaoCaoDoanhThu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        quanlyKhoView1 = new Views.QuanlyKhoView();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         thongKeSoLuongDonBan2 = new Views.ThongKeSoLuongDonBan();
         thongKeDoanhThuThuoc1 = new Views.ThongKeDoanhThuThuoc();
+        quanlyKhoView2 = new Views.QuanlyKhoView();
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jTabbedPane1.addTab("Báo cáo số lượng đơn hàng trong năm", thongKeSoLuongDonBan2);
         jTabbedPane1.addTab("Thống kê doanh thu bán thuốc theo năm", thongKeDoanhThuThuoc1);
+        jTabbedPane1.addTab("Thống kê kho", quanlyKhoView2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -44,13 +47,15 @@ public class BaoCaoDoanhThu extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane jTabbedPane1;
+    private Views.QuanlyKhoView quanlyKhoView1;
+    private Views.QuanlyKhoView quanlyKhoView2;
     private Views.ThongKeDoanhThuThuoc thongKeDoanhThuThuoc1;
     private Views.ThongKeSoLuongDonBan thongKeSoLuongDonBan2;
     // End of variables declaration//GEN-END:variables

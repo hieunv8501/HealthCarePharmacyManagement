@@ -477,7 +477,7 @@ CREATE TRIGGER TG_INSERT_CTPN_1 ON chitietphieunhap
 FOR INSERT
 AS BEGIN
 	DECLARE @MaPhieuNhap INT, @MaThuoc INT, @MaDonViTinh INT, @SoLuong INT, @DonGia MONEY, @NgaySanXuat datetime, @NgayHetHan datetime
-	SELECT @MaPhieuNhap = MaPhieuNhap, @MaThuoc = MaThuoc, @MaDonViTinh = MaDonViTinh, @SoLuong = SoLuong, @DonGia = DonGia, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan FROM INSERTED
+	SELECT @MaPhieuNhap = MaPhieuNhap, @MaThuoc = MaThuoc, @SoLuong = SoLuong, @DonGia = DonGia, @NgaySanXuat = NgaySanXuat, @NgayHetHan = NgayHetHan FROM INSERTED
 	
 	UPDATE phieunhap SET TongTien = TongTien + (@SoLuong * @DonGia) WHERE MaPhieuNhap = @MaPhieuNhap
 
@@ -612,11 +612,11 @@ values (N'HauPP', N'Nam', '04/02/2001','0251643978', 1)
 
 --Dữ liệu thuốc
 INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
-VALUES (1, N'Panadol Extra', N'Thuốc trị đau đầu, nhức đầu', N'Từ 18 tuổi trở lên', N'A', 1, 1, 1, 1, 1, 3000)
+VALUES (1, N'Panadol Extra', N'Thuốc trị đau đầu, nhức đầu', N'Từ 18 tuổi trở lên', N'A', 4, 1, 10, 1, 1, 3000)
 INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
-VALUES (2, N'VOMINA 50mg', N'Thuốc chống say tàu xe', N'Từ 18 tuổi trở lên', N'B', 1, 1, 1, 2, 2, 5000)
+VALUES (2, N'VOMINA 50mg', N'Thuốc chống say tàu xe', N'Từ 18 tuổi trở lên', N'B', 4, 2, 15, 2, 2, 5000)
 INSERT INTO thuoc (MaThuoc, TenThuoc, MoTa, DoTuoi, HinhAnh, MaDonViTinh, MaDonViQuiDoi, TiLeQuiDoi, MaNhaCungCap, MaLoaiThuoc, GiaBan)
-VALUES (3, N'Domperidon STADA 10mg', N'Thuốc trị tác dụng phụ chống nôn, chống say do các tác dụng phụ của thuốc kháng sinh', N'Từ 18 tuổi trở lên', N'B', 1, 1, 1, 3, 2, 10000)
+VALUES (3, N'Domperidon STADA 10mg', N'Thuốc trị tác dụng phụ chống nôn, chống say do các tác dụng phụ của thuốc kháng sinh', N'Từ 18 tuổi trở lên', N'B', 3, 2, 10, 3, 2, 10000)
 
 select * from thuoc
 
@@ -628,9 +628,10 @@ VALUES (2, N'Thuốc chống say tàu xe')
 
 
 --Dữ liệu đơn vị tính
-INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (1, N'Vỉ 5 viên')
-INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (2, N'Hộp 30 viên')
-INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (3, N'Chai 100ml')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (4, N'Vỉên')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (1, N'Vỉ')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (2, N'Hộp')
+INSERT INTO donvitinh (MaDonViTinh, TenDonViTinh) values (3, N'Chai')
 
 --Dữ liệu nhà cung cấp
 INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) values (1, N'Công ty Cổ phần SX Thuốc Thiên Ân', 1, '025155517', '12105552')
@@ -640,9 +641,9 @@ INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) val
 
 --Dữ liệu phiếu nhập
 INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
-VALUES (1, 1, 1, '20/05/2022')
+VALUES (1, 1, 5, '20/05/2022')
 INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
-VALUES (2, 2, 2, '20/05/2022')
+VALUES (2, 2, 6, '20/05/2022')
 
 --Dữ liệu chi tiết phiếu nhập
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
@@ -669,16 +670,16 @@ insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 
 --Dữ liệu tài khoản
 insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
-values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 1, 'Q1'), --pass: Hieu123.
-('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 3, 'Q1'), --pass: Tinh123.
-('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 4, 'Q1'), --Hau123.
-('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 2, 'Q1') --Quy123.
+values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 5, 'Q1'), --pass: Hieu123.
+('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 7, 'Q1'), --pass: Tinh123.
+('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 6, 'Q1'), --Hau123.
+('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 8, 'Q1') --Quy123.
 
 --Dữ liệu tỉnh huyện xã
 insert into tinh values(1,N'Hồ chí Minh');
-INSERT INTO tinh values (1, N'An Giang')
+INSERT INTO tinh values (2, N'An Giang')
 INSERT INTO huyen values (1, N'Ba Vì', 1)
-insert into huyen values(1, N'Thủ đức',1);
+insert into huyen values(2, N'Thủ đức',1);
 insert into xa values(1, N'Đông Hòa',1);
 
 --INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '2022/04/22')
