@@ -164,7 +164,7 @@ class ChiTietQuyenForm extends JPanel {
     ArrayList<PanelChonQuyen> dsPanel = new ArrayList<>();
 
     public ChiTietQuyenForm() {
-        setPreferredSize(new Dimension(650, 500));
+        setPreferredSize(new Dimension(650, 550));
         setLayout(new FlowLayout(FlowLayout.CENTER));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Chi tiết quyền", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI Semibold", Font.BOLD, 14), Color.black));
 
@@ -172,7 +172,9 @@ class ChiTietQuyenForm extends JPanel {
         dsPanel.add(new PanelChonQuyen("Nhập thuốc", new String[]{"Nhập thuốc"}, new String[]{"qlNhapThuoc"}));
         dsPanel.add(new PanelChonQuyen("Thuốc", type, new String[]{"xemThuoc", "qlThuoc"}));
         dsPanel.add(new PanelChonQuyen("Loại thuốc", type, new String[]{"xemLoaiThuoc", "qlLoaiThuoc"}));
+        dsPanel.add(new PanelChonQuyen("Đơn vị tính", type, new String[]{"xemDonvitinh", "qlDonvitinh"}));
         dsPanel.add(new PanelChonQuyen("Hóa đơn", type, new String[]{"xemHoaDon", "qlHoaDon"}));
+        dsPanel.add(new PanelChonQuyen("Phiếu nhập", type, new String[]{"xemPhieuNhap", "qlPhieuNhap"}));
         dsPanel.add(new PanelChonQuyen("Khuyến mãi", type, new String[]{"xemKhuyenMai", "qlKhuyenMai"}));
         dsPanel.add(new PanelChonQuyen("Nhân viên", type, new String[]{"xemNhanVien", "qlNhanVien"}));
         dsPanel.add(new PanelChonQuyen("Khách hàng", type, new String[]{"xemKhachHang", "qlKhachHang"}));
@@ -180,9 +182,8 @@ class ChiTietQuyenForm extends JPanel {
         dsPanel.add(new PanelChonQuyen("Nhà cung cấp", type, new String[]{"xemNCC", "qlNCC"}));
         dsPanel.add(new PanelChonQuyen("Tài khoản", type, new String[]{"xemTaiKhoan", "qlTaiKhoan"}));
         dsPanel.add(new PanelChonQuyen("Quyền", type, new String[]{"xemQuyen", "qlQuyen"}));        
-        dsPanel.add(new PanelChonQuyen("Thống kê", type, new String[]{"xemQuyen", "qlQuyen"}));
-
-        
+        dsPanel.add(new PanelChonQuyen("Thống kê", new String[]{"Thống kê"}, new String[]{"qlThongKe"}));
+                
         for (PanelChonQuyen p : dsPanel) {
             this.add(p);
         }

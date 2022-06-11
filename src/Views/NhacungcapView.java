@@ -52,6 +52,11 @@ public class NhacungcapView extends javax.swing.JPanel {
         tableNhacungcap.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableNhacungcap.getTableHeader().setOpaque(false);
         tableNhacungcap.getTableHeader().setBackground(Color.YELLOW);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlNCC")) {
+            btnThem.setEnabled(false);
+            btnThemfile.setEnabled(false);
+            btnXuatFile.setEnabled(false);
+        }
         showXa();
         ShowData();
         showTinh();
@@ -60,9 +65,18 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMaNhacungcap.setEditable(false);
-        ShowSearchComboBox();  
+        ShowSearchComboBox();
 
         //txtMaNhacungcap.addKeyListener(new KeyCustom());
+    }
+
+    public String getSelectedRow(int col) {
+        int i = tableNhacungcap.getSelectedRow();
+        if (i >= 0) {
+            int realI = tableNhacungcap.convertRowIndexToModel(i);
+            return tableNhacungcap.getModel().getValueAt(realI, col).toString();
+        }
+        return null;
     }
 
     /**
@@ -495,7 +509,6 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnHuy.setEnabled(true);
         btnThem.setEnabled(false);
         txtMaNhacungcap.setEnabled(true);
-        
 
 
     }//GEN-LAST:event_btnThemActionPerformed
@@ -689,21 +702,18 @@ public class NhacungcapView extends javax.swing.JPanel {
 
     private void txtTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhActionPerformed
         // TODO add your handling code here:
-         Tinh tinhSelected=(Tinh)txtTinh.getSelectedItem();
+        Tinh tinhSelected = (Tinh) txtTinh.getSelectedItem();
         //showHuyen(tinhSelected.getMaTinh());
     }//GEN-LAST:event_txtTinhActionPerformed
 
     private void txtHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHuyenActionPerformed
         // TODO add your handling code here:
-          Huyen huyenSelected=(Huyen) txtHuyen.getSelectedItem();
-        if(huyenSelected!=null)
-        {
-       // showXa(huyenSelected.getMaHuyen());
-        }
-        else
-        {
-               DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
-      xaBoxModel.removeAllElements();
+        Huyen huyenSelected = (Huyen) txtHuyen.getSelectedItem();
+        if (huyenSelected != null) {
+            // showXa(huyenSelected.getMaHuyen());
+        } else {
+            DefaultComboBoxModel xaBoxModel = (DefaultComboBoxModel) txtXa.getModel();
+            xaBoxModel.removeAllElements();
         }
     }//GEN-LAST:event_txtHuyenActionPerformed
 
@@ -714,101 +724,93 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void JcomboboxSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcomboboxSearchActionPerformed
         // TODO add your handling code here:
         //String searchText=(String)JcomboboxSearch.getSelectedItem();      
-        
+
     }//GEN-LAST:event_JcomboboxSearchActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
-        String maNhacungcapString=txtMaNhacungcap.getText();
-        int maNhacungcap=-1;
-        try{
-        maNhacungcap=Integer.parseInt(maNhacungcapString);
-        }catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this,"Mã nhà cung cấp không hợp lệ","Thông báo",JOptionPane.ERROR_MESSAGE);
+        String maNhacungcapString = txtMaNhacungcap.getText();
+        int maNhacungcap = -1;
+        try {
+            maNhacungcap = Integer.parseInt(maNhacungcapString);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Mã nhà cung cấp không hợp lệ", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-                
-        String tenNhacungcap=txtTenNhacungcap.getText();
-        String soDienThoai=txtSodienthoai.getText();
-        Xa xa=(Xa) txtXa.getSelectedItem();
-        String fax=txtfax.getText();
-        if(maNhacungcapString.equals("")||maNhacungcapString.equals(null)||tenNhacungcap.equals("")||tenNhacungcap.equals(null)||soDienThoai.equals("")||soDienThoai.equals(null)||xa.equals("")||fax.equals("")||fax.equals(null)||xa.equals(null))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không được bỏ trống các ô thông tin!!!","Thông báo",JOptionPane.WARNING_MESSAGE);
+
+        String tenNhacungcap = txtTenNhacungcap.getText();
+        String soDienThoai = txtSodienthoai.getText();
+        Xa xa = (Xa) txtXa.getSelectedItem();
+        String fax = txtfax.getText();
+        if (maNhacungcapString.equals("") || maNhacungcapString.equals(null) || tenNhacungcap.equals("") || tenNhacungcap.equals(null) || soDienThoai.equals("") || soDienThoai.equals(null) || xa.equals("") || fax.equals("") || fax.equals(null) || xa.equals(null)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không được bỏ trống các ô thông tin!!!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        Nhacungcap nhacungcap=new Nhacungcap(maNhacungcap,tenNhacungcap,xa,soDienThoai,fax);
+        Nhacungcap nhacungcap = new Nhacungcap(maNhacungcap, tenNhacungcap, xa, soDienThoai, fax);
         try {
             NhacungcapController.themNhacungcap(nhacungcap);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Thêm nhà cung cấp không thành công","Thông báo",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp không thành công", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        JOptionPane.showMessageDialog(this,"Thêm nhà cung cấp "+nhacungcap.getTenNhacungcap()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-            ShowData();
+        JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp " + nhacungcap.getTenNhacungcap() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        ShowData();
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-         int input = JOptionPane.showConfirmDialog(null,
+        int input = JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             if (input == 0) {
-            txtMaNhacungcap.setText("");
-            txtTenNhacungcap.setText("");
-            txtSodienthoai.setText("");
-            txtfax.setText("");
-                   
-            btnHuy.setEnabled(false);
-            btnLuu.setEnabled(false);
-            btnSua.setEnabled(false);
-            btnThem.setEnabled(true);
-            tableNhacungcap.getSelectionModel().clearSelection();
+                txtMaNhacungcap.setText("");
+                txtTenNhacungcap.setText("");
+                txtSodienthoai.setText("");
+                txtfax.setText("");
 
-        }
+                btnHuy.setEnabled(false);
+                btnLuu.setEnabled(false);
+                btnSua.setEnabled(false);
+                btnThem.setEnabled(true);
+                tableNhacungcap.getSelectionModel().clearSelection();
+
+            }
         }
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtSodienthoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSodienthoaiKeyTyped
         // TODO add your handling code here:
-        char c=evt.getKeyChar();
-       
-        if(!(Character.isDigit(c))||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)
-        {
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c)) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE) {
             evt.consume();
-            
+
         }
     }//GEN-LAST:event_txtSodienthoaiKeyTyped
 
     private void txtfaxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfaxKeyTyped
         // TODO add your handling code here:
-        char c=evt.getKeyChar();
-       
-        if(!(Character.isDigit(c))||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)
-        {
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c)) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE) {
             evt.consume();
-            
+
         }
     }//GEN-LAST:event_txtfaxKeyTyped
-        public void ShowData()
-    {
-        DefaultTableModel tblModel=(DefaultTableModel) tableNhacungcap.getModel();
+    public void ShowData() {
+        DefaultTableModel tblModel = (DefaultTableModel) tableNhacungcap.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsNhacungcap=NhacungcapController.getDanhSachNhacungcap();
-        if(!dsNhacungcap.isEmpty()){
-                dsNhacungcap.forEach((nhacungcap1)->{
-                 if(!nhacungcap1.isDaXoa())
-                 {
-                tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(),nhacungcap1.getTenNhacungcap(),nhacungcap1.getXa().getDiaChi(),nhacungcap1.getSoDienthoai(),nhacungcap1.getFax()});
-                 }
-                });
-        }
-        else
-        {
-          JOptionPane.showMessageDialog(this,"Danh sách nhà cung cấp rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        dsNhacungcap = NhacungcapController.getDanhSachNhacungcap();
+        if (!dsNhacungcap.isEmpty()) {
+            dsNhacungcap.forEach((nhacungcap1) -> {
+                if (!nhacungcap1.isDaXoa()) {
+                    tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(), nhacungcap1.getTenNhacungcap(), nhacungcap1.getXa().getDiaChi(), nhacungcap1.getSoDienthoai(), nhacungcap1.getFax()});
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách nhà cung cấp rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
         tableNhacungcap.setAutoCreateRowSorter(true);
@@ -853,24 +855,24 @@ public class NhacungcapView extends javax.swing.JPanel {
 //           return maNhacungcapMoi;
 //        
 //      }
-      public void showTinh()
-    {
-        DefaultComboBoxModel tinhBoxModel=(DefaultComboBoxModel) txtTinh.getModel();
-      tinhBoxModel.removeAllElements();
-      TinhController tinhController=new TinhController();
-        ArrayList<Tinh> dsTinh= tinhController.getDanhsachTinh();
-        dsTinh.forEach(tinh->{
+    public void showTinh() {
+        DefaultComboBoxModel tinhBoxModel = (DefaultComboBoxModel) txtTinh.getModel();
+        tinhBoxModel.removeAllElements();
+        TinhController tinhController = new TinhController();
+        ArrayList<Tinh> dsTinh = tinhController.getDanhsachTinh();
+        dsTinh.forEach(tinh -> {
             tinhBoxModel.addElement(tinh);
-        });        
+        });
     }
-    public void showHuyen(){
-        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
-      huyenBoxModel.removeAllElements();
-      HuyenController huyenController=new HuyenController();
-        ArrayList<Huyen> dsHuyen= huyenController.getDanhsachHuyen();
-        dsHuyen.forEach(huyen->{
+
+    public void showHuyen() {
+        DefaultComboBoxModel huyenBoxModel = (DefaultComboBoxModel) txtHuyen.getModel();
+        huyenBoxModel.removeAllElements();
+        HuyenController huyenController = new HuyenController();
+        ArrayList<Huyen> dsHuyen = huyenController.getDanhsachHuyen();
+        dsHuyen.forEach(huyen -> {
             huyenBoxModel.addElement(huyen);
-        });      
+        });
     }
 //    public void showHuyen(int maTinh){
 //        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
@@ -882,14 +884,15 @@ public class NhacungcapView extends javax.swing.JPanel {
 //            huyenBoxModel.addElement(huyen);
 //        });      
 //    }
-    public void showXa(){
-        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
-      xaBoxModel.removeAllElements();
-      XaController xaController=new XaController();
-        ArrayList<Xa> dsXa= xaController.getDanhsachXa();
-        dsXa.forEach(xa->{
+
+    public void showXa() {
+        DefaultComboBoxModel xaBoxModel = (DefaultComboBoxModel) txtXa.getModel();
+        xaBoxModel.removeAllElements();
+        XaController xaController = new XaController();
+        ArrayList<Xa> dsXa = xaController.getDanhsachXa();
+        dsXa.forEach(xa -> {
             xaBoxModel.addElement(xa);
-        });       
+        });
     }
 //    public void showXa(int maHuyen){
 //        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
@@ -901,23 +904,22 @@ public class NhacungcapView extends javax.swing.JPanel {
 //            xaBoxModel.addElement(xa);
 //        });       
 //    }
-    public int getMaNhacungcapMoi()
-     {
-         int maNhacungcapMoi=0;
-          if(!dsNhacungcap.isEmpty())
-           {
-        for(Nhacungcap nhacungcap:dsNhacungcap)
-        {
-            if(nhacungcap.getMaNhacungcap()>maNhacungcapMoi)
-            {
-                maNhacungcapMoi=nhacungcap.getMaNhacungcap();
+
+    public int getMaNhacungcapMoi() {
+        int maNhacungcapMoi = 0;
+        if (!dsNhacungcap.isEmpty()) {
+            for (Nhacungcap nhacungcap : dsNhacungcap) {
+                if (nhacungcap.getMaNhacungcap() > maNhacungcapMoi) {
+                    maNhacungcapMoi = nhacungcap.getMaNhacungcap();
+                }
             }
         }
-           }
-        return maNhacungcapMoi+1;
-           
-     }
-     class KeyCustom implements KeyListener {
+        return maNhacungcapMoi + 1;
+
+    }
+
+    class KeyCustom implements KeyListener {
+
         @Override
         public void keyTyped(KeyEvent e) {
             System.out.println(e.getKeyChar());

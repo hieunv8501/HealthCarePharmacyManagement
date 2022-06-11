@@ -46,6 +46,10 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         dsCTHD.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsCTHD.getTableHeader().setOpaque(false);
         dsCTHD.getTableHeader().setBackground(Color.YELLOW);
+         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+            btnThem.setEnabled(false);
+            
+        }
         txtMHD.setEditable(false);
         txtDonvi.setEditable(false);
         txtDongia.setEditable(false);

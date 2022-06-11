@@ -9,7 +9,7 @@ package Components;
  * @author HauPC
  */
 import Controllers.DonvitinhController;
-import Controllers.LoaiThuocController;
+import Controllers.LoaithuocController;
 import Controllers.NhacungcapController;
 import Controllers.XaController;
 import Models.Thuoc;
@@ -119,7 +119,7 @@ public class ReadExcelThuoc {
                     thuoc.setNhacungcap(thuocController.getNhacungcap( new BigDecimal((double) cellValue).intValue()));
                     break;
                  case COLUMN_LoaiThuoc:
-                     LoaiThuocController loaiThuocController=new LoaiThuocController();
+                     LoaithuocController loaiThuocController=new LoaithuocController();
                      thuoc.setLoaiThuoc(loaiThuocController.getLoaiThuoc( new BigDecimal((double) cellValue).intValue()));
                  case COLUMN_GiaBan:
                      thuoc.setGiaBan(new BigDecimal((double) cellValue).floatValue());

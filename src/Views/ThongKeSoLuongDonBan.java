@@ -141,10 +141,12 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
 
     private void txtChonNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChonNamActionPerformed
         // TODO add your handling code here:
-        int nam=(int) txtChonNam.getSelectedItem();
-        initChart(nam);
-        chart.setVisible(false);
+        if (txtChonNam.getSelectedItem() != null) {
+            int nam = (int) txtChonNam.getSelectedItem();
+            initChart(nam);
+            chart.setVisible(false);
             chart.setVisible(true);
+        }
 
     }//GEN-LAST:event_txtChonNamActionPerformed
 

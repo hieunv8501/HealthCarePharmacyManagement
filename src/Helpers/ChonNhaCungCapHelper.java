@@ -1,6 +1,6 @@
 package Helpers;
 
-import Views.KhachhangView;
+import Views.NhacungcapView;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -10,41 +10,41 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ChonKhachhangForm extends JFrame {
+public class ChonNhaCungCapHelper extends JFrame {
 
-    KhachhangView tblKH = new KhachhangView();
+    NhacungcapView nhacungcapView = new NhacungcapView();
+
     JButton btnOK = new JButton("Chọn");
     JButton btnCancel = new JButton("Thoát");
-    JTextField txMaKH;
+    JTextField txtNCC;
 
-    public ChonKhachhangForm(JTextField _txMaKH) {
+    public ChonNhaCungCapHelper(JTextField _txtNCC) {
+        this.setTitle("Chọn nhà cung cấp");
         this.setLayout(new BorderLayout());
-        this.setTitle("Chọn nhân viên");
-        this.setSize(1200, 800);
+        this.setSize(1200, 600);
         this.setLocationRelativeTo(null);
-        this.txMaKH = _txMaKH;
+        this.txtNCC = _txtNCC;
 
         // ======= Buttons Panel ===========
         btnCancel.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_cancel_30px_1.png")));
         btnOK.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_ok_30px.png")));
 
-        JPanel plBtns = new JPanel();
-        plBtns.add(btnOK);
-        plBtns.add(btnCancel);
+        JPanel plButtons = new JPanel();
+        plButtons.add(btnOK);
+        plButtons.add(btnCancel);
 
-        this.add(tblKH, BorderLayout.CENTER);
-        this.add(plBtns, BorderLayout.SOUTH);
+        this.add(nhacungcapView, BorderLayout.CENTER);
+        this.add(plButtons, BorderLayout.SOUTH);
         this.setVisible(true);
 
+        // actionlistener
         btnOK.addActionListener((ActionEvent ae) -> {
-            String maNV = tblKH.getSelectedRow(0);
-            String tenNV = tblKH.getSelectedRow(1);
-
-            if (maNV != null) {
-                this.txMaKH.setText(maNV + " - " + tenNV);
+            String mancc = String.valueOf(nhacungcapView.getSelectedRow(1));
+            if (mancc != null) {
+                this.txtNCC.setText(mancc);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Chưa chọn khách hàng nào!");
+                JOptionPane.showMessageDialog(this, "Chưa chọn nhà cung cấp nào!");
             }
         });
 

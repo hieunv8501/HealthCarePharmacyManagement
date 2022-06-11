@@ -35,6 +35,9 @@ public class ChitietPhieunhapView extends JFrame {
         tblCTPN.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tblCTPN.getTableHeader().setOpaque(false);
         tblCTPN.getTableHeader().setBackground(Color.YELLOW);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlPhieuNhap")) {
+            btnThem.setEnabled(false);
+        }
         txtMaPN.setEditable(false);
         txtDongia.setEditable(false);
         btnSua.setEnabled(false);
@@ -46,12 +49,13 @@ public class ChitietPhieunhapView extends JFrame {
 
     public <T> void showData(List<T> list, DefaultTableModel model) {
         model.setRowCount(0);
+        int stt = 1;
         for (T t : list) {
             if (t instanceof ChitietPhieunhap) {
                 ChitietPhieunhap ctpn = (ChitietPhieunhap) t;
-                String soluong = ctpn.getSoluong() + " : " + ctpn.getThuoc().getDonvitinh().getTenDonvitinh();
+                String soluong = ctpn.getSoluong() + " : " + ctpn.getTenDonvitinh();
                 model.addRow(new Object[]{
-                    ctpn.getLoNhap().getMaLo(), ctpn.getThuoc().getMaThuoc(), ctpn.getThuoc().getTenThuoc(), ctpn.getThuoc().getDonvitinh().getTenDonvitinh(), soluong, ctpn.getDongia()
+                    stt++, ctpn.getMaThuoc(), ctpn.getTenThuoc(), ctpn.getTenDonvitinh(), soluong, ctpn.getDongia()
                 });
 
             }
@@ -62,7 +66,7 @@ public class ChitietPhieunhapView extends JFrame {
         modelCTPN = (DefaultTableModel) tblCTPN.getModel();
         List<ChitietPhieunhap> ctpn;
         ctpn = pnCtrl.layDanhsachChitietPhieunhap(maPhieunhap);
-        this.showData(ctpn, modelCTPN);
+        showData(ctpn, modelCTPN);
     }
 
     public void setVariable(int _mpn) {

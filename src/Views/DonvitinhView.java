@@ -24,7 +24,8 @@ public class DonvitinhView extends javax.swing.JPanel {
     /**
      * Creates new form DonvitinhView
      */
-    ArrayList<Donvitinh> dsDonvitinh=new ArrayList<Donvitinh>();
+    ArrayList<Donvitinh> dsDonvitinh = new ArrayList<Donvitinh>();
+
     public DonvitinhView() {
         initComponents();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -34,8 +35,13 @@ public class DonvitinhView extends javax.swing.JPanel {
         tableDanhSachDonvitinh.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachDonvitinh.getTableHeader().setOpaque(false);
         tableDanhSachDonvitinh.getTableHeader().setBackground(Color.YELLOW);
-         tableDanhSachDonvitinh.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-         btnHuy.setEnabled(false);
+        tableDanhSachDonvitinh.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlDonvitinh")) {
+            btnThem.setEnabled(false);
+            btnThemFile.setEnabled(false);
+            btnXuatFile.setEnabled(false);
+        }
+        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
@@ -295,58 +301,53 @@ public class DonvitinhView extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachDonvitinh.getSelectedRow();
-        int selectedMaDonvitinh=Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsDonvitinh.size();i++)
-        {
-            if(dsDonvitinh.get(i).getMaDonvitinh()==selectedMaDonvitinh)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachDonvitinh.getSelectedRow();
+        int selectedMaDonvitinh = Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsDonvitinh.size(); i++) {
+            if (dsDonvitinh.get(i).getMaDonvitinh() == selectedMaDonvitinh) {
+                selected = i;
             }
         }
-        String maDonvitinhString=txtMaDonvitinh.getText();
-        int maDonvitinh=Integer.parseInt(maDonvitinhString);
-        String tenDonvitinh=txtTenDonvitinh.getText();
-        String giatri=txtGiaTriDonvitinh.getText();
-        if(maDonvitinhString.equals("")||tenDonvitinh.equals("")||giatri.equals(""))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không được bỏ trống các ô thông tin!!!","Thông báo",JOptionPane.WARNING_MESSAGE);
+        String maDonvitinhString = txtMaDonvitinh.getText();
+        int maDonvitinh = Integer.parseInt(maDonvitinhString);
+        String tenDonvitinh = txtTenDonvitinh.getText();
+        String giatri = txtGiaTriDonvitinh.getText();
+        if (maDonvitinhString.equals("") || tenDonvitinh.equals("") || giatri.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không được bỏ trống các ô thông tin!!!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        Donvitinh nhacungcap=new Donvitinh(maDonvitinh,tenDonvitinh,giatri);
-        int maDonvitinhCu=(dsDonvitinh.get(selected).getMaDonvitinh());
+        Donvitinh nhacungcap = new Donvitinh(maDonvitinh, tenDonvitinh, giatri);
+        int maDonvitinhCu = (dsDonvitinh.get(selected).getMaDonvitinh());
         try {
-            DonvitinhController.capnhatDonvitinh(nhacungcap,maDonvitinhCu);
-            JOptionPane.showMessageDialog(this,"Cap nhat đơn vị tính "+nhacungcap.getTenDonvitinh()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            DonvitinhController.capnhatDonvitinh(nhacungcap, maDonvitinhCu);
+            JOptionPane.showMessageDialog(this, "Cap nhat đơn vị tính " + nhacungcap.getTenDonvitinh() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Cập nhật đơn vị tính không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cập nhật đơn vị tính không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachDonvitinh.getSelectedRow();
-        int selectedMaDonvitinh=Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsDonvitinh.size();i++)
-        {
-            if(dsDonvitinh.get(i).getMaDonvitinh()==selectedMaDonvitinh)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachDonvitinh.getSelectedRow();
+        int selectedMaDonvitinh = Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsDonvitinh.size(); i++) {
+            if (dsDonvitinh.get(i).getMaDonvitinh() == selectedMaDonvitinh) {
+                selected = i;
             }
         }
-        int maDonvitinh=dsDonvitinh.get(selected).getMaDonvitinh();
+        int maDonvitinh = dsDonvitinh.get(selected).getMaDonvitinh();
         try {
             DonvitinhController.xoaDonvitinh(maDonvitinh);
-            JOptionPane.showMessageDialog(this,"Xóa đơn vị tính "+dsDonvitinh.get(selected).getTenDonvitinh()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Xóa đơn vị tính " + dsDonvitinh.get(selected).getTenDonvitinh() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Xóa đơn vị tính "+dsDonvitinh.get(selected).getTenDonvitinh()+" không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Xóa đơn vị tính " + dsDonvitinh.get(selected).getTenDonvitinh() + " không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         ShowData();
@@ -354,18 +355,15 @@ public class DonvitinhView extends javax.swing.JPanel {
 
     private void tableDanhSachDonvitinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDanhSachDonvitinhMouseClicked
         // TODO add your handling code here:
-        int selectedrow=tableDanhSachDonvitinh.getSelectedRow();
-        int selectedMaDonvitinh=Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow,0).toString());
-        int selected=-1;
-        for(int i=0;i<dsDonvitinh.size();i++)
-        {
-            if(dsDonvitinh.get(i).getMaDonvitinh()==selectedMaDonvitinh)
-            {
-                selected=i;
+        int selectedrow = tableDanhSachDonvitinh.getSelectedRow();
+        int selectedMaDonvitinh = Integer.parseInt(tableDanhSachDonvitinh.getModel().getValueAt(selectedrow, 0).toString());
+        int selected = -1;
+        for (int i = 0; i < dsDonvitinh.size(); i++) {
+            if (dsDonvitinh.get(i).getMaDonvitinh() == selectedMaDonvitinh) {
+                selected = i;
             }
         }
-        if(selected>=0)
-        {
+        if (selected >= 0) {
             txtMaDonvitinh.setText(String.valueOf(dsDonvitinh.get(selected).getMaDonvitinh()));
             txtTenDonvitinh.setText(dsDonvitinh.get(selected).getTenDonvitinh());
             txtGiaTriDonvitinh.setText(dsDonvitinh.get(selected).getGiatri());
@@ -381,7 +379,7 @@ public class DonvitinhView extends javax.swing.JPanel {
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
         int input = JOptionPane.showConfirmDialog(null,
-            "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             if (input == 0) {
                 txtMaDonvitinh.setText("");
@@ -402,67 +400,62 @@ public class DonvitinhView extends javax.swing.JPanel {
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
 
-        String maDonvitinhString=txtMaDonvitinh.getText();
-        String tenDonvitinh=txtTenDonvitinh.getText();
-        String giatri=txtGiaTriDonvitinh.getText();
-        if(maDonvitinhString.equals("")||tenDonvitinh.equals("")||txtGiaTriDonvitinh.equals(""))
-        {
-            JOptionPane.showMessageDialog(this,"Vui lòng không bỏ trống các trường dữ liệu","Thông báo",JOptionPane.WARNING_MESSAGE);
+        String maDonvitinhString = txtMaDonvitinh.getText();
+        String tenDonvitinh = txtTenDonvitinh.getText();
+        String giatri = txtGiaTriDonvitinh.getText();
+        if (maDonvitinhString.equals("") || tenDonvitinh.equals("") || txtGiaTriDonvitinh.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không bỏ trống các trường dữ liệu", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         int maDonvitinh;
         try {
-            maDonvitinh=Integer.parseInt(maDonvitinhString);
+            maDonvitinh = Integer.parseInt(maDonvitinhString);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Lỗi định dạng số","Thông báo",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi định dạng số", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        Donvitinh donvitinhMoi=new Donvitinh(maDonvitinh,tenDonvitinh,giatri);
+        Donvitinh donvitinhMoi = new Donvitinh(maDonvitinh, tenDonvitinh, giatri);
         try {
             DonvitinhController.themDonvitinh(donvitinhMoi);
-            JOptionPane.showMessageDialog(this,"Thêm đơn vị tính "+tenDonvitinh+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thêm đơn vị tính " + tenDonvitinh + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(this,"Lỗi, không thêm được đơn vị tính "+tenDonvitinh+" !!!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi, không thêm được đơn vị tính " + tenDonvitinh + " !!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
         ShowData();
     }//GEN-LAST:event_btnLuuActionPerformed
-       public void ShowData()
-    {
-        DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachDonvitinh.getModel();
+    public void ShowData() {
+        DefaultTableModel tblModel = (DefaultTableModel) tableDanhSachDonvitinh.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsDonvitinh=DonvitinhController.getDanhSachDonvitinh();
-        if(!dsDonvitinh.isEmpty()){
-                dsDonvitinh.forEach((donvitinh1)->{
-                if(!donvitinh1.isDaXoa())
-                tblModel.addRow(new Object[]{donvitinh1.getMaDonvitinh(),donvitinh1.getTenDonvitinh(),donvitinh1.getGiatri()});
-                });
+        dsDonvitinh = DonvitinhController.getDanhSachDonvitinh();
+        if (!dsDonvitinh.isEmpty()) {
+            dsDonvitinh.forEach((donvitinh1) -> {
+                if (!donvitinh1.isDaXoa()) {
+                    tblModel.addRow(new Object[]{donvitinh1.getMaDonvitinh(), donvitinh1.getTenDonvitinh(), donvitinh1.getGiatri()});
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách đơn vị tính rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-        else
-        {
-          JOptionPane.showMessageDialog(this,"Danh sách đơn vị tính rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-        }
-         btnHuy.setEnabled(false);
+        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMaDonvitinh.setEditable(false);
         btnThem.setEnabled(true);
-        
+
     }
-       public int getMaDonvitinhMoi()
-    {
-        int maDonvitinhMoi=0;
-        for(Donvitinh donvitinh:dsDonvitinh)
-        {
-            if(donvitinh.getMaDonvitinh()>maDonvitinhMoi)
-            {
-                maDonvitinhMoi=donvitinh.getMaDonvitinh();
+
+    public int getMaDonvitinhMoi() {
+        int maDonvitinhMoi = 0;
+        for (Donvitinh donvitinh : dsDonvitinh) {
+            if (donvitinh.getMaDonvitinh() > maDonvitinhMoi) {
+                maDonvitinhMoi = donvitinh.getMaDonvitinh();
             }
         }
-        return maDonvitinhMoi+1;
+        return maDonvitinhMoi + 1;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

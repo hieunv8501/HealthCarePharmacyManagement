@@ -4,7 +4,7 @@ import Components.ReadExcelNhacungcap;
 import Components.ReadExcelThuoc;
 import Controllers.DonvitinhController;
 import Controllers.ThuocController;
-import Controllers.LoaiThuocController;
+import Controllers.LoaithuocController;
 import javax.swing.DefaultListModel;
 import Models.Donvitinh;
 import java.io.BufferedReader;
@@ -51,10 +51,15 @@ public class ThuocView extends javax.swing.JPanel {
         tableDanhSachThuoc.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachThuoc.getTableHeader().setOpaque(false);
         tableDanhSachThuoc.getTableHeader().setBackground(Color.YELLOW);
-         tableDanhSachThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableDanhSachThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //         tableDanhSachThuoc.getColumnModel().getColumn(0).setPreferredWidth(15);
 //         tableDanhSachThuoc.getColumnModel().getColumn(2).setPreferredWidth(1000);
 //         tableDanhSachThuoc.getColumnModel().getColumn(3).setPreferredWidth(500);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlThuoc")) {
+            btnThemThuoc.setEnabled(false);
+            btnThemFile.setEnabled(false);
+            btnXuatFile.setEnabled(false);
+        }
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
@@ -570,7 +575,6 @@ public class ThuocView extends javax.swing.JPanel {
         btnHuy.setEnabled(true);
         btnThemThuoc.setEnabled(false);
         txtMaThuoc.setEnabled(true);
-        
 
 
     }//GEN-LAST:event_btnThemThuocActionPerformed
@@ -631,9 +635,9 @@ public class ThuocView extends javax.swing.JPanel {
         int maThuoc = dsThuoc.get(selected).getMaThuoc();
         try {
             ThuocController.xoaThuoc(maThuoc);
-            JOptionPane.showMessageDialog(this,"Xóa thuốc"+dsThuoc.get(selected).getTenThuoc()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-             ShowData();
-             btnXoa.setEnabled(false);
+            JOptionPane.showMessageDialog(this, "Xóa thuốc" + dsThuoc.get(selected).getTenThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            ShowData();
+            btnXoa.setEnabled(false);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -667,14 +671,12 @@ public class ThuocView extends javax.swing.JPanel {
                     break;
                 }
             }
-          
-            DefaultComboBoxModel modelDonvitinh=(DefaultComboBoxModel) txtDonvitinhThuoc.getModel();
-             
-            for(int i=0;i<modelDonvitinh.getSize();i++)
-            {
-                 Donvitinh donvitinh=(Donvitinh) modelDonvitinh.getElementAt(i);
-                if(donvitinh.getMaDonvitinh()==(dsThuoc.get(selected).getDonvitinh()).getMaDonvitinh())
-                {
+
+            DefaultComboBoxModel modelDonvitinh = (DefaultComboBoxModel) txtDonvitinhThuoc.getModel();
+
+            for (int i = 0; i < modelDonvitinh.getSize(); i++) {
+                Donvitinh donvitinh = (Donvitinh) modelDonvitinh.getElementAt(i);
+                if (donvitinh.getMaDonvitinh() == (dsThuoc.get(selected).getDonvitinh()).getMaDonvitinh()) {
 
                     txtDonvitinhThuoc.setSelectedIndex(i);
                     break;
@@ -690,19 +692,16 @@ public class ThuocView extends javax.swing.JPanel {
                 }
             }
             txtTiLeQuyDoi.setText(String.valueOf(dsThuoc.get(selected).getTileQuydoi()));
-            DefaultListModel dotuoiModel=(DefaultListModel)listDotuoiThuoc.getModel();
-            for(int i=0;i<dotuoiModel.getSize();i++)
-            {
-                if(dotuoiModel.get(i).equals(dsThuoc.get(selected).getDotuoi()))
-                {
+            DefaultListModel dotuoiModel = (DefaultListModel) listDotuoiThuoc.getModel();
+            for (int i = 0; i < dotuoiModel.getSize(); i++) {
+                if (dotuoiModel.get(i).equals(dsThuoc.get(selected).getDotuoi())) {
                     listDotuoiThuoc.setSelectedIndex(i);
                     break;
                 }
             }
-            String linkHinhAnh=dsThuoc.get(selected).getHinhanh();
-            if(!linkHinhAnh.equals(""))
-            {
-                new SetImage().setImageLabel(labelHinhanh,linkHinhAnh);
+            String linkHinhAnh = dsThuoc.get(selected).getHinhanh();
+            if (!linkHinhAnh.equals("")) {
+                new SetImage().setImageLabel(labelHinhanh, linkHinhAnh);
 
             }
 
@@ -749,65 +748,63 @@ public class ThuocView extends javax.swing.JPanel {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
-        String maThuocString=txtMaThuoc.getText();
-        int maThuoc=Integer.parseInt(maThuocString);
-        String maThuocMoi=this.txtLoaiThuoc.getSelectedItem().toString();
-        String tenThuocMoi=this.txtTenThuoc.getText();
+        String maThuocString = txtMaThuoc.getText();
+        int maThuoc = Integer.parseInt(maThuocString);
+        String maThuocMoi = this.txtLoaiThuoc.getSelectedItem().toString();
+        String tenThuocMoi = this.txtTenThuoc.getText();
         //String donvitinh=this.donvitinhThuoc.getItemAt()
-        String motaThuocmoi=this.txtMotaThuoc.getText();
-        String dongiaThuocmoiString=this.giabanThuoc.getText();
-        Float dongiaThuocmoiFloat=Float.parseFloat(dongiaThuocmoiString);
-        String maLoaiThuocMoi=this.txtLoaiThuoc.getSelectedItem().toString();
-        Donvitinh donvitinhselected=  (Donvitinh) this.txtDonvitinhThuoc.getSelectedItem();
-        Donvitinh donviQuydoiThuocSelected=(Donvitinh)this.txtDonviQuydoi.getSelectedItem();
-        String tileQuydoiThuocMoi=txtTiLeQuyDoi.getText();
-        String dotuoi=this.listDotuoiThuoc.getSelectedValue();
-        String GiaBan=this.giabanThuoc.getText();
-        Nhacungcap nhacungcapSelected=(Nhacungcap)txtnhacungcapThuoc.getSelectedItem();
-        LoaiThuoc loaiThuocMoi=(LoaiThuoc)this.txtLoaiThuoc.getSelectedItem();
-        if(maThuocMoi.equals("")||maThuocMoi.equals(null)||tenThuocMoi.equals("")||tenThuocMoi.equals(null)||motaThuocmoi.equals("")||motaThuocmoi.equals(null)||dongiaThuocmoiString.equals("")||dongiaThuocmoiString.equals(null)||maLoaiThuocMoi.equals("")||maLoaiThuocMoi.equals(null)||dongiaThuocmoiString.equals("")||dongiaThuocmoiString.equals(null)|dotuoi.equals("")||dotuoi.equals(null)||GiaBan.equals("")||GiaBan.equals(null)||hinhanh.equals("")||hinhanh.equals(null))
-        {
-            JOptionPane.showMessageDialog(null,"Mã thuốc, tên thuốc,mô tả, đơn giá, mã loại thuốc thuốc, đơn vị tính,đơn vị quy đổi, tỉ lệ quy đổi,độ tuổi, giá bán, hình ảnh không được để trống","Thông báo",JOptionPane.ERROR_MESSAGE);
+        String motaThuocmoi = this.txtMotaThuoc.getText();
+        String dongiaThuocmoiString = this.giabanThuoc.getText();
+        Float dongiaThuocmoiFloat = Float.parseFloat(dongiaThuocmoiString);
+        String maLoaiThuocMoi = this.txtLoaiThuoc.getSelectedItem().toString();
+        Donvitinh donvitinhselected = (Donvitinh) this.txtDonvitinhThuoc.getSelectedItem();
+        Donvitinh donviQuydoiThuocSelected = (Donvitinh) this.txtDonviQuydoi.getSelectedItem();
+        String tileQuydoiThuocMoi = txtTiLeQuyDoi.getText();
+        String dotuoi = this.listDotuoiThuoc.getSelectedValue();
+        String GiaBan = this.giabanThuoc.getText();
+        Nhacungcap nhacungcapSelected = (Nhacungcap) txtnhacungcapThuoc.getSelectedItem();
+        LoaiThuoc loaiThuocMoi = (LoaiThuoc) this.txtLoaiThuoc.getSelectedItem();
+        if (maThuocMoi.equals("") || maThuocMoi.equals(null) || tenThuocMoi.equals("") || tenThuocMoi.equals(null) || motaThuocmoi.equals("") || motaThuocmoi.equals(null) || dongiaThuocmoiString.equals("") || dongiaThuocmoiString.equals(null) || maLoaiThuocMoi.equals("") || maLoaiThuocMoi.equals(null) || dongiaThuocmoiString.equals("") || dongiaThuocmoiString.equals(null) | dotuoi.equals("") || dotuoi.equals(null) || GiaBan.equals("") || GiaBan.equals(null) || hinhanh.equals("") || hinhanh.equals(null)) {
+            JOptionPane.showMessageDialog(null, "Mã thuốc, tên thuốc,mô tả, đơn giá, mã loại thuốc thuốc, đơn vị tính,đơn vị quy đổi, tỉ lệ quy đổi,độ tuổi, giá bán, hình ảnh không được để trống", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Thuoc thuocThemVao=new Thuoc(maThuoc,tenThuocMoi,motaThuocmoi,dotuoi,hinhanh,donvitinhselected,donviQuydoiThuocSelected,Integer.parseInt(tileQuydoiThuocMoi),nhacungcapSelected,loaiThuocMoi,dongiaThuocmoiFloat);
+        Thuoc thuocThemVao = new Thuoc(maThuoc, tenThuocMoi, motaThuocmoi, dotuoi, hinhanh, donvitinhselected, donviQuydoiThuocSelected, Integer.parseInt(tileQuydoiThuocMoi), nhacungcapSelected, loaiThuocMoi, dongiaThuocmoiFloat);
         try {
             ThuocController.themThuoc(thuocThemVao);
-            JOptionPane.showMessageDialog(this,"Thêm thuốc"+thuocThemVao.getTenThuoc()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thêm thuốc" + thuocThemVao.getTenThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
-      
-           
+
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Thêm thuốc "+thuocThemVao.getTenThuoc()+" không thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Thêm thuốc " + thuocThemVao.getTenThuoc() + " không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-         
+
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-          int input = JOptionPane.showConfirmDialog(null,
+        int input = JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             if (input == 0) {
-            txtMaThuoc.setText("");
-            txtTenThuoc.setText("");
-            txtMotaThuoc.setText("");
-            txtTiLeQuyDoi.setText("");
-            hinhanh="";
-            labelHinhanh.setIcon(null);
-            giabanThuoc.setText("");            
-            btnHuy.setEnabled(false);
-            btnLuu.setEnabled(false);
-            btnSua.setEnabled(false);
-            btnThemThuoc.setEnabled(true);
-            tableDanhSachThuoc.getSelectionModel().clearSelection();
+                txtMaThuoc.setText("");
+                txtTenThuoc.setText("");
+                txtMotaThuoc.setText("");
+                txtTiLeQuyDoi.setText("");
+                hinhanh = "";
+                labelHinhanh.setIcon(null);
+                giabanThuoc.setText("");
+                btnHuy.setEnabled(false);
+                btnLuu.setEnabled(false);
+                btnSua.setEnabled(false);
+                btnThemThuoc.setEnabled(true);
+                tableDanhSachThuoc.getSelectionModel().clearSelection();
 
+            }
         }
-        }
-        
-        
+
+
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void tableDanhSachThuocMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDanhSachThuocMouseEntered
@@ -816,83 +813,72 @@ public class ThuocView extends javax.swing.JPanel {
 
     private void btnThemFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemFileActionPerformed
         // TODO add your handling code here:
-           JFileChooser fileChooser=new JFileChooser();
-        FileNameExtensionFilter filefilter= new FileNameExtensionFilter("File excel","xlsx","xls","csv");
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filefilter = new FileNameExtensionFilter("File excel", "xlsx", "xls", "csv");
         fileChooser.setFileFilter(filefilter);
         fileChooser.setMultiSelectionEnabled(false);
-        int x=fileChooser.showDialog(this, "Open");
-        
-        if(x==JFileChooser.APPROVE_OPTION)
-        {
-            File file=fileChooser.getSelectedFile();
-             if(!file.exists())
-            {
-                int result = JOptionPane.showConfirmDialog(this,"The file "+file.getName()+" không tồn tại","Thông báo",JOptionPane.OK_OPTION,JOptionPane.ERROR_MESSAGE);
+        int x = fileChooser.showDialog(this, "Open");
 
-            }
-            else{
-                try{
-            
-            ReadExcelThuoc c=new ReadExcelThuoc();
-            ArrayList<Thuoc>dsThuocs=c.readExcel(file.getAbsolutePath());
-            dsThuocs.forEach(Thuoc->{
+        if (x == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (!file.exists()) {
+                int result = JOptionPane.showConfirmDialog(this, "The file " + file.getName() + " không tồn tại", "Thông báo", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+
+            } else {
                 try {
-                    ThuocController.themThuoc(Thuoc);
-                } catch (Exception ex) {
-                    Logger.getLogger(NhacungcapView.class.getName()).log(Level.SEVERE, null, ex);
+
+                    ReadExcelThuoc c = new ReadExcelThuoc();
+                    ArrayList<Thuoc> dsThuocs = c.readExcel(file.getAbsolutePath());
+                    dsThuocs.forEach(Thuoc -> {
+                        try {
+                            ThuocController.themThuoc(Thuoc);
+                        } catch (Exception ex) {
+                            Logger.getLogger(NhacungcapView.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    JOptionPane.showMessageDialog(this, "Thêm danh sách nhà cung cấp từ file: " + file.getAbsolutePath() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    ShowData();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.toString(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            });
-            JOptionPane.showMessageDialog(this,"Thêm danh sách nhà cung cấp từ file: "+ file.getAbsolutePath()+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-               ShowData();
-                }
-                 catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(this,e.toString(),"Lỗi",JOptionPane.ERROR_MESSAGE);
             }
-        }
-           
+
         }
     }//GEN-LAST:event_btnThemFileActionPerformed
 
     private void btnXuatFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatFileActionPerformed
         // TODO add your handling code here:
-        WriteExcelThuoc writeExcelThuoc=new WriteExcelThuoc();
-          final List<Thuoc> thuocs = ThuocController.getDanhSachThuoc();
-           JFileChooser fchoose = new JFileChooser();
-           int option = fchoose.showOpenDialog(fchoose);
-           if(option == JFileChooser.APPROVE_OPTION){
-             String name = fchoose.getSelectedFile().getName(); 
-             String path = fchoose.getSelectedFile().getParentFile().getPath();
-             String file = path + "\\" + name + ".xlsx"; 
-             final String excelFilePath = file;
-             try{
+        WriteExcelThuoc writeExcelThuoc = new WriteExcelThuoc();
+        final List<Thuoc> thuocs = ThuocController.getDanhSachThuoc();
+        JFileChooser fchoose = new JFileChooser();
+        int option = fchoose.showOpenDialog(fchoose);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            String name = fchoose.getSelectedFile().getName();
+            String path = fchoose.getSelectedFile().getParentFile().getPath();
+            String file = path + "\\" + name + ".xlsx";
+            final String excelFilePath = file;
+            try {
                 writeExcelThuoc.writeExcel(thuocs, excelFilePath);
-             }
-             catch(IOException e)
-             {
-                 JOptionPane.showMessageDialog(this,e.toString(),"Lỗi",JOptionPane.ERROR_MESSAGE);
-             }
-             
-           }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, e.toString(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_btnXuatFileActionPerformed
 
-     public void ShowData()
-    {
-        DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachThuoc.getModel();
+    public void ShowData() {
+        DefaultTableModel tblModel = (DefaultTableModel) tableDanhSachThuoc.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsThuoc=ThuocController.getDanhSachThuoc();
-        if(!dsThuoc.isEmpty()){
-                dsThuoc.forEach((thuoc1)->{
-                 if(!thuoc1.isDaXoa())
-                 {
-                tblModel.addRow(new Object[]{thuoc1.getMaThuoc(),thuoc1.getTenThuoc(),thuoc1.getMota(),thuoc1.getDotuoi(),thuoc1.getHinhanh(),thuoc1.getDonvitinh().getMaDonvitinh(),thuoc1.getDonviQuydoi().getMaDonvitinh(),thuoc1.getTileQuydoi(),thuoc1.getNhacungcap(),thuoc1.getLoaiThuoc(),thuoc1.getGiaBan()});
-                 }
-                });
-        }
-        else
-        {
-          JOptionPane.showMessageDialog(this,"Danh sách thuốc rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        dsThuoc = ThuocController.getDanhSachThuoc();
+        if (!dsThuoc.isEmpty()) {
+            dsThuoc.forEach((thuoc1) -> {
+                if (!thuoc1.isDaXoa()) {
+                    tblModel.addRow(new Object[]{thuoc1.getMaThuoc(), thuoc1.getTenThuoc(), thuoc1.getMota(), thuoc1.getDotuoi(), thuoc1.getHinhanh(), thuoc1.getDonvitinh().getMaDonvitinh(), thuoc1.getDonviQuydoi().getMaDonvitinh(), thuoc1.getTileQuydoi(), thuoc1.getNhacungcap(), thuoc1.getLoaiThuoc(), thuoc1.getGiaBan()});
+                }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách thuốc rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
     }
@@ -900,7 +886,7 @@ public class ThuocView extends javax.swing.JPanel {
     public void showLoaiThuoc() {
         DefaultComboBoxModel loaiThuocModel = (DefaultComboBoxModel) txtLoaiThuoc.getModel();
         loaiThuocModel.removeAllElements();
-        ArrayList<LoaiThuoc> danhsachLoaiThuoc = LoaiThuocController.getDanhSachLoaiThuoc();
+        ArrayList<LoaiThuoc> danhsachLoaiThuoc = LoaithuocController.getDanhSachLoaiThuoc();
         danhsachLoaiThuoc.forEach(LoaiThuoc -> {
             loaiThuocModel.addElement(LoaiThuoc);
         });
@@ -945,19 +931,17 @@ public class ThuocView extends javax.swing.JPanel {
         DotuoiThuocModel.addElement("Từ 13 tới 16 tuổi");
         DotuoiThuocModel.addElement("Từ 16 tuổi trở lên");
         listDotuoiThuoc.setModel(DotuoiThuocModel);
-     }
-     public int getMaThuocMoi()
-     {
-         int maThuocMoi=0;
-        for(Thuoc thuoc:dsThuoc)
-        {
-            if(thuoc.getMaThuoc()>maThuocMoi)
-            {
-                maThuocMoi=thuoc.getMaThuoc();
+    }
+
+    public int getMaThuocMoi() {
+        int maThuocMoi = 0;
+        for (Thuoc thuoc : dsThuoc) {
+            if (thuoc.getMaThuoc() > maThuocMoi) {
+                maThuocMoi = thuoc.getMaThuoc();
             }
         }
-        return maThuocMoi+1;
-     }
+        return maThuocMoi + 1;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChonHinhanhThuoc;

@@ -43,16 +43,16 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     HoadonView hoadon = new HoadonView();
     QuyenView quyenForm = new QuyenView();
     TaikhoanView taikhoanForm = new TaikhoanView();
-    PhieunhapView phieunhapForm = new PhieunhapView();
+    PhieunhapView phieunhapView = new PhieunhapView();
+    PhieunhapForm phieunhapForm = new PhieunhapForm();
     NhacungcapView nhacungcap = new NhacungcapView();
     ThuocView thuoc = new ThuocView();
     LoaithuocView loaiThuoc = new LoaithuocView();
     DonvitinhView donvitinh = new DonvitinhView();
     ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
-    BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
+    //BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
     QuanlyKhoView quanlykho = new QuanlyKhoView();
-
-    KhachHangView khachhangview = new KhachHangView();
+    KhachhangView khachhangview = new KhachhangView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -97,9 +97,10 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
-            "Loại thuốc", "icons8_assistant_30px.png", "", "qlThuoc",
-            "Đơn vị tính", "icons8_assistant_30px.png", "", "alThuoc",
+            "Loại thuốc", "icons8_assistant_30px.png", "xemLoaiThuoc", "qlLoaiThuoc",
+            "Đơn vị tính", "icons8_assistant_30px.png", "xemDonvitinh", "qlDonvitinh",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
+            "Phiếu nhập", "icons8_bill_30px.png", "xemPhieuNhap", "qlPhieuNhap",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
             "seperate", "1", "", "",
             "Nhân viên", "icons8_assistant_30px.png", "xemNhanVien", "qlNhanVien",
@@ -109,7 +110,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Tài khoản", "icons8_key_30px.png", "xemTaiKhoan", "qlTaiKhoan",
             "Quyền", "icons8_police_badge_30px.png", "xemQuyen", "qlQuyen",
             "seperate", "1", "", "",
-            "Thống kê", "icons8_bar_chart_30px.png", "", "",
+            "Thống kê", "icons8_bar_chart_30px.png", "qlThongKe", "qlThongKe",
             "Công cụ", "icons8_maintenance_30px.png", "", "",
             "Cài đặt", "icons8_settings_30px.png", "", ""
         };
@@ -300,6 +301,10 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 plContent.add(hoadon, BorderLayout.CENTER);
                 break;
 
+            case "Phiếu nhập":
+                plContent.add(phieunhapView, BorderLayout.CENTER);
+                break;
+
             case "Tài khoản":
                 plContent.add(taikhoanForm, BorderLayout.CENTER);
                 break;
@@ -321,21 +326,27 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 emptypage.setLabelText("Cài đặt đang bảo trì, vui lòng thử lại sau");
                 plContent.add(emptypage, BorderLayout.CENTER);
                 break;
+
             case "Nhà cung cấp":
                 plContent.add(nhacungcap, BorderLayout.CENTER);
                 break;
+
             case "Thuốc":
                 plContent.add(thuoc, BorderLayout.CENTER);
                 break;
+
             case "Loại thuốc":
                 plContent.add(loaiThuoc, BorderLayout.CENTER);
                 break;
+
             case "Đơn vị tính":
                 plContent.add(donvitinh, BorderLayout.CENTER);
                 break;
+
             case "Thống kê":
-                plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
+                //plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
                 break;
+
             case "Khách hàng":
                 plContent.add(khachhangview, BorderLayout.CENTER);
                 break;

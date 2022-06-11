@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class DonvitinhController {
-    private ArrayList<Donvitinh> dsDonvitinhs=new ArrayList<>();
-   public Donvitinh getDonvitinh(int _maDonvitinh) {
-        for(Donvitinh donvitinh:getDanhSachDonvitinh())
-            if(donvitinh.getMaDonvitinh()==_maDonvitinh)
-            {
+
+    private ArrayList<Donvitinh> dsDonvitinhs = new ArrayList<>();
+
+    public Donvitinh getDonvitinh(int _maDonvitinh) {
+        for (Donvitinh donvitinh : getDanhSachDonvitinh()) {
+            if (donvitinh.getMaDonvitinh() == _maDonvitinh) {
 
                 return donvitinh;
             }
-         return null;
         }
-       
+        return null;
+    }
 
     public static void themDonvitinh(Donvitinh donvitinh) {
         String command = "INSERT INTO donvitinh(MaDonvitinh,TenDonvitinh,GiaTri)  values (?,?,?)";
@@ -68,9 +69,9 @@ public class DonvitinhController {
             e.printStackTrace();
         }
     }
-    public static  ArrayList<Donvitinh> getDanhSachDonvitinh()
-    {
-          ArrayList<Donvitinh> dsDonvitinh = new ArrayList();
+
+    public static ArrayList<Donvitinh> getDanhSachDonvitinh() {
+        ArrayList<Donvitinh> dsDonvitinh = new ArrayList();
         DBConnection DonvitinhConnection = new DBConnection();
         try {
             String query = "SELECT * FROM donvitinh";
@@ -78,13 +79,13 @@ public class DonvitinhController {
             if (rs != null) {
                 while (rs.next()) {
                     int maDonvitinh = rs.getInt("MaDonViTinh");
-                    String tenDonvitinh= rs.getString("TenDonViTinh");
-                    String giatri=rs.getString("GiaTri"); 
-                    boolean daXoa= (rs.getInt("DaXoa")==1)? true:false;
-                    dsDonvitinh.add(new Donvitinh(maDonvitinh,tenDonvitinh,giatri,daXoa));
+                    String tenDonvitinh = rs.getString("TenDonViTinh");
+                    String giatri = rs.getString("GiaTri");
+                    boolean daXoa = (rs.getInt("DaXoa") == 1) ? true : false;
+                    dsDonvitinh.add(new Donvitinh(maDonvitinh, tenDonvitinh, giatri, daXoa));
                 }
             }
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "-- ERROR! Lỗi đọc dữ liệu bảng đơn vị tính");
         } finally {

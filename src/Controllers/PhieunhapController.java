@@ -14,9 +14,53 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class PhieunhapController {
+
+    private static ArrayList<Phieunhap> dspn = new ArrayList<>();
+
+    public ArrayList<ChitietPhieunhap> layTatCaChiTietLoNhapTheoMaThuoc() {
+        ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        String query = "SELECT thuoc.MaThuoc, thuoc.TenThuoc, TenLoaiThuoc, SUM(SoLuongConLai) AS SoLuongConLai, donvitinh.TenDonviTinh, dvt.TenDonviTinh AS TenDonViQuiDoi, thuoc.TiLeQuiDoi, HinhAnh FROM lonhap, thuoc, loaithuoc, chitietphieunhap, donvitinh, donvitinh dvt WHERE thuoc.DaXoa = 0 AND lonhap.DaXoa = 0 AND thuoc.MaThuoc = lonhap.MaThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND lonhap.MaPhieuNhap = chitietphieunhap.MaPhieuNhap AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND dvt.MaDonViTinh = thuoc.MaDonViQuiDoi AND thuoc.MaThuoc = lonhap.MaThuoc AND thuoc.MaLoaiThuoc = loaithuoc.MaLoaiThuoc AND NgayHetHan >= '" + formatter.format(date) + "' GROUP BY thuoc.MaThuoc, loaithuoc.TenLoaiThuoc, donvitinh.TenDonviTinh, dvt.TenDonviTinh, thuoc.TenThuoc, thuoc.TiLeQuiDoi, HinhAnh";
+        DBConnection con = new DBConnection();
+        try {
+            ResultSet rs = con.sqlQuery(query);
+
+            if (rs != null) {
+                while (rs.next()) {
+                    int maThuoc = rs.getInt("MaThuoc");
+                    String tenThuoc = rs.getString("TenThuoc");
+                    String tenLoaithuoc = rs.getString("TenLoaiThuoc");
+                    int soluongConlai = rs.getInt("SoLuongConLai");
+                    String tenDonvitinh = rs.getString("TenDonviTinh");
+                    String tenDonviQuidoi = rs.getString("TenDonViQuiDoi");
+                    int tileQuydoi = rs.getInt("TiLeQuiDoi");
+                    String hinhAnh = rs.getString("HinhAnh");
+
+                    ChitietPhieunhap ctpn = new ChitietPhieunhap();
+                    ctpn.setMaThuoc(maThuoc);
+                    ctpn.setTenThuoc(tenThuoc);
+                    ctpn.setTenloaiThuoc(tenLoaithuoc);
+                    ctpn.setSoLuongConLai(soluongConlai);
+                    ctpn.setTenDonvitinh(tenDonvitinh);
+                    ctpn.setTenDonvibanle(tenDonviQuidoi);
+                    ctpn.setTileQuidoi(tileQuydoi);
+                    ctpn.setHinhAnh(hinhAnh);
+                    dsctpn.add(ctpn);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return dsctpn;
+    }
 
     public Donvitinh layDonvitinh(int maThuoc) {
         String sqlCommand = "SELECT * FROM donvitinh, thuoc Where thuoc.DaXoa = 0 AND MaThuoc = '" + maThuoc + "' AND thuoc.MaDonViTinh = donvitinh.MaDonViTinh";
@@ -40,8 +84,23 @@ public class PhieunhapController {
         return null;
     }
 
-    public int getNextID() {
-        return this.layDanhsachPhieuNhapAll().size() + 1;
+    public static int getNextID() {
+        dspn = layDanhsachPhieuNhapAll();
+        int i = 0;
+        int nextMaPhieunhap = dspn.size() + i;
+        boolean flag = false;
+        while (!flag) {
+            for (Phieunhap pn : dspn) {
+                if (pn.getMaPhieunhap() == nextMaPhieunhap) {
+                    i++;
+                    nextMaPhieunhap = dspn.size() + i;
+                    flag = false;
+                    break;
+                }
+            }
+            flag = true;
+        }
+        return nextMaPhieunhap;
     }
 
     public static ArrayList<Thuoc> layDanhSachThuoc() {
@@ -97,9 +156,9 @@ public class PhieunhapController {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getMaPhieunhap());
-            pre.setInt(2, ctpn.getThuoc().getMaThuoc());
+            pre.setInt(2, ctpn.getMaThuoc());
             pre.setString(3, ctpn.getNgaySanxuat().toString());
-            pre.setString(4, ctpn.getNgaySanxuat().toString());
+            pre.setString(4, ctpn.getNgayHethan().toString());
             pre.setInt(5, ctpn.getSoluong());
             pre.setFloat(6, ctpn.getDongia());
 
@@ -150,7 +209,7 @@ public class PhieunhapController {
             pre.setString(3, ctpn.getNgaySanxuat().toString());
             pre.setString(4, ctpn.getNgayHethan().toString());
             pre.setInt(5, ctpn.getMaPhieunhap());
-            pre.setInt(6, ctpn.getThuoc().getMaThuoc());
+            pre.setInt(6, ctpn.getMaThuoc());
 
             pre.executeUpdate();
             conn.closeConnection();
@@ -177,7 +236,7 @@ public class PhieunhapController {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getMaPhieunhap());
-            pre.setInt(2, ctpn.getThuoc().getMaThuoc());
+            pre.setInt(2, ctpn.getMaThuoc());
             pre.executeUpdate();
             conn.closeConnection();
         } catch (Exception e) {
@@ -264,9 +323,7 @@ public class PhieunhapController {
                     LocalDate ngaySanxuat = rs.getDate("NgaySanXuat").toLocalDate();
                     LocalDate ngayHethan = rs.getDate("NgayHetHan").toLocalDate();
                     Boolean daXoa = rs.getBoolean("DaXoa");
-                    LonhapController loCtrl = new LonhapController();
-                    ThuocController thuocCtrl = new ThuocController();
-                    dsctpn.add(new ChitietPhieunhap(maPhieunhap, loCtrl.layLoNhap(maLo), thuocCtrl.getThuoc(maThuoc), soLuong, donGia, ngaySanxuat, ngaySanxuat, daXoa));
+                    dsctpn.add(new ChitietPhieunhap(maPhieunhap, maThuoc, soLuong, donGia, ngaySanxuat, ngayHethan, daXoa));
                 }
             }
         } catch (Exception e) {

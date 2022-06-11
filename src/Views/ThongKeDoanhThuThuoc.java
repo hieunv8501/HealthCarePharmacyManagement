@@ -29,8 +29,8 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         initComponents();
         showNam();
         //DecimalFormat df=new DecimalFormat("$ #,##0.##");
-  chart.addLegend("Doanh thu", new Color(140, 50, 180));
-            
+        chart.addLegend("Doanh thu", new Color(140, 50, 180));
+
 //        chart.addLegend("1-2", new Color(135, 189, 245));
 //        chart.addLegend("2-3", new Color(189, 135, 245));
 //        chart.addLegend("3-4", new Color(139, 0, 222));
@@ -41,36 +41,37 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
 //        chart.addLegend("8-9", new Color(190, 110, 150));
 //        chart.addLegend("9-10", new Color(100, 150, 130));
     }
-    public void initChart(int nam)
-    {   
+
+    public void initChart(int nam) {
         chart.removeData();
-         BaoCaoController baocao=new BaoCaoController();
-        HashMap<Integer,Float> doanhthu=new HashMap<>();
-        doanhthu=baocao.getDoanhThuThang(nam);
-        chart.addData(new ModelChart("Tháng 1", new double[]{doanhthu.get(1)==null? 0:doanhthu.get(1)}));
-        chart.addData(new ModelChart("Tháng 2", new double[]{doanhthu.get(2)==null? 0:doanhthu.get(2)}));
-        chart.addData(new ModelChart("Tháng 3", new double[]{doanhthu.get(3)==null? 0:doanhthu.get(3)}));
-        chart.addData(new ModelChart("Tháng 4", new double[]{doanhthu.get(4)==null? 0:doanhthu.get(4)}));
-        chart.addData(new ModelChart("Tháng 5", new double[]{doanhthu.get(5)==null? 0:doanhthu.get(5)}));
-        chart.addData(new ModelChart("Tháng 6", new double[]{doanhthu.get(6)==null? 0:doanhthu.get(6)}));
-        chart.addData(new ModelChart("Tháng 7", new double[]{doanhthu.get(7)==null? 0:doanhthu.get(7)}));
-        chart.addData(new ModelChart("Tháng 8", new double[]{doanhthu.get(8)==null? 0:doanhthu.get(8)}));
-        chart.addData(new ModelChart("Tháng 9", new double[]{doanhthu.get(9)==null? 0:doanhthu.get(9)}));
-        chart.addData(new ModelChart("Tháng 10", new double[]{doanhthu.get(10)==null? 0:doanhthu.get(10)}));
-        chart.addData(new ModelChart("Tháng 11", new double[]{doanhthu.get(11)==null? 0:doanhthu.get(11)}));
-        chart.addData(new ModelChart("Tháng 12", new double[]{doanhthu.get(12)==null? 0:doanhthu.get(12)}));
+        BaoCaoController baocao = new BaoCaoController();
+        HashMap<Integer, Float> doanhthu = new HashMap<>();
+        doanhthu = baocao.getDoanhThuThang(nam);
+        chart.addData(new ModelChart("Tháng 1", new double[]{doanhthu.get(1) == null ? 0 : doanhthu.get(1)}));
+        chart.addData(new ModelChart("Tháng 2", new double[]{doanhthu.get(2) == null ? 0 : doanhthu.get(2)}));
+        chart.addData(new ModelChart("Tháng 3", new double[]{doanhthu.get(3) == null ? 0 : doanhthu.get(3)}));
+        chart.addData(new ModelChart("Tháng 4", new double[]{doanhthu.get(4) == null ? 0 : doanhthu.get(4)}));
+        chart.addData(new ModelChart("Tháng 5", new double[]{doanhthu.get(5) == null ? 0 : doanhthu.get(5)}));
+        chart.addData(new ModelChart("Tháng 6", new double[]{doanhthu.get(6) == null ? 0 : doanhthu.get(6)}));
+        chart.addData(new ModelChart("Tháng 7", new double[]{doanhthu.get(7) == null ? 0 : doanhthu.get(7)}));
+        chart.addData(new ModelChart("Tháng 8", new double[]{doanhthu.get(8) == null ? 0 : doanhthu.get(8)}));
+        chart.addData(new ModelChart("Tháng 9", new double[]{doanhthu.get(9) == null ? 0 : doanhthu.get(9)}));
+        chart.addData(new ModelChart("Tháng 10", new double[]{doanhthu.get(10) == null ? 0 : doanhthu.get(10)}));
+        chart.addData(new ModelChart("Tháng 11", new double[]{doanhthu.get(11) == null ? 0 : doanhthu.get(11)}));
+        chart.addData(new ModelChart("Tháng 12", new double[]{doanhthu.get(12) == null ? 0 : doanhthu.get(12)}));
 
     }
-    public void showNam()
-    {
-         DefaultComboBoxModel chonNamModel=(DefaultComboBoxModel) txtChonNam.getModel();
-         BaoCaoController baoCaoController=new BaoCaoController();
-      chonNamModel.removeAllElements();
-        ArrayList<Integer> nams= baoCaoController.getNamHoaDon();
-        nams.forEach(nam->{
+
+    public void showNam() {
+        DefaultComboBoxModel chonNamModel = (DefaultComboBoxModel) txtChonNam.getModel();
+        BaoCaoController baoCaoController = new BaoCaoController();
+        chonNamModel.removeAllElements();
+        ArrayList<Integer> nams = baoCaoController.getNamHoaDon();
+        nams.forEach(nam -> {
             chonNamModel.addElement(nam);
-        });        
+        });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,10 +147,10 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
 
     private void txtChonNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChonNamActionPerformed
         // TODO add your handling code here:
-        int nam=(int) txtChonNam.getSelectedItem();
+        int nam = (int) txtChonNam.getSelectedItem();
         initChart(nam);
         chart.setVisible(false);
-            chart.setVisible(true);
+        chart.setVisible(true);
 
     }//GEN-LAST:event_txtChonNamActionPerformed
 

@@ -37,6 +37,7 @@ public class PhieunhapView extends JPanel {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
+            btnTaiXuongExcel.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
         }
         refresh();

@@ -114,7 +114,7 @@ public class ThuocController {
                     Donvitinh donvitinh=donvitinhController.getDonvitinh(maDonvitinh);
                     String hinhanh=rs.getString("HinhAnh"); 
                     int maloaithuoc=rs.getInt("MaLoaiThuoc");
-                    LoaiThuocController loaiThuocController=new LoaiThuocController();
+                    LoaithuocController loaiThuocController=new LoaithuocController();
                     LoaiThuoc loaiThuoc=loaiThuocController.getLoaiThuoc(maloaithuoc);
                     String giabanString=rs.getString("GiaBan");
                     float giaban=Float.parseFloat(giabanString);

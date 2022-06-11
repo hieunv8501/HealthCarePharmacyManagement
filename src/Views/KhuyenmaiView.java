@@ -47,6 +47,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         dsMaKM.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsMaKM.getTableHeader().setOpaque(false);
         dsMaKM.getTableHeader().setBackground(Color.YELLOW);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+            btnThem.setEnabled(false);
+        }
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);

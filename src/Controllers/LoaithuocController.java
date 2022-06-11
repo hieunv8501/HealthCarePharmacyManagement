@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class LoaiThuocController {
+public class LoaithuocController {
    // private static  ArrayList<LoaiThuoc> dsLoaiThuocs=null;
     public static  void themLoaiThuoc(LoaiThuoc loaiThuoc)
     {

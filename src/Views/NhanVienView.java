@@ -1,9 +1,15 @@
 package Views;
 
-public class NhanVienView extends javax.swing.JPanel {
+public class NhanvienView extends javax.swing.JPanel {
 
-    public NhanVienView() {
+    public NhanvienView() {
         initComponents();
+        
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlNhanVien")) {
+            btnThem.setEnabled(false);
+            btnSua.setEnabled(false);
+            btnXoa.setEnabled(false);
+        }
     }
 
     /**
@@ -34,9 +40,9 @@ public class NhanVienView extends javax.swing.JPanel {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -71,11 +77,11 @@ public class NhanVienView extends javax.swing.JPanel {
 
         jButton1.setText("Tìm kiếm");
 
-        jButton2.setText("Thêm");
+        btnThem.setText("Thêm");
 
-        jButton3.setText("Sửa");
+        btnSua.setText("Sửa");
 
-        jButton4.setText("Xóa");
+        btnXoa.setText("Xóa");
 
         jLabel10.setText("Lương:");
 
@@ -89,7 +95,7 @@ public class NhanVienView extends javax.swing.JPanel {
                         .addGap(125, 125, 125)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnThem))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,9 +134,9 @@ public class NhanVienView extends javax.swing.JPanel {
                                 .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                 .addComponent(jTextField4))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnSua)
                         .addGap(180, 180, 180)
-                        .addComponent(jButton4)))
+                        .addComponent(btnXoa)))
                 .addGap(57, 57, 57))
         );
         jPanel1Layout.setVerticalGroup(
@@ -175,9 +181,9 @@ public class NhanVienView extends javax.swing.JPanel {
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnThem)
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa))
                 .addGap(54, 54, 54))
         );
 
@@ -244,10 +250,10 @@ public class NhanVienView extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

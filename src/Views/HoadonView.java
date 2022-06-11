@@ -54,6 +54,9 @@ public class HoadonView extends javax.swing.JPanel {
         dsHoaDon.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsHoaDon.getTableHeader().setOpaque(false);
         dsHoaDon.getTableHeader().setBackground(Color.YELLOW);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+            btnThem.setEnabled(false);
+        }
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);

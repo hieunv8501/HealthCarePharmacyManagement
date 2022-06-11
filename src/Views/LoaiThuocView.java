@@ -1,6 +1,6 @@
 package Views;
 
-import Controllers.LoaiThuocController;
+import Controllers.LoaithuocController;
 import Models.LoaiThuoc;
 import java.awt.Color;
 import java.awt.Font;
@@ -26,10 +26,12 @@ public class LoaithuocView extends javax.swing.JPanel {
         tableDanhSachLoaiThuoc.getTableHeader().setOpaque(false);
         tableDanhSachLoaiThuoc.getTableHeader().setBackground(Color.YELLOW);
         tableDanhSachLoaiThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlThuoc")) {
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlLoaiThuoc")) {
             btnThem.setEnabled(false);
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
+            btnThemFile.setEnabled(false);
+            btnXuatFile.setEnabled(false);
         }
 
         ShowData();
@@ -328,7 +330,7 @@ btnLuu.setEnabled(true);
         int maLoaiThuocCu=(dsLoaithuoc.get(selected).getMaLoaiThuoc());
 
         try {
-            LoaiThuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
+            LoaithuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
             JOptionPane.showMessageDialog(this, "Cập nhật loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -350,7 +352,7 @@ btnLuu.setEnabled(true);
         }
         int maLoaiThuoc = dsLoaithuoc.get(selected).getMaLoaiThuoc();
         try {
-            LoaiThuocController.xoaLoaiThuoc(maLoaiThuoc);
+            LoaithuocController.xoaLoaiThuoc(maLoaiThuoc);
             JOptionPane.showMessageDialog(this, "Xóa loại thuốc" + dsLoaithuoc.get(selected).getTenLoaiThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
         } catch (Exception e) {
@@ -413,7 +415,7 @@ btnLuu.setEnabled(true);
         }
         LoaiThuoc loaiThuocMoi=new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc, mota);
         try {
-            LoaiThuocController.themLoaiThuoc(loaiThuocMoi);
+            LoaithuocController.themLoaiThuoc(loaiThuocMoi);
             JOptionPane.showMessageDialog(this,"Thêm loại thuốc "+tenLoaiThuoc+" thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -448,7 +450,7 @@ btnLuu.setEnabled(true);
         DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachLoaiThuoc.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-       dsLoaithuoc=LoaiThuocController.getDanhSachLoaiThuoc();
+       dsLoaithuoc=LoaithuocController.getDanhSachLoaiThuoc();
         if(!dsLoaithuoc.isEmpty()){
                 dsLoaithuoc.forEach((loaiThuoc)->{
                 if(!loaiThuoc.isDaXoa())

@@ -135,7 +135,7 @@ public class TaikhoanViewHelper extends JFrame {
 
         } else {
             this.setTitle("Sửa tài khoản");
-            this.setIconImage(new ImageIcon(this.getClass().getResource("/Images//Images/icons8_support_30px.png")).getImage());
+            this.setIconImage(new ImageIcon(this.getClass().getResource("/Images/icons8_support_30px.png")).getImage());
             for (Taikhoan tk : TaikhoanController.getDanhSachTaiKhoan()) {
                 if (tk.getTaikhoan().equals(_username)) {
                     this.tkSua = tk;
