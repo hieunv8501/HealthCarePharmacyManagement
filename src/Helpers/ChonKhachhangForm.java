@@ -1,6 +1,6 @@
 package Helpers;
 
-import Views.KhachhangView;
+import Views.KhachHangView;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class ChonKhachhangForm extends JFrame {
 
-    KhachhangView tblKH = new KhachhangView();
+    KhachHangView tblKH = new KhachHangView();
     JButton btnOK = new JButton("Chọn");
     JButton btnCancel = new JButton("Thoát");
     JTextField txMaKH;
