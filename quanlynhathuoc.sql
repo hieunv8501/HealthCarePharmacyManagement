@@ -583,6 +583,27 @@ as begin
 	drop table temp1
 	drop table temp2
 end
+GO
+CREATE PROC sp_ThongTinHoaDon @MaHoaDon int
+AS BEGIN
+DECLARE @TongTien MONEY, @SoLuong INT, @DonGia MONEY
+
+	SET @TongTien = 0
+	DECLARE CUR_CTHD CURSOR FOR SELECT SoLuong, DonGia FROM chitiethoadon where MaHoaDon = @MaHoaDon AND DaXoa = 0
+	OPEN CUR_CTHD
+	FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @TongTien = @TongTien + (@SoLuong * @DonGia)
+		FETCH NEXT FROM CUR_CTHD INTO @SoLuong, @DonGia
+	END
+	CLOSE CUR_CTHD
+	DEALLOCATE CUR_CTHD
+
+	SELECT TenNhanVien, TenKhachHang, NgayLap, TongTien, PhanTramKhuyenMai, khachhang.GioiTinh, khachhang.SoDienThoai, khachhang.NgaySinh, @TongTien AS TienChuaGiam, khachhang.MaXa 
+	FROM nhanvien, khachhang, hoadon, khuyenmai 
+	WHERE MaHoaDon = @MaHoaDon AND nhanvien.MaNhanVien = hoadon.MaNhanVien AND khachhang.MaKhachHang = hoadon.MaKhachHang  AND khuyenmai.MaKhuyenMai = hoadon.MaKhuyenMai
+END
 
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng loainhanvien

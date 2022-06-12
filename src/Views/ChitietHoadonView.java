@@ -13,14 +13,34 @@ import Controllers.LonhapController;
 
 import Models.ChitietHoadon;
 import Models.Thuoc;
+import Models.Hoadon;
+import Models.Khachhang;
+
 import Models.LoNhap;
 import Models.Donvitinh;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.CMYKColor;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.pdf.BaseFont;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -35,6 +55,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
     HoadonController hdctr = new HoadonController();
     private DefaultTableModel modelCTHD;
     private int indexOfList;
+    public static File fontFile = new File("fonts/vuTimes.ttf");
 
     public ChitietHoadonView() {
         initComponents();
@@ -46,10 +67,6 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         dsCTHD.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsCTHD.getTableHeader().setOpaque(false);
         dsCTHD.getTableHeader().setBackground(Color.YELLOW);
-         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
-            btnThem.setEnabled(false);
-            
-        }
         txtMHD.setEditable(false);
         txtDonvi.setEditable(false);
         txtDongia.setEditable(false);
@@ -122,16 +139,22 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         comboLonhap = new javax.swing.JComboBox<>();
-        spinSoluong = new com.toedter.components.JSpinField();
         jLabel4 = new javax.swing.JLabel();
         txtDonvi = new javax.swing.JTextField();
         btnSua = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnLammoi = new javax.swing.JButton();
+        btnIn = new javax.swing.JButton();
+        spinSoluong = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         txtMHD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtMHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMHDActionPerformed(evt);
+            }
+        });
 
         txtDongia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
@@ -226,8 +249,6 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             }
         });
 
-        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã hóa đơn:");
 
@@ -260,6 +281,17 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             }
         });
 
+        btnIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnIn.setText("In");
+        btnIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInActionPerformed(evt);
+            }
+        });
+
+        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -267,15 +299,22 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(300, 300, 300)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnIn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(184, 184, 184)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboThuoc, 0, 225, Short.MAX_VALUE)
-                                    .addComponent(txtMHD)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(183, 183, 183)
-                                .addComponent(spinSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(56, 56, 56)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(comboThuoc, 0, 225, Short.MAX_VALUE)
+                                .addComponent(txtMHD))
+                            .addComponent(spinSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -289,19 +328,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(comboLonhap, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(300, 300, 300)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 338, Short.MAX_VALUE)))
+                                .addComponent(comboLonhap, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
             .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
@@ -321,7 +348,9 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnIn))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -336,13 +365,14 @@ public class ChitietHoadonView extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(comboThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(spinSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
-                        .addComponent(txtDongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(spinSoluong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtDongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
@@ -379,7 +409,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         String maLo1 = comboLonhap.getSelectedItem().toString().split(" - ")[0];
         String maLo2 = maLo1.toString().split(": ")[1];
 
-        ChitietHoadon cthd = new ChitietHoadon(this.maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue()), Float.parseFloat(txtDongia.getText()), false);
+        ChitietHoadon cthd = new ChitietHoadon(this.maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue().toString()), Float.parseFloat(txtDongia.getText()), false);
 
         hdctr.themCTHD(cthd);
 
@@ -392,7 +422,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         String maThuoc = comboThuoc.getSelectedItem().toString().split(" - ")[0];
         String maLo1 = comboLonhap.getSelectedItem().toString().split(" - ")[0];
         String maLo2 = maLo1.toString().split(": ")[1];
-        ChitietHoadon cthd = new ChitietHoadon(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue()), Float.parseFloat(txtDongia.getText()), false);
+        ChitietHoadon cthd = new ChitietHoadon(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue().toString()), Float.parseFloat(txtDongia.getText()), false);
         hdctr.capnhatCTHD(cthd);
         this.reset();
 
@@ -418,7 +448,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
         comboLonhap.removeAllItems();
         List<LoNhap> dsln;
-        dsln = hdctr.layDanhSachLonhap(Integer.valueOf(spinSoluong.getValue()), Integer.valueOf(maThuoc));
+        dsln = hdctr.layDanhSachLonhap(Integer.valueOf(spinSoluong.getValue().toString()), Integer.valueOf(maThuoc));
         for (LoNhap t : dsln) {
             if (t instanceof LoNhap) {
                 LoNhap ln = (LoNhap) t;
@@ -487,6 +517,127 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboLonhapActionPerformed
 
+    private void btnInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInActionPerformed
+        // TODO add your handling code here:
+        String PATH = "";
+        String name = "";
+
+        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(j);
+        if (x == JFileChooser.APPROVE_OPTION) {
+            name = j.getSelectedFile().getName();
+            PATH = j.getSelectedFile().getParentFile().getPath();
+//            PATH = j.getSelectedFile().getPath();
+        }
+
+        if (PATH.endsWith("\\")) {
+            PATH = PATH + name + ".pdf";
+
+        } else {
+            PATH = PATH + "\\" + name + ".pdf";
+        }
+
+        Document doc = new Document();
+
+        try {
+//            File file = new File(fileChoose.getSelectedFile().toString());
+            PdfWriter.getInstance(doc, new FileOutputStream(PATH));
+
+            doc.open();
+
+//            BaseFont baseFont = BaseFont.createFont(/*"resources/ARIAL.TTF"*/"c:/Windows/Fonts/vuTimes.ttf", BaseFont.IDENTITY_H, true);
+//            com.itextpdf.text.Font font = FontFactory.getFont("D:/vuArial.ttf", 15);
+            Paragraph title = new Paragraph("HOA DON", FontFactory.getFont(FontFactory.TIMES_ROMAN, 22, Font.BOLD, new CMYKColor(0, 255, 255, 17)));
+
+            title.setAlignment(WIDTH);
+            doc.add(title);
+
+//            doc.add(new Paragraph("Đại học bách khoa Hà Nội", font));
+
+            Hoadon hd = new Hoadon();
+            hd = hdctr.layThongTinHoaDon(maHoadon);
+            Khachhang kh = new Khachhang();
+            kh = hdctr.layThongKhachhang(maHoadon);
+
+            SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String formatted = format1.format(hd.getNgayLap().getTime());
+
+            Paragraph tenNhanvien = new Paragraph("\nNguoi lap: " + hd.getTenNhanvien(), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.ITALIC, new CMYKColor(0, 255, 255, 255)));
+            Paragraph tenKhachhang = new Paragraph("Khách hàng: " + hd.getTenKhachhang() + ";     Gioi tính: " + kh.getGioitinh() + ";     So dien thoại: " + kh.getSoDienthoai(), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.ITALIC, new CMYKColor(0, 255, 255, 255)));
+            Paragraph diaChi = new Paragraph("Dia chi: " + kh.getDiaChi(), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.ITALIC, new CMYKColor(0, 255, 255, 255)));
+            Paragraph ngayLap = new Paragraph("Ngày lap: " + formatted, FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.ITALIC, new CMYKColor(0, 255, 255, 255)));
+
+            doc.add(tenNhanvien);
+            doc.add(tenKhachhang);
+            doc.add(diaChi);
+            doc.add(ngayLap);
+
+//            Paragraph stt = new Paragraph("STT", FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            PdfPTable tbl = new PdfPTable(5);
+            tbl.setSpacingBefore(30);
+            tbl.setSpacingAfter(30);
+            tbl.setHeaderRows(1);
+            tbl.setWidths(new int[]{1, 3, 2, 2, 3});
+
+            Paragraph stt = new Paragraph("STT", FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph thuoc = new Paragraph("Ten thuoc", FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph sl = new Paragraph("So luong", FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph dg = new Paragraph("Don gia", FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph thanhtien = new Paragraph("Thành tien", FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+
+            tbl.addCell(stt);
+            tbl.addCell(thuoc);
+            tbl.addCell(sl);
+            tbl.addCell(dg);
+            tbl.addCell(thanhtien);
+
+            for (int i = 0; i < dsCTHD.getRowCount(); i++) {
+                String tenThuoc = dsCTHD.getValueAt(i, 1).toString();
+                String soLuong = dsCTHD.getValueAt(i, 3).toString();
+                String donGia = dsCTHD.getValueAt(i, 4).toString();
+                String slthuoc = soLuong.split(" : ")[0];
+                float thanhTien = (Integer.parseInt(slthuoc)) * (Float.parseFloat(donGia));
+                Paragraph tt = new Paragraph(tenThuoc, FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.ITALIC, new CMYKColor(0, 0, 0, 255)));
+                Paragraph sl1 = new Paragraph(slthuoc, FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.ITALIC, new CMYKColor(0, 0, 0, 255)));
+                Paragraph dg1 = new Paragraph(donGia, FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.ITALIC, new CMYKColor(0, 0, 0, 255)));
+                Paragraph tt1 = new Paragraph(String.valueOf(thanhTien), FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.ITALIC, new CMYKColor(0, 0, 0, 255)));
+
+                tbl.addCell(String.valueOf(i + 1));
+                tbl.addCell(tt);
+                tbl.addCell(sl1);
+                tbl.addCell(dg1);
+                tbl.addCell(tt1);
+
+            }
+            doc.add(tbl);
+            Paragraph tongtien = new Paragraph("Tong tien: " + hd.getTongTienChuaGiam(), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph giamGia = new Paragraph("Giam: " + (hd.getTongTienChuaGiam() - hd.getTongTien()), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+            Paragraph kq = new Paragraph("Thành tien: " + hd.getTongTien(), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD, new CMYKColor(0, 0, 0, 255)));
+
+            tongtien.setAlignment(Element.ALIGN_RIGHT);
+            giamGia.setAlignment(Element.ALIGN_RIGHT);
+            kq.setAlignment(Element.ALIGN_RIGHT);
+
+            doc.add(tongtien);
+            doc.add(giamGia);
+            doc.add(kq);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        doc.close();
+    }//GEN-LAST:event_btnInActionPerformed
+
+    private void txtMHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMHDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMHDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -525,6 +676,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnIn;
     private javax.swing.JButton btnLammoi;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
@@ -540,7 +692,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
-    private com.toedter.components.JSpinField spinSoluong;
+    private javax.swing.JSpinner spinSoluong;
     private javax.swing.JTextField txtDongia;
     private javax.swing.JTextField txtDonvi;
     private javax.swing.JTextField txtMHD;

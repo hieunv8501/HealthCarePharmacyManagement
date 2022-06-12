@@ -21,7 +21,19 @@ public class Hoadon {
     private Calendar ngayLap;
     private float tongTien;
     private boolean daXoa;
-    
+    private float tongTienChuaGiam;
+
+    public Hoadon() {
+    }
+
+    public float getTongTienChuaGiam() {
+        return tongTienChuaGiam;
+    }
+
+    public void setTongTienChuaGiam(float tongTienChuaGiam) {
+        this.tongTienChuaGiam = tongTienChuaGiam;
+    }
+
     public String getTenNhanvien() {
         return tenNhanvien;
     }
@@ -49,8 +61,6 @@ public class Hoadon {
         this.tongTien = tongTien;
         this.daXoa = daXoa;
     }
-
-
 
     public Hoadon(int maNhanvien, int maKhachhang, String maKhuyenmai, Calendar ngayLap) {
         this.maNhanvien = maNhanvien;

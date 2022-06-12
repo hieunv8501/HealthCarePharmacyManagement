@@ -11,13 +11,85 @@ import Models.LoNhap;
 import Models.Donvitinh;
 
 import Models.ChitietHoadon;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class HoadonController {
+
+    public Khachhang layThongKhachhang(int maHoaDon) {
+
+        DBConnection con = new DBConnection();
+        try {
+            CallableStatement call = con.getConn().prepareCall("{call sp_ThongTinHoaDon(?)}");
+            call.setInt(1, maHoaDon);
+            ResultSet rs = call.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    String gioiTinh = rs.getString("GioiTinh");
+                    String soDienThoai = rs.getString("SoDienThoai");
+                    int maXa = rs.getInt("MaXa");
+
+                    LocalDate ngaySinh = rs.getDate("NgaySinh").toLocalDate();
+
+                    Khachhang kh = new Khachhang();
+                    kh.setNgaySinh(ngaySinh);
+                    kh.setGioitinh(gioiTinh);
+                    kh.setSoDienthoai(soDienThoai);
+                    DiaChiController diachi = new DiaChiController();
+                    kh.setXa(diachi.layDoiTuongXa(maXa));
+                    return kh;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return null;
+    }
+
+    public Hoadon layThongTinHoaDon(int maHoaDon) {
+
+        DBConnection con = new DBConnection();
+        try {
+            CallableStatement call = con.getConn().prepareCall("{call sp_ThongTinHoaDon(?)}");
+            call.setInt(1, maHoaDon);
+            ResultSet rs = call.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    String tenNhanVien = rs.getString("TenNhanVien");
+                    String tenKhachHang = rs.getString("TenKhachHang");
+                    float tongTien = rs.getFloat("TongTien");
+                    float tienChuaGiam = rs.getFloat("TienChuaGiam");
+
+                    String date = rs.getString("NgayLap");
+                    Calendar cal = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                    cal.setTime(sdf.parse(date));
+
+                    Hoadon hd = new Hoadon();
+                    hd.setTenNhanvien(tenNhanVien);
+                    hd.setTenKhachhang(tenKhachHang);
+                    hd.setTongTien(tongTien);
+                    hd.setTongTienChuaGiam(tienChuaGiam);
+                    hd.setNgayLap(cal);
+                    return hd;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            con.closeConnection();
+        }
+        return null;
+    }
 
     public Donvitinh layDonvitinh(int maThuoc) {
 
