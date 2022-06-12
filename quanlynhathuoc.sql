@@ -140,7 +140,7 @@ CREATE TABLE tinh (
 create TABLE loaithuoc (
 	MaLoaiThuoc int primary key NOT NULL,
 	TenLoaiThuoc nvarchar(100) NOT NULL,
-  MoTa nvarchar(500) ,
+	MoTa nvarchar(500) ,
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -358,8 +358,8 @@ AS BEGIN
 END
 
 GO
--- Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+CREATE Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
+ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -702,8 +702,6 @@ INSERT INTO tinh values (2, N'An Giang')
 INSERT INTO huyen values (1, N'Ba Vì', 1)
 insert into huyen values(2, N'Thủ đức',1);
 insert into xa values(1, N'Đông Hòa',1);
-
---INSERT INTO hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) VALUES (1, 1, 1, '2022/04/22')
 
 --INSERT INTO khuyenmai (MaKhuyenMai, PhanTramKhuyenMai) VALUES (1, 10)
 

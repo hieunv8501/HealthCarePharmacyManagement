@@ -210,6 +210,15 @@ public class Nhanvien {
 //        return ok;
 //    }
     
+    public Boolean updateSDT(int manv, String SDT) {
+        nhanvienConnection = new DBConnection();
+        Boolean ok = nhanvienConnection.sqlUpdate("UPDATE nhanvien SET "
+                + "SoDienThoai='" + SDT
+                + "' where MaNhanVien='" + manv + "'");
+        nhanvienConnection.closeConnection();
+        return ok;
+    }
+    
     public Boolean updateTrangThai(int manv, int trangthai) {
         nhanvienConnection = new DBConnection();
         Boolean ok = nhanvienConnection.sqlUpdate("UPDATE nhanvien SET "
