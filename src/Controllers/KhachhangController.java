@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,11 +19,9 @@ public class KhachhangController {
 
     public void themKhachHang(Khachhang KH) {
 
-
         LocalDate ngay = KH.getNgaySinh();
-        String dateFormat;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat = df.format(ngay);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String formattedString = ngay.format(formatter);
 
         String command = "INSERT INTO khachhang (TenKhachHang, GioiTinh, NgaySinh, SoDienThoai, MaXa) values (?, ?, ?, ? ,?)";
         try {
@@ -30,23 +29,21 @@ public class KhachhangController {
             PreparedStatement pre = con.getConn().prepareStatement(command);
             pre.setString(1, KH.getTenKhachhang());
             pre.setString(2, KH.getGioitinh());
-            pre.setString(3, dateFormat);
+            pre.setString(3, formattedString);
             pre.setString(4, KH.getSoDienthoai());
             pre.setInt(5, KH.getXa());
             pre.executeUpdate();
             System.out.println("Thêm khách hàng thành công");
             con.closeConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
     }
 
     public void suaKhachhang(Khachhang KH) {
 
         LocalDate ngay = KH.getNgaySinh();
-        String dateFormat;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat = df.format(ngay);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String formattedString = ngay.format(formatter);
 
         String command = "UPDATE khachhang SET TenKhachHang = ?, GioiTinh = ?, NgaySinh = ?, SoDienThoai = ?, MaXa = ? WHERE MaKhachHang = ?";
         try {
@@ -54,7 +51,7 @@ public class KhachhangController {
             PreparedStatement pre = con.getConn().prepareStatement(command);
             pre.setString(1, KH.getTenKhachhang());
             pre.setString(2, KH.getGioitinh());
-            pre.setString(3, dateFormat);
+            pre.setString(3, formattedString);
             pre.setString(4, KH.getSoDienthoai());
             pre.setInt(5, KH.getXa());
             pre.setInt(6, KH.getMaKhachhang());
@@ -74,8 +71,7 @@ public class KhachhangController {
             pre.executeUpdate();
             System.out.println("Xóa Khách hàng thành công");
             con.closeConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
     }
 
