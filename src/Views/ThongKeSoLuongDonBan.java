@@ -29,9 +29,7 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
         initComponents();
         showNam();
   chart.addLegend("Số lượng", new Color(160, 70, 170));
-  int nam=(int) txtChonNam.getSelectedItem();
-        initChart(nam);
-            
+ 
     }
     public void initChart(int nam)
     {   
@@ -78,6 +76,7 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         chart = new com.raven.chart.ChartSL();
         jLabel3 = new javax.swing.JLabel();
+        lblBieuDo = new javax.swing.JLabel();
 
         txtChonNam.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtChonNam.addActionListener(new java.awt.event.ActionListener() {
@@ -97,6 +96,9 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(51, 51, 255));
         jLabel3.setText("Báo cáo số lượng đơn hàng trong năm");
 
+        lblBieuDo.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
+        lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,21 +106,21 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jLabel1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1826, 1826, 1826)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(2042, 2042, 2042)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(188, 188, 188)
+                        .addComponent(jLabel1)
+                        .addGap(55, 55, 55)
+                        .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(301, 301, 301)
-                        .addComponent(jLabel3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblBieuDo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 1260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,16 +128,17 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jLabel3)
-                .addGap(53, 53, 53)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(5, 5, 5)
                 .addComponent(jLabel2)
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(74, 74, 74)
-                        .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(lblBieuDo)
+                .addGap(31, 31, 31)
+                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addGap(105, 105, 105))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,7 +149,9 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
             initChart(nam);
             chart.setVisible(false);
             chart.setVisible(true);
+            lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm "+ nam);
         }
+        
 
     }//GEN-LAST:event_txtChonNamActionPerformed
 
@@ -156,6 +161,7 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblBieuDo;
     private javax.swing.JComboBox<String> txtChonNam;
     // End of variables declaration//GEN-END:variables
 }

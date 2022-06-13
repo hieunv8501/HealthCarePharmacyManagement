@@ -21,6 +21,9 @@ public class LoaithuocView extends javax.swing.JPanel {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachLoaiThuoc.setDefaultRenderer(String.class, centerRenderer);
+         for (int i = 0; i < tableDanhSachLoaiThuoc.getColumnCount(); i++) {
+    tableDanhSachLoaiThuoc.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+}
         ((DefaultTableCellRenderer) tableDanhSachLoaiThuoc.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachLoaiThuoc.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachLoaiThuoc.getTableHeader().setOpaque(false);
@@ -199,6 +202,7 @@ public class LoaithuocView extends javax.swing.JPanel {
                 "Mã loại thuốc", "Tên loại thuốc", "Mô tả"
             }
         ));
+        tableDanhSachLoaiThuoc.setRowHeight(30);
         tableDanhSachLoaiThuoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableDanhSachLoaiThuocMouseClicked(evt);

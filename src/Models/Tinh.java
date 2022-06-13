@@ -27,5 +27,10 @@ public class Tinh {
     public void setTenTinh(String tenTinh) {
         this.tenTinh = tenTinh;
     }
+
+    @Override
+    public String toString() {
+        return tenTinh;
+    }
     
 }
