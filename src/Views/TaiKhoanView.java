@@ -297,10 +297,12 @@ public class TaikhoanView extends JPanel {
         });
         tblTaiKhoan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblTaiKhoan.setGridColor(new java.awt.Color(0, 0, 0));
+        tblTaiKhoan.setName(""); // NOI18N
         tblTaiKhoan.setRowHeight(40);
         tblTaiKhoan.setSelectionBackground(new java.awt.Color(0, 0, 255));
         tblTaiKhoan.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblTaiKhoan.setShowGrid(true);
+        tblTaiKhoan.setUpdateSelectionOnSort(false);
         jScrollPane2.setViewportView(tblTaiKhoan);
         tblTaiKhoan.getAccessibleContext().setAccessibleParent(tblTaiKhoan);
 

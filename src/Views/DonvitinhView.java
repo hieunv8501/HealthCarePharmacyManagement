@@ -31,6 +31,9 @@ public class DonvitinhView extends javax.swing.JPanel {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachDonvitinh.setDefaultRenderer(String.class, centerRenderer);
+         for (int i = 0; i < tableDanhSachDonvitinh.getColumnCount(); i++) {
+    tableDanhSachDonvitinh.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+}
         ((DefaultTableCellRenderer) tableDanhSachDonvitinh.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachDonvitinh.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachDonvitinh.getTableHeader().setOpaque(false);
@@ -217,6 +220,7 @@ public class DonvitinhView extends javax.swing.JPanel {
                 "Mã đơn vị tính", "Tên đơn vị tính", "Giá trị"
             }
         ));
+        tableDanhSachDonvitinh.setRowHeight(30);
         tableDanhSachDonvitinh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableDanhSachDonvitinhMouseClicked(evt);

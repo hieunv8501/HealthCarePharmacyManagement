@@ -86,6 +86,7 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        lblBieuDo = new javax.swing.JLabel();
 
         txtChonNam.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtChonNam.addActionListener(new java.awt.event.ActionListener() {
@@ -101,25 +102,32 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 51, 255));
         jLabel2.setText("Thống kê doanh thu bán thuốc theo năm");
 
+        lblBieuDo.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
+        lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(310, 310, 310)
+                                .addGap(312, 312, 312)
                                 .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(135, 135, 135)
+                                .addGap(151, 151, 151)
                                 .addComponent(jLabel1)
-                                .addGap(75, 75, 75)
+                                .addGap(51, 51, 51)
                                 .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 553, Short.MAX_VALUE))
-                    .addComponent(chart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 551, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(374, 374, 374)
+                .addComponent(lblBieuDo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 617, Short.MAX_VALUE)
@@ -129,14 +137,16 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(119, 119, 119)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel2)
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(lblBieuDo)
+                .addGap(18, 18, 18)
+                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -147,10 +157,16 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
 
     private void txtChonNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChonNamActionPerformed
         // TODO add your handling code here:
-        int nam = (int) txtChonNam.getSelectedItem();
+        if( txtChonNam.getSelectedItem()!=null)
+        {
+            
+        int nam=(int) txtChonNam.getSelectedItem();
+        
         initChart(nam);
         chart.setVisible(false);
-        chart.setVisible(true);
+            chart.setVisible(true);
+            lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm "+ nam);
+        }
 
     }//GEN-LAST:event_txtChonNamActionPerformed
 
@@ -160,6 +176,7 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblBieuDo;
     private javax.swing.JComboBox<String> txtChonNam;
     // End of variables declaration//GEN-END:variables
 }

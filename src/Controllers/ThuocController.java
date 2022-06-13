@@ -133,4 +133,39 @@ public class ThuocController {
         }
         return dsThuoc;
     }
+    public static ArrayList<Thuoc> timkiemThuoc(String userText) {
+        ArrayList<Thuoc> dsThuoc = new ArrayList();
+        ArrayList<Thuoc> dsThuocTimKiem = new ArrayList();
+        dsThuoc = getDanhSachThuoc();
+        dsThuoc.forEach(thuoc -> {
+            String c = String.valueOf(thuoc.getMaThuoc());
+            if (c.toLowerCase().startsWith(userText)) {
+                dsThuocTimKiem.add(thuoc);
+            } else {
+                if (thuoc.getTenThuoc().toLowerCase().contains(userText)) {
+                    dsThuocTimKiem.add(thuoc);
+                } else {
+                    if (thuoc.getMota().toLowerCase().startsWith(userText)) {
+                        dsThuocTimKiem.add(thuoc);
+                    } else {
+                        if (thuoc.getLoaiThuoc().getTenLoaiThuoc().toLowerCase().startsWith(userText)) {
+                            dsThuocTimKiem.add(thuoc);
+                        }
+                        else
+                        {
+                            if(thuoc.getDotuoi().toLowerCase().startsWith(userText))
+                            {
+                                 dsThuocTimKiem.add(thuoc);
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+        );
+        return dsThuocTimKiem;
+
+    }
 }
