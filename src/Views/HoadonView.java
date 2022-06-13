@@ -5,13 +5,11 @@
 package Views;
 
 import Controllers.HoadonController;
-import Controllers.KhuyenmaiController;
 import Helpers.*;
 
 import Models.Hoadon;
 import Models.Nhanvien;
-import Models.Khachhang;
-import Models.Khuyenmai;
+
 
 import java.awt.Color;
 import java.awt.Font;
@@ -613,12 +611,15 @@ public class HoadonView extends javax.swing.JPanel {
         txtMKH.setText(s3);
 
         txtMKM.setText(s4);
+        btnChonKH.setEnabled(true);
+        btnChonMKM.setEnabled(true);
 
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(true);
         btnXoa.setEnabled(true);
         btnHuy.setEnabled(true);
+        
 
     }//GEN-LAST:event_dsHoaDonMouseClicked
 
