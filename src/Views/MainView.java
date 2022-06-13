@@ -50,9 +50,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     LoaithuocView loaiThuoc = new LoaithuocView();
     DonvitinhView donvitinh = new DonvitinhView();
     ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
-    //BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
+    BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
     QuanlyKhoView quanlykho = new QuanlyKhoView();
-    KhachhangView khachhangview = new KhachhangView();
+    KhachHangView khachhangview = new KhachHangView();
     ThongtinCanhanView ttcnView = new ThongtinCanhanView();
 
     //test statement
@@ -98,8 +98,8 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
-            "Loại thuốc", "icons8_assistant_30px.png", "xemLoaiThuoc", "qlLoaiThuoc",
-            "Đơn vị tính", "icons8_assistant_30px.png", "xemDonvitinh", "qlDonvitinh",
+            "Loại thuốc", "icons8-categorize-30.png", "xemLoaiThuoc", "qlLoaiThuoc",
+            "Đơn vị tính", "icons8-box-30.png", "xemDonvitinh", "qlDonvitinh",
             "Hóa đơn", "icons8_bill_30px.png", "xemHoaDon", "qlHoaDon",
             "Phiếu nhập", "icons8_bill_30px.png", "xemPhieuNhap", "qlPhieuNhap",
             "Khuyến mãi", "icons8_gift_30px.png", "xemKhuyenMai", "qlKhuyenMai",
@@ -346,7 +346,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 break;
 
             case "Thống kê":
-                //plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
+                plContent.add(baocaoDoanhThu, BorderLayout.CENTER);
                 break;
 
             case "Khách hàng":

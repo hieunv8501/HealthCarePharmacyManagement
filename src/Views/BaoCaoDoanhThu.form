@@ -45,8 +45,11 @@
         <Component class="Views.ThongKeSoLuongDonBan" name="thongKeSoLuongDonBan2">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="B&#xe1;o c&#xe1;o s&#x1ed1; l&#x1b0;&#x1ee3;ng &#x111;&#x1a1;n h&#xe0;ng trong n&#x103;m">
-                <Property name="tabTitle" type="java.lang.String" value="B&#xe1;o c&#xe1;o s&#x1ed1; l&#x1b0;&#x1ee3;ng &#x111;&#x1a1;n h&#xe0;ng trong n&#x103;m"/>
+              <JTabbedPaneConstraints tabName="B&#xe1;o c&#xe1;o &#x111;&#x1a1;n h&#xe0;ng">
+                <Property name="tabTitle" type="java.lang.String" value="B&#xe1;o c&#xe1;o &#x111;&#x1a1;n h&#xe0;ng"/>
+                <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/icons8_bill_30px.png"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -57,8 +60,11 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Th&#x1ed1;ng k&#xea; doanh thu b&#xe1;n thu&#x1ed1;c theo n&#x103;m">
-                <Property name="tabTitle" type="java.lang.String" value="Th&#x1ed1;ng k&#xea; doanh thu b&#xe1;n thu&#x1ed1;c theo n&#x103;m"/>
+              <JTabbedPaneConstraints tabName="B&#xe1;o c&#xe1;o doanh thu">
+                <Property name="tabTitle" type="java.lang.String" value="B&#xe1;o c&#xe1;o doanh thu"/>
+                <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/icons8-money-30.png"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -68,6 +74,9 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Th&#x1ed1;ng k&#xea; kho">
                 <Property name="tabTitle" type="java.lang.String" value="Th&#x1ed1;ng k&#xea; kho"/>
+                <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/icons8-storehouse-30.png"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

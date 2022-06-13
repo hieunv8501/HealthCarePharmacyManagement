@@ -33,9 +33,9 @@ public class BaoCaoDoanhThu extends javax.swing.JPanel {
         quanlyKhoView2 = new Views.QuanlyKhoView();
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jTabbedPane1.addTab("Báo cáo số lượng đơn hàng trong năm", thongKeSoLuongDonBan2);
-        jTabbedPane1.addTab("Thống kê doanh thu bán thuốc theo năm", thongKeDoanhThuThuoc1);
-        jTabbedPane1.addTab("Thống kê kho", quanlyKhoView2);
+        jTabbedPane1.addTab("Báo cáo đơn hàng", new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_bill_30px.png")), thongKeSoLuongDonBan2); // NOI18N
+        jTabbedPane1.addTab("Báo cáo doanh thu", new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-money-30.png")), thongKeDoanhThuThuoc1); // NOI18N
+        jTabbedPane1.addTab("Thống kê kho", new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-storehouse-30.png")), quanlyKhoView2); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
