@@ -6,7 +6,6 @@ import Helpers.*;
 import Models.Hoadon;
 import Models.Nhanvien;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
@@ -503,7 +502,13 @@ public class HoadonView extends javax.swing.JPanel {
                 dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
                 dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
                 Hoadon hd = new Hoadon(Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
-                hdctr.themHoaDon(hd);
+                try {
+                    hdctr.themHoaDon(hd);
+                    JOptionPane.showMessageDialog(null, "Thêm hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Lỗi không thể thêm hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
                 this.maHoadon = Integer.valueOf(txtMHD.getText());
                 ChitietHoadonView cthd = new ChitietHoadonView();
                 cthd.setVariable(this.maHoadon);
@@ -534,7 +539,15 @@ public class HoadonView extends javax.swing.JPanel {
             dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
             dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
             Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
-            hdctr.capnhatHoadon(hd);
+            try {
+                hdctr.capnhatHoadon(hd);
+                JOptionPane.showMessageDialog(null, "Sửa hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi không thể sửa hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
+            }
+
             this.maHoadon = Integer.valueOf(txtMHD.getText());
             this.reset();
         }
@@ -615,7 +628,7 @@ public class HoadonView extends javax.swing.JPanel {
         btnSua.setEnabled(true);
         btnXoa.setEnabled(true);
         btnHuy.setEnabled(true);
-        
+
 
     }//GEN-LAST:event_dsHoaDonMouseClicked
 
@@ -624,7 +637,14 @@ public class HoadonView extends javax.swing.JPanel {
         int input = JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc muốn xóa hóa đơn " + txtMHD.getText() + " này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
-            hdctr.xoaHoaDon(Integer.parseInt(txtMHD.getText()));
+            try {
+                hdctr.xoaHoaDon(Integer.parseInt(txtMHD.getText()));
+                JOptionPane.showMessageDialog(null, "Xóa hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi không thể xóa hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
+            }
+
             this.reset();
             comboNhanvien.removeAllItems();
 //            comboKhachhang.removeAllItems();

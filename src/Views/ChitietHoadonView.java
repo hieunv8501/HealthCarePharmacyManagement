@@ -398,7 +398,15 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             String maLo2 = maLo1.toString().split(": ")[1];
 
             ChitietHoadon cthd = new ChitietHoadon(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), 0, 0, false);
-            hdctr.xoaCTHD(cthd);
+            try {
+                hdctr.xoaCTHD(cthd);
+                JOptionPane.showMessageDialog(null, "Xóa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi không thể xóa chi tiết hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
+            }
+
             this.reset();
         }
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -411,7 +419,12 @@ public class ChitietHoadonView extends javax.swing.JFrame {
 
         ChitietHoadon cthd = new ChitietHoadon(this.maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue().toString()), Float.parseFloat(txtDongia.getText()), false);
 
-        hdctr.themCTHD(cthd);
+        try {
+            hdctr.themCTHD(cthd);
+            JOptionPane.showMessageDialog(null, "Thêm chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi không thể thêm chi tiết hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
 
         this.reset();
 
@@ -423,7 +436,13 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         String maLo1 = comboLonhap.getSelectedItem().toString().split(" - ")[0];
         String maLo2 = maLo1.toString().split(": ")[1];
         ChitietHoadon cthd = new ChitietHoadon(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue().toString()), Float.parseFloat(txtDongia.getText()), false);
-        hdctr.capnhatCTHD(cthd);
+        try {
+            hdctr.capnhatCTHD(cthd);
+            JOptionPane.showMessageDialog(null, "Sửa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi không thể sửa chi tiết hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
+
         this.reset();
 
         LonhapController lnctr = new LonhapController();
@@ -554,7 +573,6 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             doc.add(title);
 
 //            doc.add(new Paragraph("Đại học bách khoa Hà Nội", font));
-
             Hoadon hd = new Hoadon();
             hd = hdctr.layThongTinHoaDon(maHoadon);
             Khachhang kh = new Khachhang();

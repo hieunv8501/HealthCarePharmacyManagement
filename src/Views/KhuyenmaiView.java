@@ -453,7 +453,15 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         if (check == true) {
             Khuyenmai KM = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dieukienKM, phantramKM, ngayBD, ngayKT, false);
 
-            kmctr.themMaKhuyenmai(KM);
+            try {
+                kmctr.themMaKhuyenmai(KM);
+                JOptionPane.showMessageDialog(null, "Thêm mã khuyễn mãi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi không thể thêm mã khuyến mãi", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
+            }
+
             String MKM = CheckMKM(randomMKM());
             txtMKM.setText(MKM);
             this.reset();
@@ -470,7 +478,16 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         LocalDate ngayBD = LocalDateTime.ofInstant(dateBD.getCalendar().toInstant(), dateBD.getCalendar().getTimeZone().toZoneId()).toLocalDate();
         LocalDate ngayKT = LocalDateTime.ofInstant(dateKT.getCalendar().toInstant(), dateKT.getCalendar().getTimeZone().toZoneId()).toLocalDate();
         Khuyenmai KM = new Khuyenmai(maKhuyenmai, tenKhuyenmai, dieukienKM, phantramKM, ngayBD, ngayKT, false);
-        kmctr.capnhatMaKhuyenmai(KM);
+
+        try {
+            kmctr.capnhatMaKhuyenmai(KM);
+            JOptionPane.showMessageDialog(null, "Sửa mã khuyến mãi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi không thể sửa mã khuyến mãi", "Thông báo", JOptionPane.ERROR_MESSAGE);
+
+        }
+
         this.reset();
 
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -516,7 +533,13 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         int input = JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc muốn xóa mã khuyến mãi " + txtMKM.getText() + " này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
-            kmctr.xoaMaKhuyenmai(txtMKM.getText());
+            try {
+                kmctr.xoaMaKhuyenmai(txtMKM.getText());
+                JOptionPane.showMessageDialog(null, "Xóa mã khuyến mãi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Lỗi không thể xóa hóa đơn", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
+
             this.reset();
         }
 

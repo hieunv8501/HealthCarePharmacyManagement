@@ -51,7 +51,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     DonvitinhView donvitinh = new DonvitinhView();
     ThongKeDoanhThuThuoc thongkeDonThuoc = new ThongKeDoanhThuThuoc();
     BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
-    QuanlyKhoView quanlykho = new QuanlyKhoView();
+//    QuanlyKhoView quanlykho = new QuanlyKhoView();
     KhachHangView khachhangview = new KhachHangView();
     ThongtinCanhanView ttcnView = new ThongtinCanhanView();
 
