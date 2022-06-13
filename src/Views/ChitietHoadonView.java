@@ -645,10 +645,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
             Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ChitietHoadonView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         doc.close();
     }//GEN-LAST:event_btnInActionPerformed
 

@@ -4,10 +4,12 @@
  */
 package Views;
 
+import Components.ExcelExportFunction;
 import Controllers.KhuyenmaiController;
 import Models.Khuyenmai;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -54,7 +56,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMKM.setEditable(false);
-
+//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+//            new ExcelExportFunction().xuatFileExcelKhuyenmai();
+//        });
         this.reset();
     }
 

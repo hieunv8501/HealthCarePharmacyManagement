@@ -1,10 +1,12 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Models.Quyen;
 import Controllers.QuyenController;
 import Helpers.QuyenViewHelper;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -43,6 +45,9 @@ public class QuyenView extends JPanel {
             btnTaiLenExcel.setEnabled(false);
             btnTaiXuongExcel.setEnabled(false);
         }
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelQuyen();
+        });
         tblQuyen.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
             @Override
             public void mouseReleased(MouseEvent me) {
@@ -95,19 +100,20 @@ public class QuyenView extends JPanel {
                         int countTemp = 0;
                         for (int i = 0; i < tempStr2.length(); i++) {
                             if (tempStr2.charAt(i) == (char) 32) {
-                                if (countTemp == 6) {        
+                                if (countTemp == 6) {
                                     nextIndexString = i;
                                     break;
-                                }  
+                                }
                                 countTemp++;
                             }
-                            
+
                         }
                         str1 = tempStr2.substring(0, nextIndexString);
-                        str2 = tempStr2.substring(nextIndexString+1, tempStr2.length());
+                        str2 = tempStr2.substring(nextIndexString + 1, tempStr2.length());
                         txtChitietquyen.setText(str1 + System.getProperty("line.separator") + str2);
+                    } else if (count < 6) {
+                        txtChitietquyen.setText(q.getChitietQuyen());
                     }
-                    else if (count < 6) txtChitietquyen.setText(q.getChitietQuyen());
                     return;
                 }
             }

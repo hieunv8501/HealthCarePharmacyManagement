@@ -1,10 +1,12 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Models.Phieunhap;
 import Controllers.PhieunhapController;
 import Helpers.PriceFormatter;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -52,6 +54,9 @@ public class PhieunhapView extends JPanel {
             btnTaiXuongExcel.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
         }
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelPhieunhap();
+        });
         tblPhieuNhap.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
             @Override
             public void mouseReleased(MouseEvent me) {
@@ -124,7 +129,7 @@ public class PhieunhapView extends JPanel {
                     txtMaPN.setText(String.valueOf(pn.getMaPhieunhap()));
                     txtNCC.setText(pn.getNcc().getMaNhacungcap() + " - " + pn.getNcc().getTenNhacungcap());
                     txtNV.setText(pn.getNv().getMaNhanvien() + " - " + pn.getNv().getTenNhanvien());
-                    dateLap.setCalendar(pn.getNgayNhap());                   
+                    dateLap.setCalendar(pn.getNgayNhap());
                     gio.setValue(pn.getNgayNhap().get(Calendar.HOUR_OF_DAY));
                     phut.setValue(pn.getNgayNhap().get(Calendar.MINUTE));
                     giay.setValue(pn.getNgayNhap().get(Calendar.SECOND));

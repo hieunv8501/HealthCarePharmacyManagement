@@ -1,5 +1,6 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Components.ExcelOperation;
 import Controllers.QuyenController;
 import Models.Taikhoan;
@@ -39,7 +40,7 @@ public class TaikhoanView extends JPanel {
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
-        
+
         // buttons
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
             btnThem.setEnabled(true);
@@ -76,9 +77,9 @@ public class TaikhoanView extends JPanel {
         btnLamMoi.addActionListener((ActionEvent ae) -> {
             refresh();
         });
-//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
-//            //new ExcelOperation();
-//        });
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelTaikhoan();
+        });
 //        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
 //            new DocExcel().docFileExcelTaiKhoan();
 //        });
@@ -189,7 +190,6 @@ public class TaikhoanView extends JPanel {
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
-
 //    public String getSelectedRow(int col) {
 //        int i = tblLayout.getTable().getSelectedRow();
 //        if (i >= 0) {

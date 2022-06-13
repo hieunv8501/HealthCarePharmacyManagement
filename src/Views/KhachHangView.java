@@ -1,6 +1,7 @@
 package Views;
 
 //import Controllers.KhachhangController;
+import Components.ExcelExportFunction;
 import Controllers.HuyenController;
 import Controllers.KhachhangController;
 import Controllers.TinhController;
@@ -11,6 +12,7 @@ import Models.Tinh;
 import Models.Xa;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -57,6 +59,9 @@ public class KhachHangView extends javax.swing.JPanel {
             btnSua.setEnabled(false);
             btnXoa.setEnabled(false);
         }
+//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+//            new ExcelExportFunction().xuatFileExcelKhachhang();
+//        });
         reset();
 
     }

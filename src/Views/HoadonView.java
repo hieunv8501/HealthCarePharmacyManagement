@@ -1,5 +1,6 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Controllers.HoadonController;
 import Helpers.*;
 
@@ -8,6 +9,7 @@ import Models.Nhanvien;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,7 +67,9 @@ public class HoadonView extends javax.swing.JPanel {
         btnChonMKM.addActionListener((ae) -> {
             ChonMaKhuyenmaiForm ckh = new ChonMaKhuyenmaiForm(txtMKM);
         });
-
+//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+//            new ExcelExportFunction().xuatFileExcelHoadon();
+//        });
         this.reset();
     }
 

@@ -1,9 +1,11 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Controllers.LoaithuocController;
 import Models.LoaiThuoc;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,7 +38,9 @@ public class LoaithuocView extends javax.swing.JPanel {
             btnThemFile.setEnabled(false);
             btnXuatFile.setEnabled(false);
         }
-
+        btnXuatFile.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelLoaithuoc();
+        });
         ShowData();
     }
     
