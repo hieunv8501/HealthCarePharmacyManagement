@@ -730,7 +730,7 @@ select * from thuoc
 select * from 
 
 
-SELECT MaLo, chitietphieunhap.MaThuoc,thuoc.TenThuoc, loaithuoc.TenLoaiThuoc, SoLuong, DonGia, dvt.TenDonviTinh as TenDonViTinh, thuoc.TiLeQuiDoi, donvitinh.TenDonviTinh as TenDonViBanLe, NgaySanXuat, NgayHetHan, chitietphieunhap.DaXoa FROM chitietphieunhap, thuoc, loaithuoc, lonhap, donvitinh, donvitinh dvt, phieunhap WHERE chitietphieunhap.DaXoa = 0 AND loaithuoc.MaLoaiThuoc = thuoc.MaLoaiThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND lonhap.MaPhieuNhap = phieunhap.MaPhieuNhap AND thuoc.MaDonViQuiDoi = dvt.MaDonViTinh AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND phieunhap.MaPhieuNhap = 1
+SELECT MaLo, chitietphieunhap.MaThuoc,thuoc.TenThuoc, loaithuoc.TenLoaiThuoc, SoLuong, DonGia, dvt.TenDonviTinh as TenDonViTinh, thuoc.TiLeQuiDoi, donvitinh.TenDonviTinh as TenDonViBanLe, NgaySanXuat, NgayHetHan, (chitietphieunhap.DonGia*chitietphieunhap.SoLuong) as ThanhTien, chitietphieunhap.DaXoa FROM chitietphieunhap, thuoc, loaithuoc, lonhap, donvitinh, donvitinh dvt, phieunhap WHERE chitietphieunhap.DaXoa = 0 AND loaithuoc.MaLoaiThuoc = thuoc.MaLoaiThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND lonhap.MaPhieuNhap = phieunhap.MaPhieuNhap AND thuoc.MaDonViQuiDoi = dvt.MaDonViTinh AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND phieunhap.MaPhieuNhap = 1
 
 select * from khuyenmai km, hoadon hd
 where km.MaKhuyenMai = hd.MaKhuyenMai

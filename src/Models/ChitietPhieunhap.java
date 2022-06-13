@@ -13,6 +13,7 @@ public class ChitietPhieunhap {
     private String tenDonvibanle;
     private int soluong;
     private float dongia;
+    private int maNhacungcap;
     private Calendar ngaySanxuat;
     private Calendar ngayHethan;
     private int soLuongConLai;
@@ -92,6 +93,14 @@ public class ChitietPhieunhap {
 
     public void setMaLo(int maLo) {
         this.maLo = maLo;
+    }
+
+    public int getMaNhacungcap() {
+        return maNhacungcap;
+    }
+
+    public void setMaNhacungcap(int maNhacungcap) {
+        this.maNhacungcap = maNhacungcap;
     }
 
     public String getHinhAnh() {

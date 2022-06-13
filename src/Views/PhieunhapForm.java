@@ -1,5 +1,6 @@
 package Views;
 
+import Components.DateButton;
 import Controllers.DonvitinhController;
 import Controllers.LoaithuocController;
 import Controllers.LonhapController;
@@ -44,6 +45,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 
 public class PhieunhapForm extends JPanel {
 
@@ -91,7 +94,7 @@ public class PhieunhapForm extends JPanel {
                     int soluongNhap = (Integer) spnSoluongNhap.getValue();
                     int dongiaNhap = (Integer) spnDongiaNhap.getValue();
                     int tileQuydoi = (Integer) spnTilequydoi.getValue();
-
+                    
                     Calendar cld1 = Calendar.getInstance();
                     Calendar cld2 = Calendar.getInstance();
                     dateNSX.setCalendar(cld1);
@@ -186,6 +189,7 @@ public class PhieunhapForm extends JPanel {
                         txtMathuoc.setText(String.valueOf(thuoc.getMaThuoc()));
                         txtTenthuoc.setText(thuoc.getTenThuoc());
                         txtLoaithuoc.setText(thuoc.getTenloaiThuoc());
+                        txtNCC.setText(NhacungcapController.getNhacungcap(thuoc.getMaNhacungcap()).getTenNhacungcap() + "(" + String.valueOf(thuoc.getMaNhacungcap()) + ")");
                         donviTinh = thuoc.getTenDonvitinh();
                         donviQuidoi = thuoc.getTenDonvibanle();
                         showComboboxDonVi();
@@ -316,8 +320,10 @@ public class PhieunhapForm extends JPanel {
             txtMaphieunhap.setText(String.valueOf(PhieunhapController.getNextID()));
             var tg = LocalDate.now().toString() + " " + LocalTime.now().toString();
             txtThoigiannhap.setText(String.valueOf(tg));
-            float tongtien = 0;
-            txtTongtien.setText(String.valueOf(tongtien));
+            String tongtien = "0.0";
+            //txtNCC.setText(NhacungcapController.getNhacungcap(Thuoc.getMaNhacungcap()).getTenNhacungcap() + "(" + String.valueOf(thuoc.getMaNhacungcap()) + ")");
+            txtTongtien.setText(tongtien);
+            
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
@@ -573,6 +579,7 @@ public class PhieunhapForm extends JPanel {
         txtMathuoc = new javax.swing.JTextField();
         txtTenthuoc = new javax.swing.JTextField();
         txtTimkiem = new javax.swing.JTextField();
+        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
         btnHuy = new javax.swing.JButton();
         btnNhaphang = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
@@ -705,7 +712,9 @@ public class PhieunhapForm extends JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
+                        .addContainerGap()
+                        .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
                         .addComponent(txtTimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLammoi1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -760,9 +769,13 @@ public class PhieunhapForm extends JPanel {
                         .addComponent(cbbDonviquydoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbbDVT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTimkiem)
-                    .addComponent(btnLammoi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtTimkiem)
+                        .addComponent(btnLammoi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -859,6 +872,7 @@ public class PhieunhapForm extends JPanel {
     private javax.swing.JComboBox<String> cbbDonviquydoi;
     private com.toedter.calendar.JDateChooser dateNHH;
     private com.toedter.calendar.JDateChooser dateNSX;
+    private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

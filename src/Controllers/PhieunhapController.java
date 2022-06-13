@@ -25,7 +25,7 @@ public class PhieunhapController {
         ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String query = "SELECT thuoc.MaThuoc, thuoc.TenThuoc, TenLoaiThuoc, SUM(SoLuongConLai) AS SoLuongConLai, donvitinh.TenDonviTinh, dvt.TenDonviTinh AS TenDonViQuiDoi, thuoc.TiLeQuiDoi, HinhAnh FROM lonhap, thuoc, loaithuoc, chitietphieunhap, donvitinh, donvitinh dvt WHERE thuoc.DaXoa = 0 AND lonhap.DaXoa = 0 AND thuoc.MaThuoc = lonhap.MaThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND lonhap.MaPhieuNhap = chitietphieunhap.MaPhieuNhap AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND dvt.MaDonViTinh = thuoc.MaDonViQuiDoi AND thuoc.MaThuoc = lonhap.MaThuoc AND thuoc.MaLoaiThuoc = loaithuoc.MaLoaiThuoc AND NgayHetHan >= '" + formatter.format(date) + "' GROUP BY thuoc.MaThuoc, loaithuoc.TenLoaiThuoc, donvitinh.TenDonviTinh, dvt.TenDonviTinh, thuoc.TenThuoc, thuoc.TiLeQuiDoi, HinhAnh";
+        String query = "SELECT thuoc.MaThuoc, thuoc.TenThuoc, thuoc.MaNhaCungCap, TenLoaiThuoc, SUM(SoLuongConLai) AS SoLuongConLai, donvitinh.TenDonviTinh, dvt.TenDonviTinh AS TenDonViQuiDoi, thuoc.TiLeQuiDoi, HinhAnh FROM lonhap, thuoc, loaithuoc, chitietphieunhap, donvitinh, donvitinh dvt WHERE thuoc.DaXoa = 0 AND lonhap.DaXoa = 0 AND thuoc.MaThuoc = lonhap.MaThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND lonhap.MaPhieuNhap = chitietphieunhap.MaPhieuNhap AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND dvt.MaDonViTinh = thuoc.MaDonViQuiDoi AND thuoc.MaThuoc = lonhap.MaThuoc AND thuoc.MaLoaiThuoc = loaithuoc.MaLoaiThuoc AND NgayHetHan >= '" + formatter.format(date) + "' GROUP BY thuoc.MaThuoc, loaithuoc.TenLoaiThuoc, donvitinh.TenDonviTinh, dvt.TenDonviTinh, thuoc.TenThuoc, thuoc.TiLeQuiDoi, HinhAnh, thuoc.MaNhaCungCap";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(query);
@@ -38,6 +38,7 @@ public class PhieunhapController {
                     int soluongConlai = rs.getInt("SoLuongConLai");
                     String tenDonvitinh = rs.getString("TenDonviTinh");
                     String tenDonviQuidoi = rs.getString("TenDonViQuiDoi");
+                    int maNCC = rs.getInt("MaNhaCungCap");
                     int tileQuydoi = rs.getInt("TiLeQuiDoi");
                     String hinhAnh = rs.getString("HinhAnh");
 
@@ -50,6 +51,7 @@ public class PhieunhapController {
                     ctpn.setTenDonvibanle(tenDonviQuidoi);
                     ctpn.setTileQuidoi(tileQuydoi);
                     ctpn.setHinhAnh(hinhAnh);
+                    ctpn.setMaNhacungcap(maNCC);
                     dsctpn.add(ctpn);
                 }
             }
