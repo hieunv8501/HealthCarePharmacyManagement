@@ -16,13 +16,12 @@ import Models.Nhanvien;
 import Models.Phieunhap;
 import Models.Thuoc;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,8 +30,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
@@ -48,25 +47,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class PhieunhapForm extends JPanel {
 
-    ChonSanPhamPanel target;
-
-    public void setTarget(ChonSanPhamPanel target) {
-        this.target = target;
-    }
-
     public PhieunhapForm() {
         initComponents();
-
         PhieuNhapHang pnhPanel = new PhieuNhapHang();
         ChonSanPhamPanel cspPanel = new ChonSanPhamPanel();
-        //pnhPanel.setTarget(cspPanel);
-        //cspPanel.setTarget(pnhPanel);
+        pnhPanel.setTarget(cspPanel);
+        cspPanel.setTarget(pnhPanel);
     }
 
     class ChonSanPhamPanel extends JPanel {
 
         public String donviTinh, donviQuidoi;
-        PhieuNhapHang target;
+        PhieuNhapHang target2;
         int defaultDongia = 0, defaultSoLuongValue = 1;
 
         public ChonSanPhamPanel() {
@@ -80,7 +72,7 @@ public class PhieunhapForm extends JPanel {
 
             //set Editable
             txtTongtien.setEditable(false);
-            //txtTongtien.setText(PriceFormatter.format(0));
+            txtTongtien.setText(PriceFormatter.format(0));
             txtMathuoc.setEditable(false);
             txtLoaithuoc.setEditable(false);
             txtTenthuoc.setEditable(false);
@@ -100,16 +92,28 @@ public class PhieunhapForm extends JPanel {
                     int dongiaNhap = (Integer) spnDongiaNhap.getValue();
                     int tileQuydoi = (Integer) spnTilequydoi.getValue();
 
-                    DateTimeFormatter formatter;
-                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.US);
-                    //System.out.println(sdf.format(dateNSX.getDateEditor().getUiComponent()));
-                    //System.out.println(LocalDate.parse(sdf.format(((JTextField) dateNHH.getDateEditor().getUiComponent()).getText())));
-                    LocalDate dateStrNSX = LocalDate.parse(((JTextField) dateNSX.getDateEditor().getUiComponent()).getText(), formatter);
-                    LocalDate dateStrNHH = LocalDate.parse(((JTextField) dateNHH.getDateEditor().getUiComponent()).getText(), formatter);
+                    Calendar cld1 = Calendar.getInstance();
+                    Calendar cld2 = Calendar.getInstance();
+                    dateNSX.setCalendar(cld1);
+                    dateNHH.setCalendar(cld2);
+                    Date date1 = new Date();
+                    Date date2 = new Date();
+                    Calendar calendar1 = GregorianCalendar.getInstance();
+                    Calendar calendar2 = GregorianCalendar.getInstance();
+                    calendar1.setTime(date1);
+                    calendar2.setTime(date2);
+
+                    dateNSX.getCalendar().set(Calendar.HOUR, 0);
+                    dateNSX.getCalendar().set(Calendar.MINUTE, 0);
+                    dateNSX.getCalendar().set(Calendar.SECOND, 0);
+                    dateNHH.getCalendar().set(Calendar.HOUR, 0);
+                    dateNHH.getCalendar().set(Calendar.MINUTE, 0);
+                    dateNHH.getCalendar().set(Calendar.SECOND, 0);
+
                     if (soluongNhap > 0 && dongiaNhap > 0) {
 
                         //System.out.println("Kiểm tra dữ liệu: " + mapn + " " + mathuoc + " " + dateStrNSX + " " + dateStrNHH + " " + soluongNhap + " " + dongiaNhap);
-                        this.target.addChiTiet(mapn, mathuoc, dateStrNSX, dateStrNHH, soluongNhap, dongiaNhap);
+                        this.target2.addChiTiet(mapn, mathuoc, dateNSX.getCalendar(), dateNHH.getCalendar(), soluongNhap, dongiaNhap);
                     } else if (soluongNhap <= 0) {
                         JOptionPane.showMessageDialog(spnSoluongNhap, "Số lượng nhập phải là số dương!");
                         spnSoluongNhap.requestFocus();
@@ -138,11 +142,11 @@ public class PhieunhapForm extends JPanel {
         }
 
         public void setTarget(PhieuNhapHang target) {
-            this.target = target;
+            this.target2 = target;
         }
 
         public void refreshTable(JTable tbl) {
-            pnCtrl.layTatCaChiTietLoNhapTheoMaThuoc();
+            dsctpnCSP = pnCtrl.layTatCaChiTietLoNhapTheoMaThuoc();
             //setDataToTable(lnCtrl.timTatCaThuoc("", "Tất cả", -1, -1, -1, -1, 0), tblSanphamNhap);
         }
 
@@ -225,8 +229,8 @@ public class PhieunhapForm extends JPanel {
         public void clear() {
             txtNCC.setText("");
             txtTongtien.setText("");
-            dsctpn.clear();
-            setDataToTable(pnCtrl.layTatCaChiTietLoNhapTheoMaThuoc(), tblSanphamNhap);
+            dsctpnCSP = pnCtrl.layTatCaChiTietLoNhapTheoMaThuoc();
+            setDataToTable(dsctpnCSP, tblSanphamNhap);
         }
 
         private void setDataToTable(ArrayList<ChitietPhieunhap> dsctpn, JTable tbl) {
@@ -282,24 +286,27 @@ public class PhieunhapForm extends JPanel {
     }
 
     class PhieuNhapHang extends JPanel {
+
+        ChonSanPhamPanel target1;
+
         public PhieuNhapHang() {
 
             //Table phiếu nhập
             initTable(tblPhieunhap);
             // Button chọn nhà cung cấp
-            btnChonNCC.addActionListener((ae) -> {
-                ChonNhaCungCapHelper chonNCC = new ChonNhaCungCapHelper(txtNCC);
-                chonNCC.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        int _maNCC = Integer.parseInt(txtNCC.getText());
-                        nhacungcap = NhacungcapController.getNhacungcap(_maNCC);
-                        if (nhacungcap != null) {
-                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " (" + nhacungcap.getMaNhacungcap() + ")");
-                        }
-                    }
-                });
-            });
+//            btnChonNCC.addActionListener((ae) -> {
+//                ChonNhaCungCapHelper chonNCC = new ChonNhaCungCapHelper(txtNCC);
+//                chonNCC.addWindowListener(new WindowAdapter() {
+//                    @Override
+//                    public void windowClosed(WindowEvent e) {
+//                        int _maNCC = Integer.parseInt(txtNCC.getText());
+//                        nhacungcap = NhacungcapController.getNhacungcap(_maNCC);
+//                        if (nhacungcap != null) {
+//                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " (" + String.valueOf(_maNCC) + ")");
+//                        }
+//                    }
+//                });
+//            });
 
             // set Text
             if (DangnhapView.nhanVienLogin != null) {
@@ -307,17 +314,19 @@ public class PhieunhapForm extends JPanel {
                 txtNhanvienlap.setText(nhanvien.getTenNhanvien() + " (" + nhanvien.getMaNhanvien() + ")");
             }
             txtMaphieunhap.setText(String.valueOf(PhieunhapController.getNextID()));
-            txtThoigiannhap.setText((LocalDate.now().toString() + " " + LocalTime.now().toString()));
-
+            var tg = LocalDate.now().toString() + " " + LocalTime.now().toString();
+            txtThoigiannhap.setText(String.valueOf(tg));
+            float tongtien = 0;
+            txtTongtien.setText(String.valueOf(tongtien));
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
-                public void run() {
-                    //txtThoigiannhap.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("YYYY-mm-dd HH:mm:ss")));
+                public void run() {                 
+                    
                     //txtThoigiannhap.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                     if (txtNhanvienlap.getText().equals("")
-                            || txtNCC.getText().equals("")
+                            //|| txtNCC.getText().equals("")
                             || txtTongtien.getText().equals("")
-                            || txtTongtien.getText().equals("0")) {
+                            || txtTongtien.getText().equals("0.0")) {
                         btnNhaphang.setEnabled(false);
                     } else {
                         btnNhaphang.setEnabled(true);
@@ -330,7 +339,6 @@ public class PhieunhapForm extends JPanel {
             txtNhanvienlap.setEditable(false);
             txtNCC.setEditable(false);
             txtThoigiannhap.setEditable(false);
-            //txtGiolap.setEditable(false);
 
             //table Phiếu nhập
             btnXoa.addActionListener((ae) -> {
@@ -340,15 +348,9 @@ public class PhieunhapForm extends JPanel {
                 btnSuaOnClick();
             });
             btnLammoi.addActionListener((ae) -> {
-                setDataToTable(dsctpn, tblPhieunhap);
+                setDataToTable(dsctpnPNH, tblPhieunhap);
             });
 
-//        tblPhieunhap.setColumnsWidth(new double[]{1, 2, 3, 2.2, 2.5, 3});
-//        tblPhieunhap.setAlignment(0, JLabel.CENTER);
-//        tblPhieunhap.setAlignment(1, JLabel.CENTER);
-//        tblPhieunhap.setAlignment(3, JLabel.CENTER);
-//        tblPhieunhap.setAlignment(4, JLabel.RIGHT);
-//        tblPhieunhap.setAlignment(5, JLabel.RIGHT);
             btnHuy.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_cancel_30px_1.png")));
             btnNhaphang.setIcon(new ImageIcon(this.getClass().getResource("/Images/icons8_us_dollar_30px.png")));
 
@@ -361,31 +363,32 @@ public class PhieunhapForm extends JPanel {
 
         }
 
-//        public void setTarget(ChonSanPhamPanel target) {
-//            this.target = target;
-//        }
-        
-        public void addChiTiet(int mapn, int mathuoc, LocalDate ngaysanxuat, LocalDate ngayhethan, int soluong, float dongia) {
-            Boolean daTontai = false; // check xem trong danh sách chi tiết hóa đơn đã có sản phẩm này chưa
-            for (ChitietPhieunhap ctpn : pnCtrl.layTatCaChiTietLoNhapTheoMaThuoc()) {
-                if (ctpn.getMaThuoc() == mathuoc) {
-                    int tongSoLuong = soluong + ctpn.getSoluong();
-                    ctpn.setSoluong(tongSoLuong); // có rồi thì thay đổi số lượng
-                    daTontai = true;
+        public void setTarget(ChonSanPhamPanel target) {
+            this.target1 = target;
+        }
+
+        public void addChiTiet(int mapn, int mathuoc, Calendar ngaysanxuat, Calendar ngayhethan, int soluong, float dongia) {
+            Boolean daTontai = false; // check xem trong danh sách chi tiết phiếu nhập đã có sản phẩm này chưa
+            if (!dsctpnPNH.isEmpty()) {
+                for (ChitietPhieunhap ctpn : dsctpnPNH) {
+                    if (ctpn.getMaThuoc() == mathuoc) {
+                        int tongSoLuong = soluong + ctpn.getSoluong();
+                        ctpn.setSoluong(tongSoLuong); // có rồi thì thay đổi số lượng
+                        daTontai = true;
+                    }
+                }
+                if (!daTontai) { // nếu chưa có thì thêm mới
+                    ChitietPhieunhap ctpn = new ChitietPhieunhap(mapn, mathuoc, soluong, dongia, ngaysanxuat, ngayhethan);
+                    dsctpnPNH.add(ctpn);
+                }
+            } else {
+                if (!daTontai) { // nếu chưa có thì thêm mới
+                    ChitietPhieunhap ctpn = new ChitietPhieunhap(mapn, mathuoc, soluong, dongia, ngaysanxuat, ngayhethan);
+                    dsctpnPNH.add(ctpn);
                 }
             }
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            LocalDate dateStrNSX = LocalDate.parse(sdf.format(((JTextField) dateNSX.getDateEditor().getUiComponent()).getText()));
-            LocalDate dateStrNHH = LocalDate.parse(sdf.format(((JTextField) dateNHH.getDateEditor().getUiComponent()).getText()));
-
-            if (!daTontai) { // nếu chưa có thì thêm mới
-
-                ChitietPhieunhap ctpn = new ChitietPhieunhap(mapn, mathuoc, soluong, dongia, dateStrNSX, dateStrNHH);
-                dsctpn.add(ctpn);
-            }
             // cập nhật lại table
-            setDataToTable(dsctpn, tblPhieunhap);
+            setDataToTable(dsctpnPNH, tblPhieunhap);
         }
 
         public void setDataToTable(ArrayList<ChitietPhieunhap> dsctpn, JTable tbl) {
@@ -397,14 +400,24 @@ public class PhieunhapForm extends JPanel {
                 int _mathuoc = ctpn.getMaThuoc();
                 Thuoc thuoc = ThuocController.getThuoc(_mathuoc);
                 String tensp = thuoc.getTenThuoc();
+                Calendar nsx = ctpn.getNgaySanxuat();
+                Calendar nhh = ctpn.getNgayHethan();
                 int soluong = ctpn.getSoluong();
                 float dongia = ctpn.getDongia();
                 float thanhtien = soluong * dongia;
-
+                
+                Date dateNSX = nsx.getInstance().getTime();
+                Date dateNHH = nhh.getInstance().getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String strNSX = sdf.format(dateNSX);
+                String strNHH = sdf.format(dateNHH);
+                
                 tbModel.addRow(new Object[]{
                     String.valueOf(stt),
                     _mathuoc,
                     tensp,
+                    strNSX,
+                    strNHH,
                     String.valueOf(soluong),
                     String.valueOf(dongia),
                     String.valueOf(thanhtien),});
@@ -413,8 +426,8 @@ public class PhieunhapForm extends JPanel {
             }
 
             // check tong tien
-            tbModel.addRow(new String[]{"", "", "", "", "", ""});
-            tbModel.addRow(new String[]{"", "", "", "", "Tổng tiền", String.valueOf(tongtien)});
+            tbModel.addRow(new String[]{"", "", "", "", "", "", "", ""});
+            tbModel.addRow(new String[]{"", "", "", "", "", "", "Tổng tiền", String.valueOf(tongtien)});
             txtTongtien.setText(String.valueOf(tongtien));
         }
 
@@ -433,7 +446,7 @@ public class PhieunhapForm extends JPanel {
             PhieunhapController pnCtrl = new PhieunhapController();
             pnCtrl.themPhieuNhap(pn);
 
-            for (ChitietPhieunhap ct : dsctpn) {
+            for (ChitietPhieunhap ct : dsctpnPNH) {
                 pnCtrl.themChitietPhieunhap(ct);
             }
 
@@ -451,28 +464,28 @@ public class PhieunhapForm extends JPanel {
 
         private void btnXoaOnClick() {
             int i = tblPhieunhap.getSelectedRow();
-            if (i >= 0 && i < dsctpn.size()) {
-                dsctpn.remove(i);
-                setDataToTable(dsctpn, tblPhieunhap);
+            if (i >= 0 && i < dsctpnPNH.size()) {
+                dsctpnPNH.remove(i);
+                setDataToTable(dsctpnPNH, tblPhieunhap);
             }
         }
 
         private void btnSuaOnClick() {
             int i = tblPhieunhap.getSelectedRow();
-            if (i >= 0 && i < dsctpn.size()) {
-                ChitietPhieunhap ct = dsctpn.get(i);
-                //this.target.showInfo(ct.getThuoc().getMaThuoc(), ct.getSoluong());
+            if (i >= 0 && i < dsctpnPNH.size()) {
+                ChitietPhieunhap ct = dsctpnPNH.get(i);
+                this.target1.showInfo(String.valueOf(ct.getMaThuoc()));
 
                 //dsctpn.remove(i);
-                setDataToTable(dsctpn, tblPhieunhap);
+                setDataToTable(dsctpnPNH, tblPhieunhap);
             }
         }
 
         public void clear() {
             txtNCC.setText("");
             txtTongtien.setText("");
-            dsctpn.clear();
-            setDataToTable(dsctpn, tblPhieunhap);
+            dsctpnPNH.clear();
+            setDataToTable(dsctpnPNH, tblPhieunhap);
         }
 
         private void btnHuyOnClick() {
@@ -488,19 +501,15 @@ public class PhieunhapForm extends JPanel {
             spnSoluongNhap.getModel().setValue(1);
             txtMaphieunhap.setText("");
             txtNhanvienlap.setText("");
+            txtTongtien.setText("0.0");
             txtNCC.setText("");
             txtThoigiannhap.setText("");
         }
 
-//        public void setTarget(ChonSanPhamPanel target) {
-//            this.target = target;
-//        }
         public void refreshTable(JTable tbl) {
             //ThuocController.getDanhSachThuoc();
             //setDataToTable(ThuocController.timTatCaThuoc("", "Tất cả", -1, -1, -1, -1, 0), tblSanphamNhap);
         }
-
-       
 
     }
 
@@ -510,10 +519,11 @@ public class PhieunhapForm extends JPanel {
     NhacungcapController nccCtrl = new NhacungcapController();
     NhanvienController nvCtrl = new NhanvienController();
     LonhapController lnCtrl = new LonhapController();
+    ArrayList<ChitietPhieunhap> dsctpnCSP = new ArrayList<>();
+    ArrayList<ChitietPhieunhap> dsctpnPNH = new ArrayList<>();
 
     Nhanvien nhanvien;
     Nhacungcap nhacungcap;
-    ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
     DefaultTableModel tbModel;
 
     private void initTable(JTable tbl) {
@@ -592,7 +602,7 @@ public class PhieunhapForm extends JPanel {
 
             },
             new String [] {
-                "STT", "Lô nhập", "Mã thuốc", "Tên thuốc", "Ngày sản xuất", "Ngày hết hạn", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Mã thuốc", "Tên thuốc", "Ngày sản xuất", "Ngày hết hạn", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
         jScrollPane1.setViewportView(tblPhieunhap);
@@ -600,21 +610,27 @@ public class PhieunhapForm extends JPanel {
         btnLammoi1.setText("Làm mới");
 
         dateNSX.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ngày sản xuất", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        dateNSX.setForeground(new java.awt.Color(255, 0, 0));
         dateNSX.setDateFormatString("dd-MM-yyyy");
         dateNSX.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         dateNSX.setMinimumSize(new java.awt.Dimension(56, 56));
 
         dateNHH.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ngày hết hạn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        dateNHH.setForeground(new java.awt.Color(255, 0, 0));
         dateNHH.setDateFormatString("dd-MM-yyyy");
         dateNHH.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         dateNHH.setMinimumSize(new java.awt.Dimension(56, 56));
 
+        txtLoaithuoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtLoaithuoc.setForeground(new java.awt.Color(255, 0, 0));
         txtLoaithuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Loại thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         spnSoluongNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
         spnSoluongNhap.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         spnSoluongNhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Số lượng nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtNCC.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtNCC.setForeground(new java.awt.Color(255, 0, 51));
         txtNCC.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nhà cung cấp", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
         txtNCC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,8 +638,11 @@ public class PhieunhapForm extends JPanel {
             }
         });
 
+        txtTongtien.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtTongtien.setForeground(new java.awt.Color(255, 0, 0));
         txtTongtien.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng tiền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        btnChonNCC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnChonNCC.setText("Chọn");
 
         cbbDVT.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Đơn vị tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
@@ -637,14 +656,24 @@ public class PhieunhapForm extends JPanel {
         spnDongiaNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
         spnDongiaNhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Đơn giá nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtMaphieunhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtMaphieunhap.setForeground(new java.awt.Color(255, 0, 0));
         txtMaphieunhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã phiếu nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtThoigiannhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtThoigiannhap.setForeground(new java.awt.Color(255, 0, 0));
         txtThoigiannhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thời gian nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtNhanvienlap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtNhanvienlap.setForeground(new java.awt.Color(255, 0, 0));
         txtNhanvienlap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nhân viên nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtMathuoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtMathuoc.setForeground(new java.awt.Color(255, 0, 0));
         txtMathuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        txtTenthuoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        txtTenthuoc.setForeground(new java.awt.Color(255, 0, 0));
         txtTenthuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tên thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
         txtTimkiem.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
@@ -731,14 +760,19 @@ public class PhieunhapForm extends JPanel {
                     .addComponent(btnLammoi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnHuy.setText("Hủy");
 
+        btnNhaphang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNhaphang.setText("Nhập hàng");
 
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXoa.setText("Xóa");
 
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
 
+        btnLammoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLammoi.setText("Làm mới");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -751,20 +785,20 @@ public class PhieunhapForm extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHinhanhThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1127, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1127, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnHuy, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnLammoi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnXoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSua, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnNhaphang, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnLammoi, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnNhaphang, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 33, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(576, 576, 576)
                 .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -784,13 +818,13 @@ public class PhieunhapForm extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 27, Short.MAX_VALUE)
+                        .addGap(0, 8, Short.MAX_VALUE)
                         .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnLammoi, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
+                        .addGap(30, 30, 30)
                         .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnNhaphang, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))

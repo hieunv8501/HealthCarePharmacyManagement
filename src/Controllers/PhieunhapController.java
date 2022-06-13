@@ -320,8 +320,11 @@ public class PhieunhapController {
                     int maThuoc = rs.getInt("MaThuoc");
                     int soLuong = rs.getInt("SoLuong");
                     float donGia = rs.getFloat("DonGia");
-                    LocalDate ngaySanxuat = rs.getDate("NgaySanXuat").toLocalDate();
-                    LocalDate ngayHethan = rs.getDate("NgayHetHan").toLocalDate();
+                    Calendar ngaySanxuat = Calendar.getInstance();
+                    Calendar ngayHethan = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                    ngaySanxuat.setTime(sdf.parse(rs.getString("NgaySanXuat")));
+                    ngayHethan.setTime(sdf.parse(rs.getString("NgayHetHan")));;
                     Boolean daXoa = rs.getBoolean("DaXoa");
                     dsctpn.add(new ChitietPhieunhap(maPhieunhap, maThuoc, soLuong, donGia, ngaySanxuat, ngayHethan, daXoa));
                 }

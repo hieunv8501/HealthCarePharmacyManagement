@@ -1,6 +1,6 @@
 package Models;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 
 public class ChitietPhieunhap {
 
@@ -13,8 +13,8 @@ public class ChitietPhieunhap {
     private String tenDonvibanle;
     private int soluong;
     private float dongia;
-    private LocalDate ngaySanxuat;
-    private LocalDate ngayHethan;
+    private Calendar ngaySanxuat;
+    private Calendar ngayHethan;
     private int soLuongConLai;
     private String hinhAnh;
     private boolean daXoa;
@@ -23,7 +23,7 @@ public class ChitietPhieunhap {
 
     }
 
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, LocalDate ngaySanxuat, LocalDate ngayHethan, boolean daXoa) {
+    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soLuong, float donGia, Calendar ngaySanxuat, Calendar ngayHethan, boolean daXoa) {
         this.maPhieunhap = maPhieunhap;
         this.maThuoc = maThuoc;
         this.soluong = soLuong;
@@ -33,7 +33,7 @@ public class ChitietPhieunhap {
         this.daXoa = daXoa;
     }
 
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soluong, float dongia, LocalDate ngaysanxuat, LocalDate ngayhethan) {
+    public ChitietPhieunhap(int maPhieunhap, int maThuoc, int soluong, float dongia, Calendar ngaysanxuat, Calendar ngayhethan) {
         this.maPhieunhap = maPhieunhap;
         this.maThuoc = maThuoc;
         this.soluong = soluong;
@@ -42,7 +42,7 @@ public class ChitietPhieunhap {
         this.ngayHethan = ngayhethan;
     }
 
-    public ChitietPhieunhap(int maPhieunhap, int maThuoc, String tenThuoc, String tenloaiThuoc, int tileQuidoi, String tenDonvitinh, String tenDonvibanle, int soluong, float dongia, LocalDate ngaySanxuat, LocalDate ngayHethan, int soLuongConLai, String hinhAnh, boolean daXoa) {
+    public ChitietPhieunhap(int maPhieunhap, int maThuoc, String tenThuoc, String tenloaiThuoc, int tileQuidoi, String tenDonvitinh, String tenDonvibanle, int soluong, float dongia, Calendar ngaySanxuat, Calendar ngayHethan, int soLuongConLai, String hinhAnh, boolean daXoa) {
         this.maPhieunhap = maPhieunhap;
         this.maThuoc = maThuoc;
         this.tenThuoc = tenThuoc;
@@ -147,19 +147,19 @@ public class ChitietPhieunhap {
         this.dongia = dongia;
     }
 
-    public LocalDate getNgaySanxuat() {
+    public Calendar getNgaySanxuat() {
         return ngaySanxuat;
     }
 
-    public void setNgaySanxuat(LocalDate ngaySanxuat) {
+    public void setNgaySanxuat(Calendar ngaySanxuat) {
         this.ngaySanxuat = ngaySanxuat;
     }
 
-    public LocalDate getNgayHethan() {
+    public Calendar getNgayHethan() {
         return ngayHethan;
     }
 
-    public void setNgayHethan(LocalDate ngayHethan) {
+    public void setNgayHethan(Calendar ngayHethan) {
         this.ngayHethan = ngayHethan;
     }
 
