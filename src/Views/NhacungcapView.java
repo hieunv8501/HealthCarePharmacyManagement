@@ -66,6 +66,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         showXa();
         ShowData();
         showTinh();
+        showHuyen();
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
@@ -626,14 +627,14 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void txtTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhActionPerformed
         // TODO add your handling code here:
         Tinh tinhSelected = (Tinh) txtTinh.getSelectedItem();
-        //showHuyen(tinhSelected.getMaTinh());
+        showHuyen(tinhSelected.getTenTinh());
     }//GEN-LAST:event_txtTinhActionPerformed
 
     private void txtHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHuyenActionPerformed
         // TODO add your handling code here:
         Huyen huyenSelected = (Huyen) txtHuyen.getSelectedItem();
         if (huyenSelected != null) {
-            // showXa(huyenSelected.getMaHuyen());
+             showXa(huyenSelected.getTenHuyen());
         } else {
             DefaultComboBoxModel xaBoxModel = (DefaultComboBoxModel) txtXa.getModel();
             xaBoxModel.removeAllElements();
@@ -868,22 +869,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         searchAutoCompletion.enable(JcomboboxSearch);
     }
 
-//      public int getMaNhacungcapMoi()
-//      {
-//          int maNhacungcapMoi=1;
-//           if(!dsNhacungcap.isEmpty())
-//           {
-//                for(int i=0;i<dsNhacungcap.size();i++)
-//                {
-//                    if(dsNhacungcap.get(i).getMaNhacungcap()>maNhacungcapMoi)
-//                    {
-//                        maNhacungcapMoi=dsNhacungcap.get(i).getMaNhacungcap();
-//                    }
-//                }
-//        }
-//           return maNhacungcapMoi;
-//        
-//      }
+
     public void showTinh() {
         DefaultComboBoxModel tinhBoxModel = (DefaultComboBoxModel) txtTinh.getModel();
         tinhBoxModel.removeAllElements();
@@ -903,16 +889,15 @@ public class NhacungcapView extends javax.swing.JPanel {
             huyenBoxModel.addElement(huyen);
         });
     }
-//    public void showHuyen(int maTinh){
-//        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
-//      huyenBoxModel.removeAllElements();
-//      HuyenController huyenController=new HuyenController();
-//        ArrayList<Huyen> dsHuyen= huyenController.getDanhsachHuyen();
-//        dsHuyen.forEach(huyen->{
-//            if(huyen.getTinh().getMaTinh()==maTinh)
-//            huyenBoxModel.addElement(huyen);
-//        });      
-//    }
+    public void showHuyen(String tenTinh){
+        DefaultComboBoxModel huyenBoxModel=(DefaultComboBoxModel) txtHuyen.getModel();
+      huyenBoxModel.removeAllElements();
+      HuyenController huyenController=new HuyenController();
+        ArrayList<Huyen> dsHuyen= huyenController.getDanhsachHuyenTheoTinh(tenTinh);
+        dsHuyen.forEach(huyen->{
+            huyenBoxModel.addElement(huyen);
+        });      
+    }
 
     public void showXa() {
         DefaultComboBoxModel xaBoxModel = (DefaultComboBoxModel) txtXa.getModel();
@@ -923,16 +908,15 @@ public class NhacungcapView extends javax.swing.JPanel {
             xaBoxModel.addElement(xa);
         });
     }
-//    public void showXa(int maHuyen){
-//        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
-//      xaBoxModel.removeAllElements();
-//      XaController xaController=new XaController();
-//        ArrayList<Xa> dsXa= xaController.getDanhsachXa();
-//        dsXa.forEach(xa->{
-//            if(xa.getHuyen().getMaHuyen()==maHuyen)
-//            xaBoxModel.addElement(xa);
-//        });       
-//    }
+    public void showXa(String tenHuyen){
+        DefaultComboBoxModel xaBoxModel=(DefaultComboBoxModel) txtXa.getModel();
+      xaBoxModel.removeAllElements();
+      XaController xaController=new XaController();
+        ArrayList<Xa> dsXa= xaController.getDanhsachXaTheoHuyen(tenHuyen);
+        dsXa.forEach(xa->{
+            xaBoxModel.addElement(xa);
+        });       
+    }
 
     public int getMaNhacungcapMoi() {
         int maNhacungcapMoi = 0;
