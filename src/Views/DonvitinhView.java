@@ -73,10 +73,10 @@ public class DonvitinhView extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
         btnLuu = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableDanhSachDonvitinh = new javax.swing.JTable();
         btnThemFile = new javax.swing.JButton();
         btnXuatFile = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableDanhSachDonvitinh = new javax.swing.JTable();
 
         panelThongtinDonvitinh.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin đơn vị tính", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
@@ -140,34 +140,47 @@ public class DonvitinhView extends javax.swing.JPanel {
             }
         });
 
+        btnThemFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
+        btnThemFile.setText("Thêm từ file");
+
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnXuatFile.setText("Xuất file");
+
         javax.swing.GroupLayout panelThongtinDonvitinhLayout = new javax.swing.GroupLayout(panelThongtinDonvitinh);
         panelThongtinDonvitinh.setLayout(panelThongtinDonvitinhLayout);
         panelThongtinDonvitinhLayout.setHorizontalGroup(
             panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelThongtinDonvitinhLayout.createSequentialGroup()
-                .addGap(374, 374, 374)
                 .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelMaDonvitinh)
-                    .addComponent(labelTendonvitinh)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtGiaTriDonvitinh)
-                    .addComponent(txtTenDonvitinh)
-                    .addComponent(txtMaDonvitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelThongtinDonvitinhLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
-                .addComponent(btnThem)
-                .addGap(100, 100, 100)
-                .addComponent(btnHuy)
-                .addGap(100, 100, 100)
-                .addComponent(btnLuu)
-                .addGap(100, 100, 100)
-                .addComponent(btnSua)
-                .addGap(100, 100, 100)
-                .addComponent(btnXoa)
-                .addGap(156, 156, 156))
+                    .addGroup(panelThongtinDonvitinhLayout.createSequentialGroup()
+                        .addGap(374, 374, 374)
+                        .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelMaDonvitinh)
+                            .addComponent(labelTendonvitinh)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtGiaTriDonvitinh)
+                            .addComponent(txtTenDonvitinh)
+                            .addComponent(txtMaDonvitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelThongtinDonvitinhLayout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btnThem)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnHuy)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnLuu)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnSua)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnXoa)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnThemFile)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnXuatFile)))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         panelThongtinDonvitinhLayout.setVerticalGroup(
             panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,14 +197,16 @@ public class DonvitinhView extends javax.swing.JPanel {
                 .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtGiaTriDonvitinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(panelThongtinDonvitinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHuy)
                     .addComponent(btnLuu)
                     .addComponent(btnThem)
                     .addComponent(btnSua)
-                    .addComponent(btnXoa))
-                .addGap(41, 41, 41))
+                    .addComponent(btnXoa)
+                    .addComponent(btnThemFile)
+                    .addComponent(btnXuatFile))
+                .addGap(39, 39, 39))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách đơn vị tính", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
@@ -208,7 +223,15 @@ public class DonvitinhView extends javax.swing.JPanel {
             new String [] {
                 "Mã đơn vị tính", "Tên đơn vị tính", "Giá trị"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDanhSachDonvitinh.setRowHeight(30);
         tableDanhSachDonvitinh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -217,25 +240,11 @@ public class DonvitinhView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableDanhSachDonvitinh);
 
-        btnThemFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
-        btnThemFile.setText("Thêm từ file");
-
-        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
-        btnXuatFile.setText("Xuất file");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(btnThemFile)
-                .addGap(40, 40, 40)
-                .addComponent(btnXuatFile)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(panelThongtinDonvitinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -245,11 +254,7 @@ public class DonvitinhView extends javax.swing.JPanel {
                 .addComponent(panelThongtinDonvitinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThemFile)
-                    .addComponent(btnXuatFile))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

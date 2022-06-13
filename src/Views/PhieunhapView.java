@@ -219,12 +219,12 @@ public class PhieunhapView extends JPanel {
         jPanel1.setForeground(new java.awt.Color(0, 51, 255));
 
         tblPhieuNhap.setAutoCreateRowSorter(true);
-        tblPhieuNhap.setBackground(new java.awt.Color(240, 240, 240));
+        tblPhieuNhap.setBackground(new java.awt.Color(204, 255, 255));
         tblPhieuNhap.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 255, 0), null, null));
         tblPhieuNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Ngày nhập", "Tổng tiền", "Trạng thái"
@@ -233,9 +233,16 @@ public class PhieunhapView extends JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblPhieuNhap.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

@@ -246,12 +246,12 @@ public class QuyenView extends JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
         tblQuyen.setAutoCreateRowSorter(true);
-        tblQuyen.setBackground(new java.awt.Color(240, 240, 240));
+        tblQuyen.setBackground(new java.awt.Color(204, 255, 255));
         tblQuyen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 255, 0), null, null));
         tblQuyen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblQuyen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã quyền", "Tên quyền", "Chi tiết quyền", "Trạng thái"
@@ -260,9 +260,16 @@ public class QuyenView extends JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblQuyen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

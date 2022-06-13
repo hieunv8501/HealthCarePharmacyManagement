@@ -61,10 +61,10 @@ public class LoaithuocView extends javax.swing.JPanel {
         btnLuu = new javax.swing.JButton();
         txtMoTa = new javax.swing.JTextField();
         labelMota = new javax.swing.JLabel();
+        btnThemFile = new javax.swing.JButton();
+        btnXuatFile = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableDanhSachLoaiThuoc = new javax.swing.JTable();
-        btnXuatFile = new javax.swing.JButton();
-        btnThemFile = new javax.swing.JButton();
 
         panelThongTinLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
@@ -128,13 +128,28 @@ public class LoaithuocView extends javax.swing.JPanel {
         labelMota.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelMota.setText("Mô tả:");
 
+        btnThemFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
+        btnThemFile.setText("Thêm từ file");
+        btnThemFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemFileActionPerformed(evt);
+            }
+        });
+
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnXuatFile.setText("Xuất file");
+
         javax.swing.GroupLayout panelThongTinLoaiThuocLayout = new javax.swing.GroupLayout(panelThongTinLoaiThuoc);
         panelThongTinLoaiThuoc.setLayout(panelThongTinLoaiThuocLayout);
         panelThongTinLoaiThuocLayout.setHorizontalGroup(
             panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(159, 159, 159)
+                .addComponent(btnThem)
+                .addGap(47, 47, 47)
+                .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
                         .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelMaLoaiThuoc)
@@ -146,16 +161,18 @@ public class LoaithuocView extends javax.swing.JPanel {
                             .addComponent(txtMaLoaiThuoc)
                             .addComponent(txtTenLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
-                        .addComponent(btnThem)
-                        .addGap(100, 100, 100)
                         .addComponent(btnHuy)
-                        .addGap(100, 100, 100)
+                        .addGap(45, 45, 45)
                         .addComponent(btnLuu)
-                        .addGap(100, 100, 100)
-                        .addComponent(btnSua)))
-                .addGap(88, 88, 88)
-                .addComponent(btnXoa)
-                .addContainerGap(163, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)
+                        .addComponent(btnSua)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnXoa)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnThemFile)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnXuatFile)))
+                .addGap(28, 28, 28))
         );
         panelThongTinLoaiThuocLayout.setVerticalGroup(
             panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,19 +189,16 @@ public class LoaithuocView extends javax.swing.JPanel {
                 .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelMota))
-                .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnXoa)
-                        .addGap(102, 102, 102))
-                    .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThem)
-                            .addComponent(btnHuy)
-                            .addComponent(btnLuu)
-                            .addComponent(btnSua))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(30, 30, 30)
+                .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnThem)
+                    .addComponent(btnHuy)
+                    .addComponent(btnLuu)
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa)
+                    .addComponent(btnThemFile)
+                    .addComponent(btnXuatFile))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
@@ -198,7 +212,15 @@ public class LoaithuocView extends javax.swing.JPanel {
             new String [] {
                 "Mã loại thuốc", "Tên loại thuốc", "Mô tả"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDanhSachLoaiThuoc.setRowHeight(30);
         tableDanhSachLoaiThuoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -207,30 +229,11 @@ public class LoaithuocView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableDanhSachLoaiThuoc);
 
-        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
-        btnXuatFile.setText("Xuất file");
-
-        btnThemFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
-        btnThemFile.setText("Thêm từ file");
-        btnThemFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemFileActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(btnThemFile)
-                .addGap(36, 36, 36)
-                .addComponent(btnXuatFile)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1163, Short.MAX_VALUE))
         );
@@ -238,17 +241,13 @@ public class LoaithuocView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 394, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThemFile)
-                    .addComponent(btnXuatFile))
-                .addGap(30, 30, 30))
+                .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(365, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(327, 327, 327)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(84, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
