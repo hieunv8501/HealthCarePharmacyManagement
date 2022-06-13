@@ -90,7 +90,7 @@ CREATE TABLE donvitinh
 (
 	MaDonViTinh int primary key NOT NULL,
 	TenDonviTinh nvarchar(50) NOT NULL,
-  GiaTri nvarchar(100),
+	GiaTri nvarchar(100),
 	DaXoa BIT DEFAULT 0,
 
 )
@@ -157,10 +157,6 @@ CREATE TABLE nhacungcap(
 	DaXoa BIT DEFAULT 0,
 
 )
-drop table thuoc
-drop table nhacungcap
-delete thuoc
-delete nhacungcap
 ----------------------------------------------------------
 -- Cấu trúc bảng cho bảng nhanvien
 
@@ -234,7 +230,7 @@ ALTER TABLE thuoc
 	CONSTRAINT FK_thuoc_donvitinh foreign key (MaDonViTinh) references donvitinh(MaDonViTinh),
 	CONSTRAINT FK_thuoc_loaithuoc foreign key (MaLoaiThuoc) references loaithuoc(MaLoaiThuoc),
 	CONSTRAINT FK_thuoc_donviQuidoi foreign key (MaDonViTinh) references donvitinh(MaDonViTinh)
-alter table thuoc drop CONSTRAINT FK_thuoc_nhacungcap,FK_thuoc_donvitinh,FK_thuoc_loaithuoc,FK_thuoc_donviQuidoi
+
 -- Tạo các ràng buộc cho các bảng nhacungcap 
 ALTER TABLE nhacungcap
 	add CONSTRAINT FK_nhacungcap_xa foreign key (MaXa) references Xa(MaXa)
@@ -358,8 +354,8 @@ AS BEGIN
 END
 
 GO
-CREATE Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
-ALTER TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
+--Tính tổng tiền khi sửa, xóa chi tiết hóa đơn
+CREATE TRIGGER TG_UPDATE_DELETE_CTHD ON chitiethoadon 
 FOR UPDATE, DELETE
 AS BEGIN
 	DECLARE @TongTien MONEY, @MaHoaDon INT, @SoLuong INT, @DonGia MONEY, @MaKhuyenMai VARCHAR(10), @PhanTramKhuyenMai FLOAT
@@ -662,10 +658,10 @@ INSERT INTO nhacungcap (MaNhaCungCap, TenNhaCungCap, MaXa, SoDienThoai, Fax) val
 
 --Dữ liệu phiếu nhập
 INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
-VALUES (1, 1, 5, '20/05/2022')
+VALUES (1, 1, 1, '20/05/2022')
 INSERT INTO phieunhap(MaPhieuNhap, MaNhaCungCap, MaNhanVien, NgayNhap)
-VALUES (2, 2, 6, '20/05/2022')
-aádsadf
+VALUES (2, 2, 1, '20/05/2022')
+
 --Dữ liệu chi tiết phiếu nhập
 INSERT INTO chitietphieunhap (MaPhieuNhap, MaThuoc, SoLuong, DonGia, NgaySanXuat, NgayHetHan) 
 VALUES (1, 1, 10, 100000, '01/03/2022', '20/06/2022' )
@@ -691,10 +687,10 @@ insert into phanquyen (MaQuyen, TenQuyen, ChiTietQuyen) values
 
 --Dữ liệu tài khoản
 insert into taikhoan(TenTaiKhoan, MatKhau, MaNhanVien, MaQuyen) 
-values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 5, 'Q1'), --pass: Hieu123.
-('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 7, 'Q1'), --pass: Tinh123.
-('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 6, 'Q1'), --Hau123.
-('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 8, 'Q1') --Quy123.
+values('hieunv8501', N'$2a$08$LFRd4nOR7YRfL/JGbAAm9eD1XNwppYKF3M8nUnp3GIA7CfR39BZSq', 1, 'Q1'), --pass: Hieu123.
+('tinhbui721', N'$2a$08$5FuDrRFu0rPhetwU0wGjiO2FyctrPVoBZuE8dgKbvz9E3cmVERs.C', 3, 'Q1'), --pass: Tinh123.
+('haupham', N'$2a$08$BcgcgVng.5KR0zTeWg9qI.eVJ8XSYW7Az9RJ0WdOSwov2fHZILCae', 2, 'Q1'), --Hau123.
+('vietquy', N'$2a$08$X1KHkU1s3wwIralBqUs49ueoFJg30cJdQblAde3S6rkk8OcU/MqZa', 4, 'Q1') --Quy123.
 
 --Dữ liệu tỉnh huyện xã
 insert into tinh values(1,N'Hồ chí Minh');
@@ -727,5 +723,10 @@ insert into xa values(1, N'Đông Hòa',1);
 --SELECT * FROM phanquyen
 
 select * from phieunhap
+select * from lonhap
+select * from chitietphieunhap
 
+
+
+SELECT MaLo, chitietphieunhap.MaThuoc,thuoc.TenThuoc, loaithuoc.TenLoaiThuoc, SoLuong, DonGia, dvt.TenDonviTinh as TenDonViTinh, thuoc.TiLeQuiDoi, donvitinh.TenDonviTinh as TenDonViBanLe, NgaySanXuat, NgayHetHan, TongTien FROM chitietphieunhap, thuoc, loaithuoc, lonhap, donvitinh, donvitinh dvt, phieunhap WHERE chitietphieunhap.DaXoa = 0 AND loaithuoc.MaLoaiThuoc = thuoc.MaLoaiThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND lonhap.MaPhieuNhap = phieunhap.MaPhieuNhap AND thuoc.MaDonViQuiDoi = dvt.MaDonViTinh AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND phieunhap.MaPhieuNhap = 2
 

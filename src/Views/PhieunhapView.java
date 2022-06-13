@@ -16,6 +16,7 @@ public class PhieunhapView extends JPanel {
 
     PhieunhapController phieunhapCtrl = new PhieunhapController();
     DefaultTableModel tbModel;
+    private int maPhieunhap;
     
     public PhieunhapView() {
         initComponents();
@@ -100,6 +101,7 @@ public class PhieunhapView extends JPanel {
         comboNhanvien = new javax.swing.JComboBox<>();
         cbbNCC = new javax.swing.JComboBox<>();
         dateLap = new com.toedter.calendar.JDateChooser();
+        btnXemCT = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1200, 745));
 
@@ -216,6 +218,15 @@ public class PhieunhapView extends JPanel {
         dateLap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         dateLap.setMinimumSize(new java.awt.Dimension(56, 56));
 
+        btnXemCT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXemCT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_agreement_30px.png"))); // NOI18N
+        btnXemCT.setText("Xem chi tiết");
+        btnXemCT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemCTActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,13 +234,6 @@ public class PhieunhapView extends JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(368, 368, 368)
-                        .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(btnTimKiem))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(171, 171, 171)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -252,18 +256,29 @@ public class PhieunhapView extends JPanel {
                             .addComponent(comboNhanvien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(dateLap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(btnThem)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(149, 149, 149)
+                                .addComponent(btnThem)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnSua)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnXoa)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnLamMoi)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnTaiLenExcel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(368, 368, 368)
+                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnTimKiem)))
                         .addGap(39, 39, 39)
-                        .addComponent(btnSua)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnXoa)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnLamMoi)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnTaiLenExcel)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnTaiXuongExcel)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnXemCT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTaiXuongExcel))))
                 .addContainerGap(148, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -297,7 +312,8 @@ public class PhieunhapView extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXemCT))
                 .addGap(47, 47, 47)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -308,6 +324,17 @@ public class PhieunhapView extends JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
+    private void btnXemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemCTActionPerformed
+        // TODO add your handling code here:
+        this.maPhieunhap = Integer.parseInt(txtMaPhieuNhap.getText());
+        ChitietPhieunhapView ctpn = new ChitietPhieunhapView();
+
+        ctpn.setVisible(true);
+        ctpn.setVariable(this.maPhieunhap);
+
+        this.refresh();
+    }//GEN-LAST:event_btnXemCTActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
@@ -316,6 +343,7 @@ public class PhieunhapView extends JPanel {
     private javax.swing.JButton btnTaiXuongExcel;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnXemCT;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbbChonTimKiem;
     private javax.swing.JComboBox<String> cbbNCC;

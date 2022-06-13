@@ -17,6 +17,8 @@ public class ChitietPhieunhap {
     private Calendar ngayHethan;
     private int soLuongConLai;
     private String hinhAnh;
+    private int maLo;
+    private float thanhtien;
     private boolean daXoa;
 
     public ChitietPhieunhap() {
@@ -57,6 +59,38 @@ public class ChitietPhieunhap {
         this.soLuongConLai = soLuongConLai;
         this.hinhAnh = hinhAnh;
         this.daXoa = daXoa;
+    }
+    
+    public ChitietPhieunhap(int maLo, int maPhieunhap, int maThuoc, String tenThuoc, String tenloaiThuoc, String tenDonvitinh, String tenDonvibanle, int tileQuidoi, int soluong, float dongia, float thanhtien, Calendar ngaySanxuat, Calendar ngayHethan, boolean daXoa) {
+        this.maLo = maLo;
+        this.maPhieunhap = maPhieunhap;
+        this.maThuoc = maThuoc;
+        this.tenThuoc = tenThuoc;
+        this.tenloaiThuoc = tenloaiThuoc;
+        this.tileQuidoi = tileQuidoi;
+        this.tenDonvitinh = tenDonvitinh;
+        this.soluong = soluong;
+        this.dongia = dongia;
+        this.thanhtien = thanhtien;
+        this.ngaySanxuat = ngaySanxuat;
+        this.ngayHethan = ngayHethan;
+        this.daXoa = daXoa;
+    }
+
+    public float getThanhtien() {
+        return thanhtien;
+    }
+
+    public void setThanhtien(float thanhtien) {
+        this.thanhtien = thanhtien;
+    }
+
+    public int getMaLo() {
+        return maLo;
+    }
+
+    public void setMaLo(int maLo) {
+        this.maLo = maLo;
     }
 
     public String getHinhAnh() {

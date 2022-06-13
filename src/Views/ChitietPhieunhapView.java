@@ -53,9 +53,9 @@ public class ChitietPhieunhapView extends JFrame {
         for (T t : list) {
             if (t instanceof ChitietPhieunhap) {
                 ChitietPhieunhap ctpn = (ChitietPhieunhap) t;
-                String soluong = ctpn.getSoluong() + " : " + ctpn.getTenDonvitinh();
+                String soluong = ctpn.getTenDonvitinh() + " " + ctpn.getTileQuidoi() + " " + ctpn.getTenDonvibanle() + "x" + ctpn.getSoluong();
                 model.addRow(new Object[]{
-                    stt++, ctpn.getMaThuoc(), ctpn.getTenThuoc(), ctpn.getTenDonvitinh(), soluong, ctpn.getDongia()
+                    stt++, ctpn.getMaLo(), ctpn.getMaThuoc(), ctpn.getTenThuoc(), ctpn.getTenloaiThuoc(), soluong, ctpn.getDongia(), ctpn.getThanhtien()
                 });
 
             }
@@ -65,7 +65,7 @@ public class ChitietPhieunhapView extends JFrame {
     public void reset() {
         modelCTPN = (DefaultTableModel) tblCTPN.getModel();
         List<ChitietPhieunhap> ctpn;
-        ctpn = pnCtrl.layDanhsachChitietPhieunhap(maPhieunhap);
+        ctpn = pnCtrl.layDanhsachChitietPhieunhapTheoMaPhieuNhap(maPhieunhap);
         showData(ctpn, modelCTPN);
     }
 
@@ -95,8 +95,6 @@ public class ChitietPhieunhapView extends JFrame {
 
         txtMaPN = new javax.swing.JTextField();
         txtDongia = new javax.swing.JTextField();
-        btnXoa = new javax.swing.JButton();
-        btnThem = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCTPN = new javax.swing.JTable();
@@ -108,37 +106,23 @@ public class ChitietPhieunhapView extends JFrame {
         jLabel3 = new javax.swing.JLabel();
         spinSoluong = new com.toedter.components.JSpinField();
         jLabel4 = new javax.swing.JLabel();
-        btnSua = new javax.swing.JButton();
-        btnQuayLai = new javax.swing.JButton();
         txtMaLN = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         cbbNhaCungCap = new javax.swing.JComboBox<>();
         cbbNhanVien = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         cbbDVT = new javax.swing.JComboBox<>();
+        btnBack = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         txtMaPN.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         txtDongia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(153, 51, 0));
-        btnXoa.setText("Xóa");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
-
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 204));
@@ -153,19 +137,12 @@ public class ChitietPhieunhapView extends JFrame {
 
             },
             new String [] {
-                "Lô nhập", "Mã thuốc", "Tên thuốc", "Đơn vị", "Số lượng", "Đơn giá"
+                "STT", "Lô nhập", "Mã thuốc", "Tên thuốc", "Tên loại thuốc", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, true
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -204,24 +181,6 @@ public class ChitietPhieunhapView extends JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã phiếu nhập:");
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(0, 204, 0));
-        btnSua.setText("Sửa");
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
-            }
-        });
-
-        btnQuayLai.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnQuayLai.setForeground(new java.awt.Color(204, 0, 0));
-        btnQuayLai.setText("Quay lại");
-        btnQuayLai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuayLaiActionPerformed(evt);
-            }
-        });
-
         txtMaLN.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -251,6 +210,51 @@ public class ChitietPhieunhapView extends JFrame {
             }
         });
 
+        btnBack.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-back-arrow-30.png"))); // NOI18N
+        btnBack.setText("Quay lại");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
+        btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        btnHuy.setText("Làm mới");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
+
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
+        btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
+
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
+        btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -258,21 +262,6 @@ public class ChitietPhieunhapView extends JFrame {
             .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(183, 183, 183)
-                                .addComponent(btnThem)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnSua)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnXoa)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnQuayLai)))
-                        .addGap(0, 203, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -300,18 +289,35 @@ public class ChitietPhieunhapView extends JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(11, 11, 11)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDongia)
-                                    .addComponent(cbbNhanVien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbbDVT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(cbbNhanVien, 0, 263, Short.MAX_VALUE)
+                                    .addComponent(cbbDVT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(286, 286, 286))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addComponent(btnThem)
+                                .addGap(49, 49, 49)
+                                .addComponent(btnHuy)
+                                .addGap(56, 56, 56)
+                                .addComponent(btnSua)
+                                .addGap(50, 50, 50)
+                                .addComponent(btnXoa)
+                                .addGap(48, 48, 48)
+                                .addComponent(btnBack)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(298, 298, 298))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,74 +344,28 @@ public class ChitietPhieunhapView extends JFrame {
                     .addComponent(cbbDVT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(txtDongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spinSoluong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThem)
-                            .addComponent(btnSua)
-                            .addComponent(btnXoa)
-                            .addComponent(btnQuayLai))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7)
+                            .addComponent(txtDongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(spinSoluong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3)))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnHuy)
+                    .addComponent(btnSua)
+                    .addComponent(btnThem)
+                    .addComponent(btnXoa))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-//        int input = JOptionPane.showConfirmDialog(null,
-//                "Bạn có chắc muốn xóa lô nhập này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-//        if (input == 0) {
-//            String maThuoc = cbbThuoc.getSelectedItem().toString().split(" - ")[0];
-//            String maLo1 = cbb.getSelectedItem().toString().split(" - ")[0];
-//            String maLo2 = maLo1.toString().split(": ")[1];
-//
-//            ChitietPhieunhapView ctpn = new ChitietPhieunhapView(maPhieunhap, maThuoc, maLo2, 0, 0, false);
-//            pnCtrl.xoaChitietPhieunhap(ctpn);
-//            this.reset();
-//        }
-    }//GEN-LAST:event_btnXoaActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-//        String maNV = cbbNhanVien.getSelectedItem().toString().split(" - ")[0];
-//        String maNCC = cbbNhaCungCap.getSelectedItem().toString().split(" - ")[0];
-//        String maThuoc = cbbThuoc.getSelectedItem().toString().split(" - ")[0];
-//        String maLo = txtMaLN.getText();
-//        
-//        ChitietPhieunhapView cthd = new ChitietPhieunhapView(this.maPhieunhap, Integer.parseInt(maThuoc), Integer.parseInt(maLo), Integer.valueOf(spinSoluong.getValue()), Float.parseFloat(txtDongia.getText()), false);
-//
-//        hdctr.themCTHD(cthd);
-//
-//        this.reset();
-
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
-//        String maThuoc = cbbThuoc.getSelectedItem().toString().split(" - ")[0];
-//        String maLo1 = comboLonhap.getSelectedItem().toString().split(" - ")[0];
-//        String maLo2 = maLo1.toString().split(": ")[1];
-//        ChitietPhieunhapView cthd = new ChitietPhieunhapView(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), Integer.valueOf(spinSoluong.getValue()), Float.parseFloat(txtDongia.getText()), false);
-//        hdctr.capnhatCTHD(cthd);
-//        this.reset();
-//
-//        LonhapController lnctr = new LonhapController();
-//        LoNhap ln = new LoNhap();
-//        ln = lnctr.layLoNhap(Integer.parseInt(maLo2));
-//        comboLonhap.removeAllItems();
-//        comboLonhap.addItem("Mã lô: " + ln.getMaLo() + " - Số lượng còn lại: " + ln.getSoluongConlai());
-    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void cbbThuocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbThuocItemStateChanged
         // TODO add your handling code here:
@@ -430,11 +390,6 @@ public class ChitietPhieunhapView extends JFrame {
 //            }
 //        }
     }//GEN-LAST:event_cbbThuocItemStateChanged
-
-    private void btnQuayLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuayLaiActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnQuayLaiActionPerformed
 
     private void tblCTPNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTPNMouseClicked
         // TODO add your handling code here:
@@ -482,6 +437,103 @@ public class ChitietPhieunhapView extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbDVTItemStateChanged
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+//        txt.setText(String.valueOf(hdctr.getMaxMHD()));
+//        btnLuu.setEnabled(true);
+//        btnHuy.setEnabled(true);
+//        btnThem.setEnabled(false);
+//        btnChonKH.setEnabled(true);
+//        btnChonMKM.setEnabled(true);
+//
+//        this.setValueForCombobox();
+//
+//        Calendar cld = Calendar.getInstance();
+//        dateLap.setCalendar(cld);
+//
+//        Date date = new Date();
+//        Calendar calendar = GregorianCalendar.getInstance();
+//        calendar.setTime(date);
+//        gio.setValue(calendar.get(Calendar.HOUR_OF_DAY));
+//        phut.setValue(calendar.get(Calendar.MINUTE));
+//        giay.setValue(calendar.get(Calendar.SECOND));
+
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+//        int input = JOptionPane.showConfirmDialog(null,
+//            "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+//        if (input == 0) {
+//            comboNhanvien.removeAllItems();
+//            //            comboKhachhang.removeAllItems();
+//            //            comboMaKM.removeAllItems();
+//            dateLap.setCalendar(null);
+//            gio.setValue(0);
+//            phut.setValue(0);
+//            giay.setValue(0);
+//            txtMHD.setText(null);
+//
+//            btnLuu.setEnabled(false);
+//            btnSua.setEnabled(false);
+//            btnThem.setEnabled(true);
+//            btnChonKH.setEnabled(false);
+//            txtMKH.setText("");
+//            txtMKM.setText("");
+//            btnChonMKM.setEnabled(false);
+//
+//            this.reset();
+//
+//        }
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+
+//        if ((int) gio.getValue() < 0 || (int) gio.getValue() > 24 || (int) phut.getValue() < 0 || (int) phut.getValue() > 60 || (int) giay.getValue() < 0 || (int) giay.getValue() > 60) {
+//            JOptionPane.showMessageDialog(null, "Thời gian không hợp lệ!!!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+//
+//        } else {
+//            String MNV = comboNhanvien.getSelectedItem().toString().split(" - ")[0];
+//            String MKH = txtMKH.getText().split(" - ")[0];
+//            String MKM;
+//            if (txtMKM.getText().equals("")) {
+//                MKM = null;
+//            } else {
+//                MKM = txtMKM.getText();
+//            }
+//
+//            dateLap.getCalendar().set(Calendar.HOUR, (int) gio.getValue());
+//            dateLap.getCalendar().set(Calendar.MINUTE, (int) phut.getValue());
+//            dateLap.getCalendar().set(Calendar.SECOND, (int) giay.getValue());
+//            Hoadon hd = new Hoadon(Integer.parseInt(txtMHD.getText()), Integer.parseInt(MNV), Integer.parseInt(MKH), MKM, dateLap.getCalendar());
+//            hdctr.capnhatHoadon(hd);
+//            this.maHoadon = Integer.valueOf(txtMHD.getText());
+//            this.reset();
+//        }
+
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+//        int input = JOptionPane.showConfirmDialog(null,
+//            "Bạn có chắc muốn xóa thuốc này khỏi hóa đơn không không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+//        if (input == 0) {
+//            String maThuoc = comboThuoc.getSelectedItem().toString().split(" - ")[0];
+//            String maLo1 = comboLonhap.getSelectedItem().toString().split(" - ")[0];
+//            String maLo2 = maLo1.toString().split(": ")[1];
+//
+//            ChitietHoadon cthd = new ChitietHoadon(maHoadon, Integer.parseInt(maThuoc), Integer.parseInt(maLo2), 0, 0, false);
+//            hdctr.xoaCTHD(cthd);
+//            this.reset();
+//        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -519,7 +571,8 @@ public class ChitietPhieunhapView extends JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnQuayLai;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
