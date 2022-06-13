@@ -294,19 +294,19 @@ public class PhieunhapForm extends JPanel {
             //Table phiếu nhập
             initTable(tblPhieunhap);
             // Button chọn nhà cung cấp
-//            btnChonNCC.addActionListener((ae) -> {
-//                ChonNhaCungCapHelper chonNCC = new ChonNhaCungCapHelper(txtNCC);
-//                chonNCC.addWindowListener(new WindowAdapter() {
-//                    @Override
-//                    public void windowClosed(WindowEvent e) {
-//                        int _maNCC = Integer.parseInt(txtNCC.getText());
-//                        nhacungcap = NhacungcapController.getNhacungcap(_maNCC);
-//                        if (nhacungcap != null) {
-//                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " (" + String.valueOf(_maNCC) + ")");
-//                        }
-//                    }
-//                });
-//            });
+            btnChonNCC.addActionListener((ae) -> {
+                ChonNhaCungCapHelper chonNCC = new ChonNhaCungCapHelper(txtNCC);
+                chonNCC.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        int _maNCC = Integer.parseInt(txtNCC.getText());
+                        nhacungcap = NhacungcapController.getNhacungcap(_maNCC);
+                        if (nhacungcap != null) {
+                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " (" + String.valueOf(_maNCC) + ")");
+                        }
+                    }
+                });
+            });
 
             // set Text
             if (DangnhapView.nhanVienLogin != null) {
@@ -320,8 +320,8 @@ public class PhieunhapForm extends JPanel {
             txtTongtien.setText(String.valueOf(tongtien));
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
-                public void run() {                 
-                    
+                public void run() {
+
                     //txtThoigiannhap.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                     if (txtNhanvienlap.getText().equals("")
                             //|| txtNCC.getText().equals("")
@@ -405,13 +405,13 @@ public class PhieunhapForm extends JPanel {
                 int soluong = ctpn.getSoluong();
                 float dongia = ctpn.getDongia();
                 float thanhtien = soluong * dongia;
-                
+
                 Date dateNSX = nsx.getInstance().getTime();
                 Date dateNHH = nhh.getInstance().getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 String strNSX = sdf.format(dateNSX);
                 String strNHH = sdf.format(dateNHH);
-                
+
                 tbModel.addRow(new Object[]{
                     String.valueOf(stt),
                     _mathuoc,
@@ -432,9 +432,9 @@ public class PhieunhapForm extends JPanel {
         }
 
         private void btnNhapHangOnClick() {
-            Date date = Date.from(LocalDate.parse(txtThoigiannhap.getText()).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
+            calendar.set(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth(), LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
             Phieunhap pn = new Phieunhap(
                     Integer.parseInt(txtMaphieunhap.getText()),
                     NhacungcapController.getNhacungcap(nhacungcap.getMaNhacungcap()),

@@ -36,7 +36,7 @@ public class NhacungcapController {
     }
 
     public static Nhacungcap getNhacungcap(int _maNCC) {
-        for (var ncc : getDanhsachNhacungcap()) {
+        for (var ncc : getDanhSachNhacungcap()) {
             if (ncc.getMaNhacungcap() == _maNCC) {
                 return ncc;
             }

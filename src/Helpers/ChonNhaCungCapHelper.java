@@ -39,7 +39,7 @@ public class ChonNhaCungCapHelper extends JFrame {
 
         // actionlistener
         btnOK.addActionListener((ActionEvent ae) -> {
-            String mancc = String.valueOf(nhacungcapView.getSelectedRow(1));
+            String mancc = String.valueOf(nhacungcapView.getSelectedRow(0));
             if (mancc != null) {
                 this.txtNCC.setText(mancc);
                 this.dispose();
