@@ -582,29 +582,34 @@ public class PhieunhapForm extends JPanel {
         lblHinhanhThuoc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         tblSanphamNhap.setAutoCreateRowSorter(true);
-        tblSanphamNhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        tblSanphamNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblSanphamNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null}
             },
             new String [] {
                 "Mã thuốc", "Loại thuốc", "Tên thuốc", "Đơn vị tính", "Đơn vị bán lẻ", "Tỉ lệ quy đổi", "Số lượng còn lại"
             }
         ));
+        tblSanphamNhap.setRowHeight(30);
+        tblSanphamNhap.setSelectionBackground(new java.awt.Color(0, 0, 255));
         jScrollPane2.setViewportView(tblSanphamNhap);
 
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
         btnThem.setText("Thêm");
 
         tblPhieunhap.setAutoCreateRowSorter(true);
-        tblPhieunhap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
+        tblPhieunhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieunhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
                 "STT", "Mã thuốc", "Tên thuốc", "Ngày sản xuất", "Ngày hết hạn", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
+        tblPhieunhap.setRowHeight(30);
+        tblPhieunhap.setSelectionBackground(new java.awt.Color(0, 0, 204));
         jScrollPane1.setViewportView(tblPhieunhap);
 
         btnLammoi1.setText("Làm mới");
@@ -767,12 +772,15 @@ public class PhieunhapForm extends JPanel {
         btnNhaphang.setText("Nhập hàng");
 
         btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
 
         btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
 
         btnLammoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLammoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
         btnLammoi.setText("Làm mới");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -801,8 +809,8 @@ public class PhieunhapForm extends JPanel {
                         .addGap(0, 33, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(576, 576, 576)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnThem)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

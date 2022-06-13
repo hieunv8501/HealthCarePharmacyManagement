@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -88,13 +89,13 @@ public class PhieunhapView extends JPanel {
             stt++;
             SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             String formatted = format1.format(pn.getNgayNhap().getTime());
-            tbModel.addRow(new String[]{
-                String.valueOf(stt),
-                String.valueOf(pn.getMaPhieunhap()),
-                String.valueOf(pn.getNcc().getMaNhacungcap()),
-                String.valueOf(pn.getNv().getMaNhanvien()),
-                String.valueOf(formatted),
-                String.valueOf(pn.getTongTien()),
+            tbModel.addRow(new Object[]{
+                stt,
+                pn.getMaPhieunhap(),
+                pn.getNcc().getMaNhacungcap(),
+                pn.getNv().getMaNhanvien(),
+                formatted,
+                pn.getTongTien(),
                 pn.isDaXoa() ? "Đã tạm khóa" : "Bình thường",});
         }
     }
@@ -121,12 +122,12 @@ public class PhieunhapView extends JPanel {
                 if (String.valueOf(pn.getMaPhieunhap()).equals(mapn)) {
                     // show info
                     txtMaPN.setText(String.valueOf(pn.getMaPhieunhap()));
-                    txtNCC.setText(pn.getNcc().getMaNhacungcap()+ " - " + pn.getNcc().getTenNhacungcap());
+                    txtNCC.setText(pn.getNcc().getMaNhacungcap() + " - " + pn.getNcc().getTenNhacungcap());
                     txtNV.setText(pn.getNv().getMaNhanvien() + " - " + pn.getNv().getTenNhanvien());
-                    dateLap.setCalendar(pn.getNgayNhap());
-                    //gio.setValue(pn.getNgayNhap().getTime().getHours());
-                    //phut.setValue(pn.getNgayNhap().getTime().getHours());
-                    //giay.setValue(pn.getNgayNhap().getTime().getHours());
+                    dateLap.setCalendar(pn.getNgayNhap());                   
+                    gio.setValue(pn.getNgayNhap().get(Calendar.HOUR_OF_DAY));
+                    phut.setValue(pn.getNgayNhap().get(Calendar.MINUTE));
+                    giay.setValue(pn.getNgayNhap().get(Calendar.SECOND));
                     txtTongTien.setText(String.valueOf(pn.getTongTien()));
                     return;
                 }
@@ -306,30 +307,6 @@ public class PhieunhapView extends JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(149, 149, 149)
-                                .addComponent(btnThem)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnSua)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnXoa)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnLamMoi)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnTaiLenExcel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(368, 368, 368)
-                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btnTimKiem)))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnXemCT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnTaiXuongExcel)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(175, 175, 175)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMaPN, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,9 +327,32 @@ public class PhieunhapView extends JPanel {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(giay, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(dateLap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(148, Short.MAX_VALUE))
+                            .addComponent(dateLap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(149, 149, 149)
+                                .addComponent(btnThem)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnSua)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnXoa)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnLamMoi)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnTaiLenExcel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(368, 368, 368)
+                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(btnTimKiem)))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnXemCT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(148, 148, 148))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,7 +400,7 @@ public class PhieunhapView extends JPanel {
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void btnXemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemCTActionPerformed
-      
+
     }//GEN-LAST:event_btnXemCTActionPerformed
 
 

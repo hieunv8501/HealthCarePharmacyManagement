@@ -37,6 +37,11 @@ public class ChitietPhieunhapView extends JFrame {
     private DefaultTableModel modelCTPN;
     //private int indexOfList;
     ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
+    ArrayList<Thuoc> dst = new ArrayList<>();
+    ArrayList<Nhanvien> dsnv = new ArrayList<>();
+    ArrayList<Nhacungcap> dsncc = new ArrayList<>();
+    ArrayList<Donvitinh> dsdvt = new ArrayList<>();
+    HoadonController hdCtrl = new HoadonController();
 
     public ChitietPhieunhapView(String _maPN) {
         initComponents();
@@ -69,7 +74,6 @@ public class ChitietPhieunhapView extends JFrame {
             @Override
             public void mouseReleased(MouseEvent me) {
                 String malo = getSelectedRow(1);
-                System.out.println(malo);
                 if (malo != null) {
                     showInfo(malo);
                 }
@@ -91,11 +95,11 @@ public class ChitietPhieunhapView extends JFrame {
         modelCTPN.setRowCount(0);
         int stt = 0;
         for (ChitietPhieunhap ctpn : dsctpn) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String nSX = dateFormat.format(ctpn.getNgaySanxuat().getTime());
             String nHH = dateFormat.format(ctpn.getNgayHethan().getTime());
 
-            String soluong = ctpn.getTenDonvitinh() + " " + ctpn.getTileQuidoi() + " " + ctpn.getTenDonvibanle() + "x" + ctpn.getSoluong();
+            String soluong = ctpn.getTenDonvitinh() + " " + ctpn.getTileQuidoi() + " " + ctpn.getTenDonvibanle() + " x" + ctpn.getSoluong();
             modelCTPN.addRow(new Object[]{
                 ++stt, ctpn.getMaLo(), ctpn.getMaThuoc(), ctpn.getTenThuoc(), ctpn.getTenloaiThuoc(), nSX, nHH, soluong, ctpn.getDongia(), ctpn.getThanhtien()
             });
@@ -114,43 +118,38 @@ public class ChitietPhieunhapView extends JFrame {
         }
     }
 
-    public void showInfo(String _malo) {
+    private void showInfo(String _malo) {
+
         if (_malo != null) {
-            // show hình
             for (ChitietPhieunhap ctpn : dsctpn) {
                 if (String.valueOf(ctpn.getMaLo()).equals(_malo)) {
-                    // show info
+                    dsncc = NhacungcapController.getDanhSachNhacungcap();
+                    dsdvt = DonvitinhController.getDanhSachDonvitinh();
+                    dsnv = NhanvienController.getDanhSachNhanvien();
+                    dst = hdCtrl.layDanhSachThuoc();
+                    for (Thuoc t : dst) {
+                        cbbThuoc.addItem(String.valueOf(t.getMaThuoc()) + " - " + t.getTenThuoc());
+                        cbbThuoc.setSelectedItem(t.getMaThuoc() == ctpn.getMaThuoc()? t : "");
+                    }
                     
+                    for (Nhanvien nv : dsnv) {
+                        cbbNhanVien.addItem(String.valueOf(nv.getMaNhanvien() + " - " + nv.getTenNhanvien()));
+                       //cbbNhanVien.setSelectedItem(nv.getMaNhanvien() == ? nv : "");
+                    }
+
+                    for (Nhacungcap ncc : dsncc) {
+                        cbbNhaCungCap.addItem(String.valueOf(ncc.getMaNhacungcap() + " - " + ncc.getTenNhacungcap()));
+                    }
+
+                    for (Donvitinh dvt : dsdvt) {
+                        cbbDVT.addItem(String.valueOf(dvt.getMaDonvitinh() + " - " + dvt.getTenDonvitinh()));
+                    }
+                    // show info
                     txtMaPN.setText(String.valueOf(ctpn.getMaPhieunhap()));
                     txtMaLN.setText(String.valueOf(ctpn.getMaLo()));
                     txtDongia.setText(String.valueOf(ctpn.getDongia()));
-                    spinSoluong.setValue(ctpn.getSoluong());
-                    System.out.println(ctpn.getMaPhieunhap() + ctpn.getMaLo() + ctpn.getDongia() + ctpn.getSoluong());
-                    ArrayList<Thuoc> dst = new ArrayList<>();
-                    ArrayList<Nhanvien> dsnv = new ArrayList<>();
-                    ArrayList<Nhacungcap> dsncc = new ArrayList<>();
-                    ArrayList<Donvitinh> dsdvt = new ArrayList<>();
-                    HoadonController hdCtrl = new HoadonController();
+                    System.out.println(ctpn.getSoluong());
 
-                    dst = hdCtrl.layDanhSachThuoc();
-                    for (Thuoc t : dst) {
-                        cbbThuoc.addItem(String.valueOf(t.getMaThuoc()) + " - " + t.getTenThuoc());  
-                    }
-                    
-                    dsnv = NhanvienController.getDanhSachNhanvien();
-                    for (Nhanvien nv : dsnv) {
-                        cbbNhanVien.addItem(String.valueOf(nv.getMaNhanvien() + " - " + nv.getTenNhanvien()));                     
-                    }
-                    
-                    dsncc = NhacungcapController.getDanhSachNhacungcap();
-                    for (Nhacungcap ncc : dsncc) {
-                        cbbNhaCungCap.addItem(String.valueOf(ncc.getMaNhacungcap()+ " - " + ncc.getTenNhacungcap()));                     
-                    }
-                    
-                    dsdvt = DonvitinhController.getDanhSachDonvitinh();
-                    for (Donvitinh dvt : dsdvt) {
-                        cbbDVT.addItem(String.valueOf(dvt.getMaDonvitinh()+ " - " + dvt.getTenDonvitinh()));                     
-                    }
                     return;
                 }
             }
