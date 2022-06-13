@@ -191,7 +191,7 @@ create table thuoc(
 	TenThuoc nvarchar(50) NOT NULL,
 	MoTa nvarchar(1000) NOT NULL,
 	DoTuoi nvarchar(200) NOT NULL,
-	HinhAnh nvarchar NOT NULL,
+	HinhAnh nvarchar(500) NOT NULL,
 	MaDonViTinh int NOT NULL,
 	MaDonViQuiDoi int NOT NULL,
 	TiLeQuiDoi int NOT NULL,
