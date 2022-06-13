@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Views;
 
 import Controllers.HoadonController;
@@ -27,9 +23,6 @@ import javax.swing.table.TableColumnModel;
  */
 public class QuanlyKhoView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QuanlyKhoView
-     */
     private DefaultTableModel modelLN;
     LonhapController lnctrl = new LonhapController();
     HoadonController hdctr = new HoadonController();
@@ -77,7 +70,6 @@ public class QuanlyKhoView extends javax.swing.JPanel {
                 Thuoc th = (Thuoc) t;
                 comboThuoc1.addItem(String.valueOf(th.getMaThuoc()) + " - " + th.getTenThuoc());
                 comboThuoc2.addItem(String.valueOf(th.getMaThuoc()) + " - " + th.getTenThuoc());
-
             }
         }
     }

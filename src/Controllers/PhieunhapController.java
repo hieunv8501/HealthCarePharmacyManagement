@@ -309,7 +309,7 @@ public class PhieunhapController {
 
     public ArrayList<ChitietPhieunhap> layDanhsachChitietPhieunhapTheoMaPhieuNhap(int maPhieunhap) {
         ArrayList<ChitietPhieunhap> dsctpn = new ArrayList<>();
-        String sqlCommand = "SELECT MaLo, chitietphieunhap.MaThuoc,thuoc.TenThuoc, loaithuoc.TenLoaiThuoc, SoLuong, DonGia, dvt.TenDonviTinh as TenDonViTinh, thuoc.TiLeQuiDoi, donvitinh.TenDonviTinh as TenDonViBanLe, NgaySanXuat, NgayHetHan, TongTien FROM chitietphieunhap, thuoc, loaithuoc, lonhap, donvitinh, donvitinh dvt, phieunhap WHERE chitietphieunhap.DaXoa = 0 AND loaithuoc.MaLoaiThuoc = thuoc.MaLoaiThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND lonhap.MaPhieuNhap = phieunhap.MaPhieuNhap AND thuoc.MaDonViQuiDoi = dvt.MaDonViTinh AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND phieunhap.MaPhieuNhap = '" + maPhieunhap + "'";
+        String sqlCommand = "SELECT lonhap.MaLo, chitietphieunhap.MaThuoc,thuoc.TenThuoc, loaithuoc.TenLoaiThuoc, SoLuong, DonGia, dvt.TenDonviTinh as TenDonViTinh, thuoc.TiLeQuiDoi, donvitinh.TenDonviTinh as TenDonViBanLe, NgaySanXuat, NgayHetHan, (chitietphieunhap.DonGia*chitietphieunhap.SoLuong) as ThanhTien, chitietphieunhap.DaXoa FROM chitietphieunhap, thuoc, loaithuoc, lonhap, donvitinh, donvitinh dvt, phieunhap WHERE chitietphieunhap.DaXoa = 0 AND loaithuoc.MaLoaiThuoc = thuoc.MaLoaiThuoc AND lonhap.MaThuoc = chitietphieunhap.MaThuoc AND chitietphieunhap.MaPhieuNhap = lonhap.MaPhieuNhap AND lonhap.MaPhieuNhap = phieunhap.MaPhieuNhap AND thuoc.MaDonViQuiDoi = dvt.MaDonViTinh AND donvitinh.MaDonViTinh = thuoc.MaDonViTinh AND thuoc.MaThuoc = chitietphieunhap.MaThuoc AND phieunhap.MaPhieuNhap = '" + maPhieunhap + "'";
         DBConnection con = new DBConnection();
         try {
             ResultSet rs = con.sqlQuery(sqlCommand);
@@ -319,17 +319,17 @@ public class PhieunhapController {
                     int maThuoc = rs.getInt("MaThuoc");
                     int soLuong = rs.getInt("SoLuong");
                     float donGia = rs.getFloat("DonGia");
-                    float thanhtien = rs.getFloat("TongTien");
+                    float thanhtien = rs.getFloat("ThanhTien");
                     String tenDonvitinh = rs.getString("TenDonViTinh");
                     String tenDonvibanle = rs.getString("TenDonViBanLe");
-                    int tileQuydoi = rs.getInt("TiLeQuyDoi");
+                    int tileQuydoi = rs.getInt("TiLeQuiDoi");
                     String tenThuoc = rs.getString("TenThuoc");
                     String tenLoaithuoc = rs.getString("TenLoaiThuoc");
                     Calendar ngaySanxuat = Calendar.getInstance();
                     Calendar ngayHethan = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                     ngaySanxuat.setTime(sdf.parse(rs.getString("NgaySanXuat")));
-                    ngayHethan.setTime(sdf.parse(rs.getString("NgayHetHan")));;
+                    ngayHethan.setTime(sdf.parse(rs.getString("NgayHetHan")));
                     Boolean daXoa = rs.getBoolean("DaXoa");
                     dsctpn.add(new ChitietPhieunhap(maLo, maPhieunhap, maThuoc, tenThuoc, tenLoaithuoc, tenDonvitinh, tenDonvibanle, tileQuydoi, soLuong, donGia, thanhtien, ngaySanxuat, ngayHethan, daXoa));
                 }

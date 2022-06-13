@@ -69,6 +69,7 @@ public class ChitietPhieunhap {
         this.tenloaiThuoc = tenloaiThuoc;
         this.tileQuidoi = tileQuidoi;
         this.tenDonvitinh = tenDonvitinh;
+        this.tenDonvibanle = tenDonvibanle;
         this.soluong = soluong;
         this.dongia = dongia;
         this.thanhtien = thanhtien;
