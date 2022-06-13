@@ -9,13 +9,17 @@ import Models.Nhanvien;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -38,6 +42,7 @@ public class HoadonView extends javax.swing.JPanel {
     private int indexOfList;
     private int maHoadon;
     public String nhanVien;
+    private List<Hoadon> dshd;
 
     public HoadonView() {
         initComponents();
@@ -68,6 +73,7 @@ public class HoadonView extends javax.swing.JPanel {
         });
 
         this.reset();
+        ShowSearchTextBox();
     }
 
     public <T> void showData(List<T> list, DefaultTableModel model) {
@@ -92,7 +98,6 @@ public class HoadonView extends javax.swing.JPanel {
 
     public void reset() {
         modelHD = (DefaultTableModel) dsHoaDon.getModel();
-        List<Hoadon> dshd;
         dshd = hdctr.layDanhsachHD();
         this.showData(dshd, modelHD);
     }
@@ -132,6 +137,26 @@ public class HoadonView extends javax.swing.JPanel {
 //            }
 //        }
     }
+    public void ShowSearchTextBox() {
+        
+        Set<String> hash_Set = new HashSet<String>();
+        dshd.forEach(hoadon1 -> {
+              SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                String formatted = format1.format(hoadon1.getNgayLap().getTime());
+           hash_Set.add(String.valueOf(hoadon1.getMaHoadon()));
+            hash_Set.add(hoadon1.getTenKhachhang());
+             hash_Set.add(hoadon1.getTenNhanvien());
+            hash_Set.add(hoadon1.getMaKhuyenmai());
+             hash_Set.add(formatted);
+              hash_Set.add(String.valueOf(hoadon1.getNgayLap().get(Calendar.YEAR)));           
+        }
+        );
+         txtSearchBox.clearItemSuggestion();
+        Iterator value = hash_Set.iterator();
+         while (value.hasNext()) {
+            txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -168,6 +193,9 @@ public class HoadonView extends javax.swing.JPanel {
         txtMKH = new javax.swing.JTextField();
         btnChonMKM = new javax.swing.JButton();
         txtMKM = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
+        btnTimKiem = new javax.swing.JButton();
 
         dateLap.setDateFormatString("dd-MM-yyyy");
         dateLap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -330,6 +358,23 @@ public class HoadonView extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel9.setText("Thông tin tìm kiếm");
+
+        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchBoxKeyPressed(evt);
+            }
+        });
+
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -396,11 +441,24 @@ public class HoadonView extends javax.swing.JPanel {
                         .addComponent(btnXemCT)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btnTimKiem)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTimKiem)
+                    .addComponent(jLabel9)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
@@ -674,6 +732,64 @@ public class HoadonView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMKMActionPerformed
 
+    private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
+        // TODO add your handling code here:
+        char c= evt.getKeyChar();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            btnTimKiem.doClick();
+        }
+    }//GEN-LAST:event_txtSearchBoxKeyPressed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+        String searchText = txtSearchBox.getText();
+        if(searchText.equals("")||searchText.equals(null))
+        {
+            this.reset();
+        }
+        else
+        {
+            DefaultTableModel tblModel = (DefaultTableModel) dsHoaDon.getModel();
+            tblModel.getDataVector().removeAllElements();
+            tblModel.fireTableDataChanged();
+            if(dshd==null)
+            {
+                this.reset();
+            }
+            //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
+            if (!dshd.isEmpty()) {
+                dshd.forEach((hoadon1) -> {
+                 if(hoadon1.getMaKhuyenmai()!=null){
+                 
+                    if (!hoadon1.isDaXoa()&&(String.valueOf(hoadon1.getMaHoadon()).contains(searchText)||hoadon1.getTenKhachhang().contains(searchText)||hoadon1.getMaKhuyenmai().contains(searchText)||hoadon1.getTenNhanvien().contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.DAY_OF_MONTH)).contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.MONTH)).contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.YEAR)).contains(searchText))) {                     
+                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                String formatted = format1.format(hoadon1.getNgayLap().getTime());
+                String nhanvien = hoadon1.getMaNhanvien() + " - " + hoadon1.getTenNhanvien();
+                String khachhang = hoadon1.getMaKhachhang() + " - " + hoadon1.getTenKhachhang();
+                tblModel.addRow(new Object[]{
+                    hoadon1.getMaHoadon(), nhanvien, khachhang, hoadon1.getMaKhuyenmai(), formatted, hoadon1.getTongTien()});
+                    }
+                 }
+                 else
+                 {
+                       if (!hoadon1.isDaXoa()&&(String.valueOf(hoadon1.getMaHoadon()).contains(searchText)||hoadon1.getTenKhachhang().contains(searchText)||hoadon1.getTenNhanvien().contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.DAY_OF_MONTH)).contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.MONTH)).contains(searchText)||String.valueOf(hoadon1.getNgayLap().get(Calendar.YEAR)).contains(searchText))) {                     
+                        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                String formatted = format1.format(hoadon1.getNgayLap().getTime());
+                String nhanvien = hoadon1.getMaNhanvien() + " - " + hoadon1.getTenNhanvien();
+                String khachhang = hoadon1.getMaKhachhang() + " - " + hoadon1.getTenKhachhang();
+                tblModel.addRow(new Object[]{
+                    hoadon1.getMaHoadon(), nhanvien, khachhang, hoadon1.getMaKhuyenmai(), formatted, hoadon1.getTongTien()});
+                    }
+                 }
+                });
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Danh sách hóa đơn rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChonKH;
@@ -682,6 +798,7 @@ public class HoadonView extends javax.swing.JPanel {
     private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXemCT;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> comboNhanvien;
@@ -697,10 +814,12 @@ public class HoadonView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner phut;
     private javax.swing.JTextField txtMHD;
     private javax.swing.JTextField txtMKH;
     private javax.swing.JTextField txtMKM;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     // End of variables declaration//GEN-END:variables
 }

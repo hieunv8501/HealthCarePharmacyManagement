@@ -466,7 +466,8 @@ btnLuu.setEnabled(true);
           JOptionPane.showMessageDialog(this,"Danh sách loại thuốc rỗng","Thông báo",JOptionPane.INFORMATION_MESSAGE);
 
         }
-         btnHuy.setEnabled(false);
+        tableDanhSachLoaiThuoc.setAutoCreateRowSorter(true);
+        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);

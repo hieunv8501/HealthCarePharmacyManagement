@@ -5,6 +5,7 @@ import Controllers.PhieunhapController;
 import Helpers.PriceFormatter;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,9 @@ import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -65,7 +69,7 @@ public class PhieunhapView extends JPanel {
             btnXemChitietPhieunhapMouseClicked();
         });
         refresh();
-
+        ShowSearchTextBox();
     }
 
     public String getSelectedRow(int col) {
@@ -134,7 +138,29 @@ public class PhieunhapView extends JPanel {
             }
         }
     }
-
+public void ShowSearchTextBox() {
+        
+        Set<String> hash_Set = new HashSet<String>();
+        dsPhieuNhap.forEach(phieunhap1 -> {
+              SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String formatted = format1.format(phieunhap1.getNgayNhap().getTime());
+           hash_Set.add(String.valueOf(phieunhap1.getMaPhieunhap()));
+           hash_Set.add(String.valueOf(phieunhap1.getNcc().getMaNhacungcap()));
+            hash_Set.add(phieunhap1.getNcc().getTenNhacungcap());
+             hash_Set.add(phieunhap1.getNv().getTenNhanvien());
+            hash_Set.add(String.valueOf(phieunhap1.getNv().getMaNhanvien()));
+             hash_Set.add(formatted);
+              hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.MONTH))); 
+               hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.DAY_OF_MONTH))); 
+              hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.YEAR))); 
+        }
+        );
+         txtSearchBox.clearItemSuggestion();
+        Iterator value = hash_Set.iterator();
+         while (value.hasNext()) {
+            txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -168,6 +194,9 @@ public class PhieunhapView extends JPanel {
         txtMaPN = new javax.swing.JTextField();
         txtNCC = new javax.swing.JTextField();
         txtTongTien = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
+        btnTimKiem1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1200, 745));
 
@@ -175,35 +204,35 @@ public class PhieunhapView extends JPanel {
         txtNV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtNV.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nhân viên lập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
-        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnLamMoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
         btnLamMoi.setText("Làm mới");
+        btnLamMoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        cbbChonTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbbChonTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã Quyền", "Tên Quyền", "Chi Tiết Quyền", "Quyền Đã Ẩn" }));
         cbbChonTimKiem.setAlignmentX(0.0F);
         cbbChonTimKiem.setAlignmentY(0.0F);
+        cbbChonTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnTaiLenExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiLenExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
         btnTaiLenExcel.setText("Tải lên Excel");
+        btnTaiLenExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnTaiXuongExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiXuongExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
         btnTaiXuongExcel.setText("Tải xuống Excel");
+        btnTaiXuongExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtTimKiem.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -212,16 +241,14 @@ public class PhieunhapView extends JPanel {
             }
         });
 
-        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTimKiem.setText("Tìm Kiếm");
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách phiếu nhập hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(0, 51, 255));
 
         tblPhieuNhap.setAutoCreateRowSorter(true);
-        tblPhieuNhap.setBackground(new java.awt.Color(240, 240, 240));
         tblPhieuNhap.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 255, 0), null, null));
-        tblPhieuNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
@@ -238,7 +265,9 @@ public class PhieunhapView extends JPanel {
                 return types [columnIndex];
             }
         });
+        tblPhieuNhap.setBackground(new java.awt.Color(240, 240, 240));
         tblPhieuNhap.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblPhieuNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieuNhap.setGridColor(new java.awt.Color(0, 0, 0));
         tblPhieuNhap.setRowHeight(40);
         tblPhieuNhap.setSelectionBackground(new java.awt.Color(0, 0, 255));
@@ -251,25 +280,25 @@ public class PhieunhapView extends JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel6.setText("Giờ:");
+        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         gio.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         phut.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel7.setText("Phút:");
+        jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel8.setText("Giây:");
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
 
         giay.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
@@ -278,9 +307,9 @@ public class PhieunhapView extends JPanel {
         dateLap.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         dateLap.setMinimumSize(new java.awt.Dimension(56, 56));
 
-        btnXemCT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXemCT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_agreement_30px.png"))); // NOI18N
         btnXemCT.setText("Xem chi tiết");
+        btnXemCT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXemCT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXemCTActionPerformed(evt);
@@ -299,15 +328,33 @@ public class PhieunhapView extends JPanel {
         txtTongTien.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTongTien.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tổng tiền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel9.setText("Thông tin tìm kiếm");
+
+        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchBoxKeyPressed(evt);
+            }
+        });
+
+        btnTimKiem1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnTimKiem1.setText("Tìm kiếm");
+        btnTimKiem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiem1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(141, 141, 141)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMaPN, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,11 +374,10 @@ public class PhieunhapView extends JPanel {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(giay, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(dateLap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dateLap, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(149, 149, 149)
                                 .addComponent(btnThem)
                                 .addGap(39, 39, 39)
                                 .addComponent(btnSua)
@@ -342,7 +388,7 @@ public class PhieunhapView extends JPanel {
                                 .addGap(39, 39, 39)
                                 .addComponent(btnTaiLenExcel))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(368, 368, 368)
+                                .addGap(219, 219, 219)
                                 .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)
                                 .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,13 +397,26 @@ public class PhieunhapView extends JPanel {
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnXemCT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(148, 148, 148))
+                            .addComponent(btnTaiXuongExcel))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btnTimKiem1)
+                .addGap(79, 79, 79))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTimKiem1)
+                    .addComponent(jLabel9)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMaPN, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                     .addComponent(txtNV))
@@ -389,7 +448,7 @@ public class PhieunhapView extends JPanel {
                     .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXemCT))
-                .addGap(47, 47, 47)
+                .addGap(32, 32, 32)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -403,6 +462,60 @@ public class PhieunhapView extends JPanel {
 
     }//GEN-LAST:event_btnXemCTActionPerformed
 
+    private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
+        // TODO add your handling code here:
+        char c= evt.getKeyChar();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            btnTimKiem.doClick();
+        }
+    }//GEN-LAST:event_txtSearchBoxKeyPressed
+
+    private void btnTimKiem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiem1ActionPerformed
+        // TODO add your handling code here:
+        String searchText = txtSearchBox.getText();
+        if(searchText.equals("")||searchText.equals(null))
+        {
+            this.loadDataToTable();
+        }
+        else
+        {
+            DefaultTableModel tblModel = (DefaultTableModel) tblPhieuNhap.getModel();
+            tblModel.getDataVector().removeAllElements();
+            tblModel.fireTableDataChanged();
+            if(dsPhieuNhap==null)
+            {
+               this.loadDataToTable();
+            }
+            //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
+            tblModel.setRowCount(0);
+        int stt = 0;
+        if(dsPhieuNhap!=null)
+        {
+        for (Phieunhap pn : dsPhieuNhap) {
+            stt++;
+            SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String formatted = format1.format(pn.getNgayNhap().getTime());
+            if(String.valueOf(pn.getMaPhieunhap()).contains(searchText)||String.valueOf(pn.getNcc().getMaNhacungcap()).contains(searchText)||String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText)||pn.getNcc().getTenNhacungcap().contains(searchText)||pn.getNv().getTenNhanvien().contains(searchText)||String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.DAY_OF_MONTH)).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.YEAR)).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.MONTH)).contains(searchText))
+            {
+            tblModel.addRow(new Object[]{
+                stt,
+                pn.getMaPhieunhap(),
+                pn.getNcc().getMaNhacungcap(),
+                pn.getNv().getMaNhanvien(),
+                formatted,
+                pn.getTongTien(),
+                pn.isDaXoa() ? "Đã tạm khóa" : "Bình thường",});
+            }
+        }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách hóa đơn rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        }
+        
+    }//GEN-LAST:event_btnTimKiem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
@@ -411,6 +524,7 @@ public class PhieunhapView extends JPanel {
     private javax.swing.JButton btnTaiXuongExcel;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnTimKiem1;
     private javax.swing.JButton btnXemCT;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbbChonTimKiem;
@@ -420,6 +534,7 @@ public class PhieunhapView extends JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner phut;
@@ -427,6 +542,7 @@ public class PhieunhapView extends JPanel {
     private javax.swing.JTextField txtMaPN;
     private javax.swing.JTextField txtNCC;
     private javax.swing.JTextField txtNV;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtTimKiem;
     private javax.swing.JTextField txtTongTien;
     // End of variables declaration//GEN-END:variables
