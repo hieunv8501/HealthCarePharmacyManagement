@@ -507,7 +507,7 @@ public void ShowSearchTextBox() {
 
     private void btnLuuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLuuMouseClicked
         // TODO add your handling code here:
-        if (txtTenKH.getText().equals("") || txtNgaySinh.getDateFormatString().equals("") || txtSDT.getText().equals("")) {
+        if (txtTenKH.getText().equals("") || txtNgaySinh.getDate() == null || txtSDT.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống các trường thông tin!");
         } else if (cbTinh.getSelectedItem().toString().equals("--Chọn Tỉnh--")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn Tỉnh!");
@@ -572,7 +572,7 @@ public void ShowSearchTextBox() {
         if (tableKH.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Bạn vui lòng chọn 1 Khách hàng trong danh sách!!!");
         } else {
-            if (txtTenKH.getText().equals("") || txtNgaySinh.getDateFormatString().equals("") || txtSDT.getText().equals("")) {
+            if (txtTenKH.getText().equals("") || txtNgaySinh.getDate() == null || txtSDT.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống các trường thông tin!");
             } else if (cbTinh.getSelectedItem().toString().equals("--Chọn Tỉnh--")) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn Tỉnh!");
