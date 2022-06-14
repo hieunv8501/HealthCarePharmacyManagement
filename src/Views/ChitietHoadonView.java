@@ -72,8 +72,7 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         txtDongia.setEditable(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
-
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     }
 

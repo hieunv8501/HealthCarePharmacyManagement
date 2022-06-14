@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/HealthCarePharmacyManagement/src/Views/NhacungcapView.java</file>
             <file>file:/D:/HealthCarePharmacyManagement/src/Views/LoaiThuocView.java</file>
-            <file>file:/D:/HealthCarePharmacyManagement/src/Views/MainView.java</file>
-            <file>file:/D:/HealthCarePharmacyManagement/src/Views/DangnhapView.java</file>
+            <file>file:/D:/HealthCarePharmacyManagement/src/Views/PhieunhapView.java</file>
+            <file>file:/D:/HealthCarePharmacyManagement/src/Views/TaiKhoanView.java</file>
+            <file>file:/D:/HealthCarePharmacyManagement/src/Views/DonvitinhView.java</file>
+            <file>file:/D:/HealthCarePharmacyManagement/src/Views/QuyenView.java</file>
             <file>file:/D:/HealthCarePharmacyManagement/src/Views/ThuocView.java</file>
             <file>file:/D:/HealthCarePharmacyManagement/src/Views/KhuyenmaiView.java</file>
         </group>
