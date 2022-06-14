@@ -1,6 +1,7 @@
 package Views;
 
 import Components.AutoCompletion;
+import Components.Autocomplete;
 import Components.ReadExcelNhacungcap;
 import Components.WriteExcelNhacungcap;
 import Controllers.HuyenController;
@@ -28,6 +29,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.*;
@@ -42,7 +44,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class NhacungcapView extends javax.swing.JPanel {
-
+ private static final String COMMIT_ACTION = "commit";
     ArrayList<Nhacungcap> dsNhacungcap;
 
     public NhacungcapView() {
@@ -72,6 +74,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMaNhacungcap.setEditable(false);
+
         ShowSearchComboBox();
 
         //txtMaNhacungcap.addKeyListener(new KeyCustom());
@@ -121,7 +124,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         btnThemfile = new javax.swing.JButton();
         labelTimKiem = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
-        JcomboboxSearch = new javax.swing.JComboBox<>();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
 
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -425,15 +428,9 @@ public class NhacungcapView extends javax.swing.JPanel {
             }
         });
 
-        JcomboboxSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        JcomboboxSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JcomboboxSearchActionPerformed(evt);
-            }
-        });
-        JcomboboxSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                JcomboboxSearchKeyPressed(evt);
+                txtSearchBoxKeyPressed(evt);
             }
         });
 
@@ -442,13 +439,13 @@ public class NhacungcapView extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
+                .addContainerGap(212, Short.MAX_VALUE)
                 .addComponent(labelTimKiem)
-                .addGap(83, 83, 83)
-                .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
+                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnTimKiem)
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelThongtinNhacungcap, javax.swing.GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE))
@@ -457,12 +454,13 @@ public class NhacungcapView extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTimKiem)
-                    .addComponent(btnTimKiem))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTimKiem)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+
                 .addComponent(panelThongtinNhacungcap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -495,7 +493,15 @@ public class NhacungcapView extends javax.swing.JPanel {
             }
             txtSodienthoai.setText(String.valueOf(dsNhacungcap.get(selected).getSoDienthoai()));
             txtfax.setText(String.valueOf(dsNhacungcap.get(selected).getFax()));
+            txtMaNhacungcap.setEnabled(false);
+        btnHuy.setEnabled(false);
+        btnLuu.setEnabled(false);
+        btnSua.setEnabled(true);
+        btnXoa.setEnabled(true);
+        btnHuy.setEnabled(true);
+
         }
+        
 
     }//GEN-LAST:event_tableNhacungcapMouseClicked
 
@@ -518,19 +524,29 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         //Tìm kiếm nhà cung cấp.
-        String searchText = String.valueOf(JcomboboxSearch.getSelectedItem());
+        String searchText = txtSearchBox.getText();
+        if(searchText.equals("")||searchText.equals(null))
+        {
+            ShowData();
+        }
+        else
+        {
         DefaultTableModel tblModel = (DefaultTableModel) tableNhacungcap.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-        dsNhacungcap = NhacungcapController.timkiemNhacungcap(searchText.toLowerCase());
+        if(dsNhacungcap.equals(null))
+        {
+        ShowData();
+        }
         if (!dsNhacungcap.isEmpty()) {
             dsNhacungcap.forEach((nhacungcap1) -> {
-                if (!nhacungcap1.isDaXoa()) {
-                    tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(), nhacungcap1.getTenNhacungcap(), nhacungcap1.getXa(), nhacungcap1.getSoDienthoai(), nhacungcap1.getFax()});
+                if (!nhacungcap1.isDaXoa()&&(String.valueOf(nhacungcap1.getMaNhacungcap()).contains(searchText))||nhacungcap1.getTenNhacungcap().contains(searchText)||nhacungcap1.getSoDienthoai().contains(searchText)||nhacungcap1.getFax().contains(searchText)||nhacungcap1.getXa().getDiaChi().contains(searchText)) {
+                    tblModel.addRow(new Object[]{nhacungcap1.getMaNhacungcap(), nhacungcap1.getTenNhacungcap(), nhacungcap1.getXa().getDiaChi(), nhacungcap1.getSoDienthoai(), nhacungcap1.getFax()});
                 }
             });
         } else {
             JOptionPane.showMessageDialog(this, "Danh sách nhà cung cấp rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
         }
 
     }//GEN-LAST:event_btnTimKiemActionPerformed
@@ -591,21 +607,6 @@ public class NhacungcapView extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnThemfileActionPerformed
-
-    private void JcomboboxSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcomboboxSearchActionPerformed
-        // TODO add your handling code here:
-        //String searchText=(String)JcomboboxSearch.getSelectedItem();      
-
-    }//GEN-LAST:event_JcomboboxSearchActionPerformed
-
-    private void JcomboboxSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JcomboboxSearchKeyPressed
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-
-        if (c == KeyEvent.VK_DELETE) {
-            btnTimKiem.doClick();
-        }
-    }//GEN-LAST:event_JcomboboxSearchKeyPressed
 
     private void txtTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhActionPerformed
         // TODO add your handling code here:
@@ -670,6 +671,7 @@ public class NhacungcapView extends javax.swing.JPanel {
             return;
         }
         ShowData();
+        ShowSearchComboBox();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -703,6 +705,7 @@ public class NhacungcapView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Cập nhật nhà cung cấp không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+        ShowSearchComboBox();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
@@ -735,6 +738,7 @@ public class NhacungcapView extends javax.swing.JPanel {
         }
         JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp " + nhacungcap.getTenNhacungcap() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         ShowData();
+        ShowSearchComboBox();
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -806,6 +810,15 @@ public class NhacungcapView extends javax.swing.JPanel {
     private void txtMaNhacungcapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNhacungcapActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaNhacungcapActionPerformed
+
+    private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
+        // TODO add your handling code here:
+        char c= evt.getKeyChar();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            btnTimKiem.doClick();
+        }
+    }//GEN-LAST:event_txtSearchBoxKeyPressed
     public void ShowData() {
         DefaultTableModel tblModel = (DefaultTableModel) tableNhacungcap.getModel();
         tblModel.getDataVector().removeAllElements();
@@ -831,25 +844,25 @@ public class NhacungcapView extends javax.swing.JPanel {
     }
 
     public void ShowSearchComboBox() {
-        DefaultComboBoxModel jcomboBoxModel = (DefaultComboBoxModel) JcomboboxSearch.getModel();
-        jcomboBoxModel.removeAllElements();
+        //DefaultComboBoxModel jcomboBoxModel = (DefaultComboBoxModel) JcomboboxSearch.getModel();
+        //jcomboBoxModel.removeAllElements();
         Set<String> hash_Set = new HashSet<String>();
-         hash_Set.add("");
         dsNhacungcap.forEach(Nhacungcap -> {
            hash_Set.add(String.valueOf(Nhacungcap.getMaNhacungcap()));
             hash_Set.add(Nhacungcap.getTenNhacungcap());
              hash_Set.add(Nhacungcap.getSoDienthoai());
-            hash_Set.add(Nhacungcap.getXa().getTenXa());
+            hash_Set.add(Nhacungcap.getXa().getDiaChi());
              hash_Set.add(Nhacungcap.getFax());
         }
         );
+        txtSearchBox.clearItemSuggestion();
+        ArrayList<String> keywords = new ArrayList<String>();
         Iterator value = hash_Set.iterator();
          while (value.hasNext()) {
-            jcomboBoxModel.addElement(value.next());
+          txtSearchBox.addItemSuggestion((String) value.next());
         }
-        AutoCompletion searchAutoCompletion = null;
-        JcomboboxSearch.setModel(jcomboBoxModel);
-        searchAutoCompletion.enable(JcomboboxSearch);
+  
+        
     }
 
 
@@ -914,29 +927,9 @@ public class NhacungcapView extends javax.swing.JPanel {
 
     }
 
-    class KeyCustom implements KeyListener {
 
-        @Override
-        public void keyTyped(KeyEvent e) {
-            System.out.println(e.getKeyChar());
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            System.out.println(e.getKeyChar());
-            if (e.isControlDown() && e.getKeyCode() == 65) {
-                System.out.println("Select All");
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> JcomboboxSearch;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnSua;
@@ -958,6 +951,7 @@ public class NhacungcapView extends javax.swing.JPanel {
     private javax.swing.JTable tableNhacungcap;
     private javax.swing.JComboBox<String> txtHuyen;
     private javax.swing.JTextField txtMaNhacungcap;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtSodienthoai;
     private javax.swing.JTextField txtTenNhacungcap;
     private javax.swing.JComboBox<String> txtTinh;

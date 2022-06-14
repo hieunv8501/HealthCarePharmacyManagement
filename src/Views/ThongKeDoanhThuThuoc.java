@@ -116,6 +116,7 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+
                                 .addComponent(jLabel1)
                                 .addGap(51, 51, 51)
                                 .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -138,6 +139,7 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel2)
+
                 .addGap(56, 56, 56)
                 .addComponent(lblBieuDo)
                 .addGap(28, 28, 28)

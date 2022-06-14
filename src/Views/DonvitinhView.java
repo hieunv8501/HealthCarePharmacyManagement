@@ -412,6 +412,7 @@ public class DonvitinhView extends javax.swing.JPanel {
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMaDonvitinh.setEditable(false);
+        tableDanhSachDonvitinh.setAutoCreateRowSorter(true);
         btnThem.setEnabled(true);
 
     }

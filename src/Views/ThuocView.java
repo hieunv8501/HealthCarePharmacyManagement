@@ -126,11 +126,11 @@ public class ThuocView extends javax.swing.JPanel {
         btnHuy = new javax.swing.JButton();
         btnThemFile = new javax.swing.JButton();
         btnXuatFile = new javax.swing.JButton();
-        JcomboboxSearch = new javax.swing.JComboBox<>();
         btnTimKiem = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableDanhSachThuoc = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
 
         panelThemThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
         panelThemThuoc.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -490,8 +490,54 @@ public class ThuocView extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tableDanhSachThuoc);
 
+        javax.swing.GroupLayout panelDanhSachThuocLayout = new javax.swing.GroupLayout(panelDanhSachThuoc);
+        panelDanhSachThuoc.setLayout(panelDanhSachThuocLayout);
+        panelDanhSachThuocLayout.setHorizontalGroup(
+            panelDanhSachThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDanhSachThuocLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3))
+        );
+        panelDanhSachThuocLayout.setVerticalGroup(
+            panelDanhSachThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+        );
+
+        btnThemFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
+        btnThemFile.setText("Thêm từ file ");
+        btnThemFile.setToolTipText("Thêm thuốc từ file excel");
+        btnThemFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemFileActionPerformed(evt);
+            }
+        });
+
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnXuatFile.setText("Xuất File");
+        btnXuatFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatFileActionPerformed(evt);
+            }
+        });
+
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Thông tin tìm kiếm");
+
+        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchBoxKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -505,9 +551,9 @@ public class ThuocView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(223, 223, 223)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(35, 35, 35)
+                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(btnTimKiem)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -516,9 +562,9 @@ public class ThuocView extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JcomboboxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTimKiem)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelThemThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -798,22 +844,41 @@ public class ThuocView extends javax.swing.JPanel {
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-         String searchText = String.valueOf(JcomboboxSearch.getSelectedItem());
+          String searchText = txtSearchBox.getText();
+        if(searchText.equals("")||searchText.equals(null))
+        {
+            ShowData();
+        }
+        else
+        {
         DefaultTableModel tblModel = (DefaultTableModel) tableDanhSachThuoc.getModel();
         tblModel.getDataVector().removeAllElements();
         tblModel.fireTableDataChanged();
-        dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
+        if(dsThuoc==null)
+        {
+            ShowData();
+        }
+        //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
         if (!dsThuoc.isEmpty()) {
             dsThuoc.forEach((thuoc1) -> {
-               if (!thuoc1.isDaXoa()) {
+               if (!thuoc1.isDaXoa()&&(String.valueOf(thuoc1.getMaThuoc()).contains(searchText)||thuoc1.getTenThuoc().contains(searchText)||thuoc1.getMota().contains(searchText)||thuoc1.getNhacungcap().getTenNhacungcap().contains(searchText)||thuoc1.getDotuoi().contains(searchText)||thuoc1.getDonvitinh().getTenDonvitinh().contains(searchText)||thuoc1.getDonviQuydoi().getTenDonvitinh().contains(searchText))) {
                     tblModel.addRow(new Object[]{thuoc1.getMaThuoc(), thuoc1.getTenThuoc(), thuoc1.getMota(), thuoc1.getDotuoi(), thuoc1.getHinhanh(), thuoc1.getDonvitinh().getMaDonvitinh(), thuoc1.getDonviQuydoi().getMaDonvitinh(), thuoc1.getTileQuydoi(), thuoc1.getNhacungcap(), thuoc1.getLoaiThuoc(), thuoc1.getGiaBan()});
                 }
             });
         } else {
             JOptionPane.showMessageDialog(this, "Danh sách nhà cung cấp rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
+    private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
+        // TODO add your handling code here:
+        char c= evt.getKeyChar();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            btnTimKiem.doClick();
+        }
+    }//GEN-LAST:event_txtSearchBoxKeyPressed
     private void tableDanhSachThuocMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDanhSachThuocMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_tableDanhSachThuocMouseEntered
@@ -901,7 +966,13 @@ public class ThuocView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Danh sách thuốc rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
         }
-        
+        tableDanhSachThuoc.setAutoCreateRowSorter(true);
+        btnHuy.setEnabled(false);
+        btnLuu.setEnabled(false);
+        btnSua.setEnabled(false);
+        btnXoa.setEnabled(false);
+        txtMaThuoc.setEditable(false);
+        btnThemThuoc.setEnabled(true);
     }
 
     public void showLoaiThuoc() {
@@ -964,28 +1035,27 @@ public class ThuocView extends javax.swing.JPanel {
         return maThuocMoi + 1;
     }
     public void ShowSearchComboBox() {
-        DefaultComboBoxModel jcomboBoxModel = (DefaultComboBoxModel) JcomboboxSearch.getModel();
-        jcomboBoxModel.removeAllElements();
+        
         Set<String> hash_Set = new HashSet<String>();
-         hash_Set.add("");
         dsThuoc.forEach(thuoc -> {
            hash_Set.add(String.valueOf(thuoc.getMaThuoc()));
             hash_Set.add(thuoc.getTenThuoc());
              hash_Set.add(thuoc.getMota());
             hash_Set.add(thuoc.getLoaiThuoc().getTenLoaiThuoc());
              hash_Set.add(thuoc.getNhacungcap().getTenNhacungcap());
+              hash_Set.add(thuoc.getDotuoi());
+              hash_Set.add(thuoc.getDonvitinh().getTenDonvitinh());
+              hash_Set.add(thuoc.getDonviQuydoi().getTenDonvitinh());
         }
         );
+         txtSearchBox.clearItemSuggestion();
         Iterator value = hash_Set.iterator();
          while (value.hasNext()) {
-            jcomboBoxModel.addElement(value.next());
+            txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
         }
-        AutoCompletion searchAutoCompletion = null;
-        JcomboboxSearch.setModel(jcomboBoxModel);
-        searchAutoCompletion.enable(JcomboboxSearch);
+      
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> JcomboboxSearch;
     private javax.swing.JButton btnChonHinhanhThuoc;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
@@ -1021,6 +1091,7 @@ public class ThuocView extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> txtLoaiThuoc;
     private javax.swing.JTextField txtMaThuoc;
     private javax.swing.JTextArea txtMotaThuoc;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtTenThuoc;
     private javax.swing.JTextField txtTiLeQuyDoi;
     private javax.swing.JComboBox<String> txtnhacungcapThuoc;
