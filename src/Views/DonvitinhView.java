@@ -221,7 +221,7 @@ public class DonvitinhView extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "Mã đơn vị tính", "Tên đơn vị tính", "Giá trị"
+                "Mã đơn vị tính", "Tên đơn vị tính", "Mô tả"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -407,6 +407,7 @@ public class DonvitinhView extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Danh sách đơn vị tính rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+        tableDanhSachDonvitinh.setAutoCreateRowSorter(true);
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);

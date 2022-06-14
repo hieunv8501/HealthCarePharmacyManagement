@@ -10,14 +10,18 @@ import Models.Khuyenmai;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -39,7 +43,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
     KhuyenmaiController kmctr = new KhuyenmaiController();
     private DefaultTableModel modelMKM;
     private int indexOfList;
-
+    private List<Khuyenmai> dskm;
     public KhuyenmaiView() {
         initComponents();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -91,9 +95,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     public void reset() {
         modelMKM = (DefaultTableModel) dsMaKM.getModel();
-        List<Khuyenmai> dskm;
         dskm = kmctr.layDanhsachMKM();
         this.showData(dskm, modelMKM);
+        ShowSearchTextBox();
     }
 
     public String randomMKM() {
@@ -123,7 +127,29 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         }
         return mkm;
     }
-
+public void ShowSearchTextBox() {
+        
+        Set<String> hash_Set = new HashSet<String>();
+       dskm.forEach(khuyenmai1 -> {
+               String[] date1 = khuyenmai1.getNgayBatdau().toString().split("-");
+                String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
+                String[] date2 = khuyenmai1.getNgayKetthuc().toString().split("-");
+                String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
+           hash_Set.add(khuyenmai1.getMaKhuyenmai());
+           hash_Set.add(khuyenmai1.getTenKhuyenmai());
+             hash_Set.add(ngayBD);
+            hash_Set.add(ngayKT);
+              hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getMonth())); 
+               hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getYear())); 
+              hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getDayOfMonth())); 
+        }
+        );
+         txtSearchBox.clearItemSuggestion();
+        Iterator value = hash_Set.iterator();
+         while (value.hasNext()) {
+            txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,9 +178,9 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        searchBox = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        btnSearch = new javax.swing.JButton();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
+        btnTimKiem = new javax.swing.JButton();
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách mã khuyến mãi", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI Black", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
@@ -273,18 +299,21 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             }
         });
 
-        searchBox.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        searchBox.setAutoscrolls(false);
-
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel7.setText("Tìm mã giảm giá:");
+        jLabel7.setText("Tìm khuyến mãi:");
 
-        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnSearch.setText("Tìm");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchBoxKeyPressed(evt);
+            }
+        });
+
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
 
@@ -315,7 +344,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtPTKM)
                             .addComponent(dateBD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -335,23 +364,23 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                                 .addGap(72, 72, 72)
                                 .addComponent(btnXoa))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(235, 235, 235)
+                                .addGap(228, 228, 228)
                                 .addComponent(jLabel7)
-                                .addGap(42, 42, 42)
-                                .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(43, 43, 43)
-                                .addComponent(btnSearch)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnTimKiem)))
+                        .addContainerGap(162, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(btnSearch))
-                .addGap(43, 43, 43)
+                    .addComponent(btnTimKiem)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,45 +578,64 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
         // TODO add your handling code here:
-        Khuyenmai km = kmctr.layMaKhuyenmai(searchBox.getText());
-        if (km == null) {
-            JOptionPane.showMessageDialog(null, "Mã khuyến mãi không tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        char c= evt.getKeyChar();
+        if(c==KeyEvent.VK_ENTER)
+        {
+            btnTimKiem.doClick();
+        }
+    }//GEN-LAST:event_txtSearchBoxKeyPressed
 
-        } else {
-            txtMKM.setText(km.getMaKhuyenmai());
-            txtTKM.setText(km.getTenKhuyenmai());
-            txtDKKM.setText(String.valueOf(km.getDieukienKhuyenmai()));
-            txtPTKM.setText(String.valueOf(km.getPhantramKhuyenmai()));
-
-            Calendar cal1 = Calendar.getInstance();
-            Calendar cal2 = Calendar.getInstance();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            try {
-                cal1.setTime(sdf.parse(km.getNgayBatdau().toString()));
-                cal2.setTime(sdf.parse(km.getNgayKetthuc().toString()));
-            } catch (ParseException ex) {
-                Logger.getLogger(KhuyenmaiView.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+        String searchText = txtSearchBox.getText();
+        if(searchText.equals("")||searchText.equals(null))
+        {
+            this.reset();
+        }
+        else
+        {
+            DefaultTableModel tblModel = (DefaultTableModel) dsMaKM.getModel();
+            tblModel.getDataVector().removeAllElements();
+            tblModel.fireTableDataChanged();
+            if(dskm==null)
+            {
+                this.reset();
+            }
+            //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
+            tblModel.setRowCount(0);
+            int stt = 0;
+            if(dskm!=null)
+            {
+                for (Khuyenmai km : dskm) {
+                 String[] date1 = km.getNgayBatdau().toString().split("-");
+                String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
+                String[] date2 = km.getNgayKetthuc().toString().split("-");
+                String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
+//                String daxoa = km.isDaXoa() == true ? "Ðã xóa" : "";
+                if(km.getMaKhuyenmai().contains(searchText)||km.getTenKhuyenmai().contains(searchText)||String.valueOf(km.getDieukienKhuyenmai()).contains(searchText)||ngayBD.contains(searchText)||ngayKT.contains(searchText)||String.valueOf(km.getPhantramKhuyenmai()).contains(searchText)||String.valueOf(km.getNgayBatdau().getMonth()).contains(searchText)||String.valueOf(km.getNgayBatdau().getYear()).contains(searchText)||String.valueOf(km.getNgayBatdau().getDayOfMonth()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getMonth()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getYear()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getDayOfMonth()).contains(searchText))
+                    {
+                tblModel.addRow(new Object[]{
+                    km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), ngayBD, ngayKT
+                });
+                    }
+                    
             }
 
-            dateBD.setCalendar(cal1);
-            dateKT.setCalendar(cal2);
-
-            btnSua.setEnabled(true);
-            btnXoa.setEnabled(true);
-            txtMKM.setEditable(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnSearchActionPerformed
+        }
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
     private com.toedter.calendar.JDateChooser dateBD;
     private com.toedter.calendar.JDateChooser dateKT;
@@ -600,10 +648,10 @@ public class KhuyenmaiView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField searchBox;
     private javax.swing.JTextField txtDKKM;
     private javax.swing.JTextField txtMKM;
     private javax.swing.JTextField txtPTKM;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtTKM;
     // End of variables declaration//GEN-END:variables
 }

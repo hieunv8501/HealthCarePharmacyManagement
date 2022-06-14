@@ -433,6 +433,7 @@ btnLuu.setEnabled(true);
         btnXoa.setEnabled(false);
         txtMaLoaiThuoc.setEditable(false);
         btnThem.setEnabled(true);
+        tableDanhSachLoaiThuoc.setAutoCreateRowSorter(true);
     }
     public int getMaLoaiThuocMoi()
     {
