@@ -52,9 +52,9 @@ public class Email {
     
     public void sendEmail (Taikhoan tk, String receiverEmailAddress) throws MessagingException, UnsupportedEncodingException{
         //Địa chỉ email người gửi (system)
-        final String senderEmail = "bolaxanhcoffee@gmail.com";
+        final String senderEmail = "19522354@gm.uit.edu.vn";
         //Mật khẩu email người gửi (system)
-        final String senderPwd = "bolaxanh148.";
+        final String senderPwd = "";
         //Địa chỉ emai; người nhận
         final String receiverEmail = receiverEmailAddress;
         final String subject = "Password Reset Confirm";    

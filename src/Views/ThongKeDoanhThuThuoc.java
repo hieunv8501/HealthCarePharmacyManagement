@@ -87,6 +87,7 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         lblBieuDo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         txtChonNam.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtChonNam.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +107,15 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
         lblBieuDo.setForeground(new java.awt.Color(255, 0, 0));
         lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm");
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,7 +128,9 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(51, 51, 51)
-                                .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1))
                             .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 1207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(400, 400, 400)
@@ -142,9 +154,11 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
                 .addComponent(lblBieuDo)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1))
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,22 +171,35 @@ public class ThongKeDoanhThuThuoc extends javax.swing.JPanel {
 
     private void txtChonNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChonNamActionPerformed
         // TODO add your handling code here:
-        if( txtChonNam.getSelectedItem()!=null)
-        {
-            
-        int nam=(int) txtChonNam.getSelectedItem();
-        
-        initChart(nam);
-        chart.setVisible(false);
+        if (txtChonNam.getSelectedItem() != null) {
+
+            int nam = (int) txtChonNam.getSelectedItem();
+
+            initChart(nam);
+            chart.setVisible(false);
             chart.setVisible(true);
-            lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm "+ nam);
+            lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm " + nam);
         }
 
     }//GEN-LAST:event_txtChonNamActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (txtChonNam.getSelectedItem() != null) {
+
+            int nam = (int) txtChonNam.getSelectedItem();
+
+            initChart(nam);
+            chart.setVisible(false);
+            chart.setVisible(true);
+            lblBieuDo.setText("Biểu đồ doanh thu bán thuốc trong năm " + nam);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.chart.Chart chart;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTabbedPane jTabbedPane1;

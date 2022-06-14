@@ -53,7 +53,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
     BaoCaoDoanhThu baocaoDoanhThu = new BaoCaoDoanhThu();
 //    QuanlyKhoView quanlykho = new QuanlyKhoView();
     KhachHangView khachhangview = new KhachHangView();
-    ThongtinCanhanView ttcnView = new ThongtinCanhanView();
+//    ThongtinCanhanView ttcnView = new ThongtinCanhanView();
     NhanVienView nhanvienView = new NhanVienView();
 
     //test statement
@@ -113,7 +113,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
             "Quyền", "icons8_police_badge_30px.png", "xemQuyen", "qlQuyen",
             "seperate", "1", "", "",
             "Thống kê", "icons8_bar_chart_30px.png", "qlThongKe", "qlThongKe",
-            "Cá nhân", "icons8_usersetting_30px.png", "", "",
+//            "Cá nhân", "icons8_usersetting_30px.png", "", "",
             "Công cụ", "icons8_maintenance_30px.png", "", "",
             "Cài đặt", "icons8_settings_30px.png", "", ""
         };
@@ -354,9 +354,9 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 plContent.add(khachhangview, BorderLayout.CENTER);
                 break;
 
-            case "Cá nhân":
-                plContent.add(ttcnView, BorderLayout.CENTER);
-                break;
+//            case "Cá nhân":
+//                plContent.add(ttcnView, BorderLayout.CENTER);
+//                break;
             case "Nhân viên":
                 plContent.add(nhanvienView, BorderLayout.CENTER);
                 break;
