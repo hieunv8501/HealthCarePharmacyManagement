@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.LoaiNhanvienController;
 import Controllers.XaController;
 import DBConnection.DBConnection;
 import java.sql.ResultSet;
@@ -12,7 +13,7 @@ public class Nhanvien {
     private int maNhanvien;
     private String tenNhanvien, soDienThoai, gioiTinh, bangCap;
     private LocalDate ngaySinh;
-    private int loaiNhanvien;
+    private LoaiNhanvien loaiNhanvien;
     private Xa xa;
     private long luong;
     private boolean daXoa;
@@ -21,7 +22,7 @@ public class Nhanvien {
     public Nhanvien() {
     }
 
-    public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, int MaLoaiNhanvien, Xa xa, long luong, boolean daXoa) {
+    public Nhanvien(int maNhanvien, String tenNhanvien, LocalDate ngaySinh, String soDienThoai, String gioiTinh, String bangCap, LoaiNhanvien loaiNhanvien, Xa xa, long luong, boolean daXoa) {
         this.maNhanvien = maNhanvien;
         this.tenNhanvien = tenNhanvien;
         this.ngaySinh = ngaySinh;
@@ -50,14 +51,6 @@ public class Nhanvien {
         this.tenNhanvien = tenNhanvien;
     }
 
-    public LocalDate getNgaySinh() {
-        return ngaySinh;
-    }
-
-    public void setNgaySinh(LocalDate ngaySinh) {
-        this.ngaySinh = ngaySinh;
-    }
-
     public String getSoDienThoai() {
         return soDienThoai;
     }
@@ -82,13 +75,23 @@ public class Nhanvien {
         this.bangCap = bangCap;
     }
 
-    public int getLoaiNhanvien() {
+    public LocalDate getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(LocalDate ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public LoaiNhanvien getLoaiNhanvien() {
         return loaiNhanvien;
     }
 
-    public void setLoaiNhanvien(int loaiNhanvien) {
+    public void setLoaiNhanvien(LoaiNhanvien loaiNhanvien) {
         this.loaiNhanvien = loaiNhanvien;
     }
+    
+    
 
     public Xa getXa() {
         return xa;
@@ -114,6 +117,19 @@ public class Nhanvien {
         this.daXoa = daXoa;
     }
 
+    public DBConnection getNhanvienConnection() {
+        return nhanvienConnection;
+    }
+
+    public void setNhanvienConnection(DBConnection nhanvienConnection) {
+        this.nhanvienConnection = nhanvienConnection;
+    }
+
+    public String getDiaChi() {
+        return this.xa.getDiaChi();
+    }
+    
+
     public ArrayList<Nhanvien> readDB() {
         ArrayList<Nhanvien> dsnv = new ArrayList<>();
         nhanvienConnection = new DBConnection();
@@ -127,13 +143,14 @@ public class Nhanvien {
                     LocalDate ngaysinh = rs.getDate("NgaySinh").toLocalDate();
                     int xa = rs.getInt("MaXa");    
                     XaController xaCtrl = new XaController();
-                    int loainhanvien = rs.getInt("MaLoaiNhanVien");
+                    int maLoaiNV = rs.getInt("MaLoaiNhanVien");
+                    LoaiNhanvienController loaiNVCtrl = new LoaiNhanvienController();
                     String sdt = rs.getString("SoDienThoai");
                     String gioitinh = rs.getString("GioiTinh");      
                     String bangcap = rs.getString("BangCap");    
                     long luong = rs.getLong("Luong");                                    
                     boolean daxoa = rs.getInt("DaXoa") == 1? true : false;
-                    dsnv.add(new Nhanvien(manv, tennv, ngaysinh, sdt, gioitinh, bangcap, loainhanvien, xaCtrl.getXa(xa), luong, daxoa));
+                    dsnv.add(new Nhanvien(manv, tennv, ngaysinh, sdt, gioitinh, bangcap, loaiNVCtrl.getLoaiNhanvien(maLoaiNV), xaCtrl.getXa(xa), luong, daxoa));
                 }
             }
         } catch (SQLException ex) {

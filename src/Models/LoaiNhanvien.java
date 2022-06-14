@@ -9,6 +9,14 @@ public class LoaiNhanvien {
     public LoaiNhanvien() {
     }
 
+    public LoaiNhanvien(int maLoaiNhanvien, String tenLoaiNhanvien, long luongCoBan, boolean daXoa) {
+        this.maLoaiNhanvien = maLoaiNhanvien;
+        this.tenLoaiNhanvien = tenLoaiNhanvien;
+        this.luongCoBan = luongCoBan;
+        this.daXoa = daXoa;
+    }
+
+    
     public int getMaLoaiNhanvien() {
         return maLoaiNhanvien;
     }
