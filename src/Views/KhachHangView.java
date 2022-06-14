@@ -173,6 +173,7 @@ public void ShowSearchTextBox() {
         tableKH = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
+        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin khách hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
@@ -415,7 +416,7 @@ public void ShowSearchTextBox() {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel9.setText("Tìm khuyến mãi:");
+        jLabel9.setText("Tìm khách hàng:");
 
         btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnTimKiem.setText("Tìm kiếm");
@@ -438,17 +439,20 @@ public void ShowSearchTextBox() {
             .addGroup(layout.createSequentialGroup()
                 .addGap(191, 191, 191)
                 .addComponent(jLabel9)
-                .addGap(579, 579, 579)
+                .addGap(33, 33, 33)
+                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnTimKiem)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTimKiem)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -692,6 +696,7 @@ public void ShowSearchTextBox() {
     private javax.swing.JTable tableKH;
     private com.toedter.calendar.JDateChooser txtNgaySinh;
     private javax.swing.JTextField txtSDT;
+    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtTenKH;
     // End of variables declaration//GEN-END:variables
 }
