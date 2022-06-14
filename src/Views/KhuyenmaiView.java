@@ -427,7 +427,10 @@ public class KhuyenmaiView extends javax.swing.JPanel {
 
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
-            btnThem.setEnabled(true);
+            if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+                btnThem.setEnabled(true);
+            }
+
             this.reset();
         }
 
@@ -523,11 +526,12 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         txtPTKM.setText(s4);
         dateBD.setCalendar(cal1);
         dateKT.setCalendar(cal2);
-
+        if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+        }
         txtMKM.setEnabled(false);
         btnLuu.setEnabled(false);
-        btnSua.setEnabled(true);
-        btnXoa.setEnabled(true);
 
 
     }//GEN-LAST:event_dsMaKMMouseClicked
@@ -575,8 +579,11 @@ public class KhuyenmaiView extends javax.swing.JPanel {
             dateBD.setCalendar(cal1);
             dateKT.setCalendar(cal2);
 
-            btnSua.setEnabled(true);
-            btnXoa.setEnabled(true);
+            if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+                btnSua.setEnabled(true);
+                btnXoa.setEnabled(true);
+            }
+
             txtMKM.setEditable(false);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
