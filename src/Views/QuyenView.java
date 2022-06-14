@@ -1,6 +1,7 @@
 package Views;
 
 import Components.ExcelExportFunction;
+import Components.ExcelImportFunction;
 import Models.Quyen;
 import Controllers.QuyenController;
 import Helpers.QuyenViewHelper;
@@ -45,6 +46,9 @@ public class QuyenView extends JPanel {
             btnTaiLenExcel.setEnabled(false);
             btnTaiXuongExcel.setEnabled(false);
         }
+        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelImportFunction().docFileExcelQuyen();
+        });
         btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
             new ExcelExportFunction().xuatFileExcelQuyen();
         });

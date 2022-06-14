@@ -114,7 +114,7 @@ public class TableLayout extends JPanel {
     public void resizeColumnWidth() {
         final TableColumnModel columnModel = tb.getColumnModel();
         for (int column = 0; column < tb.getColumnCount(); column++) {
-            int width = 15; // Min width
+            int width = 70; // Min width
             for (int row = 0; row < tb.getRowCount(); row++) {
                 TableCellRenderer renderer = tb.getCellRenderer(row, column);
                 Component comp = tb.prepareRenderer(renderer, row, column);

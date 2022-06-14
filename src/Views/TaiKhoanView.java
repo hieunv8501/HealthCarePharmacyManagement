@@ -1,6 +1,7 @@
 package Views;
 
 import Components.ExcelExportFunction;
+import Components.ExcelImportFunction;
 import Components.ExcelOperation;
 import Controllers.QuyenController;
 import Models.Taikhoan;
@@ -80,9 +81,10 @@ public class TaikhoanView extends JPanel {
         btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
             new ExcelExportFunction().xuatFileExcelTaikhoan();
         });
-//        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
-//            new DocExcel().docFileExcelTaiKhoan();
-//        });
+        
+        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelImportFunction().docFileExcelTaiKhoan();
+        });
 
     }
 

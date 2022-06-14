@@ -61,6 +61,9 @@ public class PhieunhapView extends JPanel {
         btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
             new ExcelExportFunction().xuatFileExcelPhieunhap();
         });
+//        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
+//            new ExcelImportFunction().docFileExcelPhieunhap();
+//        });
         tblPhieuNhap.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
             @Override
             public void mouseReleased(MouseEvent me) {

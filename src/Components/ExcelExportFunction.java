@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -220,7 +221,7 @@ public class ExcelExportFunction {
             cell.setCellValue("Bằng cấp");
             cell.setCellStyle(cellStyle);
 
-            cell = row.createCell(9, CellType.NUMERIC);
+            cell = row.createCell(9, CellType.STRING);
             cell.setCellValue("Lương");
             cell.setCellStyle(cellStyle);
 
@@ -291,28 +292,28 @@ public class ExcelExportFunction {
             Cell cell = row.createCell(0, CellType.NUMERIC);
             cell.setCellValue("STT");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.NUMERIC);
+            cell = row.createCell(1, CellType.NUMERIC);
             cell.setCellValue("Mã khách hàng");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.STRING);
+            cell = row.createCell(2, CellType.STRING);
             cell.setCellValue("Tên khách hàng");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.STRING);
+            cell = row.createCell(3, CellType.STRING);
             cell.setCellValue("Giới tính");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.STRING);
+            cell = row.createCell(4, CellType.STRING);
             cell.setCellValue("Ngày sinh");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.STRING);
+            cell = row.createCell(5, CellType.STRING);
             cell.setCellValue("Số điện thoại");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.NUMERIC);
-            cell.setCellValue("Mã xã (Địa chỉ)");
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Mã xã - Địa chỉ");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.BOOLEAN);
+            cell = row.createCell(7, CellType.BOOLEAN);
             cell.setCellValue("Khách quen");
             cell.setCellStyle(cellStyle);
-            cell = row.createCell(0, CellType.BOOLEAN);
+            cell = row.createCell(8, CellType.BOOLEAN);
             cell.setCellValue("Đã xóa");
             cell.setCellStyle(cellStyle);
 
@@ -324,11 +325,11 @@ public class ExcelExportFunction {
                 row.createCell(1, CellType.NUMERIC).setCellValue(kh.getMaKhachhang());
                 row.createCell(2, CellType.STRING).setCellValue(kh.getTenKhachhang());
                 row.createCell(3, CellType.STRING).setCellValue(kh.getGioitinh());
-                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String formatted = format1.format(kh.getNgaySinh());
+                DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String formatted = kh.getNgaySinh().format(formatters);
                 row.createCell(4, CellType.STRING).setCellValue(formatted);
                 row.createCell(5, CellType.STRING).setCellValue((kh.getSoDienthoai()));
-                row.createCell(6, CellType.NUMERIC).setCellValue((kh.getXa()));
+                row.createCell(6, CellType.STRING).setCellValue((kh.getXa() + " - " + kh.getDiaChi()));
                 row.createCell(7, CellType.BOOLEAN).setCellValue((kh.isKhachQuen()));
                 row.createCell(8, CellType.BOOLEAN).setCellValue((kh.isDaXoa()));
             }

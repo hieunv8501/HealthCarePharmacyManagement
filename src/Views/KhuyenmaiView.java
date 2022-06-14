@@ -44,6 +44,7 @@ public class KhuyenmaiView extends javax.swing.JPanel {
     private DefaultTableModel modelMKM;
     private int indexOfList;
     private List<Khuyenmai> dskm;
+
     public KhuyenmaiView() {
         initComponents();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -127,29 +128,31 @@ public class KhuyenmaiView extends javax.swing.JPanel {
         }
         return mkm;
     }
-public void ShowSearchTextBox() {
-        
+
+    public void ShowSearchTextBox() {
+
         Set<String> hash_Set = new HashSet<String>();
-       dskm.forEach(khuyenmai1 -> {
-               String[] date1 = khuyenmai1.getNgayBatdau().toString().split("-");
-                String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
-                String[] date2 = khuyenmai1.getNgayKetthuc().toString().split("-");
-                String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
-           hash_Set.add(khuyenmai1.getMaKhuyenmai());
-           hash_Set.add(khuyenmai1.getTenKhuyenmai());
-             hash_Set.add(ngayBD);
+        dskm.forEach(khuyenmai1 -> {
+            String[] date1 = khuyenmai1.getNgayBatdau().toString().split("-");
+            String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
+            String[] date2 = khuyenmai1.getNgayKetthuc().toString().split("-");
+            String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
+            hash_Set.add(khuyenmai1.getMaKhuyenmai());
+            hash_Set.add(khuyenmai1.getTenKhuyenmai());
+            hash_Set.add(ngayBD);
             hash_Set.add(ngayKT);
-              hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getMonth())); 
-               hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getYear())); 
-              hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getDayOfMonth())); 
+            hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getMonth()));
+            hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getYear()));
+            hash_Set.add(String.valueOf(khuyenmai1.getNgayBatdau().getDayOfMonth()));
         }
         );
-         txtSearchBox.clearItemSuggestion();
+        txtSearchBox.clearItemSuggestion();
         Iterator value = hash_Set.iterator();
-         while (value.hasNext()) {
+        while (value.hasNext()) {
             txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -584,9 +587,8 @@ public void ShowSearchTextBox() {
 
     private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
         // TODO add your handling code here:
-        char c= evt.getKeyChar();
-        if(c==KeyEvent.VK_ENTER)
-        {
+        char c = evt.getKeyChar();
+        if (c == KeyEvent.VK_ENTER) {
             btnTimKiem.doClick();
         }
     }//GEN-LAST:event_txtSearchBoxKeyPressed
@@ -594,43 +596,36 @@ public void ShowSearchTextBox() {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         String searchText = txtSearchBox.getText();
-        if(searchText.equals("")||searchText.equals(null))
-        {
+        if (searchText.equals("") || searchText.equals(null)) {
             this.reset();
-        }
-        else
-        {
+        } else {
             DefaultTableModel tblModel = (DefaultTableModel) dsMaKM.getModel();
             tblModel.getDataVector().removeAllElements();
             tblModel.fireTableDataChanged();
-            if(dskm==null)
-            {
+            if (dskm == null) {
                 this.reset();
             }
             //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
             tblModel.setRowCount(0);
             int stt = 0;
-            if(dskm!=null)
-            {
+            if (dskm != null) {
                 for (Khuyenmai km : dskm) {
-                 String[] date1 = km.getNgayBatdau().toString().split("-");
-                String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
-                String[] date2 = km.getNgayKetthuc().toString().split("-");
-                String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
+                    String[] date1 = km.getNgayBatdau().toString().split("-");
+                    String ngayBD = date1[2] + "/" + date1[1] + "/" + date1[0];
+                    String[] date2 = km.getNgayKetthuc().toString().split("-");
+                    String ngayKT = date2[2] + "/" + date2[1] + "/" + date2[0];
 //                String daxoa = km.isDaXoa() == true ? "Ðã xóa" : "";
-                if(km.getMaKhuyenmai().contains(searchText)||km.getTenKhuyenmai().contains(searchText)||String.valueOf(km.getDieukienKhuyenmai()).contains(searchText)||ngayBD.contains(searchText)||ngayKT.contains(searchText)||String.valueOf(km.getPhantramKhuyenmai()).contains(searchText)||String.valueOf(km.getNgayBatdau().getMonth()).contains(searchText)||String.valueOf(km.getNgayBatdau().getYear()).contains(searchText)||String.valueOf(km.getNgayBatdau().getDayOfMonth()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getMonth()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getYear()).contains(searchText)||String.valueOf(km.getNgayKetthuc().getDayOfMonth()).contains(searchText))
-                    {
-                tblModel.addRow(new Object[]{
-                    km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), ngayBD, ngayKT
-                });
+                    if (km.getMaKhuyenmai().contains(searchText) || km.getTenKhuyenmai().contains(searchText) || String.valueOf(km.getDieukienKhuyenmai()).contains(searchText) || ngayBD.contains(searchText) || ngayKT.contains(searchText) || String.valueOf(km.getPhantramKhuyenmai()).contains(searchText) || String.valueOf(km.getNgayBatdau().getMonth()).contains(searchText) || String.valueOf(km.getNgayBatdau().getYear()).contains(searchText) || String.valueOf(km.getNgayBatdau().getDayOfMonth()).contains(searchText) || String.valueOf(km.getNgayKetthuc().getMonth()).contains(searchText) || String.valueOf(km.getNgayKetthuc().getYear()).contains(searchText) || String.valueOf(km.getNgayKetthuc().getDayOfMonth()).contains(searchText)) {
+                        tblModel.addRow(new Object[]{
+                            km.getMaKhuyenmai(), km.getTenKhuyenmai(), km.getDieukienKhuyenmai(), km.getPhantramKhuyenmai(), ngayBD, ngayKT
+                        });
                     }
-                    
+
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
-
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
 
             dateBD.setCalendar(cal1);
             dateKT.setCalendar(cal2);

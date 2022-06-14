@@ -2,6 +2,7 @@ package Views;
 
 //import Controllers.KhachhangController;
 import Components.ExcelExportFunction;
+import Components.ExcelImportFunction;
 import Controllers.HuyenController;
 import Controllers.KhachhangController;
 import Controllers.TinhController;
@@ -62,10 +63,15 @@ public class KhachHangView extends javax.swing.JPanel {
             btnThem.setEnabled(false);
             btnSua.setEnabled(false);
             btnXoa.setEnabled(false);
+            btnTaiLenExcel.setEnabled(false);
+            btnTaiXuongExcel.setEnabled(false);
         }
-//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
-//            new ExcelExportFunction().xuatFileExcelKhachhang();
-//        });
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelKhachhang();
+        });
+        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelImportFunction().docFileExcelKhachhang();
+        });
         reset();
 
     }
@@ -160,11 +166,12 @@ public void ShowSearchTextBox() {
         cbGioiTinh = new javax.swing.JComboBox<>();
         txtNgaySinh = new com.toedter.calendar.JDateChooser();
         cbHuyen = new javax.swing.JComboBox<>();
+        btnTaiLenExcel = new javax.swing.JButton();
+        btnTaiXuongExcel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableKH = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
-        txtSearchBox = new com.raven.chart.TextFieldSuggestion();
         btnTimKiem = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin khách hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
@@ -263,6 +270,14 @@ public void ShowSearchTextBox() {
             }
         });
 
+        btnTaiLenExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnTaiLenExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
+        btnTaiLenExcel.setText("Nhập Excel");
+
+        btnTaiXuongExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnTaiXuongExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnTaiXuongExcel.setText("Xuất Excel");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -283,15 +298,7 @@ public void ShowSearchTextBox() {
                         .addGap(268, 268, 268)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnThem)
-                        .addGap(76, 76, 76)
-                        .addComponent(btnLuu)
-                        .addGap(72, 72, 72)
-                        .addComponent(btnSua)
-                        .addGap(79, 79, 79)
-                        .addComponent(btnXoa)))
+                            .addComponent(jLabel5))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,6 +313,20 @@ public void ShowSearchTextBox() {
                             .addComponent(cbHuyen, 0, 138, Short.MAX_VALUE)
                             .addComponent(cbXa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(79, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnThem)
+                .addGap(64, 64, 64)
+                .addComponent(btnLuu)
+                .addGap(73, 73, 73)
+                .addComponent(btnSua)
+                .addGap(63, 63, 63)
+                .addComponent(btnXoa)
+                .addGap(65, 65, 65)
+                .addComponent(btnTaiLenExcel)
+                .addGap(59, 59, 59)
+                .addComponent(btnTaiXuongExcel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +345,13 @@ public void ShowSearchTextBox() {
                     .addComponent(cbTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -333,19 +360,17 @@ public void ShowSearchTextBox() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbXa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
-                        .addGap(164, 164, 164))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThem)
-                            .addComponent(btnSua)
-                            .addComponent(btnXoa)
-                            .addComponent(btnLuu))
-                        .addGap(51, 51, 51))))
+                        .addGap(59, 59, 59)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnTaiLenExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnThem)
+                        .addComponent(btnSua)
+                        .addComponent(btnXoa)
+                        .addComponent(btnLuu)))
+                .addGap(65, 65, 65))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách khách hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
@@ -392,12 +417,6 @@ public void ShowSearchTextBox() {
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
         jLabel9.setText("Tìm khuyến mãi:");
 
-        txtSearchBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSearchBoxKeyPressed(evt);
-            }
-        });
-
         btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnTimKiem.setText("Tìm kiếm");
         btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -419,9 +438,7 @@ public void ShowSearchTextBox() {
             .addGroup(layout.createSequentialGroup()
                 .addGap(191, 191, 191)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(579, 579, 579)
                 .addComponent(btnTimKiem)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -431,7 +448,6 @@ public void ShowSearchTextBox() {
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTimKiem)
-                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -652,6 +668,8 @@ public void ShowSearchTextBox() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnTaiLenExcel;
+    private javax.swing.JButton btnTaiXuongExcel;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
@@ -674,7 +692,6 @@ public void ShowSearchTextBox() {
     private javax.swing.JTable tableKH;
     private com.toedter.calendar.JDateChooser txtNgaySinh;
     private javax.swing.JTextField txtSDT;
-    private com.raven.chart.TextFieldSuggestion txtSearchBox;
     private javax.swing.JTextField txtTenKH;
     // End of variables declaration//GEN-END:variables
 }
