@@ -250,6 +250,8 @@ public class ChitietPhieunhapView extends JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Số lượng:");
 
+        spinSoluong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setText("Mã phiếu nhập:");
 

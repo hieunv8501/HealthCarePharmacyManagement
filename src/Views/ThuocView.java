@@ -52,23 +52,21 @@ public class ThuocView extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachThuoc.setDefaultRenderer(String.class, centerRenderer);
         for (int i = 0; i < tableDanhSachThuoc.getColumnCount(); i++) {
-    tableDanhSachThuoc.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-}
-        
+            tableDanhSachThuoc.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         ((DefaultTableCellRenderer) tableDanhSachThuoc.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tableDanhSachThuoc.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         tableDanhSachThuoc.getTableHeader().setOpaque(false);
         tableDanhSachThuoc.getTableHeader().setBackground(Color.YELLOW);
         tableDanhSachThuoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-         tableDanhSachThuoc.setUpdateSelectionOnSort(true);
+        tableDanhSachThuoc.setUpdateSelectionOnSort(true);
         tableDanhSachThuoc.setFillsViewportHeight(true);
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlThuoc")) {
             btnThemThuoc.setEnabled(false);
             btnThemFile.setEnabled(false);
             btnXuatFile.setEnabled(false);
         }
-        btnHuy.setEnabled(false);
-        btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
         txtMaThuoc.setEditable(false);
@@ -284,8 +282,8 @@ public class ThuocView extends javax.swing.JPanel {
         });
 
         btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closeLoginIcon.png"))); // NOI18N
-        btnHuy.setText("Hủy");
+        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        btnHuy.setText("Làm mới");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
@@ -317,10 +315,10 @@ public class ThuocView extends javax.swing.JPanel {
             panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelThemThuocLayout.createSequentialGroup()
                 .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelThemThuocLayout.createSequentialGroup()
-                        .addGap(203, 203, 203)
+                    .addGroup(panelThemThuocLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnThemThuoc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)
                         .addComponent(btnHuy))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelThemThuocLayout.createSequentialGroup()
                         .addContainerGap()
@@ -338,7 +336,7 @@ public class ThuocView extends javax.swing.JPanel {
                                 .addComponent(txtMaThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelThemThuocLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                         .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelThemThuocLayout.createSequentialGroup()
                                 .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,7 +356,7 @@ public class ThuocView extends javax.swing.JPanel {
                                 .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtnhacungcapThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(giabanThuoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(panelThemThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelHinhThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelMaloaithuoc))
@@ -519,11 +517,11 @@ public class ThuocView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnTimKiem)
-                        .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelThemThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -724,7 +722,7 @@ public class ThuocView extends javax.swing.JPanel {
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
         int input = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn hủy hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                "Bạn có chắc muốn tải lại trang hay không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (input == 0) {
             if (input == 0) {
                 txtMaThuoc.setText("");
@@ -734,11 +732,17 @@ public class ThuocView extends javax.swing.JPanel {
                 hinhanh = "";
                 labelHinhanh.setIcon(null);
                 giabanThuoc.setText("");
-                btnHuy.setEnabled(false);
-                btnLuu.setEnabled(false);
                 btnSua.setEnabled(false);
                 btnThemThuoc.setEnabled(true);
                 tableDanhSachThuoc.getSelectionModel().clearSelection();
+
+                ShowData();
+                showLoaiThuoc();
+                showDonvitinh();
+                showDonviQuydoi();
+                showNhacungcap();
+                showDotuoiThuoc();
+                ShowSearchComboBox();
 
             }
         }
@@ -866,7 +870,6 @@ public class ThuocView extends javax.swing.JPanel {
 
         }
         txtMaThuoc.setEnabled(false);
-        btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
         btnSua.setEnabled(true);
         btnXoa.setEnabled(true);
@@ -875,9 +878,8 @@ public class ThuocView extends javax.swing.JPanel {
 
     private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
         // TODO add your handling code here:
-        char c= evt.getKeyChar();
-        if(c==KeyEvent.VK_ENTER)
-        {
+        char c = evt.getKeyChar();
+        if (c == KeyEvent.VK_ENTER) {
             btnTimKiem.doClick();
         }
     }//GEN-LAST:event_txtSearchBoxKeyPressed
@@ -885,23 +887,19 @@ public class ThuocView extends javax.swing.JPanel {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         String searchText = txtSearchBox.getText();
-        if(searchText.equals("")||searchText.equals(null))
-        {
+        if (searchText.equals("") || searchText.equals(null)) {
             ShowData();
-        }
-        else
-        {
+        } else {
             DefaultTableModel tblModel = (DefaultTableModel) tableDanhSachThuoc.getModel();
             tblModel.getDataVector().removeAllElements();
             tblModel.fireTableDataChanged();
-            if(dsThuoc==null)
-            {
+            if (dsThuoc == null) {
                 ShowData();
             }
             //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
             if (!dsThuoc.isEmpty()) {
                 dsThuoc.forEach((thuoc1) -> {
-                    if (!thuoc1.isDaXoa()&&(String.valueOf(thuoc1.getMaThuoc()).contains(searchText)||thuoc1.getTenThuoc().contains(searchText)||thuoc1.getMota().contains(searchText)||thuoc1.getNhacungcap().getTenNhacungcap().contains(searchText)||thuoc1.getDotuoi().contains(searchText)||thuoc1.getDonvitinh().getTenDonvitinh().contains(searchText)||thuoc1.getDonviQuydoi().getTenDonvitinh().contains(searchText))) {
+                    if (!thuoc1.isDaXoa() && (String.valueOf(thuoc1.getMaThuoc()).contains(searchText) || thuoc1.getTenThuoc().contains(searchText) || thuoc1.getMota().contains(searchText) || thuoc1.getNhacungcap().getTenNhacungcap().contains(searchText) || thuoc1.getDotuoi().contains(searchText) || thuoc1.getDonvitinh().getTenDonvitinh().contains(searchText) || thuoc1.getDonviQuydoi().getTenDonvitinh().contains(searchText))) {
                         tblModel.addRow(new Object[]{thuoc1.getMaThuoc(), thuoc1.getTenThuoc(), thuoc1.getMota(), thuoc1.getDotuoi(), thuoc1.getHinhanh(), thuoc1.getDonvitinh().getMaDonvitinh(), thuoc1.getDonviQuydoi().getMaDonvitinh(), thuoc1.getTileQuydoi(), thuoc1.getNhacungcap(), thuoc1.getLoaiThuoc(), thuoc1.getGiaBan()});
                     }
                 });
@@ -927,7 +925,7 @@ public class ThuocView extends javax.swing.JPanel {
 
         }
         ShowSearchComboBox();
-        
+
     }
 
     public void showLoaiThuoc() {
@@ -989,22 +987,23 @@ public class ThuocView extends javax.swing.JPanel {
         }
         return maThuocMoi + 1;
     }
+
     public void ShowSearchComboBox() {
-       Set<String> hash_Set = new HashSet<String>();
+        Set<String> hash_Set = new HashSet<String>();
         dsThuoc.forEach(thuoc -> {
-           hash_Set.add(String.valueOf(thuoc.getMaThuoc()));
+            hash_Set.add(String.valueOf(thuoc.getMaThuoc()));
             hash_Set.add(thuoc.getTenThuoc());
-             hash_Set.add(thuoc.getMota());
+            hash_Set.add(thuoc.getMota());
             hash_Set.add(thuoc.getLoaiThuoc().getTenLoaiThuoc());
-             hash_Set.add(thuoc.getNhacungcap().getTenNhacungcap());
-              hash_Set.add(thuoc.getDotuoi());
-              hash_Set.add(thuoc.getDonvitinh().getTenDonvitinh());
-              hash_Set.add(thuoc.getDonviQuydoi().getTenDonvitinh());
+            hash_Set.add(thuoc.getNhacungcap().getTenNhacungcap());
+            hash_Set.add(thuoc.getDotuoi());
+            hash_Set.add(thuoc.getDonvitinh().getTenDonvitinh());
+            hash_Set.add(thuoc.getDonviQuydoi().getTenDonvitinh());
         }
         );
-         txtSearchBox.clearItemSuggestion();
+        txtSearchBox.clearItemSuggestion();
         Iterator value = hash_Set.iterator();
-         while (value.hasNext()) {
+        while (value.hasNext()) {
             txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
         }
     }
