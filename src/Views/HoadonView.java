@@ -55,6 +55,8 @@ public class HoadonView extends javax.swing.JPanel {
         dsHoaDon.getTableHeader().setBackground(Color.YELLOW);
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
             btnThem.setEnabled(false);
+            btnChonKH.setEnabled(false);
+            btnChonMKM.setEnabled(false);
         }
         btnLuu.setEnabled(false);
         btnSua.setEnabled(false);
@@ -71,6 +73,7 @@ public class HoadonView extends javax.swing.JPanel {
         btnChonMKM.addActionListener((ae) -> {
             ChonMaKhuyenmaiForm ckh = new ChonMaKhuyenmaiForm(txtMKM);
         });
+
 //        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
 //            new ExcelExportFunction().xuatFileExcelHoadon();
 //        });
@@ -634,7 +637,9 @@ public void ShowSearchTextBox() {
 
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
-            btnThem.setEnabled(true);
+            if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+                btnThem.setEnabled(true);
+            }
             btnChonKH.setEnabled(false);
             txtMKH.setText("");
             txtMKM.setText("");
@@ -688,9 +693,12 @@ public void ShowSearchTextBox() {
 
         btnHuy.setEnabled(false);
         btnLuu.setEnabled(false);
-        btnSua.setEnabled(true);
-        btnXoa.setEnabled(true);
         btnHuy.setEnabled(true);
+        if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+            btnHuy.setEnabled(true);
+        }
 
 
     }//GEN-LAST:event_dsHoaDonMouseClicked

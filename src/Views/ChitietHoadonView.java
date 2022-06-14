@@ -72,6 +72,9 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         txtDongia.setEditable(false);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
+        if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+            btnThem.setEnabled(false);
+        }
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     }
@@ -506,8 +509,11 @@ public class ChitietHoadonView extends javax.swing.JFrame {
         dvt = hdctr.layDonvitinh(Integer.valueOf(maThuoc));
         txtDonvi.setText(dvt.getTenDonvitinh());
 
-        btnSua.setEnabled(true);
-        btnXoa.setEnabled(true);
+        if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlHoaDon")) {
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+        }
+
         comboThuoc.setEnabled(false);
         comboLonhap.setEnabled(false);
 

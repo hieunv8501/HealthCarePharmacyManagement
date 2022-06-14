@@ -456,7 +456,10 @@ public void ShowSearchTextBox() {
 
             btnLuu.setEnabled(false);
             btnSua.setEnabled(false);
-            btnThem.setEnabled(true);
+            if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+                btnThem.setEnabled(true);
+            }
+
             this.reset();
         }
 
@@ -552,11 +555,12 @@ public void ShowSearchTextBox() {
         txtPTKM.setText(s4);
         dateBD.setCalendar(cal1);
         dateKT.setCalendar(cal2);
-
+        if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+        }
         txtMKM.setEnabled(false);
         btnLuu.setEnabled(false);
-        btnSua.setEnabled(true);
-        btnXoa.setEnabled(true);
 
 
     }//GEN-LAST:event_dsMaKMMouseClicked
@@ -623,9 +627,21 @@ public void ShowSearchTextBox() {
                     
             }
 
+
         } else {
             JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+
+            dateBD.setCalendar(cal1);
+            dateKT.setCalendar(cal2);
+
+            if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
+                btnSua.setEnabled(true);
+                btnXoa.setEnabled(true);
+            }
+
+            txtMKM.setEditable(false);
+
         }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
