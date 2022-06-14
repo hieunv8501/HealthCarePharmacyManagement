@@ -54,6 +54,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
 //    QuanlyKhoView quanlykho = new QuanlyKhoView();
     KhachHangView khachhangview = new KhachHangView();
     ThongtinCanhanView ttcnView = new ThongtinCanhanView();
+    NhanVienView nhanvienView = new NhanVienView();
 
     //test statement
     //private static final long SERIAL_VERSION_UID = 1L;        
@@ -94,7 +95,7 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
         //Menu sidebar items
         String[] navItemInfo = {
             "seperate", "1", "", "",
-//            "Bán thuốc", "icons8_small_business_30px_3.png", "qlBanThuoc", "qlBanThuoc",
+            //            "Bán thuốc", "icons8_small_business_30px_3.png", "qlBanThuoc", "qlBanThuoc",
             "Nhập thuốc", "icons8_truck_30px.png", "qlNhapThuoc", "qlNhapThuoc",
             "seperate", "1", "", "",
             "Thuốc", "icons8_antibiotic_30px.png", "xemThuoc", "qlThuoc",
@@ -353,8 +354,11 @@ public class MainView extends JFrame implements MouseListener, MouseMotionListen
                 plContent.add(khachhangview, BorderLayout.CENTER);
                 break;
 
-            case "Thông tin cá nhân":
+            case "Cá nhân":
                 plContent.add(ttcnView, BorderLayout.CENTER);
+                break;
+            case "Nhân viên":
+                plContent.add(nhanvienView, BorderLayout.CENTER);
                 break;
 
         }

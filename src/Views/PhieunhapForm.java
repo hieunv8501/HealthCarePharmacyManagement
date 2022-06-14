@@ -590,7 +590,6 @@ public class PhieunhapForm extends JPanel {
         txtMathuoc = new javax.swing.JTextField();
         txtTenthuoc = new javax.swing.JTextField();
         txtTimkiem = new javax.swing.JTextField();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
         btnHuy = new javax.swing.JButton();
         btnNhaphang = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
@@ -600,7 +599,6 @@ public class PhieunhapForm extends JPanel {
         lblHinhanhThuoc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         tblSanphamNhap.setAutoCreateRowSorter(true);
-        tblSanphamNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblSanphamNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
@@ -609,6 +607,7 @@ public class PhieunhapForm extends JPanel {
                 "Mã thuốc", "Loại thuốc", "Tên thuốc", "Đơn vị tính", "Đơn vị bán lẻ", "Tỉ lệ quy đổi", "Số lượng còn lại"
             }
         ));
+        tblSanphamNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblSanphamNhap.setRowHeight(30);
         tblSanphamNhap.setSelectionBackground(new java.awt.Color(0, 0, 255));
         jScrollPane2.setViewportView(tblSanphamNhap);
@@ -622,7 +621,6 @@ public class PhieunhapForm extends JPanel {
         });
 
         tblPhieunhap.setAutoCreateRowSorter(true);
-        tblPhieunhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieunhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null}
@@ -631,6 +629,7 @@ public class PhieunhapForm extends JPanel {
                 "STT", "Mã thuốc", "Tên thuốc", "Ngày sản xuất", "Ngày hết hạn", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
+        tblPhieunhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblPhieunhap.setRowHeight(30);
         tblPhieunhap.setSelectionBackground(new java.awt.Color(0, 0, 204));
         jScrollPane1.setViewportView(tblPhieunhap);
@@ -728,9 +727,7 @@ public class PhieunhapForm extends JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
+                        .addGap(217, 217, 217)
                         .addComponent(txtTimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLammoi1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -785,13 +782,9 @@ public class PhieunhapForm extends JPanel {
                         .addComponent(cbbDonviquydoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbbDVT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtTimkiem)
-                        .addComponent(btnLammoi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTimkiem)
+                    .addComponent(btnLammoi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         btnHuy.setText("Hủy");
@@ -901,7 +894,6 @@ public class PhieunhapForm extends JPanel {
     private javax.swing.JComboBox<String> cbbDonviquydoi;
     private com.toedter.calendar.JDateChooser dateNHH;
     private com.toedter.calendar.JDateChooser dateNSX;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
