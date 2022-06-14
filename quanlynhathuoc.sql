@@ -17,6 +17,7 @@ CREATE TABLE hoadon(
 	DaXoa BIT DEFAULT 0,
 )
 
+
 -----------------------------------------------------------
 -- Cấu trúc bảng cho bảng chitiethoadon
 
@@ -600,7 +601,36 @@ DECLARE @TongTien MONEY, @SoLuong INT, @DonGia MONEY
 	FROM nhanvien, khachhang, hoadon, khuyenmai 
 	WHERE MaHoaDon = @MaHoaDon AND nhanvien.MaNhanVien = hoadon.MaNhanVien AND khachhang.MaKhachHang = hoadon.MaKhachHang  AND khuyenmai.MaKhuyenMai = hoadon.MaKhuyenMai
 END
+go
 
+alter PROC layThongTinBangLuong @thang int
+as begin
+DECLARE @TienThuong money
+	
+	select @TienThuong = sum(B.TongTien * 0.05) from nhanvien A join hoadon B on A.MaNhanVien = B.MaNhanVien where MONTH(B.NgayLap) = @thang group by A.MaNhanVien
+	select A.MaNhanVien, A.TenNhanVien, A.Luong, @TienThuong as Thuong, @TienThuong + A.Luong as TongLuong from nhanvien A join hoadon B on A.MaNhanVien = B.MaNhanVien where A.DaXoa = 0 and MONTH(B.NgayLap) = @thang and A.MaLoaiNhanVien = 1
+	group by A.MaNhanVien ,A.TenNhanVien, A.Luong
+end
+
+EXEC layThongTinBangLuong @thang = 6;
+
+create PROC layThongTinBangLuongBaoVe 
+as begin
+DECLARE @TienThuong money
+	
+	set @TienThuong = 120000
+	select A.MaNhanVien, A.TenNhanVien, A.Luong, @TienThuong as Thuong, @TienThuong + A.Luong as TongLuong from nhanvien A  where A.DaXoa = 0 and A.MaLoaiNhanVien = 3
+	group by A.MaNhanVien ,A.TenNhanVien, A.Luong
+end
+
+create PROC layThongTinBangLuongQuanLyKho 
+as begin
+DECLARE @TienThuong money
+	
+	set @TienThuong = 150000
+	select A.MaNhanVien, A.TenNhanVien, A.Luong, @TienThuong as Thuong, @TienThuong + A.Luong as TongLuong from nhanvien A  where A.DaXoa = 0 and A.MaLoaiNhanVien = 2
+	group by A.MaNhanVien ,A.TenNhanVien, A.Luong
+end
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng loainhanvien
 INSERT INTO loainhanvien (TenLoaiNhanVien, LuongCoBan) VALUES (N'Nhân viên bán thuốc', 6500000)
@@ -617,6 +647,8 @@ INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, 
 values (N'TinhBV', 1, '27/02/2001', 1, '0125463879', N'Nam', N'Cử nhân')
 INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
 values (N'HauPP', 2, '11/08/2001', 1, '0221456387', N'Nam', N'Thạc sĩ')
+INSERT INTO nhanvien (TenNhanVien, MaLoaiNhanVien, NgaySinh, MaXa, SoDienThoai, GioiTinh, BangCap) 
+values (N'HauPP2', 3, '11/08/2001', 1, '0221456387', N'Nam', N'Không')
 
 ---------------------------------------------------------------------------
 -- Thêm dữ liệu cho bảng khachhang
@@ -699,6 +731,15 @@ INSERT INTO huyen values (1, N'Ba Vì', 1)
 insert into huyen values(2, N'Thủ đức',1);
 insert into xa values(1, N'Đông Hòa',1);
 
+--Dữ liệu khuyến mãi
+insert into khuyenmai (MaKhuyenMai, TenKhuyenMai, DieuKienKhuyenMai, PhanTramKhuyenMai, NgayBatDau, NgayKetThuc) values ('KM01' ,N'Khuyến mãi 1', 10000, 10, '14/06/2022', '15/06/2022')
+
+--Dữ liệu hóa đơn
+insert into hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) values (10, 1, 'KM01', '14/06/2022')
+insert into hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) values (10, 2, 'KM01', '14/06/2022')
+insert into hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) values (11, 2, 'KM01', '14/06/2022')
+insert into hoadon (MaNhanVien, MaKhachHang, MaKhuyenMai, NgayLap) values (11, 2, 'KM01', '14/05/2022')
+select * from hoadon
 --INSERT INTO khuyenmai (MaKhuyenMai, PhanTramKhuyenMai) VALUES (1, 10)
 
 --INSERT INTO chitiethoadon (MaHoaDon, MaThuoc, MaLo, MaDonViTinh, SoLuong, DonGia)
