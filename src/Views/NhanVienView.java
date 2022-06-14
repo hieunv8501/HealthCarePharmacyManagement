@@ -1,5 +1,8 @@
 package Views;
 
+import Components.ExcelExportFunction;
+import java.awt.event.ActionEvent;
+
 public class NhanvienView extends javax.swing.JPanel {
 
     public NhanvienView() {
@@ -10,6 +13,9 @@ public class NhanvienView extends javax.swing.JPanel {
             btnSua.setEnabled(false);
             btnXoa.setEnabled(false);
         }
+//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+//            new ExcelExportFunction().xuatFileExcelNhanvien();
+//        });
     }
 
     /**

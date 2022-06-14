@@ -41,8 +41,7 @@ public class ThuocSapHetHang extends javax.swing.JFrame {
         dsThuocHetHang.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
         dsThuocHetHang.getTableHeader().setOpaque(false);
         dsThuocHetHang.getTableHeader().setBackground(Color.YELLOW);
-
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         this.reset();
 

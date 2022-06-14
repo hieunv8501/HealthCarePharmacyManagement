@@ -1,9 +1,11 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Controllers.LoaithuocController;
 import Models.LoaiThuoc;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,7 +38,9 @@ public class LoaithuocView extends javax.swing.JPanel {
             btnThemFile.setEnabled(false);
             btnXuatFile.setEnabled(false);
         }
-
+        btnXuatFile.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelLoaithuoc();
+        });
         ShowData();
     }
     
@@ -61,15 +65,12 @@ public class LoaithuocView extends javax.swing.JPanel {
         btnLuu = new javax.swing.JButton();
         txtMoTa = new javax.swing.JTextField();
         labelMota = new javax.swing.JLabel();
-        panelDanhsachLoaiThuoc = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableDanhSachLoaiThuoc = new javax.swing.JTable();
         btnThemFile = new javax.swing.JButton();
         btnXuatFile = new javax.swing.JButton();
-        btnThoat = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableDanhSachLoaiThuoc = new javax.swing.JTable();
 
-        panelThongTinLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin loại thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
+        panelThongTinLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
         labelMaLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelMaLoaiThuoc.setText("Mã loại thuốc");
@@ -81,7 +82,7 @@ public class LoaithuocView extends javax.swing.JPanel {
 
         txtTenLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnThem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_add_30px.png"))); // NOI18N
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -90,7 +91,7 @@ public class LoaithuocView extends javax.swing.JPanel {
             }
         });
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -99,8 +100,8 @@ public class LoaithuocView extends javax.swing.JPanel {
             }
         });
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_30px_1.png"))); // NOI18N
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,8 +109,8 @@ public class LoaithuocView extends javax.swing.JPanel {
             }
         });
 
-        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnHuy.setForeground(new java.awt.Color(255, 0, 0));
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/closeLoginIcon.png"))); // NOI18N
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,8 +118,8 @@ public class LoaithuocView extends javax.swing.JPanel {
             }
         });
 
-        btnLuu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnLuu.setForeground(new java.awt.Color(0, 255, 0));
+        btnLuu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLuu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-save-30.png"))); // NOI18N
         btnLuu.setText("Lưu");
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,23 +132,28 @@ public class LoaithuocView extends javax.swing.JPanel {
         labelMota.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         labelMota.setText("Mô tả:");
 
+        btnThemFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
+        btnThemFile.setText("Thêm từ file");
+        btnThemFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemFileActionPerformed(evt);
+            }
+        });
+
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
+        btnXuatFile.setText("Xuất file");
+
         javax.swing.GroupLayout panelThongTinLoaiThuocLayout = new javax.swing.GroupLayout(panelThongTinLoaiThuoc);
         panelThongTinLoaiThuoc.setLayout(panelThongTinLoaiThuocLayout);
         panelThongTinLoaiThuocLayout.setHorizontalGroup(
             panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
+                .addGap(159, 159, 159)
+                .addComponent(btnThem)
+                .addGap(47, 47, 47)
                 .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(btnThem)
-                        .addGap(46, 46, 46)
-                        .addComponent(btnHuy)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnLuu)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSua)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnXoa))
                     .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
                         .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelMaLoaiThuoc)
@@ -155,10 +161,22 @@ public class LoaithuocView extends javax.swing.JPanel {
                             .addComponent(labelMota))
                         .addGap(40, 40, 40)
                         .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMoTa, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                            .addComponent(txtMoTa)
                             .addComponent(txtMaLoaiThuoc)
-                            .addComponent(txtTenLoaiThuoc))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                            .addComponent(txtTenLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelThongTinLoaiThuocLayout.createSequentialGroup()
+                        .addComponent(btnHuy)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnLuu)
+                        .addGap(44, 44, 44)
+                        .addComponent(btnSua)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnXoa)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnThemFile)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnXuatFile)))
+                .addGap(28, 28, 28))
         );
         panelThongTinLoaiThuocLayout.setVerticalGroup(
             panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,11 +185,11 @@ public class LoaithuocView extends javax.swing.JPanel {
                 .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMaLoaiThuoc)
                     .addComponent(txtMaLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTenLoaiThuoc)
                     .addComponent(txtTenLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
                 .addGroup(panelThongTinLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelMota))
@@ -181,27 +199,32 @@ public class LoaithuocView extends javax.swing.JPanel {
                     .addComponent(btnHuy)
                     .addComponent(btnLuu)
                     .addComponent(btnSua)
-                    .addComponent(btnXoa))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnXoa)
+                    .addComponent(btnThemFile)
+                    .addComponent(btnXuatFile))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        panelDanhsachLoaiThuoc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI", 1, 16), new java.awt.Color(51, 51, 255))); // NOI18N
-        panelDanhsachLoaiThuoc.setForeground(new java.awt.Color(51, 51, 255));
-        panelDanhsachLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách loại thuốc", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
-        tableDanhSachLoaiThuoc.setBackground(new java.awt.Color(102, 255, 255));
+        tableDanhSachLoaiThuoc.setBackground(new java.awt.Color(204, 255, 255));
         tableDanhSachLoaiThuoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableDanhSachLoaiThuoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Mã loại thuốc", "Tên loại thuốc", "Mô tả"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDanhSachLoaiThuoc.setRowHeight(30);
         tableDanhSachLoaiThuoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -210,87 +233,25 @@ public class LoaithuocView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableDanhSachLoaiThuoc);
 
-        btnThemFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThemFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
-        btnThemFile.setText("Thêm từ file");
-        btnThemFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemFileActionPerformed(evt);
-            }
-        });
-
-        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnXuatFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
-        btnXuatFile.setText("Xuất file");
-
-        btnThoat.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_cancel_30px_1.png"))); // NOI18N
-        btnThoat.setText("Thoát");
-
-        javax.swing.GroupLayout panelDanhsachLoaiThuocLayout = new javax.swing.GroupLayout(panelDanhsachLoaiThuoc);
-        panelDanhsachLoaiThuoc.setLayout(panelDanhsachLoaiThuocLayout);
-        panelDanhsachLoaiThuocLayout.setHorizontalGroup(
-            panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDanhsachLoaiThuocLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnThemFile)
-                .addGap(36, 36, 36)
-                .addComponent(btnXuatFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnThoat)
-                .addGap(33, 33, 33))
-            .addGroup(panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDanhsachLoaiThuocLayout.createSequentialGroup()
-                    .addContainerGap(48, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
-        panelDanhsachLoaiThuocLayout.setVerticalGroup(
-            panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDanhsachLoaiThuocLayout.createSequentialGroup()
-                .addContainerGap(204, Short.MAX_VALUE)
-                .addGroup(panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThemFile)
-                    .addComponent(btnXuatFile)
-                    .addComponent(btnThoat))
-                .addGap(53, 53, 53))
-            .addGroup(panelDanhsachLoaiThuocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelDanhsachLoaiThuocLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(147, Short.MAX_VALUE)))
-        );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel1.setText("Thông tin về loại thuốc");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(291, 291, 291)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelDanhsachLoaiThuoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(401, 401, 401)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(195, Short.MAX_VALUE))
+            .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1163, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addGap(75, 75, 75)
-                .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(panelDanhsachLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(panelThongTinLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(365, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(327, 327, 327)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -392,12 +353,6 @@ btnLuu.setEnabled(true);
         btnHuy.setEnabled(true);
     }//GEN-LAST:event_tableDanhSachLoaiThuocMouseClicked
 
-    private void btnThemFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemFileActionPerformed
-        // TODO add your handling code here:
-        
-        ShowData();
-    }//GEN-LAST:event_btnThemFileActionPerformed
-
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
         
@@ -449,6 +404,12 @@ btnLuu.setEnabled(true);
         }
         }
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void btnThemFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemFileActionPerformed
+        // TODO add your handling code here:
+
+        ShowData();
+    }//GEN-LAST:event_btnThemFileActionPerformed
     public void ShowData()
     {
         DefaultTableModel tblModel=(DefaultTableModel) tableDanhSachLoaiThuoc.getModel();
@@ -492,15 +453,12 @@ btnLuu.setEnabled(true);
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThemFile;
-    private javax.swing.JButton btnThoat;
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatFile;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelMaLoaiThuoc;
     private javax.swing.JLabel labelMota;
     private javax.swing.JLabel labelTenLoaiThuoc;
-    private javax.swing.JPanel panelDanhsachLoaiThuoc;
     private javax.swing.JPanel panelThongTinLoaiThuoc;
     private javax.swing.JTable tableDanhSachLoaiThuoc;
     private javax.swing.JTextField txtMaLoaiThuoc;

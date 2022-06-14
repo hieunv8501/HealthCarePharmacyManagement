@@ -1,5 +1,6 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Components.ExcelOperation;
 import Controllers.QuyenController;
 import Models.Taikhoan;
@@ -39,7 +40,7 @@ public class TaikhoanView extends JPanel {
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
-        
+
         // buttons
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
             btnThem.setEnabled(true);
@@ -76,9 +77,9 @@ public class TaikhoanView extends JPanel {
         btnLamMoi.addActionListener((ActionEvent ae) -> {
             refresh();
         });
-//        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
-//            //new ExcelOperation();
-//        });
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelTaikhoan();
+        });
 //        btnTaiLenExcel.addActionListener((ActionEvent ae) -> {
 //            new DocExcel().docFileExcelTaiKhoan();
 //        });
@@ -189,7 +190,6 @@ public class TaikhoanView extends JPanel {
 //    private void txSearchOnChange() {
 //        setDataToTable(quyenCtrl.search(txtTimKiem.getText(), cbbChonTimKiem.getSelectedItem().toString()), this.tblQuyen);
 //    }
-
 //    public String getSelectedRow(int col) {
 //        int i = tblLayout.getTable().getSelectedRow();
 //        if (i >= 0) {
@@ -277,11 +277,11 @@ public class TaikhoanView extends JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
         tblTaiKhoan.setAutoCreateRowSorter(true);
-        tblTaiKhoan.setBackground(new java.awt.Color(240, 240, 240));
+        tblTaiKhoan.setBackground(new java.awt.Color(204, 255, 255));
         tblTaiKhoan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblTaiKhoan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Tên tài khoản", "Mật khẩu", "Mã nhân viên", "Mã quyền", "Trạng thái"
@@ -290,9 +290,16 @@ public class TaikhoanView extends JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblTaiKhoan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

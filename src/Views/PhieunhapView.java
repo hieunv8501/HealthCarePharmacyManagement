@@ -1,11 +1,14 @@
 package Views;
 
+import Components.ExcelExportFunction;
 import Models.Phieunhap;
 import Controllers.PhieunhapController;
 import Helpers.PriceFormatter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -56,6 +59,9 @@ public class PhieunhapView extends JPanel {
             btnTaiXuongExcel.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
         }
+        btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
+            new ExcelExportFunction().xuatFileExcelPhieunhap();
+        });
         tblPhieuNhap.addMouseListener(new MouseAdapter() { // copy từ HienThiSanPham
             @Override
             public void mouseReleased(MouseEvent me) {
@@ -128,7 +134,7 @@ public class PhieunhapView extends JPanel {
                     txtMaPN.setText(String.valueOf(pn.getMaPhieunhap()));
                     txtNCC.setText(pn.getNcc().getMaNhacungcap() + " - " + pn.getNcc().getTenNhacungcap());
                     txtNV.setText(pn.getNv().getMaNhanvien() + " - " + pn.getNv().getTenNhanvien());
-                    dateLap.setCalendar(pn.getNgayNhap());                   
+                    dateLap.setCalendar(pn.getNgayNhap());
                     gio.setValue(pn.getNgayNhap().get(Calendar.HOUR_OF_DAY));
                     phut.setValue(pn.getNgayNhap().get(Calendar.MINUTE));
                     giay.setValue(pn.getNgayNhap().get(Calendar.SECOND));
@@ -248,10 +254,12 @@ public void ShowSearchTextBox() {
         jPanel1.setForeground(new java.awt.Color(0, 51, 255));
 
         tblPhieuNhap.setAutoCreateRowSorter(true);
+
+        tblPhieuNhap.setBackground(new java.awt.Color(204, 255, 255));
         tblPhieuNhap.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(255, 255, 0), null, null));
         tblPhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập", "Ngày nhập", "Tổng tiền", "Trạng thái"
@@ -260,9 +268,16 @@ public void ShowSearchTextBox() {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblPhieuNhap.setBackground(new java.awt.Color(240, 240, 240));
