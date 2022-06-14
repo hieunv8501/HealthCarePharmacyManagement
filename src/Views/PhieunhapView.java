@@ -90,6 +90,7 @@ public class PhieunhapView extends JPanel {
     }
 
     private void refresh() {
+        dsPhieuNhap = phieunhapCtrl.layDanhsachPhieuNhap();
         //PhieunhapController.layDanhsachPhieuNhap();
         loadDataToTable();
         ShowSearchTextBox();
@@ -225,6 +226,11 @@ public void ShowSearchTextBox() {
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
         btnLamMoi.setText("Làm mới");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
         btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
@@ -531,6 +537,11 @@ public void ShowSearchTextBox() {
         }
         }
     }//GEN-LAST:event_btnTimKiem1ActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        // TODO add your handling code here:
+        refresh();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

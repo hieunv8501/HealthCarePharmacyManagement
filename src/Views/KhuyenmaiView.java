@@ -627,8 +627,8 @@ public class KhuyenmaiView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            dateBD.setCalendar(cal1);
-            dateKT.setCalendar(cal2);
+//            dateBD.setCalendar(cal1);
+//            dateKT.setCalendar(cal2);
 
             if (DangnhapView.quyenLogin.getChitietQuyen().contains("qlKhuyenMai")) {
                 btnSua.setEnabled(true);
