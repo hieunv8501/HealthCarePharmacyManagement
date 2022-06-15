@@ -387,7 +387,7 @@ public void ShowSearchTextBox() {
                 .addComponent(btnTimKiem1)
                 .addGap(96, 96, 96))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addComponent(btnThem)
                 .addGap(39, 39, 39)
                 .addComponent(btnSua)
@@ -399,9 +399,9 @@ public void ShowSearchTextBox() {
                 .addComponent(btnTaiLenExcel)
                 .addGap(39, 39, 39)
                 .addComponent(btnTaiXuongExcel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
                 .addComponent(btnXemCT, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

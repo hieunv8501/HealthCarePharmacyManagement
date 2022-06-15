@@ -1,6 +1,7 @@
 package Views;
 
 import Components.DateButton;
+import Components.WritePDF;
 import Controllers.DonvitinhController;
 import Controllers.LoaithuocController;
 import Controllers.LonhapController;
@@ -189,7 +190,7 @@ public class PhieunhapForm extends JPanel {
                         txtMathuoc.setText(String.valueOf(thuoc.getMaThuoc()));
                         txtTenthuoc.setText(thuoc.getTenThuoc());
                         txtLoaithuoc.setText(thuoc.getTenloaiThuoc());
-                        txtNCC.setText(NhacungcapController.getNhacungcap(thuoc.getMaNhacungcap()).getTenNhacungcap() + "(" + String.valueOf(thuoc.getMaNhacungcap()) + ")");
+                        txtNCC.setText(NhacungcapController.getNhacungcap(thuoc.getMaNhacungcap()).getTenNhacungcap() + " - " + String.valueOf(thuoc.getMaNhacungcap()));
                         donviTinh = thuoc.getTenDonvitinh();
                         donviQuidoi = thuoc.getTenDonvibanle();
                         showComboboxDonVi();
@@ -306,7 +307,7 @@ public class PhieunhapForm extends JPanel {
                         int _maNCC = Integer.parseInt(txtNCC.getText());
                         nhacungcap = NhacungcapController.getNhacungcap(_maNCC);
                         if (nhacungcap != null) {
-                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " (" + String.valueOf(_maNCC) + ")");
+                            txtNCC.setText(nhacungcap.getTenNhacungcap() + " - " + String.valueOf(_maNCC));
                         }
                     }
                 });
@@ -445,7 +446,7 @@ public class PhieunhapForm extends JPanel {
 
             Phieunhap pn = new Phieunhap(
                     Integer.parseInt(txtMaphieunhap.getText()),
-                    NhacungcapController.getNhacungcap(nhacungcap.getMaNhacungcap()),
+                    NhacungcapController.getNhacungcap(Integer.parseInt(txtNCC.getText().split(" - ")[1])),
                     NhanvienController.getNhanVien(nhanvien.getMaNhanvien()),
                     //LocalDate to Calendar
                     calendar,
@@ -471,7 +472,7 @@ public class PhieunhapForm extends JPanel {
                     "Nhập hàng thành công, bạn có muốn IN PHIẾU NHẬP?", "Thành công",
                     JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.OK_OPTION) {
-                // WritePDF().writePhieuNhap(txtMaphieunhap.getText());
+                 new WritePDF().writePhieuNhap(Integer.parseInt(txtMaphieunhap.getText()));
             }
             txtMaphieunhap.setText(String.valueOf(PhieunhapController.getNextID())); // lấy mã cho phiếu nhập mới
             clear();

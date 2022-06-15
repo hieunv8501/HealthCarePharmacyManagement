@@ -1,12 +1,15 @@
 package Components;
 
 import Controllers.KhachhangController;
+import Controllers.LoaiNhanvienController;
+import Controllers.LoaithuocController;
 import Controllers.NhacungcapController;
 import Controllers.NhanvienController;
 import Controllers.QuyenController;
 import Controllers.TaikhoanController;
 import Controllers.XaController;
 import Models.Khachhang;
+import Models.LoaiThuoc;
 import Models.Nhacungcap;
 import Models.Nhanvien;
 import Models.Quyen;
@@ -85,7 +88,7 @@ public class ExcelImportFunction {
                     if (qOld != null) {
                         if (!hanhDongKhiTrung.contains("tất cả")) {
                             TableLayout tbl = new TableLayout();
-                            tbl.setColumnsWidth(new double[]{.5,.5,1,2,4,1});
+                            tbl.setColumnsWidth(new double[]{.5, .5, 1, 2, 4, 1});
                             tbl.setHeaders(new String[]{"", "STT", "Mã quyền", "Tên quyền", "Chi tiết quyền", "Trạng thái"});
                             tbl.addRow(new String[]{
                                 "Cũ:", String.valueOf(stt),
@@ -172,7 +175,7 @@ public class ExcelImportFunction {
                     if (tkOld != null) {
                         if (!hanhDongKhiTrung.contains("tất cả")) {
                             TableLayout tbl = new TableLayout();
-                            tbl.setColumnsWidth(new double[]{.5,.5,2,4,1,1,1});
+                            tbl.setColumnsWidth(new double[]{.5, .5, 2, 4, 1, 1, 1});
                             tbl.setHeaders(new String[]{"", "STT", "Tên tài khoản", "Mật khẩu", "Mã nhân viên", "Mã quyền", "Trạng thái"});
                             tbl.addRow(new String[]{
                                 "Cũ:", String.valueOf(stt), tkOld.getTaikhoan(),
@@ -264,8 +267,8 @@ public class ExcelImportFunction {
                     if (khOLD != null) {
                         if (!hanhDongKhiTrung.contains("tất cả")) {
                             TableLayout tbl = new TableLayout();
-                            tbl.setColumnsWidth(new double[]{.5,.5,1,2,1,2,2,3,1,1});
-                            tbl.setHeaders(new String[]{"", "STT", "Mã KH", "Tên KH", "Giới tính", "Ngày sinh", "SĐT", "Địa chỉ", "Khách quen", "Trạng thái"});      
+                            tbl.setColumnsWidth(new double[]{.5, .5, 1, 2, 1, 2, 2, 3, 1, 1});
+                            tbl.setHeaders(new String[]{"", "STT", "Mã KH", "Tên KH", "Giới tính", "Ngày sinh", "SĐT", "Địa chỉ", "Khách quen", "Trạng thái"});
                             tbl.addRow(new String[]{
                                 "Cũ:", String.valueOf(stt),
                                 String.valueOf(khOLD.getMaKhachhang()),
@@ -279,7 +282,7 @@ public class ExcelImportFunction {
                             tbl.addRow(new String[]{
                                 "Mới:", String.valueOf(stt), String.valueOf(makh), tenkh, gioitinh, ngaySinh, sdt, xaCtrl.getXa(diachikh).getTenXa(), khachquen, trangthai
                             });
-                            
+
                             MyJOptionPane mop = new MyJOptionPane(tbl, hanhDongKhiTrung);
                             hanhDongKhiTrung = mop.getAnswer();
                         }
@@ -366,7 +369,7 @@ public class ExcelImportFunction {
                     if (nvOld != null) {
                         if (!hanhDongKhiTrung.contains("tất cả")) {
                             TableLayout tbl = new TableLayout();
-                            tbl.setColumnsWidth(new double[]{.5,.5,1.5,1,1,2,2,1,1,2,1});
+                            tbl.setColumnsWidth(new double[]{.5, .5, 1.5, 1, 1, 2, 2, 1, 1, 2, 1});
                             tbl.setHeaders(new String[]{"", "Mã NV", "Tên NV", "Mã loại NV", "Ngày sinh", "Địa chỉ", "SDT", "Giới tính", "Bằng cấp", "Lương", "Trạng thái"});
                             tbl.addRow(new String[]{
                                 "Cũ:", String.valueOf(stt),
@@ -388,15 +391,15 @@ public class ExcelImportFunction {
                             hanhDongKhiTrung = mop.getAnswer();
                         }
                         if (hanhDongKhiTrung.contains("Ghi đè")) {
-                            Nhanvien nv = new Nhanvien(ma, ten, ngaysinh, sdt, gioitinh, bangcap, maloainv, xaCtrl.getXa(diachi), Long.parseLong(luong), Boolean.parseBoolean(trangthai));
-                            //NhanvienController.update(ma, ten, ngaysinh, diachi, sdt, trangthai);
+                            Nhanvien nv = new Nhanvien(ma, ten, ngaysinh, sdt, gioitinh, bangcap, NhanvienController.getNhanVien(ma).getLoaiNhanvien(), xaCtrl.getXa(diachi), Long.parseLong(luong), Boolean.parseBoolean(trangthai));
+                            NhanvienController.suaNhanvien(nv);
                             countGhiDe++;
                         } else {
                             countBoQua++;
                         }
                     } else {
-                        Nhanvien nv = new Nhanvien(ma, ten, ngaysinh, sdt, gioitinh, bangcap, maloainv, xaCtrl.getXa(diachi), Long.parseLong(luong), Boolean.parseBoolean(trangthai));
-                        //nvCtrl.add(nv);
+                        Nhanvien nv = new Nhanvien(ma, ten, ngaysinh, sdt, gioitinh, bangcap, NhanvienController.getNhanVien(ma).getLoaiNhanvien(), xaCtrl.getXa(diachi), Long.parseLong(luong), Boolean.parseBoolean(trangthai));
+                        NhanvienController.themNhanvien(nv);
                         countThem++;
                     }
                 }
@@ -407,6 +410,93 @@ public class ExcelImportFunction {
                     + "; Bỏ qua " + countBoQua
                     + ". Vui lòng làm mới để thấy kết quả");
 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi nhập dữ liệu từ file: " + ex.getMessage());
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Lỗi khi đóng inputstream: " + ex.getMessage());
+            }
+        }
+    }
+
+    //Đọc file excel Loại thuốc
+    public void docFileExcelLoaiThuoc() {
+        fd.setTitle("Nhập dữ liệu loại thuốc từ excel");
+        String url = getFile();
+        if (url == null) {
+            return;
+        }
+
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(new File(url));
+
+            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+            HSSFSheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+            Row row1 = rowIterator.next();
+
+            String hanhDongKhiTrung = "";
+            int countThem = 0;
+            int countGhiDe = 0;
+            int countBoQua = 0;
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                while (cellIterator.hasNext()) {
+
+                    int stt = (int) cellIterator.next().getNumericCellValue();
+                    int maloaithuoc = (int) cellIterator.next().getNumericCellValue();
+                    String tenloaithuoc = cellIterator.next().getStringCellValue();
+                    String mota = cellIterator.next().getStringCellValue();
+                    String daxoa = String.valueOf(cellIterator.next().getStringCellValue());
+
+                    LoaithuocController ltCtrl = new LoaithuocController();
+                    LoaiThuoc tlOld = ltCtrl.getLoaiThuoc(maloaithuoc);
+
+                    if (tlOld != null) {
+                        if (!hanhDongKhiTrung.contains("tất cả")) {
+                            TableLayout tbl = new TableLayout();
+                            tbl.setColumnsWidth(new double[]{.5, .5, 5, 3, 1});
+                            tbl.setHeaders(new String[]{"", "Mã loại thuốc", "Tên loại thuốc", "Mô tả", "Đã xóa"});
+                            tbl.addRow(new String[]{
+                                "Cũ:",
+                                String.valueOf(tlOld.getMaLoaiThuoc()),
+                                tlOld.getTenLoaiThuoc(),
+                                tlOld.getMota(),
+                                String.valueOf(tlOld.isDaXoa()),});
+                            tbl.addRow(new String[]{
+                                "Mới:", String.valueOf(maloaithuoc), tenloaithuoc, mota, daxoa
+                            });
+
+                            MyJOptionPane mop = new MyJOptionPane(tbl, hanhDongKhiTrung);
+                            hanhDongKhiTrung = mop.getAnswer();
+                        }
+                        if (hanhDongKhiTrung.contains("Ghi đè")) {
+                            LoaiThuoc lt = new LoaiThuoc(maloaithuoc, tenloaithuoc, mota, Boolean.parseBoolean(daxoa));
+                            LoaithuocController.capnhatLoaiThuoc(lt, maloaithuoc);
+                            countGhiDe++;
+                        } else {
+                            countBoQua++;
+                        }
+                    } else {
+                        LoaiThuoc lt = new LoaiThuoc(maloaithuoc, tenloaithuoc, mota, Boolean.parseBoolean(daxoa));
+                        LoaithuocController.themLoaiThuoc(lt);
+                        countThem++;
+                    }
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Đọc thành công, "
+                    + "Thêm " + countThem
+                    + "; Ghi đè " + countGhiDe
+                    + "; Bỏ qua " + countBoQua
+                    + ". Vui lòng làm mới để thấy kết quả");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Lỗi khi nhập dữ liệu từ file: " + ex.getMessage());
         } finally {

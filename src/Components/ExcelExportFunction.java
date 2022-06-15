@@ -236,7 +236,7 @@ public class ExcelExportFunction {
                 row.createCell(0, CellType.NUMERIC).setCellValue(rownum);
                 row.createCell(1, CellType.NUMERIC).setCellValue(nv.getMaNhanvien());
                 row.createCell(2, CellType.STRING).setCellValue(nv.getTenNhanvien());
-                row.createCell(3, CellType.NUMERIC).setCellValue(nv.getLoaiNhanvien());
+                row.createCell(3, CellType.NUMERIC).setCellValue(nv.getLoaiNhanvien().getMaLoaiNhanvien());
                 row.createCell(4, CellType.STRING).setCellValue(String.valueOf(nv.getNgaySinh()));
                 row.createCell(5, CellType.NUMERIC).setCellValue(nv.getXa().getMaXa());
                 row.createCell(6, CellType.STRING).setCellValue(nv.getSoDienThoai());

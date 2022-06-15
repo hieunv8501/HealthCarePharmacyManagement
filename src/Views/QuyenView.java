@@ -36,7 +36,7 @@ public class QuyenView extends JPanel {
         tblQuyen.setUpdateSelectionOnSort(true);
         tblQuyen.setFillsViewportHeight(true);
         tblQuyen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
+        //txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
 
         // buttons
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlQuyen")) {
@@ -166,11 +166,8 @@ public class QuyenView extends JPanel {
         btnSua = new javax.swing.JButton();
         btnLamMoi = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        cbbChonTimKiem = new javax.swing.JComboBox<>();
         btnTaiLenExcel = new javax.swing.JButton();
         btnTaiXuongExcel = new javax.swing.JButton();
-        txtTimKiem = new javax.swing.JTextField();
-        btnTimKiem = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblQuyen = new javax.swing.JTable();
@@ -230,11 +227,6 @@ public class QuyenView extends JPanel {
             }
         });
 
-        cbbChonTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbbChonTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã Quyền", "Tên Quyền", "Chi Tiết Quyền", "Quyền Đã Ẩn" }));
-        cbbChonTimKiem.setAlignmentX(0.0F);
-        cbbChonTimKiem.setAlignmentY(0.0F);
-
         btnTaiLenExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiLenExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
         btnTaiLenExcel.setText("Nhập Excel");
@@ -242,16 +234,6 @@ public class QuyenView extends JPanel {
         btnTaiXuongExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiXuongExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
         btnTaiXuongExcel.setText("Xuất Excel");
-
-        txtTimKiem.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTimKiemActionPerformed(evt);
-            }
-        });
-
-        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnTimKiem.setText("Tìm Kiếm");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
@@ -299,7 +281,7 @@ public class QuyenView extends JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi tiết quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14))); // NOI18N
@@ -323,27 +305,18 @@ public class QuyenView extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(339, 339, 339)
-                                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btnTimKiem))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 156, Short.MAX_VALUE)
-                                .addComponent(btnThem)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnSua)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnXoa)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnLamMoi)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnTaiLenExcel)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnTaiXuongExcel)))
+                        .addGap(0, 156, Short.MAX_VALUE)
+                        .addComponent(btnThem)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnSua)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnXoa)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnLamMoi)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnTaiLenExcel)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnTaiXuongExcel)
                         .addContainerGap(169, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -371,20 +344,11 @@ public class QuyenView extends JPanel {
                     .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiLenExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiXuongExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
-
-    }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         QuyenViewHelper quyenHelper = new QuyenViewHelper("Thêm", "");
@@ -435,9 +399,7 @@ public class QuyenView extends JPanel {
     private javax.swing.JButton btnTaiLenExcel;
     private javax.swing.JButton btnTaiXuongExcel;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> cbbChonTimKiem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -445,6 +407,5 @@ public class QuyenView extends JPanel {
     private javax.swing.JTextArea txtChitietquyen;
     private javax.swing.JTextField txtMaQuyen;
     private javax.swing.JTextField txtTenQuyen;
-    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

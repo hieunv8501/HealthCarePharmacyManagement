@@ -104,6 +104,14 @@ public class PhieunhapController {
         }
         return nextMaPhieunhap;
     }
+    
+    public static Phieunhap layPhieuNhap(int mapn) {
+        for(Phieunhap pn : dspn){
+            if (mapn == pn.getMaPhieunhap())
+                return pn;
+        }
+        return null;
+    }
 
     public static ArrayList<Thuoc> layDanhSachThuoc() {
         ArrayList<Thuoc> dsth = new ArrayList<>();

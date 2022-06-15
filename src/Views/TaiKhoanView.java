@@ -40,7 +40,7 @@ public class TaikhoanView extends JPanel {
         tblTaiKhoan.setUpdateSelectionOnSort(true);
         tblTaiKhoan.setFillsViewportHeight(true);
         tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
+        //txtTimKiem.setBorder(BorderFactory.createTitledBorder(" ")); //tạo border rỗng
 
         // buttons
         if (!DangnhapView.quyenLogin.getChitietQuyen().contains("qlTaiKhoan")) {
@@ -111,7 +111,7 @@ public class TaikhoanView extends JPanel {
         txtMaNhanVien.setText("");
         txtMaQuyen.setText("");
         txtPwd.setText("");
-        txtTimKiem.setText("");
+        //txtTimKiem.setText("");
         txtTrangThai.setText("");
         lblProfile.setIcon(null);
         loadDataToTable();
@@ -214,11 +214,8 @@ public class TaikhoanView extends JPanel {
         btnSua = new javax.swing.JButton();
         btnLamMoi = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        cbbChonTimKiem = new javax.swing.JComboBox<>();
         btnTaiLenExcel = new javax.swing.JButton();
         btnTaiXuongExcel = new javax.swing.JButton();
-        txtTimKiem = new javax.swing.JTextField();
-        btnTimKiem = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTaiKhoan = new javax.swing.JTable();
@@ -252,11 +249,6 @@ public class TaikhoanView extends JPanel {
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_delete_forever_30px_1.png"))); // NOI18N
         btnXoa.setText("Xóa");
 
-        cbbChonTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbbChonTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Tên tài khoản", "Mã nhân viên", "Mã quyền", "Tài khoản đã bị ẩn" }));
-        cbbChonTimKiem.setAlignmentX(0.0F);
-        cbbChonTimKiem.setAlignmentY(0.0F);
-
         btnTaiLenExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiLenExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_ms_excel_30px.png"))); // NOI18N
         btnTaiLenExcel.setText("Nhập Excel");
@@ -264,17 +256,6 @@ public class TaikhoanView extends JPanel {
         btnTaiXuongExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTaiXuongExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_downloads_30px.png"))); // NOI18N
         btnTaiXuongExcel.setText("Xuất Excel");
-
-        txtTimKiem.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        txtTimKiem.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTimKiemActionPerformed(evt);
-            }
-        });
-
-        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnTimKiem.setText("Tìm kiếm");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản hệ thống", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
@@ -323,7 +304,7 @@ public class TaikhoanView extends JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         txtMaQuyen.setEditable(false);
@@ -354,17 +335,9 @@ public class TaikhoanView extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(300, Short.MAX_VALUE)
-                .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(btnTimKiem)
-                .addGap(0, 436, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 180, Short.MAX_VALUE)
                         .addComponent(btnThem)
                         .addGap(39, 39, 39)
                         .addComponent(btnSua)
@@ -419,20 +392,11 @@ public class TaikhoanView extends JPanel {
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTaiLenExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbbChonTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimKiemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -441,9 +405,7 @@ public class TaikhoanView extends JPanel {
     private javax.swing.JButton btnTaiLenExcel;
     private javax.swing.JButton btnTaiXuongExcel;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> cbbChonTimKiem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblProfile;
@@ -452,7 +414,6 @@ public class TaikhoanView extends JPanel {
     private javax.swing.JTextField txtMaQuyen;
     private javax.swing.JPasswordField txtPwd;
     private javax.swing.JTextField txtTenTaiKhoan;
-    private javax.swing.JTextField txtTimKiem;
     private javax.swing.JTextField txtTrangThai;
     // End of variables declaration//GEN-END:variables
 }

@@ -59,7 +59,7 @@
               <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="41" max="32767" attributes="0"/>
               <Component id="btnThem" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
               <Component id="btnSua" min="-2" max="-2" attributes="0"/>
@@ -71,9 +71,9 @@
               <Component id="btnTaiLenExcel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Component id="btnTaiXuongExcel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="btnXemCT" min="-2" pref="160" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
