@@ -114,29 +114,31 @@ public class KhachHangView extends javax.swing.JPanel {
         this.showData(dskh, tableModel);
         ShowSearchTextBox();
     }
-public void ShowSearchTextBox() {
-        
+
+    public void ShowSearchTextBox() {
+
         Set<String> hash_Set = new HashSet<String>();
-       dskh.forEach(khachhang1 -> {
-           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                String ngaysinh = khachhang1.getNgaySinh().format(formatter);    
-           hash_Set.add(String.valueOf(khachhang1.getMaKhachhang()));
-           hash_Set.add(khachhang1.getTenKhachhang());
-             hash_Set.add(khachhang1.getGioitinh());
+        dskh.forEach(khachhang1 -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ngaysinh = khachhang1.getNgaySinh().format(formatter);
+            hash_Set.add(String.valueOf(khachhang1.getMaKhachhang()));
+            hash_Set.add(khachhang1.getTenKhachhang());
+            hash_Set.add(khachhang1.getGioitinh());
             hash_Set.add(khachhang1.getDiaChi());
-              hash_Set.add(ngaysinh); 
-               hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getDayOfMonth())); 
-              hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getMonth())); 
-              hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getYear())); 
-              hash_Set.add(String.valueOf(khachhang1.getXa())); 
+            hash_Set.add(ngaysinh);
+            hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getDayOfMonth()));
+            hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getMonth()));
+            hash_Set.add(String.valueOf(khachhang1.getNgaySinh().getYear()));
+            hash_Set.add(String.valueOf(khachhang1.getXa()));
         }
         );
-         txtSearchBox.clearItemSuggestion();
+        txtSearchBox.clearItemSuggestion();
         Iterator value = hash_Set.iterator();
-         while (value.hasNext()) {
+        while (value.hasNext()) {
             txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -467,8 +469,9 @@ public void ShowSearchTextBox() {
             btnThem.setText("Hủy");
             btnLuu.setEnabled(true);
             flagClick = 0;
-        }
-        if (flagClick == 0) {
+        } else if (flagClick == 0) {
+            btnThem.setText("Thêm");
+
             txtTenKH.setText("");
             btnLuu.setEnabled(false);
             txtSDT.setText("");
@@ -627,9 +630,8 @@ public void ShowSearchTextBox() {
 
     private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
         // TODO add your handling code here:
-        char c= evt.getKeyChar();
-        if(c==KeyEvent.VK_ENTER)
-        {
+        char c = evt.getKeyChar();
+        if (c == KeyEvent.VK_ENTER) {
             btnTimKiem.doClick();
         }
     }//GEN-LAST:event_txtSearchBoxKeyPressed
@@ -637,32 +639,26 @@ public void ShowSearchTextBox() {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         String searchText = txtSearchBox.getText();
-        if(searchText.equals("")||searchText.equals(null))
-        {
+        if (searchText.equals("") || searchText.equals(null)) {
             this.reset();
-        }
-        else
-        {
+        } else {
             DefaultTableModel tblModel = (DefaultTableModel) tableKH.getModel();
             tblModel.getDataVector().removeAllElements();
             tblModel.fireTableDataChanged();
-            if(dskh==null)
-            {
+            if (dskh == null) {
                 this.reset();
             }
             //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
             int stt = 0;
-            if(dskh!=null)
-            {
+            if (dskh != null) {
                 for (Khachhang khachhang : dskh) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                String ngaysinh = khachhang.getNgaySinh().format(formatter);
-                
+                    String ngaysinh = khachhang.getNgaySinh().format(formatter);
+
                     //                String daxoa = km.isDaXoa() == true ? "Ðã xóa" : "";
-                    if(String.valueOf(khachhang.getMaKhachhang()).contains(searchText)||khachhang.getTenKhachhang().contains(searchText)||String.valueOf(khachhang.getSoDienthoai()).contains(searchText)||ngaysinh.contains(searchText)||khachhang.getDiaChi().contains(searchText)||String.valueOf(khachhang.getNgaySinh().getDayOfMonth()).contains(searchText)||String.valueOf(khachhang.getNgaySinh().getMonth()).contains(searchText)||String.valueOf(khachhang.getNgaySinh().getYear()).contains(searchText)||String.valueOf(khachhang.getXa()).contains(searchText)||khachhang.getGioitinh().contains(searchText))
-                    {
+                    if (String.valueOf(khachhang.getMaKhachhang()).contains(searchText) || khachhang.getTenKhachhang().contains(searchText) || String.valueOf(khachhang.getSoDienthoai()).contains(searchText) || ngaysinh.contains(searchText) || khachhang.getDiaChi().contains(searchText) || String.valueOf(khachhang.getNgaySinh().getDayOfMonth()).contains(searchText) || String.valueOf(khachhang.getNgaySinh().getMonth()).contains(searchText) || String.valueOf(khachhang.getNgaySinh().getYear()).contains(searchText) || String.valueOf(khachhang.getXa()).contains(searchText) || khachhang.getGioitinh().contains(searchText)) {
                         tblModel.addRow(new Object[]{
-                           khachhang.getMaKhachhang(), khachhang.getTenKhachhang(), khachhang.getGioitinh(), ngaysinh, khachhang.getSoDienthoai(), khachhang.getDiaChi()
+                            khachhang.getMaKhachhang(), khachhang.getTenKhachhang(), khachhang.getGioitinh(), ngaysinh, khachhang.getSoDienthoai(), khachhang.getDiaChi()
                         });
                     }
 

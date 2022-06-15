@@ -686,7 +686,8 @@ public class NhacungcapView extends javax.swing.JPanel {
         String soDienThoai = txtSodienthoai.getText();
         Xa xa = (Xa) txtXa.getSelectedItem();
         String fax = txtfax.getText();
-        String regex ="(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+        String regex ="(84|0[3|5|7|8|9])+([0-9]{8})\\b"; 
+//        String regex ="(84|0[3|5|7|8|9])+([0-9]{8})\\b";
         if (maNhacungcapString.equals("") || maNhacungcapString.equals(null) || tenNhacungcap.equals("") || tenNhacungcap.equals(null) || soDienThoai.equals("") || soDienThoai.equals(null) || xa.equals("") || fax.equals("") || fax.equals(null) || xa.equals(null)) {
             JOptionPane.showMessageDialog(this, "Vui lòng không được bỏ trống các ô thông tin hoặc số điện thoại không đúng !!!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;

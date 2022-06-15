@@ -80,7 +80,7 @@ public class NhanVienView extends javax.swing.JPanel {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String ngaysinh = nhanvien.getNgaySinh().format(formatter);
                 model.addRow(new Object[]{
-                    nhanvien.getMaNhanvien() , nhanvien.getTenNhanvien(), nhanvien.getGioiTinh(), ngaysinh, nhanvien.getSoDienThoai(), nhanvien.getDiaChi(), nhanvien.getLoaiNhanvien().getTenLoaiNhanvien(), nhanvien.getBangCap()});
+                    nhanvien.getMaNhanvien(), nhanvien.getTenNhanvien(), nhanvien.getGioiTinh(), ngaysinh, nhanvien.getSoDienThoai(), nhanvien.getDiaChi(), nhanvien.getLoaiNhanvien().getTenLoaiNhanvien(), nhanvien.getBangCap()});
             }
         }
     }
@@ -191,6 +191,11 @@ public class NhanVienView extends javax.swing.JPanel {
                 btnThemMouseClicked(evt);
             }
         });
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_database_restore_30px.png"))); // NOI18N
@@ -222,6 +227,11 @@ public class NhanVienView extends javax.swing.JPanel {
         btnLuu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLuuMouseClicked(evt);
+            }
+        });
+        btnLuu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuActionPerformed(evt);
             }
         });
 
@@ -434,10 +444,14 @@ public class NhanVienView extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (flagClick == 1) {
             btnThem.setText("Hủy");
+
             btnLuu.setEnabled(true);
             flagClick = 0;
         }
+        else
         if (flagClick == 0) {
+            btnThem.setText("Thêm");
+
             txtHoTen.setText("");
             dateNgaySinh.setDate(null);
             cbLoaiNV.setSelectedItem("--Chọn Vị trí--");
@@ -570,7 +584,7 @@ public class NhanVienView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Bạn vui lòng chọn 1 Nhân viên trong danh sách!!!");
         } else {
             int maNV = Integer.parseInt(tableModel.getValueAt(tbNV.getSelectedRow(), 0).toString());
-            if(NhanvienController.xoaNhanvien(maNV)) {
+            if (NhanvienController.xoaNhanvien(maNV)) {
                 JOptionPane.showMessageDialog(null, "Xóa thông tin nhân viên thành công!");
                 reset();
             }
@@ -582,6 +596,14 @@ public class NhanVienView extends javax.swing.JPanel {
         BangLuongView bangLuongView = new BangLuongView();
         bangLuongView.setVisible(true);
     }//GEN-LAST:event_btnXemLuongMouseClicked
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLuuActionPerformed
     public String getSelectedRow(int col) {
         int i = tbNV.getSelectedRow();
         if (i >= 0) {
