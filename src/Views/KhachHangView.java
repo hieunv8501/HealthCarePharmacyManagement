@@ -470,6 +470,12 @@ public void ShowSearchTextBox() {
         }
         if (flagClick == 0) {
             txtTenKH.setText("");
+            btnLuu.setEnabled(false);
+            txtSDT.setText("");
+            txtNgaySinh.setDate(null);
+            cbTinh.setSelectedItem("--Chọn Tỉnh--");
+            cbHuyen.setSelectedItem("--Chọn Huyện--");
+            cbXa.setSelectedItem("--Chọn Xã--");
             flagClick = 1;
         }
     }//GEN-LAST:event_btnThemMouseClicked

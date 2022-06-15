@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -26,6 +28,11 @@ public class BangLuongView extends javax.swing.JFrame {
      */
     public BangLuongView() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tbLuong.setDefaultRenderer(String.class, centerRenderer);
+        ((DefaultTableCellRenderer) tbLuong.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         addDSLoaiNhanvien();
         LocalDate currentdate = LocalDate.now();
         int temp = currentdate.getMonthValue();
@@ -245,6 +252,8 @@ public class BangLuongView extends javax.swing.JFrame {
         if (cbLoaiNV.getSelectedItem().toString().equals("Nhân viên bán thuốc")) {
             lblMonth.setVisible(true);
             cbMonth.setVisible(true);
+            int month = Integer.parseInt(cbMonth.getSelectedItem().toString());
+            getDataNVBanThuoc(month);
         } else {
             lblMonth.setVisible(false);
             cbMonth.setVisible(false);

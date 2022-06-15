@@ -234,6 +234,11 @@ public class NhanVienView extends javax.swing.JPanel {
         btnXemLuong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXemLuong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_show_property_30px.png"))); // NOI18N
         btnXemLuong.setText("Xem Bảng Lương");
+        btnXemLuong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXemLuongMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -434,6 +439,14 @@ public class NhanVienView extends javax.swing.JPanel {
         }
         if (flagClick == 0) {
             txtHoTen.setText("");
+            dateNgaySinh.setDate(null);
+            cbLoaiNV.setSelectedItem("--Chọn Vị trí--");
+            txtSDT.setText("");
+            txtBangCap.setText("");
+            cbTinh.setSelectedItem("--Chọn Tỉnh--");
+            cbHuyen.setSelectedItem("--Chọn Huyện--");
+            cbXa.setSelectedItem("--Chọn Xã--");
+            btnLuu.setEnabled(false);
             flagClick = 1;
         }
     }//GEN-LAST:event_btnThemMouseClicked
@@ -563,6 +576,12 @@ public class NhanVienView extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnXoaMouseClicked
+
+    private void btnXemLuongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXemLuongMouseClicked
+        // TODO add your handling code here:
+        BangLuongView bangLuongView = new BangLuongView();
+        bangLuongView.setVisible(true);
+    }//GEN-LAST:event_btnXemLuongMouseClicked
     public String getSelectedRow(int col) {
         int i = tbNV.getSelectedRow();
         if (i >= 0) {

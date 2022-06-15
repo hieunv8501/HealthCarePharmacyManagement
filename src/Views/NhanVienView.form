@@ -450,6 +450,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Xem B&#x1ea3;ng L&#x1b0;&#x1a1;ng"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnXemLuongMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
