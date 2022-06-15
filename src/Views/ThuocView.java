@@ -612,6 +612,7 @@ public class ThuocView extends javax.swing.JPanel {
 
         if (maThuocMoi.equals("") || tenThuocMoi.equals("") || motaThuocmoi.equals("") || giaBanThuocMoi.equals("") || loaiThuoc.equals("") || giaBanThuocMoi.equals("") | dotuoi.equals("") || GiaBan.equals("") || hinhanh.equals("")) {
             JOptionPane.showMessageDialog(null, "Mã thuốc, tên thuốc,mô tả, đơn giá, mã thuốc, đơn vị tính,độ tuổi, giá bán, hình ảnh không được để trống", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         Thuoc thuocCapNhat = new Thuoc(maThuoc, tenThuocMoi, motaThuocmoi, dotuoi, hinhanh, donvitinhThuocMoi, donviQuidoiThuocMoi, tileQuidoi, nhacungcap, loaiThuoc, giaBanThuocMoi);
@@ -643,13 +644,20 @@ public class ThuocView extends javax.swing.JPanel {
             ThuocController.xoaThuoc(maThuoc);
             JOptionPane.showMessageDialog(this, "Xóa thuốc" + dsThuoc.get(selected).getTenThuoc() + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             ShowData();
-            btnXoa.setEnabled(false);
+                btnHuy.setEnabled(false);
+                btnLuu.setEnabled(false);
+                btnSua.setEnabled(false);
+                btnThemThuoc.setEnabled(true);
+                btnXoa.setEnabled(false);
+                tableDanhSachThuoc.getSelectionModel().clearSelection();
+                
 
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Xóa thuốc" + dsThuoc.get(selected).getTenThuoc() + " không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+        
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void panelThemThuocKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelThemThuocKeyTyped
@@ -734,6 +742,7 @@ public class ThuocView extends javax.swing.JPanel {
                 giabanThuoc.setText("");
                 btnSua.setEnabled(false);
                 btnThemThuoc.setEnabled(true);
+                btnXoa.setEnabled(false);
                 tableDanhSachThuoc.getSelectionModel().clearSelection();
 
                 ShowData();
@@ -863,9 +872,10 @@ public class ThuocView extends javax.swing.JPanel {
                 }
             }
             String linkHinhAnh = dsThuoc.get(selected).getHinhanh();
+            
             if (!linkHinhAnh.equals("")) {
                 new SetImage().setImageLabel(labelHinhanh, linkHinhAnh);
-
+                hinhanh=linkHinhAnh;
             }
 
         }
@@ -925,6 +935,13 @@ public class ThuocView extends javax.swing.JPanel {
 
         }
         ShowSearchComboBox();
+                btnHuy.setEnabled(false);
+                btnLuu.setEnabled(false);
+                btnSua.setEnabled(false);
+                btnThemThuoc.setEnabled(true);
+                btnXoa.setEnabled(false);
+                tableDanhSachThuoc.getSelectionModel().clearSelection();
+        
 
     }
 
@@ -975,6 +992,7 @@ public class ThuocView extends javax.swing.JPanel {
         DotuoiThuocModel.addElement("Từ 5 tới 12 tuổi");
         DotuoiThuocModel.addElement("Từ 13 tới 16 tuổi");
         DotuoiThuocModel.addElement("Từ 16 tuổi trở lên");
+        DotuoiThuocModel.addElement("Từ 18 tuổi trở lên");
         listDotuoiThuoc.setModel(DotuoiThuocModel);
     }
 
