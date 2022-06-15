@@ -1,6 +1,6 @@
 package Helpers;
 
-import Views.NhanvienView;
+import Views.NhanVienView;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ChonNhanVienForm extends JFrame {
-    NhanvienView tblNV = new NhanvienView();
+    NhanVienView tblNV = new NhanVienView();
     JButton btnOK = new JButton("Chọn");
     JButton btnCancel = new JButton("Thoát");
     JTextField txMaNV;

@@ -28,40 +28,41 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
     public ThongKeSoLuongDonBan() {
         initComponents();
         showNam();
-  chart.addLegend("Số lượng", new Color(160, 70, 170));
- 
-    }
-    public void initChart(int nam)
-    {   
-        chart.removeData();
-         BaoCaoController baocao=new BaoCaoController();
-        HashMap<Integer,Integer> soluongDonBan=new HashMap<>();
-        soluongDonBan=baocao.getSoLuongDonThuoc(nam);
-        System.out.println(soluongDonBan);
-        chart.addData(new ModelChart("Tháng 1", new double[]{soluongDonBan.get(1)==null? 0:soluongDonBan.get(1)}));
-        chart.addData(new ModelChart("Tháng 2", new double[]{soluongDonBan.get(2)==null? 0:soluongDonBan.get(2)}));
-        chart.addData(new ModelChart("Tháng 3", new double[]{soluongDonBan.get(3)==null? 0:soluongDonBan.get(3)}));
-        chart.addData(new ModelChart("Tháng 4", new double[]{soluongDonBan.get(4)==null? 0:soluongDonBan.get(4)}));
-        chart.addData(new ModelChart("Tháng 5", new double[]{soluongDonBan.get(5)==null? 0:soluongDonBan.get(5)}));
-        chart.addData(new ModelChart("Tháng 6", new double[]{soluongDonBan.get(6)==null? 0:soluongDonBan.get(6)}));
-        chart.addData(new ModelChart("Tháng 7", new double[]{soluongDonBan.get(7)==null? 0:soluongDonBan.get(7)}));
-        chart.addData(new ModelChart("Tháng 8", new double[]{soluongDonBan.get(8)==null? 0:soluongDonBan.get(8)}));
-        chart.addData(new ModelChart("Tháng 9", new double[]{soluongDonBan.get(9)==null? 0:soluongDonBan.get(9)}));
-        chart.addData(new ModelChart("Tháng 10", new double[]{soluongDonBan.get(10)==null? 0:soluongDonBan.get(10)}));
-        chart.addData(new ModelChart("Tháng 11", new double[]{soluongDonBan.get(11)==null? 0:soluongDonBan.get(11)}));
-        chart.addData(new ModelChart("Tháng 12", new double[]{soluongDonBan.get(12)==null? 0:soluongDonBan.get(12)}));
+        chart.addLegend("Số lượng", new Color(160, 70, 170));
 
     }
-    public void showNam()
-    {
-         DefaultComboBoxModel chonNamModel=(DefaultComboBoxModel) txtChonNam.getModel();
-         BaoCaoController baoCaoController=new BaoCaoController();
-      chonNamModel.removeAllElements();
-        ArrayList<Integer> nams= baoCaoController.getNamHoaDon();
-        nams.forEach(nam->{
-            chonNamModel.addElement(nam);
-        });        
+
+    public void initChart(int nam) {
+        chart.removeData();
+        BaoCaoController baocao = new BaoCaoController();
+        HashMap<Integer, Integer> soluongDonBan = new HashMap<>();
+        soluongDonBan = baocao.getSoLuongDonThuoc(nam);
+        System.out.println(soluongDonBan);
+        chart.addData(new ModelChart("Tháng 1", new double[]{soluongDonBan.get(1) == null ? 0 : soluongDonBan.get(1)}));
+        chart.addData(new ModelChart("Tháng 2", new double[]{soluongDonBan.get(2) == null ? 0 : soluongDonBan.get(2)}));
+        chart.addData(new ModelChart("Tháng 3", new double[]{soluongDonBan.get(3) == null ? 0 : soluongDonBan.get(3)}));
+        chart.addData(new ModelChart("Tháng 4", new double[]{soluongDonBan.get(4) == null ? 0 : soluongDonBan.get(4)}));
+        chart.addData(new ModelChart("Tháng 5", new double[]{soluongDonBan.get(5) == null ? 0 : soluongDonBan.get(5)}));
+        chart.addData(new ModelChart("Tháng 6", new double[]{soluongDonBan.get(6) == null ? 0 : soluongDonBan.get(6)}));
+        chart.addData(new ModelChart("Tháng 7", new double[]{soluongDonBan.get(7) == null ? 0 : soluongDonBan.get(7)}));
+        chart.addData(new ModelChart("Tháng 8", new double[]{soluongDonBan.get(8) == null ? 0 : soluongDonBan.get(8)}));
+        chart.addData(new ModelChart("Tháng 9", new double[]{soluongDonBan.get(9) == null ? 0 : soluongDonBan.get(9)}));
+        chart.addData(new ModelChart("Tháng 10", new double[]{soluongDonBan.get(10) == null ? 0 : soluongDonBan.get(10)}));
+        chart.addData(new ModelChart("Tháng 11", new double[]{soluongDonBan.get(11) == null ? 0 : soluongDonBan.get(11)}));
+        chart.addData(new ModelChart("Tháng 12", new double[]{soluongDonBan.get(12) == null ? 0 : soluongDonBan.get(12)}));
+
     }
+
+    public void showNam() {
+        DefaultComboBoxModel chonNamModel = (DefaultComboBoxModel) txtChonNam.getModel();
+        BaoCaoController baoCaoController = new BaoCaoController();
+        chonNamModel.removeAllElements();
+        ArrayList<Integer> nams = baoCaoController.getNamHoaDon();
+        nams.forEach(nam -> {
+            chonNamModel.addElement(nam);
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,10 +74,10 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
 
         txtChonNam = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         chart = new com.raven.chart.ChartSL();
         jLabel3 = new javax.swing.JLabel();
         lblBieuDo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         txtChonNam.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtChonNam.addActionListener(new java.awt.event.ActionListener() {
@@ -88,10 +89,6 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 16)); // NOI18N
         jLabel1.setText("Chọn Năm");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 51, 255));
-        jLabel2.setText("Thống Kê Số Lượng Đơn Thuốc Được Bán Theo Năm");
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 255));
         jLabel3.setText("Báo cáo số lượng đơn hàng trong năm");
@@ -100,6 +97,15 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
         lblBieuDo.setForeground(new java.awt.Color(255, 0, 0));
         lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm");
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8_replay_30px.png"))); // NOI18N
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,15 +113,14 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2042, 2042, 2042)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(26, 26, 26)
-                                .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1))
                             .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 1260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(434, 434, 434)
@@ -123,23 +128,22 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(425, 425, 425)
                         .addComponent(lblBieuDo, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel2)
-                .addGap(7, 7, 7)
+                .addGap(89, 89, 89)
                 .addComponent(lblBieuDo)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtChonNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(28, 28, 28)
-                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                 .addGap(105, 105, 105))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -151,17 +155,28 @@ public class ThongKeSoLuongDonBan extends javax.swing.JPanel {
             initChart(nam);
             chart.setVisible(false);
             chart.setVisible(true);
-            lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm "+ nam);
+            lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm " + nam);
         }
-        
+
 
     }//GEN-LAST:event_txtChonNamActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (txtChonNam.getSelectedItem() != null) {
+            int nam = (int) txtChonNam.getSelectedItem();
+            initChart(nam);
+            chart.setVisible(false);
+            chart.setVisible(true);
+            lblBieuDo.setText("Biểu đồ số lượng đơn bán thuốc trong năm " + nam);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.raven.chart.ChartSL chart;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblBieuDo;
     private javax.swing.JComboBox<String> txtChonNam;

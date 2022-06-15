@@ -152,15 +152,25 @@ public class PhieunhapController {
     }
 
     public void themChitietPhieunhap(ChitietPhieunhap ctpn) {
-        String sqlCommand = "INSERT INTO chitietphieunhap(MaPhieuNhap, MaThuoc, NgaySanXuat, NgayHetHan, SoLuong, DonGia) VALUES (?,?,?,?,?)";
+        Calendar cal1 = ctpn.getNgaySanxuat();
+        Calendar cal2 = ctpn.getNgayHethan();
+
+        String dateFormat1;
+        String dateFormat2;
+
+        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat1 = fm.format(cal1.getTime());
+        dateFormat2 = fm.format(cal2.getTime());
+
+        String sqlCommand = "INSERT INTO chitietphieunhap(MaPhieuNhap, MaThuoc, NgaySanXuat, NgayHetHan, SoLuong, DonGia) VALUES (?,?,?,?,?,?)";
 
         try {
             DBConnection conn = new DBConnection();
             PreparedStatement pre = conn.getConn().prepareStatement(sqlCommand);
             pre.setInt(1, ctpn.getMaPhieunhap());
             pre.setInt(2, ctpn.getMaThuoc());
-            pre.setString(3, ctpn.getNgaySanxuat().toString());
-            pre.setString(4, ctpn.getNgayHethan().toString());
+            pre.setString(3, dateFormat1);
+            pre.setString(4, dateFormat2);
             pre.setInt(5, ctpn.getSoluong());
             pre.setFloat(6, ctpn.getDongia());
 
