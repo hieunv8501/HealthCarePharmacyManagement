@@ -46,15 +46,14 @@ public class LoaithuocController {
     }
     public static void capnhatLoaiThuoc(LoaiThuoc loaiThuoc,int maLoaiThuocCu)
     {
-        String command="UPDATE loaithuoc SET MaLoaiThuoc=?, TenLoaiThuoc=?, MoTa=? WHERE MaLoaiThuoc=?";
+        String command="UPDATE loaithuoc SET TenLoaiThuoc=?, MoTa=? WHERE MaLoaiThuoc=?";
         DBConnection con = new DBConnection();
 
         try {
             
             PreparedStatement pre = con.getConn().prepareStatement(command);
-            pre.setInt(1, loaiThuoc.getMaLoaiThuoc());
-            pre.setString(2, loaiThuoc.getTenLoaiThuoc());
-            pre.setString(3, loaiThuoc.getMota());
+            pre.setString(1, loaiThuoc.getTenLoaiThuoc());
+            pre.setString(2, loaiThuoc.getMota());
             pre.setInt(3, maLoaiThuocCu);
             pre.executeUpdate();
             System.out.println("Cập nhật mã loại thuốc thành công");
