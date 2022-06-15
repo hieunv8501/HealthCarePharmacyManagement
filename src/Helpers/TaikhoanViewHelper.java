@@ -77,7 +77,7 @@ public class TaikhoanViewHelper extends JFrame {
         txtMaNV.setPreferredSize(new Dimension(40, 35));
         txtMaQuyen.setPreferredSize(new Dimension(40, 35));
         cbChonTrangThai.setPreferredSize(new Dimension(65, 30));
-        lblAnhDaiDien.setPreferredSize(new Dimension(200, 200));
+        //lblAnhDaiDien.setPreferredSize(new Dimension(200, 200));
 
         //set Font
         txtTentaikhoan.setFont(font);
@@ -108,11 +108,11 @@ public class TaikhoanViewHelper extends JFrame {
         plChonTT.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder(""), "Trạng thái", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, font, Color.black));
         plChonTT.add(cbChonTrangThai);
 
-        JPanel plChonAnhDaiDien = new JPanel();
-        plChonAnhDaiDien.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //JPanel plChonAnhDaiDien = new JPanel();
+        //plChonAnhDaiDien.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         //btnTailen.add
-        plChonAnhDaiDien.add(btnTailen);
-        plChonAnhDaiDien.add(lblAnhDaiDien);
+        //plChonAnhDaiDien.add(btnTailen);
+        //plChonAnhDaiDien.add(lblAnhDaiDien);
 
         JPanel plInput = new JPanel();
         plInput.add(txtTentaikhoan);
@@ -120,7 +120,7 @@ public class TaikhoanViewHelper extends JFrame {
         plInput.add(plChonNhanVien);
         plInput.add(plChonQuyen);
         plInput.add(plChonTT);
-        plInput.add(plChonAnhDaiDien);
+        //plInput.add(plChonAnhDaiDien);
 
         // panel buttons
         JPanel plButton = new JPanel();

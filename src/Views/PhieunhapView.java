@@ -58,6 +58,11 @@ public class PhieunhapView extends JPanel {
             btnTaiXuongExcel.setEnabled(false);
             btnTaiLenExcel.setEnabled(false);
         }
+        btnThem.setEnabled(false);
+        btnXoa.setEnabled(false);
+        btnSua.setEnabled(false);
+        btnTaiXuongExcel.setEnabled(true);
+        btnTaiLenExcel.setEnabled(true);
         btnTaiXuongExcel.addActionListener((ActionEvent ae) -> {
             new ExcelExportFunction().xuatFileExcelPhieunhap();
         });
@@ -148,29 +153,31 @@ public class PhieunhapView extends JPanel {
             }
         }
     }
-public void ShowSearchTextBox() {
-        
+
+    public void ShowSearchTextBox() {
+
         Set<String> hash_Set = new HashSet<String>();
         dsPhieuNhap.forEach(phieunhap1 -> {
-              SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             String formatted = format1.format(phieunhap1.getNgayNhap().getTime());
-           hash_Set.add(String.valueOf(phieunhap1.getMaPhieunhap()));
-           hash_Set.add(String.valueOf(phieunhap1.getNcc().getMaNhacungcap()));
+            hash_Set.add(String.valueOf(phieunhap1.getMaPhieunhap()));
+            hash_Set.add(String.valueOf(phieunhap1.getNcc().getMaNhacungcap()));
             hash_Set.add(phieunhap1.getNcc().getTenNhacungcap());
-             hash_Set.add(phieunhap1.getNv().getTenNhanvien());
+            hash_Set.add(phieunhap1.getNv().getTenNhanvien());
             hash_Set.add(String.valueOf(phieunhap1.getNv().getMaNhanvien()));
-             hash_Set.add(formatted);
-              hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.MONTH))); 
-               hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.DAY_OF_MONTH))); 
-              hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.YEAR))); 
+            hash_Set.add(formatted);
+            hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.MONTH)));
+            hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.DAY_OF_MONTH)));
+            hash_Set.add(String.valueOf(phieunhap1.getNgayNhap().get(Calendar.YEAR)));
         }
         );
-         txtSearchBox.clearItemSuggestion();
+        txtSearchBox.clearItemSuggestion();
         Iterator value = hash_Set.iterator();
-         while (value.hasNext()) {
+        while (value.hasNext()) {
             txtSearchBox.addItemSuggestion(String.valueOf(value.next()));
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -451,9 +458,8 @@ public void ShowSearchTextBox() {
 
     private void txtSearchBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchBoxKeyPressed
         // TODO add your handling code here:
-        char c= evt.getKeyChar();
-        if(c==KeyEvent.VK_ENTER)
-        {
+        char c = evt.getKeyChar();
+        if (c == KeyEvent.VK_ENTER) {
 //            btnTimKiem.doClick();
         }
     }//GEN-LAST:event_txtSearchBoxKeyPressed
@@ -461,44 +467,38 @@ public void ShowSearchTextBox() {
     private void btnTimKiem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiem1ActionPerformed
         // TODO add your handling code here:
         String searchText = txtSearchBox.getText();
-        if(searchText.equals("")||searchText.equals(null))
-        {
+        if (searchText.equals("") || searchText.equals(null)) {
             this.loadDataToTable();
-        }
-        else
-        {
+        } else {
             DefaultTableModel tblModel = (DefaultTableModel) tblPhieuNhap.getModel();
             tblModel.getDataVector().removeAllElements();
             tblModel.fireTableDataChanged();
-            if(dsPhieuNhap==null)
-            {
-               this.loadDataToTable();
+            if (dsPhieuNhap == null) {
+                this.loadDataToTable();
             }
             //dsThuoc = ThuocController.timkiemThuoc(searchText.toLowerCase());
             tblModel.setRowCount(0);
-        int stt = 0;
-        if(dsPhieuNhap!=null)
-        {
-        for (Phieunhap pn : dsPhieuNhap) {
-            stt++;
-            SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String formatted = format1.format(pn.getNgayNhap().getTime());
-            if(String.valueOf(pn.getMaPhieunhap()).contains(searchText)||String.valueOf(pn.getNcc().getMaNhacungcap()).contains(searchText)||String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText)||pn.getNcc().getTenNhacungcap().contains(searchText)||pn.getNv().getTenNhanvien().contains(searchText)||String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.DAY_OF_MONTH)).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.YEAR)).contains(searchText)||String.valueOf(pn.getNgayNhap().get(Calendar.MONTH)).contains(searchText))
-            {
-            tblModel.addRow(new Object[]{
-                stt,
-                pn.getMaPhieunhap(),
-                pn.getNcc().getMaNhacungcap(),
-                pn.getNv().getMaNhanvien(),
-                formatted,
-                pn.getTongTien(),
-                pn.isDaXoa() ? "Đã tạm khóa" : "Bình thường",});
-            }
-        }
+            int stt = 0;
+            if (dsPhieuNhap != null) {
+                for (Phieunhap pn : dsPhieuNhap) {
+                    stt++;
+                    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    String formatted = format1.format(pn.getNgayNhap().getTime());
+                    if (String.valueOf(pn.getMaPhieunhap()).contains(searchText) || String.valueOf(pn.getNcc().getMaNhacungcap()).contains(searchText) || String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText) || pn.getNcc().getTenNhacungcap().contains(searchText) || pn.getNv().getTenNhanvien().contains(searchText) || String.valueOf(pn.getNv().getMaNhanvien()).contains(searchText) || String.valueOf(pn.getNgayNhap().get(Calendar.DAY_OF_MONTH)).contains(searchText) || String.valueOf(pn.getNgayNhap().get(Calendar.YEAR)).contains(searchText) || String.valueOf(pn.getNgayNhap().get(Calendar.MONTH)).contains(searchText)) {
+                        tblModel.addRow(new Object[]{
+                            stt,
+                            pn.getMaPhieunhap(),
+                            pn.getNcc().getMaNhacungcap(),
+                            pn.getNv().getMaNhanvien(),
+                            formatted,
+                            pn.getTongTien(),
+                            pn.isDaXoa() ? "Đã tạm khóa" : "Bình thường",});
+                    }
+                }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+            } else {
+                JOptionPane.showMessageDialog(this, "Danh sách phiếu nhập rỗng", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnTimKiem1ActionPerformed
 
