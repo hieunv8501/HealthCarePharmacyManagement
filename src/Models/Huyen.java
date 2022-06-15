@@ -33,6 +33,11 @@ public class Huyen {
     public String getTinh() {
         return tinh.getTenTinh();
     }
+
+    @Override
+    public String toString() {
+        return tenHuyen;
+    }
     
    
 }

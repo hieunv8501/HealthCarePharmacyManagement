@@ -293,7 +293,6 @@ btnLuu.setEnabled(true);
         }
         LoaiThuoc loaiThuocMoi=new LoaiThuoc(maLoaiThuoc,tenLoaiThuoc,mota);
         int maLoaiThuocCu=(dsLoaithuoc.get(selected).getMaLoaiThuoc());
-
         try {
             LoaithuocController.capnhatLoaiThuoc(loaiThuocMoi, maLoaiThuocCu);
             JOptionPane.showMessageDialog(this, "Cập nhật loại thuốc" + tenLoaiThuoc + " thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -363,6 +362,7 @@ btnLuu.setEnabled(true);
         if(maLoaiThuocString.equals("")||tenLoaiThuoc.equals("")||txtMoTa.equals(null)||txtMoTa.equals(""))
         {
             JOptionPane.showMessageDialog(this,"Vui lòng không bỏ trống các trường dữ liệu","Thông báo",JOptionPane.WARNING_MESSAGE);
+            return;
         }
         int maLoaiThuoc;
         try {
@@ -434,6 +434,7 @@ btnLuu.setEnabled(true);
         txtMaLoaiThuoc.setEditable(false);
         btnThem.setEnabled(true);
         tableDanhSachLoaiThuoc.setAutoCreateRowSorter(true);
+        tableDanhSachLoaiThuoc.clearSelection();
     }
     public int getMaLoaiThuocMoi()
     {
