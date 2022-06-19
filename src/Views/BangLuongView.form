@@ -33,12 +33,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="cbLoaiNV" min="-2" pref="139" max="-2" attributes="0"/>
-                              <EmptySpace pref="73" max="32767" attributes="0"/>
+                              <Component id="cbLoaiNV" min="-2" pref="203" max="-2" attributes="0"/>
+                              <EmptySpace pref="88" max="32767" attributes="0"/>
                               <Component id="lblMonth" min="-2" pref="88" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="cbMonth" min="-2" pref="113" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="313" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="btnQuayLai" min="-2" pref="93" max="-2" attributes="0"/>

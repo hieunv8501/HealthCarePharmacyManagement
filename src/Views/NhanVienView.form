@@ -43,7 +43,10 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Th&#xf4;ng tin Nh&#xe2;n vi&#xea;n"/>
+            <TitledBorder justification="2" title="Th&#xf4;ng tin Nh&#xe2;n vi&#xea;n">
+              <Font PropertyName="font" name="Segoe UI" size="22" style="1"/>
+              <Color PropertyName="color" blue="cc" green="0" red="0" type="rgb"/>
+            </TitledBorder>
           </Border>
         </Property>
       </Properties>
@@ -484,7 +487,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="344" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="330" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

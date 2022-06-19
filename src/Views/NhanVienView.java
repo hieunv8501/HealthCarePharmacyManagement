@@ -129,7 +129,7 @@ public class NhanVienView extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbNV = new javax.swing.JTable();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin Nhân viên"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin Nhân viên", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 22), new java.awt.Color(0, 0, 204))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("Họ tên:");
@@ -399,7 +399,7 @@ public class NhanVienView extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -444,7 +444,6 @@ public class NhanVienView extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (flagClick == 1) {
             btnThem.setText("Hủy");
-
             btnLuu.setEnabled(true);
             flagClick = 0;
         }
