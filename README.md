@@ -7,6 +7,10 @@
 4. Nguyễn Viết Quý - 19522109
 
 #Chức năng:
++ Đăng nhập/Đăng xuất/lấy lại mật khẩu bằng email.
+
+![image](https://user-images.githubusercontent.com/67740526/183789174-c49e0f86-6761-4988-bf60-e830457dc08e.png)
+
 + Quản lý thuốc có trong kho (Tồn kho, hết hạn, đơn vị tính,...)
 
 ![image](https://user-images.githubusercontent.com/67740526/183787995-03449f66-e044-483f-ad83-330af0d756d6.png)
@@ -39,9 +43,4 @@
 ![image](https://user-images.githubusercontent.com/67740526/183788534-3558bcf0-b371-4c8b-bc15-466a266ed089.png)
 ![image](https://user-images.githubusercontent.com/67740526/183788569-f7780480-14c2-403e-984c-d14af4a21ab6.png)
 ![image](https://user-images.githubusercontent.com/67740526/183788594-0fd166db-6ed2-40cd-9b49-9d5856c35461.png)
-
-+ Đăng nhập/Đăng xuất/lấy lại mật khẩu bằng email.
-
-![image](https://user-images.githubusercontent.com/67740526/183789174-c49e0f86-6761-4988-bf60-e830457dc08e.png)
-
 
