@@ -42,6 +42,6 @@
 
 + Đăng nhập/Đăng xuất/lấy lại mật khẩu bằng email.
 
-![image](https://user-images.githubusercontent.com/67740526/183787849-9d18e54c-77d2-4b57-b9ec-bc830c3f42f4.png)
+![image](https://user-images.githubusercontent.com/67740526/183789174-c49e0f86-6761-4988-bf60-e830457dc08e.png)
 
 
